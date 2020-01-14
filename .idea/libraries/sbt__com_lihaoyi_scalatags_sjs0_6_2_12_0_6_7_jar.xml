@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="sbt: com.lihaoyi:scalatags_sjs0.6_2.12:0.6.7:jar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/com/lihaoyi/scalatags_sjs0.6_2.12/0.6.7/scalatags_sjs0.6_2.12-0.6.7.jar!/" />
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.lihaoyi/scalatags_sjs0.6_2.12/jars/scalatags_sjs0.6_2.12-0.6.7.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/com/lihaoyi/scalatags_sjs0.6_2.12/0.6.7/scalatags_sjs0.6_2.12-0.6.7-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/com/lihaoyi/scalatags_sjs0.6_2.12/0.6.7/scalatags_sjs0.6_2.12-0.6.7-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.lihaoyi/scalatags_sjs0.6_2.12/srcs/scalatags_sjs0.6_2.12-0.6.7-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

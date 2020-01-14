@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: io.netty:netty-codec-dns:4.1.33.Final:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.netty/netty-codec-dns/jars/netty-codec-dns-4.1.33.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.netty/netty-codec-dns/srcs/netty-codec-dns-4.1.33.Final-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

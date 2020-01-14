@@ -8,6 +8,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/backend" />
+            <option value="$PROJECT_DIR$/client" />
             <option value="$PROJECT_DIR$/frontend" />
             <option value="$PROJECT_DIR$/project" />
             <option value="$PROJECT_DIR$/shared" />
@@ -16,7 +17,7 @@
           </set>
         </option>
         <option name="resolveSbtClassifiers" value="true" />
-        <option name="sbtVersion" value="1.3.3" />
+        <option name="sbtVersion" value="1.2.8" />
         <option name="useQualifiedModuleNames" value="true" />
       </SbtProjectSettings>
     </option>

@@ -3,14 +3,14 @@
   <component name="ScalaCompilerConfiguration">
     <option name="incrementalityType" value="SBT" />
     <profile name="sbt 1" modules="root" />
-    <profile name="sbt 3" modules="backend,sharedJVM">
-      <option name="featureWarnings" value="true" />
-    </profile>
-    <profile name="sbt 4" modules="frontend,sharedJS">
+    <profile name="sbt 2" modules="frontend,sharedJS">
       <option name="featureWarnings" value="true" />
       <plugins>
-        <plugin path="C:\Users\19783\.coursier\cache\v1\https\oss.sonatype.org\content\repositories\releases\org\scala-js\scalajs-compiler_2.12.10\0.6.31\scalajs-compiler_2.12.10-0.6.31.jar" />
+        <plugin path="C:\Users\19783\.ivy2\cache\org.scala-js\scalajs-compiler_2.12.10\jars\scalajs-compiler_2.12.10-0.6.31.jar" />
       </plugins>
+    </profile>
+    <profile name="sbt 3" modules="backend,client,sharedJVM">
+      <option name="featureWarnings" value="true" />
     </profile>
   </component>
 </project>

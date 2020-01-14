@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: org.postgresql:postgresql:9.4.1208:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.postgresql/postgresql/bundles/postgresql-9.4.1208.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.postgresql/postgresql/srcs/postgresql-9.4.1208-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

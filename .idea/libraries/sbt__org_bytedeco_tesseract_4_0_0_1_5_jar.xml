@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: org.bytedeco:tesseract:4.0.0-1.5:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.bytedeco/tesseract/jars/tesseract-4.0.0-1.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.bytedeco/tesseract/srcs/tesseract-4.0.0-1.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

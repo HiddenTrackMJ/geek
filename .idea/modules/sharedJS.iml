@@ -10,9 +10,19 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="geek-sources" exported="" />
-    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.12.10:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="sbt: org.scala-js:scalajs-test-interface_2.12:0.6.31:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="sbt: org.scala-js:scalajs-test-bridge_2.12:0.6.31:jar" level="project" />
+    <orderEntry type="module-library">
+      <library name="sbt: unmanaged-sources-and-docs">
+        <CLASSES />
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/io.netty/netty-transport-native-epoll/srcs/netty-transport-native-epoll-4.1.33.Final-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/io.netty/netty-transport-native-epoll/srcs/netty-transport-native-epoll-4.0.46.Final-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="sbt: org.scala-js:scalajs-library_2.12:0.6.31:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: org.scala-js:scalajs-test-bridge_2.12:0.6.31:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: org.scala-js:scalajs-test-interface_2.12:0.6.31:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.12.10:jar" level="project" />
   </component>
 </module>

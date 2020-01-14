@@ -11,13 +11,13 @@
       </compiler-classpath>
     </properties>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.sbt/boot/scala-2.12.10/lib/scala-library.jar!/" />
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.10.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.12.10-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

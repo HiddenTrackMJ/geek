@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="sbt: org.scala-js:scalajs-test-interface_2.12:0.6.31:jar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/org/scala-js/scalajs-test-interface_2.12/0.6.31/scalajs-test-interface_2.12-0.6.31.jar!/" />
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-js/scalajs-test-interface_2.12/jars/scalajs-test-interface_2.12-0.6.31.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/org/scala-js/scalajs-test-interface_2.12/0.6.31/scalajs-test-interface_2.12-0.6.31-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/org/scala-js/scalajs-test-interface_2.12/0.6.31/scalajs-test-interface_2.12-0.6.31-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-js/scalajs-test-interface_2.12/srcs/scalajs-test-interface_2.12-0.6.31-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

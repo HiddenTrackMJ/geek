@@ -64,28 +64,28 @@ lazy val frontend = (project in file("frontend"))
 
 
 
-//lazy val client = (project in file("client")).enablePlugins(PackPlugin)
-//  .settings(commonSettings: _*)
-//  .settings(
-//    mainClass in reStart := Some(clientMain),
-//    javaOptions in reStart += "-Xmx2g"
-//  )
-//  .settings(name := "client")
-//  .settings(
-//    //pack
-//    // If you need to specify main classes manually, use packSettings and packMain
-//    //packSettings,
-//    // [Optional] Creating `hello` command that calls org.mydomain.Hello#main(Array[String])
-//    packMain := Map("client" -> clientMain),
-//    packJvmOpts := Map("client" -> Seq("-Xmx4096m", "-Xms128m")),
-//    packExtraClasspath := Map("client" -> Seq("."))
-//  )
-//  .settings(
-//    //    libraryDependencies ++= Dependencies.backendDependencies,
-//    libraryDependencies ++= Dependencies.bytedecoLibs,
-//    libraryDependencies ++= Dependencies4Client.clientDependencies,
-//  )
-//  .dependsOn(sharedJvm)
+lazy val client = (project in file("client")).enablePlugins(PackPlugin)
+  .settings(commonSettings: _*)
+  .settings(
+    mainClass in reStart := Some(clientMain),
+    javaOptions in reStart += "-Xmx2g"
+  )
+  .settings(name := "client")
+  .settings(
+    //pack
+    // If you need to specify main classes manually, use packSettings and packMain
+    //packSettings,
+    // [Optional] Creating `hello` command that calls org.mydomain.Hello#main(Array[String])
+    packMain := Map("client" -> clientMain),
+    packJvmOpts := Map("client" -> Seq("-Xmx4096m", "-Xms128m")),
+    packExtraClasspath := Map("client" -> Seq("."))
+  )
+  .settings(
+    //    libraryDependencies ++= Dependencies.backendDependencies,
+    libraryDependencies ++= Dependencies.bytedecoLibs,
+    libraryDependencies ++= Dependencies4Client.clientDependencies,
+  )
+  .dependsOn(sharedJvm)
 
 
 // Akka Http based backend
@@ -107,7 +107,9 @@ lazy val backend = (project in file("backend")).enablePlugins(PackPlugin)
     packExtraClasspath := Map("geek" -> Seq("."))
   )
   .settings(
-    libraryDependencies ++= Dependencies.backendDependencies
+    libraryDependencies ++= Dependencies.backendDependencies,
+    libraryDependencies ++= Dependencies.bytedecoLibs,
+    libraryDependencies ++= Dependencies.testLibs
   )
   .settings {
     (resourceGenerators in Compile) += Def.task {

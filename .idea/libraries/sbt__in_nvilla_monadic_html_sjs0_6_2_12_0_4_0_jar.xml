@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="sbt: in.nvilla:monadic-html_sjs0.6_2.12:0.4.0:jar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/in/nvilla/monadic-html_sjs0.6_2.12/0.4.0/monadic-html_sjs0.6_2.12-0.4.0.jar!/" />
+      <root url="jar://$USER_HOME$/.ivy2/cache/in.nvilla/monadic-html_sjs0.6_2.12/jars/monadic-html_sjs0.6_2.12-0.4.0.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/in/nvilla/monadic-html_sjs0.6_2.12/0.4.0/monadic-html_sjs0.6_2.12-0.4.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/in/nvilla/monadic-html_sjs0.6_2.12/0.4.0/monadic-html_sjs0.6_2.12-0.4.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.ivy2/cache/in.nvilla/monadic-html_sjs0.6_2.12/srcs/monadic-html_sjs0.6_2.12-0.4.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

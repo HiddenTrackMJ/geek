@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: org.bytedeco:videoinput:0.200-1.5:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.bytedeco/videoinput/jars/videoinput-0.200-1.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.bytedeco/videoinput/srcs/videoinput-0.200-1.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
