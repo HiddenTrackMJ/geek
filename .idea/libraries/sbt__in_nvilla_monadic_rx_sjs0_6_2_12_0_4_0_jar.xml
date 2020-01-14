@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="sbt: in.nvilla:monadic-rx_sjs0.6_2.12:0.4.0:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/in/nvilla/monadic-rx_sjs0.6_2.12/0.4.0/monadic-rx_sjs0.6_2.12-0.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/in/nvilla/monadic-rx_sjs0.6_2.12/0.4.0/monadic-rx_sjs0.6_2.12-0.4.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/in/nvilla/monadic-rx_sjs0.6_2.12/0.4.0/monadic-rx_sjs0.6_2.12-0.4.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="frontend [file:/F:/Scala/workspace/geek/]" external.linked.project.path="$MODULE_DIR$/../../frontend" external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output url="file://$MODULE_DIR$/../../frontend/target/scala-2.12/classes" />
+    <output-test url="file://$MODULE_DIR$/../../frontend/target/scala-2.12/test-classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../frontend">
+      <excludeFolder url="file://$MODULE_DIR$/../../frontend/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="sharedJS" exported="" />
+    <orderEntry type="library" name="sbt: org.typelevel:macro-compat_2.12:1.1.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.typelevel:cats-macros_sjs0.6_2.12:2.0.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.typelevel:cats-kernel_sjs0.6_2.12:2.0.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.typelevel:cats-core_sjs0.6_2.12:2.0.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.12.10:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: org.scala-js:scalajs-test-interface_2.12:0.6.31:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: org.scala-js:scalajs-test-bridge_2.12:0.6.31:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-js:scalajs-library_2.12:0.6.31:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-js:scalajs-dom_sjs0.6_2.12:0.9.7:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.circe:circe-scalajs_sjs0.6_2.12:0.12.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.circe:circe-parser_sjs0.6_2.12:0.12.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.circe:circe-numbers_sjs0.6_2.12:0.12.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.circe:circe-generic_sjs0.6_2.12:0.12.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.circe:circe-core_sjs0.6_2.12:0.12.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: in.nvilla:monadic-rx_sjs0.6_2.12:0.4.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: in.nvilla:monadic-html_sjs0.6_2.12:0.4.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.lihaoyi:sourcecode_sjs0.6_2.12:0.1.4:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.lihaoyi:scalatags_sjs0.6_2.12:0.6.7:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.chuusai:shapeless_sjs0.6_2.12:2.3.3:jar" level="project" />
+  </component>
+</module>

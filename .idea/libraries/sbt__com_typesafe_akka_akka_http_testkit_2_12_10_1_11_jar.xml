@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="sbt: com.typesafe.akka:akka-http-testkit_2.12:10.1.11:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/com/typesafe/akka/akka-http-testkit_2.12/10.1.11/akka-http-testkit_2.12-10.1.11.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/com/typesafe/akka/akka-http-testkit_2.12/10.1.11/akka-http-testkit_2.12-10.1.11-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/com/typesafe/akka/akka-http-testkit_2.12/10.1.11/akka-http-testkit_2.12-10.1.11-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

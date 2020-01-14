@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="sbt: commons-codec:commons-codec:1.13:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/commons-codec/commons-codec/1.13/commons-codec-1.13.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/commons-codec/commons-codec/1.13/commons-codec-1.13-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.coursier/cache/v1/https/oss.sonatype.org/content/repositories/releases/commons-codec/commons-codec/1.13/commons-codec-1.13-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
