@@ -1,0 +1,56 @@
+/*观战*/
+.player {
+    height: 25px;
+    width: 25px;
+}
+
+.eyesight:hover{
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.screenControl{
+    background-color: black;
+    height: 40px;
+    /*width: 1000px;*/
+}
+
+.screen{
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.voice{
+    height: 30px;
+    width: 30px;
+    /*margin-left: 900px;*/
+    cursor: pointer;
+}
+
+.playerSelect {
+    background-color: lightgray;
+}
+
+.wrapper {
+    position: relative;
+}
+
+.star {
+    position: absolute;
+    display: inline-block;
+    cursor: pointer;
+    width: 25px;
+    top: -12px;
+}
+
+.home {
+    margin-left: 380px;
+    width: 30px;
+    cursor: pointer;
+}
+
+
+
+

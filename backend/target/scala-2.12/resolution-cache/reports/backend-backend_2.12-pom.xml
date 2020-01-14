@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="backend"
+		module="backend_2.12"
+		revision="2020.01.09"
+		conf="pom"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
+		date="20200114194954"/>
+	<dependencies>
+	</dependencies>
+</ivy-report>

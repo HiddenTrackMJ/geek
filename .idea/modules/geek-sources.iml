@@ -5,6 +5,7 @@
     <output-test url="file://$MODULE_DIR$/../../shared/target/test-classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../shared">
+      <sourceFolder url="file://$MODULE_DIR$/../../shared/src/main/scala" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/../../shared/target" />
     </content>
     <orderEntry type="inheritedJdk" />

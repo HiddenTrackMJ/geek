@@ -1,14 +1,14 @@
 val scalaV = "2.12.10"
 
 
-val projectName = "geek"
+val projectName = "org.seekloud.geek"
 val projectVersion = "2020.01.09"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
 
-val projectMainClass = "org.seekloud.geek.Boot"
-val clientMain = "org.seekloud.geek.CLientBoot"
+val projectMainClass = "org.seekloud.org.seekloud.geek.Boot"
+val clientMain = "org.seekloud.org.seekloud.geek.CLientBoot"
 
 def commonSettings = Seq(
   version := projectVersion,
@@ -57,6 +57,7 @@ lazy val frontend = (project in file("frontend"))
       //"io.suzaku" %%% "diode" % "1.1.2",
       "com.lihaoyi" %%% "scalatags" % "0.6.7" withSources(),
       // "com.github.japgolly.scalacss" %%% "core" % "0.5.5" withSources(),
+      "com.github.karasiq" %%% "scalajs-videojs" % "1.0.5",
       "in.nvilla" %%% "monadic-html" % "0.4.0" withSources()
     )
   )
@@ -102,9 +103,9 @@ lazy val backend = (project in file("backend")).enablePlugins(PackPlugin)
     // If you need to specify main classes manually, use packSettings and packMain
     //packSettings,
     // [Optional] Creating `hello` command that calls org.mydomain.Hello#main(Array[String])
-    packMain := Map("geek" -> projectMainClass),
-    packJvmOpts := Map("geek" -> Seq("-Xmx512m", "-Xms1024m")),
-    packExtraClasspath := Map("geek" -> Seq("."))
+    packMain := Map("org.seekloud.geek" -> projectMainClass),
+    packJvmOpts := Map("org.seekloud.geek" -> Seq("-Xmx512m", "-Xms1024m")),
+    packExtraClasspath := Map("org.seekloud.geek" -> Seq("."))
   )
   .settings(
     libraryDependencies ++= Dependencies.backendDependencies,

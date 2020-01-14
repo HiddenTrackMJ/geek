@@ -1,0 +1,155 @@
+
+.primaryInfo {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 50px;
+
+}
+
+.primaryInfo .info {
+    padding-top: 7px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #e3e8ec;
+}
+
+.primaryInfo .info .headImg {
+    width: 50px;
+    height: 50px;
+    float: left;
+}
+
+.primaryInfo .info .username {
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin-left: 20px;
+
+}
+
+.primaryInfo .info .label {
+    float: left;
+    color: black;
+    font-size: 14px;
+}
+
+.primaryInfo .info .roomId {
+    float: left;
+    color: #23ade5;
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.primaryInfo .link {
+    padding-top: 40px;
+    /*padding-bottom: 20px;*/
+    font-size: 12px;
+}
+
+
+.primaryInfo .link .label {
+    /*float: left;*/
+    color: black;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.primaryInfo .link .url {
+    /*float: left;*/
+    font-size: 16px;
+    color: #23ade5;
+    margin-left: 8px;
+}
+
+
+.roomInfo {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 15px;
+
+}
+
+
+.roomInfo .label {
+    color: black;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.roomInfo .roomName {
+    width: 300px;
+    float:left;
+    margin-left: 12px;
+    border: 1px solid #ccc;
+    padding: 7px 0px;
+    border-radius: 3px;
+    padding-left: 5px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+}
+
+.roomInfo .roomName:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
+}
+
+.roomInfo .save {
+    margin-top: 8px;
+    float:left;
+    margin-left: 10px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+
+.roomInfo .startLive{
+    margin-left: 14px;
+    margin-top: 15px;
+}
+
+.holoBg {
+    /*position: absolute;*/
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
+}
+
+.overlay {
+    background-color: rgba(28,29,33,0.8);
+}
+
+
+.modify-people {
+    padding: 0 0 0 5px;
+    border: #ccc solid 1px;
+    height: 26px;
+    line-height: 25px;
+    width: 270px;
+    float: left;
+    margin-left: 2%;
+}
+
+
+
+
+
+
+
+

@@ -5,8 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/backend.iml" filepath="$PROJECT_DIR$/.idea/modules/backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/client.iml" filepath="$PROJECT_DIR$/.idea/modules/client.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/frontend.iml" filepath="$PROJECT_DIR$/.idea/modules/frontend.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/geek-build.iml" filepath="$PROJECT_DIR$/.idea/modules/geek-build.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/geek-sources.iml" filepath="$PROJECT_DIR$/.idea/modules/geek-sources.iml" group="shared" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.seekloud.geek-build.iml" filepath="$PROJECT_DIR$/.idea/modules/org.seekloud.geek-build.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/root.iml" filepath="$PROJECT_DIR$/.idea/modules/root.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/sharedJS.iml" filepath="$PROJECT_DIR$/.idea/modules/sharedJS.iml" group="shared" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/sharedJVM.iml" filepath="$PROJECT_DIR$/.idea/modules/sharedJVM.iml" group="shared" />
