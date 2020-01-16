@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="frontend [file:/F:/Scala/workspace/geek/]" external.linked.project.path="$MODULE_DIR$/../../frontend" external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="frontend [file:/D:/Github/geek/]" external.linked.project.path="$MODULE_DIR$/../../frontend" external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/../../frontend/target/scala-2.12/classes" />
     <output-test url="file://$MODULE_DIR$/../../frontend/target/scala-2.12/test-classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../frontend">
       <sourceFolder url="file://$MODULE_DIR$/../../frontend/src/main/scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../frontend/target/scala-2.12/src_managed/main" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../frontend/target/scala-2.12/src_managed/test" isTestSource="true" generated="true" />
       <excludeFolder url="file://$MODULE_DIR$/../../frontend/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="sharedJS" exported="" />
     <orderEntry type="module-library">
       <library name="sbt: unmanaged-sources-and-docs">
         <CLASSES />
@@ -21,6 +22,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name=".js.shared" exported="" />
     <orderEntry type="library" name="sbt: org.typelevel:macro-compat_sjs0.6_2.12:1.1.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.typelevel:machinist_sjs0.6_2.12:0.6.2:jar" level="project" />
     <orderEntry type="library" name="sbt: org.typelevel:cats-macros_sjs0.6_2.12:1.0.1:jar" level="project" />

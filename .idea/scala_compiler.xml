@@ -2,15 +2,21 @@
 <project version="4">
   <component name="ScalaCompilerConfiguration">
     <option name="incrementalityType" value="SBT" />
-    <profile name="sbt 1" modules="root" />
-    <profile name="sbt 2" modules="frontend,sharedJS">
+    <profile name="sbt 1" modules="org.seekloud.geek,root" />
+    <profile name="sbt 2" modules="sharedJS">
       <option name="featureWarnings" value="true" />
       <plugins>
         <plugin path="C:\Users\19783\.ivy2\cache\org.scala-js\scalajs-compiler_2.12.10\jars\scalajs-compiler_2.12.10-0.6.31.jar" />
       </plugins>
     </profile>
-    <profile name="sbt 3" modules="backend,client,sharedJVM">
+    <profile name="sbt 3" modules="backend,client,player,shared,sharedJVM">
       <option name="featureWarnings" value="true" />
+    </profile>
+    <profile name="sbt 4" modules=".js.shared,frontend">
+      <option name="featureWarnings" value="true" />
+      <plugins>
+        <plugin path="C:\Users\Administrator\.ivy2\cache\org.scala-js\scalajs-compiler_2.12.10\jars\scalajs-compiler_2.12.10-0.6.31.jar" />
+      </plugins>
     </profile>
   </component>
 </project>

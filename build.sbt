@@ -86,6 +86,31 @@ lazy val client = (project in file("client")).enablePlugins(PackPlugin)
     libraryDependencies ++= Dependencies.bytedecoLibs,
     libraryDependencies ++= Dependencies4Client.clientDependencies,
   )
+  .dependsOn(sharedJvm,player)
+
+val playerMain = "org.seekloud.geek.player.Boot"
+lazy val player = (project in file("player")).enablePlugins(PackPlugin)
+  .settings(commonSettings: _*)
+  .settings(
+    mainClass in reStart := Some(playerMain),
+    javaOptions in reStart += "-Xmx2g"
+  )
+  .settings(name := "player")
+  .settings(
+    //pack
+    // If you need to specify main classes manually, use packSettings and packMain
+    //packSettings,
+    // [Optional] Creating `hello` command that calls org.mydomain.Hello#main(Array[String])
+    packMain := Map("player" -> playerMain),
+    packJvmOpts := Map("player" -> Seq("-Xmx256m", "-Xms64m")),
+    packExtraClasspath := Map("player" -> Seq("."))
+  )
+  .settings(
+    //    libraryDependencies ++= Dependencies.backendDependencies,
+    libraryDependencies ++= Dependencies.bytedecoLibs,
+    libraryDependencies ++= Dependencies4Player.playerDependencies,
+    
+  )
   .dependsOn(sharedJvm)
 
 
