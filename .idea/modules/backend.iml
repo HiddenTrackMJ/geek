@@ -12,90 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="sharedJVM" exported="" />
-    <orderEntry type="library" scope="TEST" name="sbt: org.scalatest:scalatest_2.12:3.0.7:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="sbt: org.scalactic:scalactic_2.12:3.0.7:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="sbt: org.scala-lang.modules:scala-xml_2.12:1.1.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:videoinput:0.200-1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:tesseract:4.0.0-1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:opencv:4.0.1-1.5:linux-x86_64:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:opencv:4.0.1-1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:librealsense:1.12.1-1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:libfreenect2:0.2.0-1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:libfreenect:0.5.7-1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:libdc1394:2.2.5-1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:leptonica:1.78.0-1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:javacv:1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:javacpp:1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:flycapture:2.13.3.31-1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:flandmark:1.07-1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:ffmpeg:4.1.3-1.5:linux-x86_64:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:ffmpeg:4.1.3-1.5:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.bytedeco:artoolkitplus:2.3.1-1.5:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="sbt: com.typesafe.akka:akka-testkit_2.12:2.5.23:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="sbt: com.typesafe.akka:akka-actor-testkit-typed_2.12:2.5.23:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.typelevel:macro-compat_2.12:1.1.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-xml_2.12:1.0.6:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-java8-compat_2.12:0.8.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.12.10:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.reactivestreams:reactive-streams:1.0.2:jar" level="project" />
-    <orderEntry type="library" name="sbt: net.sf.ehcache:ehcache:2.10.6:jar" level="project" />
-    <orderEntry type="library" name="sbt: javax.activation:activation:1.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.slick:slick_2.12:3.3.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.slick:slick-codegen_2.12:3.3.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe:config:1.3.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.sun.mail:javax.mail:1.5.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.sun.activation:javax.activation:1.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.chuusai:shapeless_2.12:2.3.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: ch.qos.logback:logback-core:1.2.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: ch.qos.logback:logback-classic:1.2.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: ch.megard:akka-http-cors_2.12:0.4.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.github.nscala-time:nscala-time_2.12:2.16.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe:ssl-config-core_2.12:0.3.7:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-actor-typed_2.12:2.5.23:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-actor_2.12:2.5.23:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-http-core_2.12:10.1.8:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-http-testkit_2.12:10.1.8:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-http_2.12:10.1.8:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-parsing_2.12:10.1.8:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-protobuf_2.12:2.5.23:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-slf4j_2.12:2.5.23:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-stream-typed_2.12:2.5.23:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-stream_2.12:2.5.23:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.netty:netty-reactive-streams:2.0.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.zaxxer:HikariCP:2.7.9:jar" level="project" />
-    <orderEntry type="library" name="sbt: commons-codec:commons-codec:1.10:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.circe:circe-core_2.12:0.9.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.circe:circe-generic_2.12:0.9.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.circe:circe-jawn_2.12:0.9.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.circe:circe-numbers_2.12:0.9.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.circe:circe-parser_2.12:0.9.3:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-buffer:4.1.33.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-codec:4.1.33.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-codec-dns:4.1.33.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-codec-http:4.1.33.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-codec-socks:4.1.33.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-common:4.1.33.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-handler:4.1.33.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-handler-proxy:4.1.33.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-resolver:4.1.33.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-resolver-dns:4.1.33.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-transport:4.1.33.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-transport-native-epoll:4.1.33.Final:linux-x86_64:jar" level="project" />
-    <orderEntry type="library" name="sbt: io.netty:netty-transport-native-unix-common:4.1.33.Final:jar" level="project" />
-    <orderEntry type="library" name="sbt: joda-time:joda-time:2.9.7:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.asynchttpclient:async-http-client:2.8.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.asynchttpclient:async-http-client-netty-utils:2.8.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.joda:joda-convert:1.2:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.postgresql:postgresql:9.4.1208:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.scala-lang:scala-reflect:2.12.10:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-parser-combinators_2.12:1.1.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.seekloud:byteobject_2.12:0.1.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.slf4j:slf4j-api:1.7.25:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.spire-math:jawn-parser_2.12:0.11.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.typelevel:cats-core_2.12:1.0.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.typelevel:cats-kernel_2.12:1.0.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.typelevel:cats-macros_2.12:1.0.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.typelevel:machinist_2.12:0.6.2:jar" level="project" />
     <orderEntry type="module-library">
       <library name="sbt: unmanaged-sources-and-docs">
         <CLASSES />
@@ -106,5 +22,89 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="sbt: org.typelevel:machinist_2.12:0.6.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.typelevel:cats-macros_2.12:1.0.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.typelevel:cats-kernel_2.12:1.0.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.typelevel:cats-core_2.12:1.0.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.spire-math:jawn-parser_2.12:0.11.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.slf4j:slf4j-api:1.7.25:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.seekloud:byteobject_2.12:0.1.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-parser-combinators_2.12:1.1.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala-reflect:2.12.10:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.postgresql:postgresql:9.4.1208:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.joda:joda-convert:1.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.asynchttpclient:async-http-client-netty-utils:2.8.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.asynchttpclient:async-http-client:2.8.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: joda-time:joda-time:2.9.7:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-transport-native-unix-common:4.1.33.Final:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-transport-native-epoll:4.1.33.Final:linux-x86_64:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-transport:4.1.33.Final:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-resolver-dns:4.1.33.Final:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-resolver:4.1.33.Final:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-handler-proxy:4.1.33.Final:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-handler:4.1.33.Final:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-common:4.1.33.Final:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-codec-socks:4.1.33.Final:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-codec-http:4.1.33.Final:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-codec-dns:4.1.33.Final:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-codec:4.1.33.Final:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.netty:netty-buffer:4.1.33.Final:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.circe:circe-parser_2.12:0.9.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.circe:circe-numbers_2.12:0.9.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.circe:circe-jawn_2.12:0.9.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.circe:circe-generic_2.12:0.9.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: io.circe:circe-core_2.12:0.9.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: commons-codec:commons-codec:1.10:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.zaxxer:HikariCP:2.7.9:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.netty:netty-reactive-streams:2.0.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-stream_2.12:2.5.23:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-stream-typed_2.12:2.5.23:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-slf4j_2.12:2.5.23:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-protobuf_2.12:2.5.23:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-parsing_2.12:10.1.8:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-http_2.12:10.1.8:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-http-testkit_2.12:10.1.8:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-http-core_2.12:10.1.8:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-actor_2.12:2.5.23:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-actor-typed_2.12:2.5.23:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe:ssl-config-core_2.12:0.3.7:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.github.nscala-time:nscala-time_2.12:2.16.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: ch.megard:akka-http-cors_2.12:0.4.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: ch.qos.logback:logback-classic:1.2.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: ch.qos.logback:logback-core:1.2.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.chuusai:shapeless_2.12:2.3.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.sun.activation:javax.activation:1.2.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.sun.mail:javax.mail:1.5.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe:config:1.3.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.slick:slick-codegen_2.12:3.3.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.slick:slick_2.12:3.3.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: javax.activation:activation:1.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: net.sf.ehcache:ehcache:2.10.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.reactivestreams:reactive-streams:1.0.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.12.10:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-java8-compat_2.12:0.8.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-xml_2.12:1.0.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.typelevel:macro-compat_2.12:1.1.1:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: com.typesafe.akka:akka-actor-testkit-typed_2.12:2.5.23:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: com.typesafe.akka:akka-testkit_2.12:2.5.23:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:artoolkitplus:2.3.1-1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:ffmpeg:4.1.3-1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:ffmpeg:4.1.3-1.5:linux-x86_64:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:flandmark:1.07-1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:flycapture:2.13.3.31-1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:javacpp:1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:javacv:1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:leptonica:1.78.0-1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:libdc1394:2.2.5-1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:libfreenect:0.5.7-1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:libfreenect2:0.2.0-1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:librealsense:1.12.1-1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:opencv:4.0.1-1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:opencv:4.0.1-1.5:linux-x86_64:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:tesseract:4.0.0-1.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.bytedeco:videoinput:0.200-1.5:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: org.scala-lang.modules:scala-xml_2.12:1.1.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: org.scalactic:scalactic_2.12:3.0.7:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="sbt: org.scalatest:scalatest_2.12:3.0.7:jar" level="project" />
   </component>
 </module>

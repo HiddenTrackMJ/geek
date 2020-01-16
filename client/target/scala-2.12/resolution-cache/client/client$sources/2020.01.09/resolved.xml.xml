@@ -4,7 +4,7 @@
 		module="client$sources"
 		revision="2020.01.09"
 		status="integration"
-		publication="20200114200217"
+		publication="20200116133321"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>

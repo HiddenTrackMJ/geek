@@ -1,0 +1,41 @@
+
+
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{yy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>logs/application.log</file>
+    <encoder>
+      <pattern>%d{yy-MM-dd HH:mm:ss.SSS} %level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+<!--    <property name="logDir" value="logs"/>-->
+<!--    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${logDir}/application.log</file>-->
+<!--        <append>true</append>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            &lt;!&ndash; daily rollover &ndash;&gt;-->
+<!--            <fileNamePattern>${logDir}/application.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+<!--            &lt;!&ndash; keep 365 days' worth of history &ndash;&gt;-->
+<!--            <maxHistory>365</maxHistory>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-4relative %-5level %logger{42} [%thread] %X{akkaSource} - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+  <logger name="org.seekloud" level="DEBUG" additivity="true" />
+
+  <logger name="akka" level="INFO" additivity="true"/>
+
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </root>
+</configuration>
+
+

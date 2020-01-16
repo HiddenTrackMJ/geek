@@ -7,8 +7,8 @@ val projectVersion = "2020.01.09"
 resolvers += Resolver.sonatypeRepo("snapshots")
 
 
-val projectMainClass = "org.seekloud.org.seekloud.geek.Boot"
-val clientMain = "org.seekloud.org.seekloud.geek.CLientBoot"
+val projectMainClass = "org.seekloud.geek.Boot"
+val clientMain = "org.seekloud.geek.client.Boot"
 
 def commonSettings = Seq(
   version := projectVersion,

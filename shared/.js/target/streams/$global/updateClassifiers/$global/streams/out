@@ -754,23 +754,23 @@
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.10!scala-library.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-js#scalajs-test-bridge_2.12;0.6.31!scalajs-test-bridge_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-js#scalajs-library_2.12;0.6.31!scalajs-library_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-js#scalajs-test-interface_2.12;0.6.31!scalajs-test-interface_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-js#scalajs-test-bridge_2.12;0.6.31!scalajs-test-bridge_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.10!scala-reflect.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.10!scala-compiler.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-js#scalajs-compiler_2.12.10;0.6.31!scalajs-compiler_2.12.10.jar(src)
 [debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.12!jansi.jar(src)
-[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-io;8.1.16.v20140903!jetty-io.jar(src)
-[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-continuation;8.1.16.v20140903!jetty-continuation.jar(src)
 [debug] 	[NOT REQUIRED] jline#jline;2.14.6!jline.jar(src)
+[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-continuation;8.1.16.v20140903!jetty-continuation.jar(src)
+[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-io;8.1.16.v20140903!jetty-io.jar(src)
+[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-websocket;8.1.16.v20140903!jetty-websocket.jar(src)
 [debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-server;8.1.16.v20140903!jetty-server.jar(src)
 [debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-util;8.1.16.v20140903!jetty-util.jar(src)
-[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-websocket;8.1.16.v20140903!jetty-websocket.jar(src)
 [debug] 	[NOT REQUIRED] org.eclipse.jetty.orbit#javax.servlet;3.0.0.v201112011016!javax.servlet.jar(src)
 [debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-http;8.1.16.v20140903!jetty-http.jar(src)
-[debug] :: resolution report :: resolve 167ms :: artifacts dl 12ms
+[debug] :: resolution report :: resolve 202ms :: artifacts dl 12ms
 [debug] 	report for shared#shared$sources;2020.01.09 compile produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-compile.xml
 [debug] 	report for shared#shared$sources;2020.01.09 runtime produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-runtime.xml
 [debug] 	report for shared#shared$sources;2020.01.09 test produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-test.xml
@@ -783,4 +783,4 @@
 [debug] 	report for shared#shared$sources;2020.01.09 pom produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-pom.xml
 [debug] 	report for shared#shared$sources;2020.01.09 scala-tool produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-scala-tool.xml
 [debug] 	report for shared#shared$sources;2020.01.09 phantom-js-jetty produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-phantom-js-jetty.xml
-[debug] 	resolve done (167ms resolve - 12ms download)
+[debug] 	resolve done (202ms resolve - 12ms download)

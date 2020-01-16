@@ -4,7 +4,7 @@
 		module="org-seekloud-geek$sources"
 		revision="0.1.0-SNAPSHOT"
 		status="integration"
-		publication="20200114200217"
+		publication="20200116133313"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>
