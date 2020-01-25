@@ -23,7 +23,7 @@ object RoomProtocol {
     * */
   case class CreateRoomReq(
     userId: Long,
-    info: RoomInfo
+    info: RoomUserInfo
   ) extends Request
 
   case class CreateRoomRsp(
@@ -75,10 +75,9 @@ object RoomProtocol {
   ) extends Response
 
   /*common*/
-  case class RoomInfo(
+  case class RoomUserInfo(
     roomName: String,
-    des: String,
-    peopleNum: Int
+    des: String
   )
 
   case class ModifyRoomInfo(
@@ -90,7 +89,7 @@ object RoomProtocol {
   case class RoomData(
     url: String,
     roomId: Long,
-    roomInfo: RoomInfo
+    roomInfo: RoomUserInfo
   )
 
 
