@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="abbdf6d4-f740-4aa4-ad61-f6fbb27ea63a" name="Default Changelist" comment="">
+    <list default="true" id="abbdf6d4-f740-4aa4-ad61-f6fbb27ea63a" name="Default Changelist" comment="grabber recorder init">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/Grabber.scala" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/Grabber.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/GrabberManager.scala" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/GrabberManager.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/Recorder.scala" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/Recorder.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,6 +195,17 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="sbt" />
     <MESSAGE value="init" />
@@ -201,14 +214,14 @@
     <option name="LAST_COMMIT_MESSAGE" value="grabber recorder init" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="552" y="200" key="#Inspections" timestamp="1579938132525">
+    <state x="552" y="200" key="#Inspections" timestamp="1580199147090">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="552" y="200" key="#Inspections/0.0.1920.1080@0.0.1920.1080" timestamp="1579938132525" />
-    <state x="690" y="297" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1580194284894">
+    <state x="552" y="200" key="#Inspections/0.0.1920.1080@0.0.1920.1080" timestamp="1580199147090" />
+    <state x="690" y="297" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1580202634280">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="690" y="297" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1580194284894" />
+    <state x="690" y="297" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1580202634280" />
     <state x="811" y="431" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1579339746806">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -221,14 +234,18 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="690" y="290" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1579153044080" />
-    <state x="554" y="134" key="CommitChangelistDialog2" timestamp="1580194849747">
+    <state x="554" y="134" key="CommitChangelistDialog2" timestamp="1580195340133">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="554" y="134" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1580194849747" />
-    <state width="178" height="321" key="Git.Branch.Popup" timestamp="1580195223170">
+    <state x="554" y="134" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1580195340133" />
+    <state x="92" y="92" width="1736" height="896" key="DiffContextDialog" timestamp="1580195446533">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="178" height="321" key="Git.Branch.Popup/0.0.1920.1080@0.0.1920.1080" timestamp="1580195223170" />
+    <state x="92" y="92" width="1736" height="896" key="DiffContextDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1580195446533" />
+    <state width="180" height="323" key="Git.Branch.Popup" timestamp="1580195421761">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="180" height="323" key="Git.Branch.Popup/0.0.1920.1080@0.0.1920.1080" timestamp="1580195421761" />
     <state x="822" y="420" width="300" height="240" key="Github.ShareDialog" timestamp="1579002285295">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -241,10 +258,14 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="675" y="259" key="MultipleFileMergeDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1579339735101" />
-    <state x="552" y="275" key="Vcs.Push.Dialog.v2" timestamp="1580194856191">
+    <state x="552" y="275" key="Vcs.Push.Dialog.v2" timestamp="1580195344526">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="552" y="275" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1580194856191" />
+    <state x="552" y="275" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1580195344526" />
+    <state x="474" y="131" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1580201897905">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="474" y="131" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1580201897905" />
     <state x="781" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579658649865">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

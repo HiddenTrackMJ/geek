@@ -5,6 +5,7 @@ import java.io.InputStream
 import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{Behaviors, StashBuffer, TimerScheduler}
 import org.bytedeco.javacv.FFmpegFrameGrabber1
+import org.seekloud.geek.common.AppSettings
 import org.slf4j.LoggerFactory
 
 /**
@@ -20,7 +21,7 @@ object Grabber {
 
   case class StartGrabber(roomId: Long) extends Command
 
-  case object StopGrabber extends Command
+  final case class StopGrabber(reason: String) extends Command
 
   case object CloseGrabber extends Command
 
@@ -34,18 +35,18 @@ object Grabber {
 
   case object TimerKey4Close
 
-  def create(roomId: Long, liveId: String, buf: InputStream, recorderRef: ActorRef[Recorder.Command]): Behavior[Command]= {
+  def create(roomId: Long, liveId: String, recorderRef: ActorRef[Recorder.Command]): Behavior[Command]= {
     Behaviors.setup[Command]{ ctx =>
       implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)
       Behaviors.withTimers[Command] {
         implicit timer =>
           log.info(s"grabberActor start----")
-          init(roomId, liveId, buf, recorderRef)
+          init(roomId, liveId, recorderRef)
       }
     }
   }
 
-  def init(roomId: Long, liveId: String, buf: InputStream,
+  def init(roomId: Long, liveId: String,
     recorderRef:ActorRef[Recorder.Command]
   )(implicit timer: TimerScheduler[Command],
     stashBuffer: StashBuffer[Command]):Behavior[Command] = {
@@ -53,8 +54,9 @@ object Grabber {
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
         case t: RecordActor =>
+          val srcPath = AppSettings.rtmpServer + liveId //
           log.info(s"${ctx.self} receive a msg $t")
-          val grabber = new FFmpegFrameGrabber1(buf)
+          val grabber = new FFmpegFrameGrabber1(srcPath)
           try {
             grabber.start()
           } catch {
@@ -63,10 +65,10 @@ object Grabber {
           }
           log.info(s"$liveId grabber start successfully")
           ctx.self ! GrabFrameFirst
-          work(roomId, liveId, grabber, t.rec, buf)
+          work(roomId, liveId, grabber, t.rec)
 
-        case StopGrabber =>
-          log.info(s"grabber $liveId stopped when init")
+        case StopGrabber(reason) =>
+          log.info(s"grabber $liveId stopped when init, reason:$reason")
           Behaviors.stopped
 
         case x=>
@@ -79,12 +81,11 @@ object Grabber {
   def work( roomId: Long,
     liveId: String,
     grabber: FFmpegFrameGrabber1,
-    recorder: ActorRef[Recorder.Command],
-    buf: InputStream
+    recorder: ActorRef[Recorder.Command]
   )(implicit stashBuffer: StashBuffer[Command],
     timer: TimerScheduler[Command]): Behavior[Command] = {
     Behaviors.receive[Command] { (ctx, msg) =>
-      work(roomId, liveId, grabber, recorder, buf)
+      work(roomId, liveId, grabber, recorder)
     }
   }
 
