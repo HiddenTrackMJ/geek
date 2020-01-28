@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="abbdf6d4-f740-4aa4-ad61-f6fbb27ea63a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/org/bytedeco/javacv/FFmpegFrameGrabber1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/Grabber.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/GrabberManager.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/Recorder.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/backend.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/Boot.scala" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/Boot.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/RoomManager.scala" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/RoomManager.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/Protocol.scala" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/Protocol.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/GrabberManager.scala" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/GrabberManager.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579938460918</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="grabber recorder init">
+      <created>1580194852249</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1580194852249</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -197,7 +197,8 @@
     <MESSAGE value="sbt" />
     <MESSAGE value="init" />
     <MESSAGE value="roomManager init" />
-    <option name="LAST_COMMIT_MESSAGE" value="roomManager init" />
+    <MESSAGE value="grabber recorder init" />
+    <option name="LAST_COMMIT_MESSAGE" value="grabber recorder init" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="200" key="#Inspections" timestamp="1579938132525">
@@ -220,14 +221,14 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="690" y="290" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1579153044080" />
-    <state x="554" y="134" key="CommitChangelistDialog2" timestamp="1579938458301">
+    <state x="554" y="134" key="CommitChangelistDialog2" timestamp="1580194849747">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="554" y="134" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1579938458301" />
-    <state width="176" height="319" key="Git.Branch.Popup" timestamp="1579339716343">
+    <state x="554" y="134" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1580194849747" />
+    <state width="178" height="321" key="Git.Branch.Popup" timestamp="1580195223170">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="176" height="319" key="Git.Branch.Popup/0.0.1920.1080@0.0.1920.1080" timestamp="1579339716343" />
+    <state width="178" height="321" key="Git.Branch.Popup/0.0.1920.1080@0.0.1920.1080" timestamp="1580195223170" />
     <state x="822" y="420" width="300" height="240" key="Github.ShareDialog" timestamp="1579002285295">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -240,17 +241,17 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="675" y="259" key="MultipleFileMergeDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1579339735101" />
-    <state x="552" y="275" key="Vcs.Push.Dialog.v2" timestamp="1579938463228">
+    <state x="552" y="275" key="Vcs.Push.Dialog.v2" timestamp="1580194856191">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="552" y="275" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1579938463228" />
+    <state x="552" y="275" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1580194856191" />
     <state x="781" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579658649865">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="781" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1080@0.0.1920.1080" timestamp="1579658649865" />
-    <state x="759" y="257" key="git4idea.branch.GitSmartOperationDialog" timestamp="1579339720077">
+    <state x="759" y="257" key="git4idea.branch.GitSmartOperationDialog" timestamp="1580195225602">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="759" y="257" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1579339720077" />
+    <state x="759" y="257" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1580195225602" />
   </component>
 </project>

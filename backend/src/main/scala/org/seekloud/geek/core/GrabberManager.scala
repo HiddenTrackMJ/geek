@@ -52,7 +52,7 @@ object GrabberManager {
 
   def init(): Behavior[Command] =
     Behaviors.setup[Command] { ctx =>
-      log.info(s"GrabManager is starting...")
+      log.info(s"GrabberManager is starting...")
       implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)
       Behaviors.withTimers[Command] { implicit timer =>
         val activeRooms = mutable.HashMap[Long, (RtmpInfo, ActorRef[RoomActor.Command])]()
