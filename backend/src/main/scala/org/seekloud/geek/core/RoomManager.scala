@@ -50,7 +50,7 @@ object RoomManager {
     stashBuffer.unstashAll(ctx, behavior)
   }
 
-  private def init(): Behavior[Command] =
+  def init(): Behavior[Command] =
     Behaviors.setup[Command] { ctx =>
       log.info(s"RoomManager is starting...")
       implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)

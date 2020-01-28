@@ -12,6 +12,7 @@ import scala.language.postfixOps
 import scala.util.{Failure, Success}
 import akka.actor.typed.scaladsl.adapter._
 import org.seekloud.geek.common.AppSettings
+import org.seekloud.geek.core.{GrabberManager, RoomManager}
 import org.seekloud.geek.http.HttpService
 
 /**
@@ -38,6 +39,10 @@ object Boot extends HttpService {
   override implicit val timeout: Timeout = Timeout(10 seconds) // for actor asks
 
   val log: LoggingAdapter = Logging(system, getClass)
+
+  val roomManager:ActorRef[RoomManager.Command] = system.spawn(RoomManager.init(),"roomManager")
+
+  val grabManager: ActorRef[GrabberManager.Command] = system.spawn(GrabberManager.init(), "GrabManager")
 
   def main(args: Array[String]): Unit = {
     log.info("Starting.")

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="abbdf6d4-f740-4aa4-ad61-f6fbb27ea63a" name="Default Changelist" comment="init">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Jason.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/RoomActor.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/RoomManager.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="abbdf6d4-f740-4aa4-ad61-f6fbb27ea63a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/org/bytedeco/javacv/FFmpegFrameGrabber1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/Grabber.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/GrabberManager.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/Recorder.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/backend.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/RoomProtocol.scala" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/RoomProtocol.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/Boot.scala" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/Boot.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/RoomManager.scala" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/RoomManager.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/Protocol.scala" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/Protocol.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,14 +69,14 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/client" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/backend/src/main" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Scala\workspace\geek\backend\src\main" />
       <recent name="F:\Scala\workspace\geek\client" />
       <recent name="F:\Scala\workspace\geek\frontend\src\main\scala\org\seekloud\geek\pages" />
       <recent name="F:\Scala\workspace\geek\shared" />
-      <recent name="F:\Scala\workspace\geek\backend\src\main" />
       <recent name="F:\Scala\workspace\geek\frontend" />
     </key>
   </component>
@@ -179,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579004477793</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="roomManager init">
+      <created>1579938460918</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1579938460918</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,17 +196,18 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="sbt" />
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="roomManager init" />
+    <option name="LAST_COMMIT_MESSAGE" value="roomManager init" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="200" key="#Inspections" timestamp="1579938132525">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="552" y="200" key="#Inspections/0.0.1920.1080@0.0.1920.1080" timestamp="1579938132525" />
-    <state x="690" y="297" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1579938070328">
+    <state x="690" y="297" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1580194284894">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="690" y="297" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1579938070328" />
+    <state x="690" y="297" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1580194284894" />
     <state x="811" y="431" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1579339746806">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -211,10 +220,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="690" y="290" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1579153044080" />
-    <state x="554" y="134" key="CommitChangelistDialog2" timestamp="1579004448464">
+    <state x="554" y="134" key="CommitChangelistDialog2" timestamp="1579938458301">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="554" y="134" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1579004448464" />
+    <state x="554" y="134" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1579938458301" />
     <state width="176" height="319" key="Git.Branch.Popup" timestamp="1579339716343">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -231,10 +240,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="675" y="259" key="MultipleFileMergeDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1579339735101" />
-    <state x="552" y="275" key="Vcs.Push.Dialog.v2" timestamp="1579153435876">
+    <state x="552" y="275" key="Vcs.Push.Dialog.v2" timestamp="1579938463228">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="552" y="275" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1579153435876" />
+    <state x="552" y="275" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1579938463228" />
     <state x="781" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579658649865">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

@@ -14,4 +14,9 @@ object Protocol {
     roomId: Long
   )
 
+  case class OutTarget(
+    dir: String,
+    file: String
+  )
+
 }
