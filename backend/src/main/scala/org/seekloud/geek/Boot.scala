@@ -14,6 +14,7 @@ import akka.actor.typed.scaladsl.adapter._
 import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.core.{GrabberManager, RoomManager}
 import org.seekloud.geek.http.HttpService
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomUserInfo, RtmpInfo}
 
 /**
   * User: Taoz
@@ -43,6 +44,8 @@ object Boot extends HttpService {
   val roomManager:ActorRef[RoomManager.Command] = system.spawn(RoomManager.init(),"roomManager")
 
   val grabManager: ActorRef[GrabberManager.Command] = system.spawn(GrabberManager.init(), "GrabManager")
+
+
 
   def main(args: Array[String]): Unit = {
     log.info("Starting.")

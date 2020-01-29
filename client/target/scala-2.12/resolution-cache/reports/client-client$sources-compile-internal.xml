@@ -7,94 +7,10 @@
 		revision="2020.01.09"
 		conf="compile-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20200116133321"/>
+		date="20200129163924"/>
 	<dependencies>
-		<module organisation="io.circe" name="circe-parser_2.12">
-			<revision name="0.9.3" status="release" pubdate="20180328092252" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="62">
-				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="3116" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-parser_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-parser_2.12/0.9.3/circe-parser_2.12-0.9.3.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="2020.01.09" extra-info.apiURL="https://circe.github.io/circe/api/"/>
-				<artifacts>
-					<artifact name="circe-parser_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="828" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-parser_2.12\srcs\circe-parser_2.12-0.9.3-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/circe/circe-parser_2.12/0.9.3/circe-parser_2.12-0.9.3-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="io.circe" name="circe-jawn_2.12">
-			<revision name="0.9.3" status="release" pubdate="20180328092202" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="59">
-				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="3118" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-jawn_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-jawn_2.12/0.9.3/circe-jawn_2.12-0.9.3.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="2020.01.09" extra-info.apiURL="https://circe.github.io/circe/api/"/>
-				<artifacts>
-					<artifact name="circe-jawn_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="2062" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-jawn_2.12\srcs\circe-jawn_2.12-0.9.3-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/circe/circe-jawn_2.12/0.9.3/circe-jawn_2.12-0.9.3-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="org.asynchttpclient" name="async-http-client">
-			<revision name="2.0.32" status="release" pubdate="20170502032728" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="56">
-				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
-				<metadata-artifact status="no" details="" size="9525" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\async-http-client\ivy-2.0.32.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/asynchttpclient/async-http-client/2.0.32/async-http-client-2.0.32.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.0.32" rev-constraint-default="2.0.32" rev-constraint-dynamic="2.0.32" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="async-http-client" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="313383" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\async-http-client\srcs\async-http-client-2.0.32-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/asynchttpclient/async-http-client/2.0.32/async-http-client-2.0.32-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="io.netty" name="netty-transport-native-epoll">
-			<revision name="4.0.46.Final" status="release" pubdate="20170429214453" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="47">
-				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="16183" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-transport-native-epoll\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-transport-native-epoll/4.0.46.Final/netty-transport-native-epoll-4.0.46.Final.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="netty-transport-native-epoll" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="86546" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-transport-native-epoll\srcs\netty-transport-native-epoll-4.0.46.Final-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/netty/netty-transport-native-epoll/4.0.46.Final/netty-transport-native-epoll-4.0.46.Final-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="com.typesafe.akka" name="akka-http_2.12">
-			<revision name="10.1.8" status="release" pubdate="20190321191518" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io" extra-info.apiURL="https://doc.akka.io/api/akka-http/10.1.8/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="43">
-				<license name="Apache-2.0" url="https://opensource.org/licenses/Apache-2.0"/>
-				<metadata-artifact status="no" details="" size="3214" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-http_2.12\ivy-10.1.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-http_2.12/10.1.8/akka-http_2.12-10.1.8.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="10.1.8" rev-constraint-default="10.1.8" rev-constraint-dynamic="10.1.8" callerrev="2020.01.09" extra-info.apiURL="https://doc.akka.io/api/akka-http/10.1.8/"/>
-				<artifacts>
-					<artifact name="akka-http_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="209117" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-http_2.12\srcs\akka-http_2.12-10.1.8-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-http_2.12/10.1.8/akka-http_2.12-10.1.8-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="org.asynchttpclient" name="netty-resolver-dns">
-			<revision name="2.0.32" status="release" pubdate="20170502032610" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="39">
-				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
-				<metadata-artifact status="no" details="" size="9800" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\netty-resolver-dns\ivy-2.0.32.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/asynchttpclient/netty-resolver-dns/2.0.32/netty-resolver-dns-2.0.32.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.0.32" rev-constraint-default="2.0.32" rev-constraint-dynamic="2.0.32" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="netty-resolver-dns" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="55634" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\netty-resolver-dns\srcs\netty-resolver-dns-2.0.32-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/asynchttpclient/netty-resolver-dns/2.0.32/netty-resolver-dns-2.0.32-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="org.asynchttpclient" name="netty-codec-dns">
-			<revision name="2.0.32" status="release" pubdate="20170502032502" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="42">
-				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
-				<metadata-artifact status="no" details="" size="9481" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\netty-codec-dns\ivy-2.0.32.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/asynchttpclient/netty-codec-dns/2.0.32/netty-codec-dns-2.0.32.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.0.32" rev-constraint-default="2.0.32" rev-constraint-dynamic="2.0.32" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="netty-codec-dns" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="52176" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\netty-codec-dns\srcs\netty-codec-dns-2.0.32-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/asynchttpclient/netty-codec-dns/2.0.32/netty-codec-dns-2.0.32-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
 		<module organisation="com.github.oshi" name="oshi-core">
-			<revision name="4.0.0" status="release" pubdate="20190810145642" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="37">
+			<revision name="4.0.0" status="release" pubdate="20190810145642" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="38">
 				<license name="MIT License" url="https://opensource.org/licenses/MIT"/>
 				<metadata-artifact status="no" details="" size="10252" time="0" location="C:\Users\19783\.ivy2\cache\com.github.oshi\oshi-core\ivy-4.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/oshi/oshi-core/4.0.0/oshi-core-4.0.0.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.0" rev-constraint-default="4.0.0" rev-constraint-dynamic="4.0.0" callerrev="2020.01.09"/>
@@ -106,7 +22,7 @@
 			</revision>
 		</module>
 		<module organisation="net.java.dev.jna" name="jna-platform">
-			<revision name="5.4.0" status="release" pubdate="20190720031855" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/java-native-access/jna" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="57">
+			<revision name="5.4.0" status="release" pubdate="20190720031855" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/java-native-access/jna" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="58">
 				<license name="LGPL, version 2.1" url="http://www.gnu.org/licenses/licenses.html"/>
 				<license name="Apache License v2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="2799" time="0" location="C:\Users\19783\.ivy2\cache\net.java.dev.jna\jna-platform\ivy-5.4.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/java/dev/jna/jna-platform/5.4.0/jna-platform-5.4.0.pom"/>
@@ -118,8 +34,245 @@
 				</artifacts>
 			</revision>
 		</module>
+		<module organisation="org.seekloud" name="byteobject_2.12">
+			<revision name="0.1.1" status="release" pubdate="20180803091858" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/seekloud/byteobject" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="34">
+				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="2834" time="0" location="C:\Users\19783\.ivy2\cache\org.seekloud\byteobject_2.12\ivy-0.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/seekloud/byteobject_2.12/0.1.1/byteobject_2.12-0.1.1.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.1.1" rev-constraint-default="0.1.1" rev-constraint-dynamic="0.1.1" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="byteobject_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="7372" time="0" location="C:\Users\19783\.ivy2\cache\org.seekloud\byteobject_2.12\srcs\byteobject_2.12-0.1.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/seekloud/byteobject_2.12/0.1.1/byteobject_2.12-0.1.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-reflect">
+			<revision name="2.12.10" status="release" pubdate="20190911051922" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.scala-lang.org/" extra-info.apiURL="https://www.scala-lang.org/api/2.12.10/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="22">
+				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="2678" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang\scala-reflect\ivy-2.12.10.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.12.10/scala-reflect-2.12.10.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.12.10" rev-constraint-default="2.12.10" rev-constraint-dynamic="2.12.10" callerrev="2020.01.09" extra-info.apiURL="https://www.scala-lang.org/api/2.12.10/"/>
+				<artifacts>
+					<artifact name="scala-reflect" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="623839" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang\scala-reflect\srcs\scala-reflect-2.12.10-sources.jar">
+						<origin-location is-local="false" location="http://maven.aliyun.com/nexus/content/groups/public/org/scala-lang/scala-reflect/2.12.10/scala-reflect-2.12.10-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="net.java.dev.jna" name="jna">
+			<revision name="5.4.0" status="release" pubdate="20190720031751" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/java-native-access/jna" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="17">
+				<license name="LGPL, version 2.1" url="http://www.gnu.org/licenses/licenses.html"/>
+				<license name="Apache License v2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2598" time="0" location="C:\Users\19783\.ivy2\cache\net.java.dev.jna\jna\ivy-5.4.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.4.0/jna-5.4.0.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="5.4.0" rev-constraint-default="5.4.0" rev-constraint-dynamic="5.4.0" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="jna" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="155657" time="0" location="C:\Users\19783\.ivy2\cache\net.java.dev.jna\jna\srcs\jna-5.4.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.4.0/jna-5.4.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="player" name="player_2.12">
+			<revision name="2020.01.09" status="integration" pubdate="20200129163917" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="9">
+				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2020.01.09" rev-constraint-default="2020.01.09" rev-constraint-dynamic="2020.01.09" callerrev="2020.01.09"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.asynchttpclient" name="async-http-client">
+			<revision name="2.0.32" status="release" pubdate="20170502032728" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="57">
+				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="no" details="" size="9525" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\async-http-client\ivy-2.0.32.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/asynchttpclient/async-http-client/2.0.32/async-http-client-2.0.32.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.0.32" rev-constraint-default="2.0.32" rev-constraint-dynamic="2.0.32" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="async-http-client" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="313383" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\async-http-client\srcs\async-http-client-2.0.32-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/asynchttpclient/async-http-client/2.0.32/async-http-client-2.0.32-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.asynchttpclient" name="netty-resolver-dns">
+			<revision name="2.0.32" status="release" pubdate="20170502032610" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="40">
+				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="no" details="" size="9800" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\netty-resolver-dns\ivy-2.0.32.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/asynchttpclient/netty-resolver-dns/2.0.32/netty-resolver-dns-2.0.32.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.0.32" rev-constraint-default="2.0.32" rev-constraint-dynamic="2.0.32" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="netty-resolver-dns" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="55634" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\netty-resolver-dns\srcs\netty-resolver-dns-2.0.32-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/asynchttpclient/netty-resolver-dns/2.0.32/netty-resolver-dns-2.0.32-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.asynchttpclient" name="netty-codec-dns">
+			<revision name="2.0.32" status="release" pubdate="20170502032502" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="43">
+				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="no" details="" size="9481" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\netty-codec-dns\ivy-2.0.32.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/asynchttpclient/netty-codec-dns/2.0.32/netty-codec-dns-2.0.32.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.0.32" rev-constraint-default="2.0.32" rev-constraint-dynamic="2.0.32" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="netty-codec-dns" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="52176" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\netty-codec-dns\srcs\netty-codec-dns-2.0.32-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/asynchttpclient/netty-codec-dns/2.0.32/netty-codec-dns-2.0.32-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.netty" name="netty-transport-native-epoll">
+			<revision name="4.0.46.Final" status="release" pubdate="20170429214453" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="48">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="16183" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-transport-native-epoll\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-transport-native-epoll/4.0.46.Final/netty-transport-native-epoll-4.0.46.Final.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="netty-transport-native-epoll" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="86546" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-transport-native-epoll\srcs\netty-transport-native-epoll-4.0.46.Final-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/netty/netty-transport-native-epoll/4.0.46.Final/netty-transport-native-epoll-4.0.46.Final-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.netty" name="netty-codec-http">
+			<revision name="4.0.46.Final" status="release" pubdate="20170429212751" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="33">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="15417" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-codec-http\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-codec-http/4.0.46.Final/netty-codec-http-4.0.46.Final.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="netty-codec-http" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="359489" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-codec-http\srcs\netty-codec-http-4.0.46.Final-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/netty/netty-codec-http/4.0.46.Final/netty-codec-http-4.0.46.Final-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.netty" name="netty-handler">
+			<revision name="4.0.46.Final" status="release" pubdate="20170429212729" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="46">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="16530" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-handler\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-handler/4.0.46.Final/netty-handler-4.0.46.Final.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="netty-handler" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="234219" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-handler\srcs\netty-handler-4.0.46.Final-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/netty/netty-handler/4.0.46.Final/netty-handler-4.0.46.Final-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.netty" name="netty-codec">
+			<revision name="4.0.46.Final" status="release" pubdate="20170429212650" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="55">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="15839" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-codec\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-codec/4.0.46.Final/netty-codec-4.0.46.Final.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="netty-codec" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="137896" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-codec\srcs\netty-codec-4.0.46.Final-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/netty/netty-codec/4.0.46.Final/netty-codec-4.0.46.Final-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.netty" name="netty-transport">
+			<revision name="4.0.46.Final" status="release" pubdate="20170429212636" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="10">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="15152" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-transport\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-transport/4.0.46.Final/netty-transport-4.0.46.Final.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="netty-transport" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="257040" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-transport\srcs\netty-transport-4.0.46.Final-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/netty/netty-transport/4.0.46.Final/netty-transport-4.0.46.Final-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.asynchttpclient" name="async-http-client-netty-utils">
+			<revision name="2.0.32" status="release" pubdate="20170502032642" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="16">
+				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="no" details="" size="8382" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\async-http-client-netty-utils\ivy-2.0.32.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/asynchttpclient/async-http-client-netty-utils/2.0.32/async-http-client-netty-utils-2.0.32.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.0.32" rev-constraint-default="2.0.32" rev-constraint-dynamic="2.0.32" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="async-http-client-netty-utils" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="5405" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\async-http-client-netty-utils\srcs\async-http-client-netty-utils-2.0.32-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/asynchttpclient/async-http-client-netty-utils/2.0.32/async-http-client-netty-utils-2.0.32-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.netty" name="netty-buffer">
+			<revision name="4.0.46.Final" status="release" pubdate="20170429212525" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="11">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="15146" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-buffer\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-buffer/4.0.46.Final/netty-buffer-4.0.46.Final.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="netty-buffer" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="149596" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-buffer\srcs\netty-buffer-4.0.46.Final-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/netty/netty-buffer/4.0.46.Final/netty-buffer-4.0.46.Final-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.circe" name="circe-parser_2.12">
+			<revision name="0.9.3" status="release" pubdate="20180328092252" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="63">
+				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="3116" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-parser_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-parser_2.12/0.9.3/circe-parser_2.12-0.9.3.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="2020.01.09" extra-info.apiURL="https://circe.github.io/circe/api/"/>
+				<artifacts>
+					<artifact name="circe-parser_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="828" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-parser_2.12\srcs\circe-parser_2.12-0.9.3-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/circe/circe-parser_2.12/0.9.3/circe-parser_2.12-0.9.3-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.circe" name="circe-jawn_2.12">
+			<revision name="0.9.3" status="release" pubdate="20180328092202" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="60">
+				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="3118" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-jawn_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-jawn_2.12/0.9.3/circe-jawn_2.12-0.9.3.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="2020.01.09" extra-info.apiURL="https://circe.github.io/circe/api/"/>
+				<artifacts>
+					<artifact name="circe-jawn_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="2062" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-jawn_2.12\srcs\circe-jawn_2.12-0.9.3-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/circe/circe-jawn_2.12/0.9.3/circe-jawn_2.12-0.9.3-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.spire-math" name="jawn-parser_2.12">
+			<revision name="0.11.1" status="release" pubdate="20180127074135" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/non/jawn" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="18">
+				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
+				<metadata-artifact status="no" details="" size="2914" time="0" location="C:\Users\19783\.ivy2\cache\org.spire-math\jawn-parser_2.12\ivy-0.11.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/spire-math/jawn-parser_2.12/0.11.1/jawn-parser_2.12-0.11.1.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.11.1" rev-constraint-default="0.11.1" rev-constraint-dynamic="0.11.1" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="jawn-parser_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="19113" time="0" location="C:\Users\19783\.ivy2\cache\org.spire-math\jawn-parser_2.12\srcs\jawn-parser_2.12-0.11.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/spire-math/jawn-parser_2.12/0.11.1/jawn-parser_2.12-0.11.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.akka" name="akka-http_2.12">
+			<revision name="10.1.8" status="release" pubdate="20190321191518" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io" extra-info.apiURL="https://doc.akka.io/api/akka-http/10.1.8/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="44">
+				<license name="Apache-2.0" url="https://opensource.org/licenses/Apache-2.0"/>
+				<metadata-artifact status="no" details="" size="3214" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-http_2.12\ivy-10.1.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-http_2.12/10.1.8/akka-http_2.12-10.1.8.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="10.1.8" rev-constraint-default="10.1.8" rev-constraint-dynamic="10.1.8" callerrev="2020.01.09" extra-info.apiURL="https://doc.akka.io/api/akka-http/10.1.8/"/>
+				<artifacts>
+					<artifact name="akka-http_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="209117" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-http_2.12\srcs\akka-http_2.12-10.1.8-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-http_2.12/10.1.8/akka-http_2.12-10.1.8-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.akka" name="akka-stream-typed_2.12">
+			<revision name="2.5.23" status="release" pubdate="20190521163244" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io/" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="26">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="4238" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-stream-typed_2.12\ivy-2.5.23.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-stream-typed_2.12/2.5.23/akka-stream-typed_2.12-2.5.23.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.5.23" rev-constraint-default="2.5.23" rev-constraint-dynamic="2.5.23" callerrev="2020.01.09" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23"/>
+				<artifacts>
+					<artifact name="akka-stream-typed_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="11877" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-stream-typed_2.12\srcs\akka-stream-typed_2.12-2.5.23-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-stream-typed_2.12/2.5.23/akka-stream-typed_2.12-2.5.23-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.typesafe.akka" name="akka-actor-typed_2.12">
+			<revision name="2.5.23" status="release" pubdate="20190521162134" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io/" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="53">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="3651" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-actor-typed_2.12\ivy-2.5.23.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor-typed_2.12/2.5.23/akka-actor-typed_2.12-2.5.23.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.5.23" rev-constraint-default="2.5.23" rev-constraint-dynamic="2.5.23" callerrev="2020.01.09" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23"/>
+				<artifacts>
+					<artifact name="akka-actor-typed_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="114635" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-actor-typed_2.12\srcs\akka-actor-typed_2.12-2.5.23-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor-typed_2.12/2.5.23/akka-actor-typed_2.12-2.5.23-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="org.bytedeco" name="javacv">
-			<revision name="1.5" status="release" pubdate="20190410111840" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://bytedeco.org/javacv/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="35">
+			<revision name="1.5" status="release" pubdate="20190410111840" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://bytedeco.org/javacv/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="36">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -133,7 +286,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="tesseract">
-			<revision name="4.0.0-1.5" status="release" pubdate="20190409103614" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="38">
+			<revision name="4.0.0-1.5" status="release" pubdate="20190409103614" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="39">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -147,7 +300,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="leptonica">
-			<revision name="1.78.0-1.5" status="release" pubdate="20190409103613" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="44">
+			<revision name="1.78.0-1.5" status="release" pubdate="20190409103613" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="45">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -161,7 +314,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="flandmark">
-			<revision name="1.07-1.5" status="release" pubdate="20190409041400" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="48">
+			<revision name="1.07-1.5" status="release" pubdate="20190409041400" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="49">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -175,7 +328,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="artoolkitplus">
-			<revision name="2.3.1-1.5" status="release" pubdate="20190409041358" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="58">
+			<revision name="2.3.1-1.5" status="release" pubdate="20190409041358" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="59">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -188,8 +341,36 @@
 				</artifacts>
 			</revision>
 		</module>
+		<module organisation="org.bytedeco" name="videoinput">
+			<revision name="0.200-1.5" status="release" pubdate="20190409052909" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="29">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
+				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
+				<metadata-artifact status="no" details="" size="6075" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\videoinput\ivy-0.200-1.5.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/bytedeco/videoinput/0.200-1.5/videoinput-0.200-1.5.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.200-1.5" rev-constraint-default="0.200-1.5" rev-constraint-dynamic="0.200-1.5" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="videoinput" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="16718" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\videoinput\srcs\videoinput-0.200-1.5-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bytedeco/videoinput/0.200-1.5/videoinput-0.200-1.5-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.bytedeco" name="libfreenect2">
+			<revision name="0.2.0-1.5" status="release" pubdate="20190409052920" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="12">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
+				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
+				<metadata-artifact status="no" details="" size="6079" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\libfreenect2\ivy-0.2.0-1.5.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/bytedeco/libfreenect2/0.2.0-1.5/libfreenect2-0.2.0-1.5.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.2.0-1.5" rev-constraint-default="0.2.0-1.5" rev-constraint-dynamic="0.2.0-1.5" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="libfreenect2" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="23133" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\libfreenect2\srcs\libfreenect2-0.2.0-1.5-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bytedeco/libfreenect2/0.2.0-1.5/libfreenect2-0.2.0-1.5-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="org.bytedeco" name="libfreenect">
-			<revision name="0.5.7-1.5" status="release" pubdate="20190409052916" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="53">
+			<revision name="0.5.7-1.5" status="release" pubdate="20190409052916" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="54">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -202,8 +383,22 @@
 				</artifacts>
 			</revision>
 		</module>
+		<module organisation="org.bytedeco" name="libdc1394">
+			<revision name="2.2.5-1.5" status="release" pubdate="20190409052915" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="15">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
+				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
+				<metadata-artifact status="no" details="" size="6073" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\libdc1394\ivy-2.2.5-1.5.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/bytedeco/libdc1394/2.2.5-1.5/libdc1394-2.2.5-1.5.pom"/>
+				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.2.5-1.5" rev-constraint-default="2.2.5-1.5" rev-constraint-dynamic="2.2.5-1.5" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="libdc1394" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="37228" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\libdc1394\srcs\libdc1394-2.2.5-1.5-sources.jar">
+						<origin-location is-local="false" location="https://maven.aliyun.com/nexus/content/groups/public/org/bytedeco/libdc1394/2.2.5-1.5/libdc1394-2.2.5-1.5-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="org.bytedeco" name="flycapture">
-			<revision name="2.13.3.31-1.5" status="release" pubdate="20190409052914" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="49">
+			<revision name="2.13.3.31-1.5" status="release" pubdate="20190409052914" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="50">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -217,7 +412,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="ffmpeg">
-			<revision name="4.1.3-1.5" status="release" pubdate="20190409224827" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="46">
+			<revision name="4.1.3-1.5" status="release" pubdate="20190409224827" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="47">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -231,7 +426,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="opencv">
-			<revision name="4.0.1-1.5" status="release" pubdate="20190409154950" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="51">
+			<revision name="4.0.1-1.5" status="release" pubdate="20190409154950" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="52">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -244,198 +439,11 @@
 				</artifacts>
 			</revision>
 		</module>
-		<module organisation="org.seekloud" name="byteobject_2.12">
-			<revision name="0.1.1" status="release" pubdate="20180803091858" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/seekloud/byteobject" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="33">
-				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="2834" time="0" location="C:\Users\19783\.ivy2\cache\org.seekloud\byteobject_2.12\ivy-0.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/seekloud/byteobject_2.12/0.1.1/byteobject_2.12-0.1.1.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.1.1" rev-constraint-default="0.1.1" rev-constraint-dynamic="0.1.1" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="byteobject_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="7372" time="0" location="C:\Users\19783\.ivy2\cache\org.seekloud\byteobject_2.12\srcs\byteobject_2.12-0.1.1-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/seekloud/byteobject_2.12/0.1.1/byteobject_2.12-0.1.1-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="io.netty" name="netty-codec-http">
-			<revision name="4.0.46.Final" status="release" pubdate="20170429212751" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="32">
-				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="15417" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-codec-http\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-codec-http/4.0.46.Final/netty-codec-http-4.0.46.Final.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="netty-codec-http" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="359489" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-codec-http\srcs\netty-codec-http-4.0.46.Final-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/netty/netty-codec-http/4.0.46.Final/netty-codec-http-4.0.46.Final-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="io.netty" name="netty-handler">
-			<revision name="4.0.46.Final" status="release" pubdate="20170429212729" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="45">
-				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="16530" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-handler\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-handler/4.0.46.Final/netty-handler-4.0.46.Final.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="netty-handler" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="234219" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-handler\srcs\netty-handler-4.0.46.Final-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/netty/netty-handler/4.0.46.Final/netty-handler-4.0.46.Final-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="io.netty" name="netty-codec">
-			<revision name="4.0.46.Final" status="release" pubdate="20170429212650" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="54">
-				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="15839" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-codec\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-codec/4.0.46.Final/netty-codec-4.0.46.Final.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="netty-codec" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="137896" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-codec\srcs\netty-codec-4.0.46.Final-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/netty/netty-codec/4.0.46.Final/netty-codec-4.0.46.Final-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="org.bytedeco" name="videoinput">
-			<revision name="0.200-1.5" status="release" pubdate="20190409052909" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="28">
-				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
-				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
-				<metadata-artifact status="no" details="" size="6075" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\videoinput\ivy-0.200-1.5.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/bytedeco/videoinput/0.200-1.5/videoinput-0.200-1.5.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.200-1.5" rev-constraint-default="0.200-1.5" rev-constraint-dynamic="0.200-1.5" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="videoinput" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="16718" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\videoinput\srcs\videoinput-0.200-1.5-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bytedeco/videoinput/0.200-1.5/videoinput-0.200-1.5-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="com.typesafe.akka" name="akka-stream-typed_2.12">
-			<revision name="2.5.23" status="release" pubdate="20190521163244" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io/" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="25">
-				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="4238" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-stream-typed_2.12\ivy-2.5.23.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-stream-typed_2.12/2.5.23/akka-stream-typed_2.12-2.5.23.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.5.23" rev-constraint-default="2.5.23" rev-constraint-dynamic="2.5.23" callerrev="2020.01.09" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23"/>
-				<artifacts>
-					<artifact name="akka-stream-typed_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="11877" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-stream-typed_2.12\srcs\akka-stream-typed_2.12-2.5.23-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-stream-typed_2.12/2.5.23/akka-stream-typed_2.12-2.5.23-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="com.typesafe.akka" name="akka-actor-typed_2.12">
-			<revision name="2.5.23" status="release" pubdate="20190521162134" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io/" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="52">
-				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="3651" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-actor-typed_2.12\ivy-2.5.23.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor-typed_2.12/2.5.23/akka-actor-typed_2.12-2.5.23.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.5.23" rev-constraint-default="2.5.23" rev-constraint-dynamic="2.5.23" callerrev="2020.01.09" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23"/>
-				<artifacts>
-					<artifact name="akka-actor-typed_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="114635" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-actor-typed_2.12\srcs\akka-actor-typed_2.12-2.5.23-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor-typed_2.12/2.5.23/akka-actor-typed_2.12-2.5.23-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
 		<module organisation="shared" name="shared_2.12">
-			<revision name="2020.01.09" status="integration" pubdate="20200116133307" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="23">
+			<revision name="2020.01.09" status="integration" pubdate="20200129163917" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="24">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2020.01.09" rev-constraint-default="2020.01.09" rev-constraint-dynamic="2020.01.09" callerrev="2020.01.09"/>
 				<artifacts>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="org.scala-lang" name="scala-reflect">
-			<revision name="2.12.10" status="release" pubdate="20190911051922" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.scala-lang.org/" extra-info.apiURL="https://www.scala-lang.org/api/2.12.10/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="21">
-				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="2678" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang\scala-reflect\ivy-2.12.10.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.12.10/scala-reflect-2.12.10.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.12.10" rev-constraint-default="2.12.10" rev-constraint-dynamic="2.12.10" callerrev="2020.01.09" extra-info.apiURL="https://www.scala-lang.org/api/2.12.10/"/>
-				<artifacts>
-					<artifact name="scala-reflect" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="623839" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang\scala-reflect\srcs\scala-reflect-2.12.10-sources.jar">
-						<origin-location is-local="false" location="http://maven.aliyun.com/nexus/content/groups/public/org/scala-lang/scala-reflect/2.12.10/scala-reflect-2.12.10-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="org.spire-math" name="jawn-parser_2.12">
-			<revision name="0.11.1" status="release" pubdate="20180127074135" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/non/jawn" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="17">
-				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
-				<metadata-artifact status="no" details="" size="2914" time="0" location="C:\Users\19783\.ivy2\cache\org.spire-math\jawn-parser_2.12\ivy-0.11.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/spire-math/jawn-parser_2.12/0.11.1/jawn-parser_2.12-0.11.1.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.11.1" rev-constraint-default="0.11.1" rev-constraint-dynamic="0.11.1" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="jawn-parser_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="19113" time="0" location="C:\Users\19783\.ivy2\cache\org.spire-math\jawn-parser_2.12\srcs\jawn-parser_2.12-0.11.1-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/spire-math/jawn-parser_2.12/0.11.1/jawn-parser_2.12-0.11.1-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="net.java.dev.jna" name="jna">
-			<revision name="5.4.0" status="release" pubdate="20190720031751" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/java-native-access/jna" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="16">
-				<license name="LGPL, version 2.1" url="http://www.gnu.org/licenses/licenses.html"/>
-				<license name="Apache License v2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="no" details="" size="2598" time="0" location="C:\Users\19783\.ivy2\cache\net.java.dev.jna\jna\ivy-5.4.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.4.0/jna-5.4.0.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="5.4.0" rev-constraint-default="5.4.0" rev-constraint-dynamic="5.4.0" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="jna" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="155657" time="0" location="C:\Users\19783\.ivy2\cache\net.java.dev.jna\jna\srcs\jna-5.4.0-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.4.0/jna-5.4.0-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="org.asynchttpclient" name="async-http-client-netty-utils">
-			<revision name="2.0.32" status="release" pubdate="20170502032642" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="15">
-				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
-				<metadata-artifact status="no" details="" size="8382" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\async-http-client-netty-utils\ivy-2.0.32.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/asynchttpclient/async-http-client-netty-utils/2.0.32/async-http-client-netty-utils-2.0.32.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.0.32" rev-constraint-default="2.0.32" rev-constraint-dynamic="2.0.32" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="async-http-client-netty-utils" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="5405" time="0" location="C:\Users\19783\.ivy2\cache\org.asynchttpclient\async-http-client-netty-utils\srcs\async-http-client-netty-utils-2.0.32-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/asynchttpclient/async-http-client-netty-utils/2.0.32/async-http-client-netty-utils-2.0.32-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="org.bytedeco" name="libdc1394">
-			<revision name="2.2.5-1.5" status="release" pubdate="20190409052915" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="14">
-				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
-				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
-				<metadata-artifact status="no" details="" size="6073" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\libdc1394\ivy-2.2.5-1.5.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/bytedeco/libdc1394/2.2.5-1.5/libdc1394-2.2.5-1.5.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.2.5-1.5" rev-constraint-default="2.2.5-1.5" rev-constraint-dynamic="2.2.5-1.5" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="libdc1394" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="37228" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\libdc1394\srcs\libdc1394-2.2.5-1.5-sources.jar">
-						<origin-location is-local="false" location="https://maven.aliyun.com/nexus/content/groups/public/org/bytedeco/libdc1394/2.2.5-1.5/libdc1394-2.2.5-1.5-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="org.bytedeco" name="libfreenect2">
-			<revision name="0.2.0-1.5" status="release" pubdate="20190409052920" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="11">
-				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
-				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
-				<metadata-artifact status="no" details="" size="6079" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\libfreenect2\ivy-0.2.0-1.5.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/bytedeco/libfreenect2/0.2.0-1.5/libfreenect2-0.2.0-1.5.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.2.0-1.5" rev-constraint-default="0.2.0-1.5" rev-constraint-dynamic="0.2.0-1.5" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="libfreenect2" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="23133" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\libfreenect2\srcs\libfreenect2-0.2.0-1.5-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bytedeco/libfreenect2/0.2.0-1.5/libfreenect2-0.2.0-1.5-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="io.netty" name="netty-transport">
-			<revision name="4.0.46.Final" status="release" pubdate="20170429212636" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="9">
-				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="15152" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-transport\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-transport/4.0.46.Final/netty-transport-4.0.46.Final.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="netty-transport" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="257040" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-transport\srcs\netty-transport-4.0.46.Final-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/netty/netty-transport/4.0.46.Final/netty-transport-4.0.46.Final-sources.jar"/>
-					</artifact>
-				</artifacts>
-			</revision>
-		</module>
-		<module organisation="io.netty" name="netty-buffer">
-			<revision name="4.0.46.Final" status="release" pubdate="20170429212525" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="10">
-				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="15146" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-buffer\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-buffer/4.0.46.Final/netty-buffer-4.0.46.Final.pom"/>
-				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
-				<artifacts>
-					<artifact name="netty-buffer" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="149596" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-buffer\srcs\netty-buffer-4.0.46.Final-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/netty/netty-buffer/4.0.46.Final/netty-buffer-4.0.46.Final-sources.jar"/>
-					</artifact>
 				</artifacts>
 			</revision>
 		</module>
@@ -452,7 +460,7 @@
 			</revision>
 		</module>
 		<module organisation="com.typesafe" name="ssl-config-core_2.12">
-			<revision name="0.3.7" status="release" pubdate="20181025092015" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lightbend/ssl-config" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="36">
+			<revision name="0.3.7" status="release" pubdate="20181025092015" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lightbend/ssl-config" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="37">
 				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="3756" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe\ssl-config-core_2.12\ivy-0.3.7.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/ssl-config-core_2.12/0.3.7/ssl-config-core_2.12-0.3.7.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.3.7" rev-constraint-default="0.3.7" rev-constraint-dynamic="0.3.7" callerrev="2020.01.09"/>
@@ -464,7 +472,7 @@
 			</revision>
 		</module>
 		<module organisation="org.scala-lang.modules" name="scala-parser-combinators_2.12">
-			<revision name="1.1.1" status="release" pubdate="20180609090928" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="13">
+			<revision name="1.1.1" status="release" pubdate="20180609090928" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="14">
 				<license name="BSD 3-clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
 				<metadata-artifact status="no" details="" size="2964" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang.modules\scala-parser-combinators_2.12\ivy-1.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.12/1.1.1/scala-parser-combinators_2.12-1.1.1.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="1.1.1" rev-constraint-default="1.1.1" rev-constraint-dynamic="1.1.1" callerrev="2020.01.09"/>
@@ -476,7 +484,7 @@
 			</revision>
 		</module>
 		<module organisation="org.reactivestreams" name="reactive-streams">
-			<revision name="1.0.2" status="release" pubdate="20171219040638" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.reactive-streams.org/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="19">
+			<revision name="1.0.2" status="release" pubdate="20171219040638" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.reactive-streams.org/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="20">
 				<license name="CC0" url="http://creativecommons.org/publicdomain/zero/1.0/"/>
 				<metadata-artifact status="no" details="" size="2553" time="0" location="C:\Users\19783\.ivy2\cache\org.reactivestreams\reactive-streams\ivy-1.0.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/reactivestreams/reactive-streams/1.0.2/reactive-streams-1.0.2.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="1.0.2" rev-constraint-default="1.0.2" rev-constraint-dynamic="1.0.2" callerrev="2020.01.09"/>
@@ -488,7 +496,7 @@
 			</revision>
 		</module>
 		<module organisation="com.typesafe.akka" name="akka-protobuf_2.12">
-			<revision name="2.5.23" status="release" pubdate="20190521161916" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io/" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="22">
+			<revision name="2.5.23" status="release" pubdate="20190521161916" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io/" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="23">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<metadata-artifact status="no" details="" size="3004" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-protobuf_2.12\ivy-2.5.23.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-protobuf_2.12/2.5.23/akka-protobuf_2.12-2.5.23.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.5.23" rev-constraint-default="2.5.23" rev-constraint-dynamic="2.5.23" callerrev="2020.01.09" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23"/>
@@ -514,7 +522,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="javacpp">
-			<revision name="1.5" status="release" pubdate="20190408202659" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://bytedeco.org/javacpp/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="40">
+			<revision name="1.5" status="release" pubdate="20190408202659" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://bytedeco.org/javacpp/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="41">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -540,7 +548,7 @@
 			</revision>
 		</module>
 		<module organisation="com.chuusai" name="shapeless_2.12">
-			<revision name="2.3.3" status="release" pubdate="20171231225153" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/shapeless" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="18">
+			<revision name="2.3.3" status="release" pubdate="20171231225153" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/shapeless" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="19">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="3267" time="0" location="C:\Users\19783\.ivy2\cache\com.chuusai\shapeless_2.12\ivy-2.3.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/chuusai/shapeless_2.12/2.3.3/shapeless_2.12-2.3.3.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.3.3" rev-constraint-default="2.3.3" rev-constraint-dynamic="2.3.3" callerrev="2020.01.09"/>
@@ -552,7 +560,7 @@
 			</revision>
 		</module>
 		<module organisation="org.typelevel" name="macro-compat_2.12">
-			<revision name="1.1.1" status="release" pubdate="20161102164258" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/macro-compat" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="34">
+			<revision name="1.1.1" status="release" pubdate="20161102164258" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/macro-compat" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="35">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="2999" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\macro-compat_2.12\ivy-1.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_2.12/1.1.1/macro-compat_2.12-1.1.1.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="1.1.1" rev-constraint-default="1.1.1" rev-constraint-dynamic="1.1.1" callerrev="2020.01.09"/>
@@ -564,7 +572,7 @@
 			</revision>
 		</module>
 		<module organisation="io.circe" name="circe-core_2.12">
-			<revision name="0.9.3" status="release" pubdate="20180328092159" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="12">
+			<revision name="0.9.3" status="release" pubdate="20180328092159" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="13">
 				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<metadata-artifact status="no" details="" size="3117" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-core_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-core_2.12/0.9.3/circe-core_2.12-0.9.3.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="2020.01.09" extra-info.apiURL="https://circe.github.io/circe/api/"/>
@@ -576,7 +584,7 @@
 			</revision>
 		</module>
 		<module organisation="org.typelevel" name="cats-core_2.12">
-			<revision name="1.0.1" status="release" pubdate="20171231204951" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="27">
+			<revision name="1.0.1" status="release" pubdate="20171231204951" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="28">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
 				<metadata-artifact status="no" details="" size="3378" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\cats-core_2.12\ivy-1.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/cats-core_2.12/1.0.1/cats-core_2.12-1.0.1.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="1.0.1" rev-constraint-default="1.0.1" rev-constraint-dynamic="1.0.1" callerrev="2020.01.09" extra-info.apiURL="http://typelevel.org/cats/api/"/>
@@ -588,7 +596,7 @@
 			</revision>
 		</module>
 		<module organisation="org.typelevel" name="cats-kernel_2.12">
-			<revision name="1.0.1" status="release" pubdate="20171231204830" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="20">
+			<revision name="1.0.1" status="release" pubdate="20171231204830" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="21">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
 				<metadata-artifact status="no" details="" size="2812" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\cats-kernel_2.12\ivy-1.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/cats-kernel_2.12/1.0.1/cats-kernel_2.12-1.0.1.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="1.0.1" rev-constraint-default="1.0.1" rev-constraint-dynamic="1.0.1" callerrev="2020.01.09" extra-info.apiURL="http://typelevel.org/cats/api/"/>
@@ -600,7 +608,7 @@
 			</revision>
 		</module>
 		<module organisation="org.typelevel" name="cats-macros_2.12">
-			<revision name="1.0.1" status="release" pubdate="20171231204800" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="29">
+			<revision name="1.0.1" status="release" pubdate="20171231204800" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="30">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
 				<metadata-artifact status="no" details="" size="2959" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\cats-macros_2.12\ivy-1.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/cats-macros_2.12/1.0.1/cats-macros_2.12-1.0.1.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="1.0.1" rev-constraint-default="1.0.1" rev-constraint-dynamic="1.0.1" callerrev="2020.01.09" extra-info.apiURL="http://typelevel.org/cats/api/"/>
@@ -612,7 +620,7 @@
 			</revision>
 		</module>
 		<module organisation="org.typelevel" name="machinist_2.12">
-			<revision name="0.6.2" status="release" pubdate="20170601112738" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/typelevel/machinist" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="50">
+			<revision name="0.6.2" status="release" pubdate="20170601112738" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/typelevel/machinist" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="51">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
 				<metadata-artifact status="no" details="" size="2819" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\machinist_2.12\ivy-0.6.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/machinist_2.12/0.6.2/machinist_2.12-0.6.2.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.6.2" rev-constraint-default="0.6.2" rev-constraint-dynamic="0.6.2" callerrev="2020.01.09"/>
@@ -624,7 +632,7 @@
 			</revision>
 		</module>
 		<module organisation="io.circe" name="circe-numbers_2.12">
-			<revision name="0.9.3" status="release" pubdate="20180328092118" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="31">
+			<revision name="0.9.3" status="release" pubdate="20180328092118" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="32">
 				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<metadata-artifact status="no" details="" size="2833" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-numbers_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-numbers_2.12/0.9.3/circe-numbers_2.12-0.9.3.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="2020.01.09" extra-info.apiURL="https://circe.github.io/circe/api/"/>
@@ -660,7 +668,7 @@
 			</revision>
 		</module>
 		<module organisation="io.netty" name="netty-common">
-			<revision name="4.0.46.Final" status="release" pubdate="20170429212425" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="26">
+			<revision name="4.0.46.Final" status="release" pubdate="20170429212425" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="27">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<metadata-artifact status="no" details="" size="16942" time="0" location="C:\Users\19783\.ivy2\cache\io.netty\netty-common\ivy-4.0.46.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/netty/netty-common/4.0.46.Final/netty-common-4.0.46.Final.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="4.0.46.Final" rev-constraint-default="4.0.46.Final" rev-constraint-dynamic="4.0.46.Final" callerrev="2020.01.09"/>
@@ -696,7 +704,7 @@
 			</revision>
 		</module>
 		<module organisation="ch.qos.logback" name="logback-classic">
-			<revision name="1.2.3" status="release" pubdate="20170401032753" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="24">
+			<revision name="1.2.3" status="release" pubdate="20170401032753" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="25">
 				<license name="Eclipse Public License - v 1.0" url="http://www.eclipse.org/legal/epl-v10.html"/>
 				<license name="GNU Lesser General Public License" url="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"/>
 				<metadata-artifact status="no" details="" size="10512" time="0" location="C:\Users\19783\.ivy2\cache\ch.qos.logback\logback-classic\ivy-1.2.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.pom"/>
@@ -709,7 +717,7 @@
 			</revision>
 		</module>
 		<module organisation="ch.qos.logback" name="logback-core">
-			<revision name="1.2.3" status="release" pubdate="20170401032715" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="60">
+			<revision name="1.2.3" status="release" pubdate="20170401032715" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="61">
 				<license name="Eclipse Public License - v 1.0" url="http://www.eclipse.org/legal/epl-v10.html"/>
 				<license name="GNU Lesser General Public License" url="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"/>
 				<metadata-artifact status="no" details="" size="7994" time="0" location="C:\Users\19783\.ivy2\cache\ch.qos.logback\logback-core\ivy-1.2.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.pom"/>
@@ -722,7 +730,7 @@
 			</revision>
 		</module>
 		<module organisation="com.typesafe.akka" name="akka-actor_2.12">
-			<revision name="2.5.23" status="release" pubdate="20190521162012" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io/" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="55">
+			<revision name="2.5.23" status="release" pubdate="20190521162012" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io/" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="56">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<metadata-artifact status="no" details="" size="3298" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-actor_2.12\ivy-2.5.23.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-actor_2.12/2.5.23/akka-actor_2.12-2.5.23.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="2.5.23" rev-constraint-default="2.5.23" rev-constraint-dynamic="2.5.23" callerrev="2020.01.09" extra-info.apiURL="https://doc.akka.io/api/akka/2.5.23"/>
@@ -734,7 +742,7 @@
 			</revision>
 		</module>
 		<module organisation="org.scala-lang.modules" name="scala-java8-compat_2.12">
-			<revision name="0.8.0" status="release" pubdate="20161030061227" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="61">
+			<revision name="0.8.0" status="release" pubdate="20161030061227" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="62">
 				<license name="BSD 3-clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
 				<metadata-artifact status="no" details="" size="3072" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang.modules\scala-java8-compat_2.12\ivy-0.8.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/modules/scala-java8-compat_2.12/0.8.0/scala-java8-compat_2.12-0.8.0.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="0.8.0" rev-constraint-default="0.8.0" rev-constraint-dynamic="0.8.0" callerrev="2020.01.09"/>
@@ -746,7 +754,7 @@
 			</revision>
 		</module>
 		<module organisation="com.typesafe" name="config">
-			<revision name="1.3.3" status="release" pubdate="20180221220821" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lightbend/config" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="41">
+			<revision name="1.3.3" status="release" pubdate="20180221220821" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lightbend/config" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="42">
 				<license name="Apache License, Version 2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
 				<metadata-artifact status="no" details="" size="2909" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe\config\ivy-1.3.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/config/1.3.3/config-1.3.3.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="1.3.3" rev-constraint-default="1.3.3" rev-constraint-dynamic="1.3.3" callerrev="2020.01.09"/>
@@ -782,7 +790,7 @@
 			</revision>
 		</module>
 		<module organisation="com.typesafe.akka" name="akka-parsing_2.12">
-			<revision name="10.1.8" status="release" pubdate="20190321193641" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io" extra-info.apiURL="https://doc.akka.io/api/akka-http/10.1.8/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="30">
+			<revision name="10.1.8" status="release" pubdate="20190321193641" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://akka.io" extra-info.apiURL="https://doc.akka.io/api/akka-http/10.1.8/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="31">
 				<license name="Apache-2.0" url="https://opensource.org/licenses/Apache-2.0"/>
 				<metadata-artifact status="no" details="" size="3214" time="0" location="C:\Users\19783\.ivy2\cache\com.typesafe.akka\akka-parsing_2.12\ivy-10.1.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/typesafe/akka/akka-parsing_2.12/10.1.8/akka-parsing_2.12-10.1.8.pom"/>
 				<caller organisation="client" name="client$sources" conf="compile-internal, compile, provided, optional" rev="10.1.8" rev-constraint-default="10.1.8" rev-constraint-dynamic="10.1.8" callerrev="2020.01.09" extra-info.apiURL="https://doc.akka.io/api/akka-http/10.1.8/"/>

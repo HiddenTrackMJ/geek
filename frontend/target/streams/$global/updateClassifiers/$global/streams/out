@@ -3849,43 +3849,43 @@
 [debug] == resolving dependencies frontend#frontend$sources;2020.01.09->org.eclipse.jetty#jetty-http;8.1.16.v20140903 [phantom-js-jetty->master]
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.10!scala-library.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-js#scalajs-library_2.12;0.6.31!scalajs-library_2.12.jar(src)
+[debug] 	[NOT REQUIRED] in.nvilla#monadic-html_sjs0.6_2.12;0.4.0!monadic-html_sjs0.6_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.webjars.bower#video-js;5.7.1!video-js.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#cats-core_sjs0.6_2.12;1.0.1!cats-core_sjs0.6_2.12.jar(src)
 [debug] 	[NOT REQUIRED] com.github.karasiq#scalajs-videojs_sjs0.6_2.12;1.0.5!scalajs-videojs_sjs0.6_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.10!scala-library.jar(src)
-[debug] 	[NOT REQUIRED] org.webjars.bower#video-js;5.7.1!video-js.jar(src)
-[debug] 	[NOT REQUIRED] in.nvilla#monadic-html_sjs0.6_2.12;0.4.0!monadic-html_sjs0.6_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#machinist_sjs0.6_2.12;0.6.2!machinist_sjs0.6_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.typelevel#cats-macros_sjs0.6_2.12;1.0.1!cats-macros_sjs0.6_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-js#scalajs-dom_sjs0.6_2.12;0.9.7!scalajs-dom_sjs0.6_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.typelevel#cats-macros_sjs0.6_2.12;1.0.1!cats-macros_sjs0.6_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.10!scala-reflect.jar(src)
-[debug] 	[NOT REQUIRED] in.nvilla#monadic-rx_sjs0.6_2.12;0.4.0!monadic-rx_sjs0.6_2.12.jar(src)
 [debug] 	[NOT REQUIRED] io.circe#circe-parser_sjs0.6_2.12;0.9.3!circe-parser_sjs0.6_2.12.jar(src)
 [debug] 	[NOT REQUIRED] io.circe#circe-numbers_sjs0.6_2.12;0.9.3!circe-numbers_sjs0.6_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.typelevel#macro-compat_2.12;1.1.1!macro-compat_2.12.jar(src)
 [debug] 	[NOT REQUIRED] com.lihaoyi#sourcecode_sjs0.6_2.12;0.1.4!sourcecode_sjs0.6_2.12.jar(src)
 [debug] 	[NOT REQUIRED] com.lihaoyi#scalatags_sjs0.6_2.12;0.6.7!scalatags_sjs0.6_2.12.jar(src)
 [debug] 	[NOT REQUIRED] io.circe#circe-generic_sjs0.6_2.12;0.9.3!circe-generic_sjs0.6_2.12.jar(src)
-[debug] 	[NOT REQUIRED] com.chuusai#shapeless_sjs0.6_2.12;2.3.3!shapeless_sjs0.6_2.12.jar(src)
 [debug] 	[NOT REQUIRED] io.circe#circe-scalajs_sjs0.6_2.12;0.9.3!circe-scalajs_sjs0.6_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.typelevel#macro-compat_2.12;1.1.1!macro-compat_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#macro-compat_sjs0.6_2.12;1.1.1!macro-compat_sjs0.6_2.12.jar(src)
+[debug] 	[NOT REQUIRED] io.circe#circe-core_sjs0.6_2.12;0.9.3!circe-core_sjs0.6_2.12.jar(src)
+[debug] 	[NOT REQUIRED] com.chuusai#shapeless_sjs0.6_2.12;2.3.3!shapeless_sjs0.6_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#cats-kernel_sjs0.6_2.12;1.0.1!cats-kernel_sjs0.6_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-js#scalajs-test-bridge_2.12;0.6.31!scalajs-test-bridge_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.10!scala-compiler.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-js#scalajs-test-interface_2.12;0.6.31!scalajs-test-interface_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.10!scala-compiler.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-js#scalajs-compiler_2.12.10;0.6.31!scalajs-compiler_2.12.10.jar(src)
 [debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.12!jansi.jar(src)
 [debug] 	[NOT REQUIRED] jline#jline;2.14.6!jline.jar(src)
 [debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-io;8.1.16.v20140903!jetty-io.jar(src)
-[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-websocket;8.1.16.v20140903!jetty-websocket.jar(src)
-[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-server;8.1.16.v20140903!jetty-server.jar(src)
-[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-util;8.1.16.v20140903!jetty-util.jar(src)
-[debug] 	[NOT REQUIRED] io.circe#circe-core_sjs0.6_2.12;0.9.3!circe-core_sjs0.6_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.eclipse.jetty.orbit#javax.servlet;3.0.0.v201112011016!javax.servlet.jar(src)
-[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-http;8.1.16.v20140903!jetty-http.jar(src)
 [debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-continuation;8.1.16.v20140903!jetty-continuation.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-js#scalajs-compiler_2.12.10;0.6.31!scalajs-compiler_2.12.10.jar(src)
-[debug] :: resolution report :: resolve 557ms :: artifacts dl 15ms
+[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-websocket;8.1.16.v20140903!jetty-websocket.jar(src)
+[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-util;8.1.16.v20140903!jetty-util.jar(src)
+[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-http;8.1.16.v20140903!jetty-http.jar(src)
+[debug] 	[NOT REQUIRED] org.eclipse.jetty.orbit#javax.servlet;3.0.0.v201112011016!javax.servlet.jar(src)
+[debug] 	[NOT REQUIRED] in.nvilla#monadic-rx_sjs0.6_2.12;0.4.0!monadic-rx_sjs0.6_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-server;8.1.16.v20140903!jetty-server.jar(src)
+[debug] :: resolution report :: resolve 332ms :: artifacts dl 12ms
 [debug] 	report for frontend#frontend$sources;2020.01.09 compile produced in F:\Scala\workspace\geek\frontend\target\scala-2.12\resolution-cache\reports\frontend-frontend$sources-compile.xml
 [debug] 	report for frontend#frontend$sources;2020.01.09 runtime produced in F:\Scala\workspace\geek\frontend\target\scala-2.12\resolution-cache\reports\frontend-frontend$sources-runtime.xml
 [debug] 	report for frontend#frontend$sources;2020.01.09 test produced in F:\Scala\workspace\geek\frontend\target\scala-2.12\resolution-cache\reports\frontend-frontend$sources-test.xml
@@ -3898,4 +3898,4 @@
 [debug] 	report for frontend#frontend$sources;2020.01.09 pom produced in F:\Scala\workspace\geek\frontend\target\scala-2.12\resolution-cache\reports\frontend-frontend$sources-pom.xml
 [debug] 	report for frontend#frontend$sources;2020.01.09 scala-tool produced in F:\Scala\workspace\geek\frontend\target\scala-2.12\resolution-cache\reports\frontend-frontend$sources-scala-tool.xml
 [debug] 	report for frontend#frontend$sources;2020.01.09 phantom-js-jetty produced in F:\Scala\workspace\geek\frontend\target\scala-2.12\resolution-cache\reports\frontend-frontend$sources-phantom-js-jetty.xml
-[debug] 	resolve done (557ms resolve - 15ms download)
+[debug] 	resolve done (332ms resolve - 12ms download)

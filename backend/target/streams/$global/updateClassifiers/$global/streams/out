@@ -169,6 +169,21 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->default]
+[debug] sbt-chain: Checking cache for: dependency: com.h2database#h2;1.4.197 {compile=[default, compile, runtime, default(compile), master], runtime=[default, compile, runtime, default(compile), master], test=[default, compile, runtime, default(compile), master], compile-internal=[default, compile, runtime, default(compile), master], runtime-internal=[default, compile, runtime, default(compile), master], test-internal=[default, compile, runtime, default(compile), master]}
+[debug] sbt-chain: module revision found in cache: com.h2database#h2;1.4.197
+[debug] 	found com.h2database#h2;1.4.197 in sbt-chain
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->default]
 [debug] sbt-chain: Checking cache for: dependency: com.sun.mail#javax.mail;1.5.3 {compile=[default, compile, runtime, default(compile), master], runtime=[default, compile, runtime, default(compile), master], test=[default, compile, runtime, default(compile), master], compile-internal=[default, compile, runtime, default(compile), master], runtime-internal=[default, compile, runtime, default(compile), master], test-internal=[default, compile, runtime, default(compile), master]}
 [debug] sbt-chain: module revision found in cache: com.sun.mail#javax.mail;1.5.3
@@ -1156,6 +1171,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->compile]
@@ -1927,6 +1954,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime->compile]
@@ -2702,6 +2741,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->compile]
@@ -3466,6 +3517,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime->compile]
@@ -4257,6 +4320,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->org.scalactic#scalactic_2.12;3.0.7 [test->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->org.scalactic#scalactic_2.12;3.0.7 [test->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->org.scalactic#scalactic_2.12;3.0.7 [test->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [test->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [test->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [test->compile]
@@ -5077,6 +5152,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->compile]
@@ -5850,6 +5937,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile-internal->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile-internal->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile-internal->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile-internal->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile-internal->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile-internal->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile-internal->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile-internal->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile-internal->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile-internal->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile-internal->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile-internal->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile-internal->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile-internal->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile-internal->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile-internal->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile-internal->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile-internal->compile]
@@ -6625,6 +6724,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->compile]
@@ -7396,6 +7507,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime->compile]
@@ -8168,6 +8291,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime-internal->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime-internal->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime-internal->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime-internal->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime-internal->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime-internal->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime-internal->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime-internal->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime-internal->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime-internal->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime-internal->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime-internal->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime-internal->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime-internal->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime-internal->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime-internal->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime-internal->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime-internal->compile]
@@ -8944,6 +9079,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [compile->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [compile->compile]
@@ -9720,6 +9867,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->joda-time#joda-time;2.9.7 [runtime->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [runtime->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [runtime->compile]
@@ -10516,6 +10675,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->org.scalactic#scalactic_2.12;3.0.7 [test->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->org.scalactic#scalactic_2.12;3.0.7 [test->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->org.scalactic#scalactic_2.12;3.0.7 [test->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [test->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [test->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [test->compile]
@@ -11341,6 +11512,18 @@
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->org.scalactic#scalactic_2.12;3.0.7 [test-internal->compile]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->org.scalactic#scalactic_2.12;3.0.7 [test-internal->compile(*)]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->org.scalactic#scalactic_2.12;3.0.7 [test-internal->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test-internal->default]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test-internal->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test-internal->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test-internal->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test-internal->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test-internal->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test-internal->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test-internal->default(compile)]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test-internal->runtime]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test-internal->compile]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test-internal->master]
+[debug] == resolving dependencies backend#backend$sources;2020.01.09->com.h2database#h2;1.4.197 [test-internal->master]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [test-internal->default]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [test-internal->runtime]
 [debug] == resolving dependencies backend#backend$sources;2020.01.09->com.sun.mail#javax.mail;1.5.3 [test-internal->compile]
@@ -12085,91 +12268,92 @@
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-slf4j_2.12;2.5.23!akka-slf4j_2.12.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.slick#slick_2.12;3.3.0!slick_2.12.jar(src)
+[debug] 	[NOT REQUIRED] io.netty#netty-transport-native-unix-common;4.1.33.Final!netty-transport-native-unix-common.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-http-core_2.12;10.1.8!akka-http-core_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.asynchttpclient#async-http-client;2.8.1!async-http-client.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.slick#slick_2.12;3.3.0!slick_2.12.jar(src)
-[debug] 	[NOT REQUIRED] javax.activation#activation;1.1!activation.jar(src)
-[debug] 	[NOT REQUIRED] io.netty#netty-transport-native-unix-common;4.1.33.Final!netty-transport-native-unix-common.jar(src)
-[debug] 	[NOT REQUIRED] org.asynchttpclient#async-http-client-netty-utils;2.8.1!async-http-client-netty-utils.jar(src)
-[debug] 	[NOT REQUIRED] io.netty#netty-codec-dns;4.1.33.Final!netty-codec-dns.jar(src)
-[debug] 	[NOT REQUIRED] joda-time#joda-time;2.9.7!joda-time.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#librealsense;1.12.1-1.5!librealsense.jar(src)
-[debug] 	[NOT REQUIRED] com.sun.mail#javax.mail;1.5.3!javax.mail.jar(src)
-[debug] 	[NOT REQUIRED] io.circe#circe-generic_2.12;0.9.3!circe-generic_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.10!scala-library.jar(src)
-[debug] 	[NOT REQUIRED] io.netty#netty-transport;4.1.33.Final!netty-transport.jar(src)
+[debug] 	[NOT REQUIRED] org.asynchttpclient#async-http-client-netty-utils;2.8.1!async-http-client-netty-utils.jar(src)
+[debug] 	[NOT REQUIRED] javax.activation#activation;1.1!activation.jar(src)
+[debug] 	[NOT REQUIRED] io.netty#netty-codec-dns;4.1.33.Final!netty-codec-dns.jar(src)
+[debug] 	[NOT REQUIRED] io.circe#circe-generic_2.12;0.9.3!circe-generic_2.12.jar(src)
+[debug] 	[NOT REQUIRED] joda-time#joda-time;2.9.7!joda-time.jar(src)
+[debug] 	[NOT REQUIRED] com.sun.mail#javax.mail;1.5.3!javax.mail.jar(src)
 [debug] 	[NOT REQUIRED] ch.megard#akka-http-cors_2.12;0.4.0!akka-http-cors_2.12.jar(src)
+[debug] 	[NOT REQUIRED] com.h2database#h2;1.4.197!h2.jar(src)
+[debug] 	[NOT REQUIRED] io.netty#netty-transport;4.1.33.Final!netty-transport.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-stream_2.12;2.5.23!akka-stream_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#librealsense;1.12.1-1.5!librealsense.jar(src)
 [debug] 	[NOT REQUIRED] io.netty#netty-buffer;4.1.33.Final!netty-buffer.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#libfreenect2;0.2.0-1.5!libfreenect2.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.12;1.1.1!scala-parser-combinators_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#libdc1394;2.2.5-1.5!libdc1394.jar(src)
 [debug] 	[NOT REQUIRED] io.circe#circe-core_2.12;0.9.3!circe-core_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#libdc1394;2.2.5-1.5!libdc1394.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.12;1.1.1!scala-parser-combinators_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.postgresql#postgresql;9.4.1208!postgresql.jar(src)
-[debug] 	[NOT REQUIRED] io.netty#netty-transport-native-epoll;4.1.33.Final!netty-transport-native-epoll.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-http-testkit_2.12;10.1.8!akka-http-testkit_2.12.jar(src)
 [debug] 	[NOT REQUIRED] io.netty#netty-common;4.1.33.Final!netty-common.jar(src)
 [debug] 	[NOT REQUIRED] io.netty#netty-codec-socks;4.1.33.Final!netty-codec-socks.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(src)
+[debug] 	[NOT REQUIRED] io.netty#netty-transport-native-epoll;4.1.33.Final!netty-transport-native-epoll.jar(src)
 [debug] 	[NOT REQUIRED] org.spire-math#jawn-parser_2.12;0.11.1!jawn-parser_2.12.jar(src)
-[debug] 	[NOT REQUIRED] com.zaxxer#HikariCP;2.7.9!HikariCP.jar(src)
-[debug] 	[NOT REQUIRED] io.netty#netty-handler;4.1.33.Final!netty-handler.jar(src)
 [debug] 	[NOT REQUIRED] com.chuusai#shapeless_2.12;2.3.3!shapeless_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.reactivestreams#reactive-streams;1.0.2!reactive-streams.jar(src)
+[debug] 	[NOT REQUIRED] io.netty#netty-handler;4.1.33.Final!netty-handler.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#cats-kernel_2.12;1.0.1!cats-kernel_2.12.jar(src)
 [debug] 	[NOT REQUIRED] io.netty#netty-resolver;4.1.33.Final!netty-resolver.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.slick#slick-codegen_2.12;3.3.0!slick-codegen_2.12.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-protobuf_2.12;2.5.23!akka-protobuf_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.joda#joda-convert;1.2!joda-convert.jar(src)
-[debug] 	[NOT REQUIRED] ch.qos.logback#logback-classic;1.2.3!logback-classic.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.netty#netty-reactive-streams;2.0.0!netty-reactive-streams.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-stream-typed_2.12;2.5.23!akka-stream-typed_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.10!scala-reflect.jar(src)
-[debug] 	[NOT REQUIRED] org.typelevel#cats-core_2.12;1.0.1!cats-core_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#videoinput;0.200-1.5!videoinput.jar(src)
+[debug] 	[NOT REQUIRED] com.zaxxer#HikariCP;2.7.9!HikariCP.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.slick#slick-codegen_2.12;3.3.0!slick-codegen_2.12.jar(src)
+[debug] 	[NOT REQUIRED] ch.qos.logback#logback-classic;1.2.3!logback-classic.jar(src)
 [debug] 	[NOT REQUIRED] org.slf4j#slf4j-api;1.7.25!slf4j-api.jar(src)
+[debug] 	[NOT REQUIRED] org.joda#joda-convert;1.2!joda-convert.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.netty#netty-reactive-streams;2.0.0!netty-reactive-streams.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-protobuf_2.12;2.5.23!akka-protobuf_2.12.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-stream-typed_2.12;2.5.23!akka-stream-typed_2.12.jar(src)
 [debug] 	[NOT REQUIRED] io.netty#netty-codec;4.1.33.Final!netty-codec.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#videoinput;0.200-1.5!videoinput.jar(src)
+[debug] 	[NOT REQUIRED] org.typelevel#cats-core_2.12;1.0.1!cats-core_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#cats-macros_2.12;1.0.1!cats-macros_2.12.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-parsing_2.12;10.1.8!akka-parsing_2.12.jar(src)
 [debug] 	[NOT REQUIRED] io.circe#circe-numbers_2.12;0.9.3!circe-numbers_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.seekloud#byteobject_2.12;0.1.1!byteobject_2.12.jar(src)
-[debug] 	[NOT REQUIRED] io.netty#netty-handler-proxy;4.1.33.Final!netty-handler-proxy.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#macro-compat_2.12;1.1.1!macro-compat_2.12.jar(src)
+[debug] 	[NOT REQUIRED] io.netty#netty-handler-proxy;4.1.33.Final!netty-handler-proxy.jar(src)
+[debug] 	[NOT REQUIRED] org.seekloud#byteobject_2.12;0.1.1!byteobject_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#javacv;1.5!javacv.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#tesseract;4.0.0-1.5!tesseract.jar(src)
-[debug] 	[NOT REQUIRED] com.sun.activation#javax.activation;1.2.0!javax.activation.jar(src)
+[debug] 	[NOT REQUIRED] commons-codec#commons-codec;1.10!commons-codec.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#javacpp;1.5!javacpp.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe#ssl-config-core_2.12;0.3.7!ssl-config-core_2.12.jar(src)
-[debug] 	[NOT REQUIRED] io.netty#netty-codec-http;4.1.33.Final!netty-codec-http.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#ffmpeg;4.1.3-1.5!ffmpeg.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#leptonica;1.78.0-1.5!leptonica.jar(src)
+[debug] 	[NOT REQUIRED] com.sun.activation#javax.activation;1.2.0!javax.activation.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe#config;1.3.3!config.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-http_2.12;10.1.8!akka-http_2.12.jar(src)
-[debug] 	[NOT REQUIRED] commons-codec#commons-codec;1.10!commons-codec.jar(src)
+[debug] 	[NOT REQUIRED] io.netty#netty-codec-http;4.1.33.Final!netty-codec-http.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#leptonica;1.78.0-1.5!leptonica.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#ffmpeg;4.1.3-1.5!ffmpeg.jar(src)
 [debug] 	[NOT REQUIRED] io.netty#netty-resolver-dns;4.1.33.Final!netty-resolver-dns.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#flandmark;1.07-1.5!flandmark.jar(src)
-[debug] 	[NOT REQUIRED] org.typelevel#machinist_2.12;0.6.2!machinist_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#flycapture;2.13.3.31-1.5!flycapture.jar(src)
 [debug] 	[NOT REQUIRED] com.github.nscala-time#nscala-time_2.12;2.16.0!nscala-time_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#flandmark;1.07-1.5!flandmark.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#flycapture;2.13.3.31-1.5!flycapture.jar(src)
+[debug] 	[NOT REQUIRED] org.typelevel#machinist_2.12;0.6.2!machinist_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#opencv;4.0.1-1.5!opencv.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-actor-typed_2.12;2.5.23!akka-actor-typed_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#libfreenect;0.5.7-1.5!libfreenect.jar(src)
+[debug] 	[NOT REQUIRED] net.sf.ehcache#ehcache;2.10.6!ehcache.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#artoolkitplus;2.3.1-1.5!artoolkitplus.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-actor_2.12;2.5.23!akka-actor_2.12.jar(src)
 [debug] 	[NOT REQUIRED] io.circe#circe-jawn_2.12;0.9.3!circe-jawn_2.12.jar(src)
-[debug] 	[NOT REQUIRED] net.sf.ehcache#ehcache;2.10.6!ehcache.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-java8-compat_2.12;0.8.0!scala-java8-compat_2.12.jar(src)
 [debug] 	[NOT REQUIRED] ch.qos.logback#logback-core;1.2.3!logback-core.jar(src)
-[debug] 	[NOT REQUIRED] io.circe#circe-parser_2.12;0.9.3!circe-parser_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-java8-compat_2.12;0.8.0!scala-java8-compat_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.1.0!scala-xml_2.12.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-actor-testkit-typed_2.12;2.5.23!akka-actor-testkit-typed_2.12.jar(src)
+[debug] 	[NOT REQUIRED] io.circe#circe-parser_2.12;0.9.3!circe-parser_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scalactic#scalactic_2.12;3.0.7!scalactic_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scalatest#scalatest_2.12;3.0.7!scalatest_2.12.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-testkit_2.12;2.5.23!akka-testkit_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.12!jansi.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.10!scala-compiler.jar(src)
 [debug] 	[NOT REQUIRED] jline#jline;2.14.6!jline.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#libfreenect;0.5.7-1.5!libfreenect.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-actor-typed_2.12;2.5.23!akka-actor-typed_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#artoolkitplus;2.3.1-1.5!artoolkitplus.jar(src)
-[debug] :: resolution report :: resolve 5856ms :: artifacts dl 106ms
+[debug] :: resolution report :: resolve 1127ms :: artifacts dl 27ms
 [debug] 	report for backend#backend$sources;2020.01.09 compile produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend$sources-compile.xml
 [debug] 	report for backend#backend$sources;2020.01.09 runtime produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend$sources-runtime.xml
 [debug] 	report for backend#backend$sources;2020.01.09 test produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend$sources-test.xml
@@ -12181,4 +12365,4 @@
 [debug] 	report for backend#backend$sources;2020.01.09 plugin produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend$sources-plugin.xml
 [debug] 	report for backend#backend$sources;2020.01.09 pom produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend$sources-pom.xml
 [debug] 	report for backend#backend$sources;2020.01.09 scala-tool produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend$sources-scala-tool.xml
-[debug] 	resolve done (5856ms resolve - 106ms download)
+[debug] 	resolve done (1127ms resolve - 27ms download)

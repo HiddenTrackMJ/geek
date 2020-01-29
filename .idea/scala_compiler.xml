@@ -3,7 +3,7 @@
   <component name="ScalaCompilerConfiguration">
     <option name="incrementalityType" value="SBT" />
     <profile name="sbt 1" modules="org.seekloud.geek,root" />
-    <profile name="sbt 2" modules="sharedJS">
+    <profile name="sbt 2" modules="frontend,sharedJS">
       <option name="featureWarnings" value="true" />
       <plugins>
         <plugin path="C:\Users\19783\.ivy2\cache\org.scala-js\scalajs-compiler_2.12.10\jars\scalajs-compiler_2.12.10-0.6.31.jar" />
@@ -12,7 +12,7 @@
     <profile name="sbt 3" modules="backend,client,player,shared,sharedJVM">
       <option name="featureWarnings" value="true" />
     </profile>
-    <profile name="sbt 4" modules=".js.shared,frontend">
+    <profile name="sbt 4" modules=".js.shared">
       <option name="featureWarnings" value="true" />
       <plugins>
         <plugin path="C:\Users\Administrator\.ivy2\cache\org.scala-js\scalajs-compiler_2.12.10\jars\scalajs-compiler_2.12.10-0.6.31.jar" />

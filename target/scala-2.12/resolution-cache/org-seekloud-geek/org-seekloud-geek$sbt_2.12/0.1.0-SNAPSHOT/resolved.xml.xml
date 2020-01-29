@@ -4,7 +4,7 @@
 		module="org-seekloud-geek$sbt_2.12"
 		revision="0.1.0-SNAPSHOT"
 		status="integration"
-		publication="20200116133307"
+		publication="20200129163915"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>

@@ -52,6 +52,7 @@ object Dependencies {
   val ehcache = "net.sf.ehcache" % "ehcache" % "2.10.6"
   val byteobject = "org.seekloud" %% "byteobject" % "0.1.1"
   val mail = "com.sun.mail" % "javax.mail" % "1.5.3"
+  val h2Database = "com.h2database" % "h2" % "1.4.197"
 
   val backendDependencies =
     Dependencies.akkaSeq ++
@@ -69,7 +70,8 @@ object Dependencies {
       Dependencies.asynchttpclient,
       Dependencies.ehcache,
       Dependencies.byteobject,
-      Dependencies.mail
+      Dependencies.mail,
+      Dependencies.h2Database
     )
 
 
@@ -86,7 +88,7 @@ object Dependencies {
     case (lib, ver) => Seq(
       // Add both: dependency and its native binaries for the current `platform`
       "org.bytedeco" % lib % ver withSources() withJavadoc(),
-      "org.bytedeco" % lib % ver classifier platforms(1)
+      "org.bytedeco" % lib % ver classifier platforms(0)
     )
   }
 

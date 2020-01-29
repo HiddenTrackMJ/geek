@@ -7,7 +7,7 @@
 		revision="2020.01.09"
 		conf="test-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool, phantom-js-jetty"
-		date="20200116133313"/>
+		date="20200129163926"/>
 	<dependencies>
 		<module organisation="io.circe" name="circe-generic_sjs0.6_2.12">
 			<revision name="0.9.3" status="release" pubdate="20180328092332" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="18">
@@ -238,7 +238,7 @@
 			</revision>
 		</module>
 		<module organisation="shared" name="shared_sjs0.6_2.12">
-			<revision name="2020.01.09" status="integration" pubdate="20200116133307" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="0">
+			<revision name="2020.01.09" status="integration" pubdate="20200129163917" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="0">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, provided, test-internal, runtime, optional" rev="2020.01.09" rev-constraint-default="2020.01.09" rev-constraint-dynamic="2020.01.09" callerrev="2020.01.09"/>
 				<artifacts>

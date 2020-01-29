@@ -125,6 +125,10 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile->compile]
+[debug] sbt-chain: Checking cache for: dependency: player#player_2.12;2020.01.09 {compile=[compile, default(compile)], runtime=[compile, default(compile)], test=[compile, default(compile)], compile-internal=[compile, default(compile)], runtime-internal=[compile, default(compile)], test-internal=[compile, default(compile)]}
+[debug] 	found player#player_2.12;2020.01.09 in inter-project
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->compile]
 [debug] sbt-chain: Checking cache for: dependency: io.netty#netty-transport;4.0.46.Final {compile=[compile, runtime(*), master(compile), runtime, compile(*), master], runtime=[compile, runtime(*), master(compile), runtime, compile(*), master], test=[compile, runtime(*), master(compile), runtime, compile(*), master], compile-internal=[compile, runtime(*), master(compile), runtime, compile(*), master], runtime-internal=[compile, runtime(*), master(compile), runtime, compile(*), master], test-internal=[compile, runtime(*), master(compile), runtime, compile(*), master]}
 [debug] sbt-chain: module revision found in cache: io.netty#netty-transport;4.0.46.Final
@@ -890,6 +894,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->compile]
@@ -1477,6 +1483,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [runtime->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [runtime->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime->compile]
@@ -2068,6 +2076,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->compile]
@@ -2655,6 +2665,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [runtime->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [runtime->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime->compile]
@@ -3242,6 +3254,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [test->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [test->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [test->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [test->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [test->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [test->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [test->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [test->compile]
@@ -3836,6 +3850,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->compile]
@@ -4425,6 +4441,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile-internal->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile-internal->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile-internal->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile-internal->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile-internal->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile-internal->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile-internal->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile-internal->compile]
@@ -5016,6 +5034,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->compile]
@@ -5603,6 +5623,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [runtime->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [runtime->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime->compile]
@@ -6191,6 +6213,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime-internal->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime-internal->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime-internal->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [runtime-internal->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [runtime-internal->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime-internal->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime-internal->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime-internal->compile]
@@ -6783,6 +6807,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [compile->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [compile->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [compile->compile]
@@ -7370,6 +7396,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [runtime->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [runtime->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [runtime->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [runtime->compile]
@@ -7957,6 +7985,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [test->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [test->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [test->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [test->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [test->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [test->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [test->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [test->compile]
@@ -8546,6 +8576,8 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [test-internal->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [test-internal->compile(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->com.typesafe.akka#akka-stream_2.12;2.5.23 [test-internal->master]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [test-internal->compile]
+[debug] == resolving dependencies client#client$sources;2020.01.09->player#player_2.12;2020.01.09 [test-internal->default(compile)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [test-internal->compile]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [test-internal->runtime(*)]
 [debug] == resolving dependencies client#client$sources;2020.01.09->io.netty#netty-transport;4.0.46.Final [test-internal->compile]
@@ -9112,56 +9144,58 @@
 [debug] == resolving dependencies client#client$sources;2020.01.09->jline#jline;2.14.6 [scala-tool->master]
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-slf4j_2.12;2.5.23!akka-slf4j_2.12.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.netty#netty-reactive-streams;1.0.8!netty-reactive-streams.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.10!scala-library.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-http-core_2.12;10.1.8!akka-http-core_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.asynchttpclient#netty-resolver;2.0.32!netty-resolver.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-slf4j_2.12;2.5.23!akka-slf4j_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.slf4j#slf4j-api;1.7.26!slf4j-api.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.10!scala-library.jar(src)
+[debug] 	[NOT REQUIRED] org.asynchttpclient#netty-resolver;2.0.32!netty-resolver.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-http-core_2.12;10.1.8!akka-http-core_2.12.jar(src)
 [debug] 	[NOT REQUIRED] io.circe#circe-generic_2.12;0.9.3!circe-generic_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#librealsense;1.12.1-1.5!librealsense.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-stream_2.12;2.5.23!akka-stream_2.12.jar(src)
 [debug] 	[NOT REQUIRED] io.netty#netty-transport;4.0.46.Final!netty-transport.jar(src)
+[debug] 	[NOT REQUIRED] io.netty#netty-buffer;4.0.46.Final!netty-buffer.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#libfreenect2;0.2.0-1.5!libfreenect2.jar(src)
-[debug] 	[NOT REQUIRED] io.circe#circe-core_2.12;0.9.3!circe-core_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.12;1.1.1!scala-parser-combinators_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#libdc1394;2.2.5-1.5!libdc1394.jar(src)
+[debug] 	[NOT REQUIRED] io.circe#circe-core_2.12;0.9.3!circe-core_2.12.jar(src)
 [debug] 	[NOT REQUIRED] net.java.dev.jna#jna;5.4.0!jna.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.12;1.1.1!scala-parser-combinators_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.asynchttpclient#async-http-client-netty-utils;2.0.32!async-http-client-netty-utils.jar(src)
-[debug] 	[NOT REQUIRED] com.chuusai#shapeless_2.12;2.3.3!shapeless_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.reactivestreams#reactive-streams;1.0.2!reactive-streams.jar(src)
 [debug] 	[NOT REQUIRED] org.spire-math#jawn-parser_2.12;0.11.1!jawn-parser_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.typelevel#cats-kernel_2.12;1.0.1!cats-kernel_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.10!scala-reflect.jar(src)
+[debug] 	[NOT REQUIRED] com.chuusai#shapeless_2.12;2.3.3!shapeless_2.12.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-protobuf_2.12;2.5.23!akka-protobuf_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.typelevel#cats-kernel_2.12;1.0.1!cats-kernel_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.reactivestreams#reactive-streams;1.0.2!reactive-streams.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.10!scala-reflect.jar(src)
 [debug] 	[NOT REQUIRED] ch.qos.logback#logback-classic;1.2.3!logback-classic.jar(src)
+[debug] 	[NOT REQUIRED] org.typelevel#cats-core_2.12;1.0.1!cats-core_2.12.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-stream-typed_2.12;2.5.23!akka-stream-typed_2.12.jar(src)
 [debug] 	[NOT REQUIRED] io.netty#netty-common;4.0.46.Final!netty-common.jar(src)
-[debug] 	[NOT REQUIRED] org.typelevel#cats-core_2.12;1.0.1!cats-core_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#librealsense;1.12.1-1.5!librealsense.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#videoinput;0.200-1.5!videoinput.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#cats-macros_2.12;1.0.1!cats-macros_2.12.jar(src)
-[debug] 	[NOT REQUIRED] io.circe#circe-numbers_2.12;0.9.3!circe-numbers_2.12.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-parsing_2.12;10.1.8!akka-parsing_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#videoinput;0.200-1.5!videoinput.jar(src)
 [debug] 	[NOT REQUIRED] io.netty#netty-codec-http;4.0.46.Final!netty-codec-http.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-parsing_2.12;10.1.8!akka-parsing_2.12.jar(src)
+[debug] 	[NOT REQUIRED] io.circe#circe-numbers_2.12;0.9.3!circe-numbers_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.seekloud#byteobject_2.12;0.1.1!byteobject_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#macro-compat_2.12;1.1.1!macro-compat_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#javacv;1.5!javacv.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe#ssl-config-core_2.12;0.3.7!ssl-config-core_2.12.jar(src)
 [debug] 	[NOT REQUIRED] com.github.oshi#oshi-core;4.0.0!oshi-core.jar(src)
-[debug] 	[NOT REQUIRED] org.asynchttpclient#netty-resolver-dns;2.0.32!netty-resolver-dns.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#tesseract;4.0.0-1.5!tesseract.jar(src)
+[debug] 	[NOT REQUIRED] org.asynchttpclient#netty-resolver-dns;2.0.32!netty-resolver-dns.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#javacpp;1.5!javacpp.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe#config;1.3.3!config.jar(src)
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-http_2.12;10.1.8!akka-http_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.asynchttpclient#netty-codec-dns;2.0.32!netty-codec-dns.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#ffmpeg;4.1.3-1.5!ffmpeg.jar(src)
-[debug] 	[NOT REQUIRED] io.netty#netty-transport-native-epoll;4.0.46.Final!netty-transport-native-epoll.jar(src)
-[debug] 	[NOT REQUIRED] io.netty#netty-buffer;4.0.46.Final!netty-buffer.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#flandmark;1.07-1.5!flandmark.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#leptonica;1.78.0-1.5!leptonica.jar(src)
 [debug] 	[NOT REQUIRED] io.netty#netty-handler;4.0.46.Final!netty-handler.jar(src)
+[debug] 	[NOT REQUIRED] io.netty#netty-transport-native-epoll;4.0.46.Final!netty-transport-native-epoll.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#flandmark;1.07-1.5!flandmark.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#flycapture;2.13.3.31-1.5!flycapture.jar(src)
 [debug] 	[NOT REQUIRED] org.typelevel#machinist_2.12;0.6.2!machinist_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#opencv;4.0.1-1.5!opencv.jar(src)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-actor-typed_2.12;2.5.23!akka-actor-typed_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.bytedeco#opencv;4.0.1-1.5!opencv.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#libfreenect;0.5.7-1.5!libfreenect.jar(src)
 [debug] 	[NOT REQUIRED] io.netty#netty-codec;4.0.46.Final!netty-codec.jar(src)
 [debug] 	[NOT REQUIRED] org.asynchttpclient#async-http-client;2.0.32!async-http-client.jar(src)
@@ -9169,16 +9203,14 @@
 [debug] 	[NOT REQUIRED] net.java.dev.jna#jna-platform;5.4.0!jna-platform.jar(src)
 [debug] 	[NOT REQUIRED] org.bytedeco#artoolkitplus;2.3.1-1.5!artoolkitplus.jar(src)
 [debug] 	[NOT REQUIRED] io.circe#circe-jawn_2.12;0.9.3!circe-jawn_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.12!jansi.jar(src)
 [debug] 	[NOT REQUIRED] ch.qos.logback#logback-core;1.2.3!logback-core.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-java8-compat_2.12;0.8.0!scala-java8-compat_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.12!jansi.jar(src)
-[debug] 	[NOT REQUIRED] io.circe#circe-parser_2.12;0.9.3!circe-parser_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.bytedeco#leptonica;1.78.0-1.5!leptonica.jar(src)
+[debug] 	[NOT REQUIRED] io.circe#circe-parser_2.12;0.9.3!circe-parser_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.10!scala-compiler.jar(src)
 [debug] 	[NOT REQUIRED] jline#jline;2.14.6!jline.jar(src)
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-http_2.12;10.1.8!akka-http_2.12.jar(src)
-[debug] :: resolution report :: resolve 1330ms :: artifacts dl 28ms
+[debug] :: resolution report :: resolve 816ms :: artifacts dl 24ms
 [debug] 	report for client#client$sources;2020.01.09 compile produced in F:\Scala\workspace\geek\client\target\scala-2.12\resolution-cache\reports\client-client$sources-compile.xml
 [debug] 	report for client#client$sources;2020.01.09 runtime produced in F:\Scala\workspace\geek\client\target\scala-2.12\resolution-cache\reports\client-client$sources-runtime.xml
 [debug] 	report for client#client$sources;2020.01.09 test produced in F:\Scala\workspace\geek\client\target\scala-2.12\resolution-cache\reports\client-client$sources-test.xml
@@ -9190,4 +9222,4 @@
 [debug] 	report for client#client$sources;2020.01.09 plugin produced in F:\Scala\workspace\geek\client\target\scala-2.12\resolution-cache\reports\client-client$sources-plugin.xml
 [debug] 	report for client#client$sources;2020.01.09 pom produced in F:\Scala\workspace\geek\client\target\scala-2.12\resolution-cache\reports\client-client$sources-pom.xml
 [debug] 	report for client#client$sources;2020.01.09 scala-tool produced in F:\Scala\workspace\geek\client\target\scala-2.12\resolution-cache\reports\client-client$sources-scala-tool.xml
-[debug] 	resolve done (1330ms resolve - 28ms download)
+[debug] 	resolve done (816ms resolve - 24ms download)

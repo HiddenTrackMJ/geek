@@ -5,9 +5,10 @@ import java.util.concurrent.atomic.AtomicLong
 
 import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
+import org.seekloud.geek.Boot
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.Boot.executor
-import org.seekloud.geek.shared.ptcl.RoomProtocol.RoomUserInfo
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomUserInfo, RtmpInfo}
 
 import scala.collection.mutable
 import scala.util.{Failure, Success}
@@ -41,6 +42,8 @@ object RoomManager {
 
   private val initTime = 5.minutes
 
+  case object Test extends Command
+
   private[this] def switchBehavior(ctx: ActorContext[Command],
     behaviorName: String, behavior: Behavior[Command], durationOpt: Option[FiniteDuration] = None, timeOut: TimeOut = TimeOut("busy time error"))
     (implicit stashBuffer: StashBuffer[Command],
@@ -55,11 +58,30 @@ object RoomManager {
       log.info(s"RoomManager is starting...")
       implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)
       Behaviors.withTimers[Command] { implicit timer =>
-        busy()
+        ctx.self ! Test
+        idle()
       }
     }
 
-  private def getRoomActor(
+  private def idle(
+  )(
+    implicit stashBuffer: StashBuffer[Command],
+    timer: TimerScheduler[Command]
+  ): Behavior[Command] =
+    Behaviors.receive[Command] { (ctx, msg) =>
+      msg match {
+        case Test =>
+          val roomActor = getRoomActor(ctx, 1000, RoomUserInfo("a", "b"))
+          Boot.grabManager ! GrabberManager.StartLive(1000, RtmpInfo("a",List("0")), roomActor)
+          Behaviors.same
+
+        case x@_ =>
+          log.info(s"${ctx.self} got an unknown msg:$x")
+          Behaviors.same
+      }
+    }
+
+   def getRoomActor(
     ctx: ActorContext[Command],
     roomId: Long,
     roomInfo: RoomUserInfo) = {

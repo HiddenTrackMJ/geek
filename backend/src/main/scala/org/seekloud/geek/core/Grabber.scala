@@ -3,10 +3,13 @@ package org.seekloud.geek.core
 import java.io.InputStream
 
 import akka.actor.typed.{ActorRef, Behavior}
-import akka.actor.typed.scaladsl.{Behaviors, StashBuffer, TimerScheduler}
-import org.bytedeco.javacv.FFmpegFrameGrabber1
+import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
+import org.bytedeco.javacv.{FFmpegFrameGrabber, FFmpegFrameGrabber1}
 import org.seekloud.geek.common.AppSettings
 import org.slf4j.LoggerFactory
+
+import scala.concurrent.duration._
+import scala.util.{Failure, Success, Try}
 
 /**
  * Author: Jason
@@ -19,6 +22,17 @@ object Grabber {
 
   sealed trait Command
 
+  private final case class SwitchBehavior(
+    name: String,
+    behavior: Behavior[Command],
+    durationOpt: Option[FiniteDuration] = None,
+    timeOut: TimeOut = TimeOut("busy time error")
+  ) extends Command
+
+  private case class TimeOut(msg: String) extends Command
+
+  private final case object BehaviorChangeKey
+
   case class StartGrabber(roomId: Long) extends Command
 
   final case class StopGrabber(reason: String) extends Command
@@ -29,42 +43,59 @@ object Grabber {
 
   case object GrabFrame extends Command
 
-  case class RecordActor(rec: ActorRef[Recorder.Command]) extends Command
+  case class GetRecorder(rec: ActorRef[Recorder.Command]) extends Command
 
   case object GrabLost extends Command
 
   case object TimerKey4Close
+
+  private[this] def switchBehavior(ctx: ActorContext[Command],
+    behaviorName: String, behavior: Behavior[Command], durationOpt: Option[FiniteDuration] = None, timeOut: TimeOut = TimeOut("busy time error"))
+    (implicit stashBuffer: StashBuffer[Command],
+      timer: TimerScheduler[Command]) = {
+    log.info(s"grabber switches to $behaviorName")
+    timer.cancel(BehaviorChangeKey)
+    durationOpt.foreach(timer.startSingleTimer(BehaviorChangeKey, timeOut, _))
+    stashBuffer.unstashAll(ctx, behavior)
+  }
+
 
   def create(roomId: Long, liveId: String, recorderRef: ActorRef[Recorder.Command]): Behavior[Command]= {
     Behaviors.setup[Command]{ ctx =>
       implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)
       Behaviors.withTimers[Command] {
         implicit timer =>
-          log.info(s"grabberActor start----")
+          log.info(s"grabberActor-$liveId start----")
+          recorderRef ! Recorder.GetGrabber(liveId, ctx.self)
           init(roomId, liveId, recorderRef)
+//          switchBehavior(ctx, "init", init(roomId, liveId, recorderRef))
       }
     }
   }
 
-  def init(roomId: Long, liveId: String,
-    recorderRef:ActorRef[Recorder.Command]
+  def init(
+    roomId: Long,
+    liveId: String,
+    recorderRef: ActorRef[Recorder.Command]
   )(implicit timer: TimerScheduler[Command],
     stashBuffer: StashBuffer[Command]):Behavior[Command] = {
     log.info(s"$liveId grabber turn to init")
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
-        case t: RecordActor =>
-          val srcPath = AppSettings.rtmpServer + liveId //
+        case t: GetRecorder =>
+          val srcPath = "rtmp://127.0.0.1/oflaDemo/1234" //AppSettings.rtmpServer + liveId //
           log.info(s"${ctx.self} receive a msg $t")
-          val grabber = new FFmpegFrameGrabber1(srcPath)
-          try {
+          val grabber = new FFmpegFrameGrabber(srcPath)
+          Try {
             grabber.start()
-          } catch {
-            case e: Exception =>
-              log.info(s"exception occured in creant grabber")
+          } match {
+            case Success(value) =>
+              log.info(s"$liveId grabber start successfully")
+              ctx.self ! GrabFrameFirst
+            case Failure(e) =>
+              log.info(s"exception occurs when creating grabber, error: ${e.getMessage}")
           }
-          log.info(s"$liveId grabber start successfully")
-          ctx.self ! GrabFrameFirst
+
           work(roomId, liveId, grabber, t.rec)
 
         case StopGrabber(reason) =>
@@ -80,12 +111,82 @@ object Grabber {
 
   def work( roomId: Long,
     liveId: String,
-    grabber: FFmpegFrameGrabber1,
+    grabber: FFmpegFrameGrabber,
     recorder: ActorRef[Recorder.Command]
   )(implicit stashBuffer: StashBuffer[Command],
     timer: TimerScheduler[Command]): Behavior[Command] = {
-    Behaviors.receive[Command] { (ctx, msg) =>
-      work(roomId, liveId, grabber, recorder)
+    Behaviors.receive[Command] {(ctx, msg) =>
+      msg match {
+        case GrabLost =>
+          val frame = grabber.grab()
+          if(frame != null){
+            if(frame.image != null){
+              recorder ! Recorder.NewFrame(liveId, frame.clone())
+              ctx.self ! GrabFrame
+            }else{
+              ctx.self ! GrabLost
+            }
+          }
+          Behaviors.same
+
+        case t:GetRecorder =>
+          Behaviors.same
+
+        case GrabFrameFirst =>
+          log.info(s"${ctx.self} receive a msg:${msg}")
+          val frame = grabber.grab()
+          val channel = grabber.getAudioChannels
+          val sampleRate = grabber.getSampleRate
+          val height = grabber.getImageHeight
+          val width = grabber.getImageWidth
+          recorder ! Recorder.UpdateRecorder(channel, sampleRate, grabber.getFrameRate, width, height, liveId)
+
+          if(frame != null){
+            if(frame.image != null){
+              recorder ! Recorder.NewFrame(liveId, frame.clone())
+              ctx.self ! GrabFrame
+            }else{
+              ctx.self ! GrabLost
+            }
+          } else {
+            log.info(s"$liveId --- frame is null")
+            ctx.self ! StopGrabber(s"$liveId --- frame is null")
+          }
+          Behaviors.same
+
+        case GrabFrame =>
+          val frame = grabber.grab()
+          println(s"new frame: ${frame.imageHeight}")
+          if(frame != null) {
+            recorder ! Recorder.NewFrame(liveId, frame.clone())
+            ctx.self ! GrabFrame
+          }else{
+            log.info(s"$liveId --- frame is null")
+            ctx.self ! StopGrabber(s"$liveId --- frame is null")
+          }
+          Behaviors.same
+
+        case StopGrabber(msg) =>
+          timer.startSingleTimer(TimerKey4Close, CloseGrabber, 400.milli)
+          Behaviors.same
+
+
+        case CloseGrabber =>
+          try {
+            log.info(s"${ctx.self} stop ----")
+            grabber.release()
+            grabber.close()
+          }catch {
+            case e:Exception =>
+              log.error(s"${ctx.self} close error:$e")
+          }
+          Behaviors.stopped
+
+        case x@_ =>
+          log.info(s"${ctx.self} rev an unknown msg: $x")
+          Behaviors.same
+
+      }
     }
   }
 

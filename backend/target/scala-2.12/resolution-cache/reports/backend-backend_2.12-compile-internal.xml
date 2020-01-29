@@ -7,10 +7,10 @@
 		revision="2020.01.09"
 		conf="compile-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20200114194954"/>
+		date="20200129163919"/>
 	<dependencies>
 		<module organisation="org.bytedeco" name="javacv">
-			<revision name="1.5" status="release" pubdate="20190410111840" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://bytedeco.org/javacv/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="65">
+			<revision name="1.5" status="release" pubdate="20190410111840" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://bytedeco.org/javacv/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="66">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -24,7 +24,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="tesseract">
-			<revision name="4.0.0-1.5" status="release" pubdate="20190409103614" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="77">
+			<revision name="4.0.0-1.5" status="release" pubdate="20190409103614" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="78">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -38,7 +38,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="leptonica">
-			<revision name="1.78.0-1.5" status="release" pubdate="20190409103613" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="76">
+			<revision name="1.78.0-1.5" status="release" pubdate="20190409103613" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="77">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -53,7 +53,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="flandmark">
-			<revision name="1.07-1.5" status="release" pubdate="20190409041400" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="75">
+			<revision name="1.07-1.5" status="release" pubdate="20190409041400" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="76">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -67,7 +67,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="artoolkitplus">
-			<revision name="2.3.1-1.5" status="release" pubdate="20190409041358" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="74">
+			<revision name="2.3.1-1.5" status="release" pubdate="20190409041358" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="75">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -81,7 +81,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="videoinput">
-			<revision name="0.200-1.5" status="release" pubdate="20190409052909" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="73">
+			<revision name="0.200-1.5" status="release" pubdate="20190409052909" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="74">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -95,7 +95,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="librealsense">
-			<revision name="1.12.1-1.5" status="release" pubdate="20190409052909" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="72">
+			<revision name="1.12.1-1.5" status="release" pubdate="20190409052909" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="73">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -109,7 +109,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="libfreenect2">
-			<revision name="0.2.0-1.5" status="release" pubdate="20190409052920" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="71">
+			<revision name="0.2.0-1.5" status="release" pubdate="20190409052920" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="72">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -123,7 +123,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="libfreenect">
-			<revision name="0.5.7-1.5" status="release" pubdate="20190409052916" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="70">
+			<revision name="0.5.7-1.5" status="release" pubdate="20190409052916" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="71">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -137,7 +137,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="libdc1394">
-			<revision name="2.2.5-1.5" status="release" pubdate="20190409052915" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="69">
+			<revision name="2.2.5-1.5" status="release" pubdate="20190409052915" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="70">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -151,7 +151,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="flycapture">
-			<revision name="2.13.3.31-1.5" status="release" pubdate="20190409052914" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="68">
+			<revision name="2.13.3.31-1.5" status="release" pubdate="20190409052914" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="69">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -165,7 +165,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="ffmpeg">
-			<revision name="4.1.3-1.5" status="release" pubdate="20190409224827" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="67">
+			<revision name="4.1.3-1.5" status="release" pubdate="20190409224827" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="68">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -176,14 +176,14 @@
 					<artifact name="ffmpeg" type="jar" ext="jar" status="no" details="" size="247067" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\ffmpeg\jars\ffmpeg-4.1.3-1.5.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bytedeco/ffmpeg/4.1.3-1.5/ffmpeg-4.1.3-1.5.jar"/>
 					</artifact>
-					<artifact name="ffmpeg" type="jar" ext="jar" extra-classifier="linux-x86_64" status="successful" details="" size="16181250" time="9006" location="C:\Users\19783\.ivy2\cache\org.bytedeco\ffmpeg\jars\ffmpeg-4.1.3-1.5-linux-x86_64.jar">
-						<origin-location is-local="false" location="https://maven.aliyun.com/nexus/content/groups/public/org/bytedeco/ffmpeg/4.1.3-1.5/ffmpeg-4.1.3-1.5-linux-x86_64.jar"/>
+					<artifact name="ffmpeg" type="jar" ext="jar" extra-classifier="windows-x86_64" status="no" details="" size="18451301" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\ffmpeg\jars\ffmpeg-4.1.3-1.5-windows-x86_64.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bytedeco/ffmpeg/4.1.3-1.5/ffmpeg-4.1.3-1.5-windows-x86_64.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="opencv">
-			<revision name="4.0.1-1.5" status="release" pubdate="20190409154950" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="66">
+			<revision name="4.0.1-1.5" status="release" pubdate="20190409154950" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="67">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -192,8 +192,8 @@
 				<caller organisation="backend" name="backend_2.12" conf="compile-internal, compile, provided, optional" rev="4.0.1-1.5" rev-constraint-default="4.0.1-1.5" rev-constraint-dynamic="4.0.1-1.5" callerrev="2020.01.09"/>
 				<caller organisation="org.bytedeco" name="flandmark" conf="compile, runtime" rev="4.0.1-1.5" rev-constraint-default="4.0.1-1.5" rev-constraint-dynamic="4.0.1-1.5" callerrev="1.07-1.5"/>
 				<artifacts>
-					<artifact name="opencv" type="jar" ext="jar" extra-classifier="linux-x86_64" status="successful" details="" size="19324302" time="16086" location="C:\Users\19783\.ivy2\cache\org.bytedeco\opencv\jars\opencv-4.0.1-1.5-linux-x86_64.jar">
-						<origin-location is-local="false" location="https://maven.aliyun.com/nexus/content/groups/public/org/bytedeco/opencv/4.0.1-1.5/opencv-4.0.1-1.5-linux-x86_64.jar"/>
+					<artifact name="opencv" type="jar" ext="jar" extra-classifier="windows-x86_64" status="no" details="" size="22860326" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\opencv\jars\opencv-4.0.1-1.5-windows-x86_64.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bytedeco/opencv/4.0.1-1.5/opencv-4.0.1-1.5-windows-x86_64.jar"/>
 					</artifact>
 					<artifact name="opencv" type="jar" ext="jar" status="no" details="" size="1533302" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\opencv\jars\opencv-4.0.1-1.5.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bytedeco/opencv/4.0.1-1.5/opencv-4.0.1-1.5.jar"/>
@@ -202,7 +202,7 @@
 			</revision>
 		</module>
 		<module organisation="org.bytedeco" name="javacpp">
-			<revision name="1.5" status="release" pubdate="20190408202659" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://bytedeco.org/javacpp/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="64">
+			<revision name="1.5" status="release" pubdate="20190408202659" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://bytedeco.org/javacpp/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="65">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 				<license name="GNU General Public License (GPL) version 2, or any later version" url="http://www.gnu.org/licenses/"/>
 				<license name="GPLv2 with Classpath exception" url="http://www.gnu.org/software/classpath/license.html"/>
@@ -224,6 +224,18 @@
 				<artifacts>
 					<artifact name="javacpp" type="jar" ext="jar" status="no" details="" size="398612" time="0" location="C:\Users\19783\.ivy2\cache\org.bytedeco\javacpp\jars\javacpp-1.5.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bytedeco/javacpp/1.5/javacpp-1.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.h2database" name="h2">
+			<revision name="1.4.197" status="release" pubdate="20180319042844" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.h2database.com" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="64">
+				<license name="MPL 2.0 or EPL 1.0" url="http://h2database.com/html/license.html"/>
+				<metadata-artifact status="no" details="" size="2484" time="0" location="C:\Users\19783\.ivy2\cache\com.h2database\h2\ivy-1.4.197.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/h2database/h2/1.4.197/h2-1.4.197.pom"/>
+				<caller organisation="backend" name="backend_2.12" conf="compile-internal, compile, provided, optional" rev="1.4.197" rev-constraint-default="1.4.197" rev-constraint-dynamic="1.4.197" callerrev="2020.01.09"/>
+				<artifacts>
+					<artifact name="h2" type="jar" ext="jar" status="no" details="" size="1927540" time="0" location="C:\Users\19783\.ivy2\cache\com.h2database\h2\jars\h2-1.4.197.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/h2database/h2/1.4.197/h2-1.4.197.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
@@ -1063,7 +1075,7 @@
 			</revision>
 		</module>
 		<module organisation="shared" name="shared_2.12">
-			<revision name="2020.01.09" status="integration" pubdate="20200114194952" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="1">
+			<revision name="2020.01.09" status="integration" pubdate="20200129163917" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="1">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="backend" name="backend_2.12" conf="compile-internal, compile, provided, optional" rev="2020.01.09" rev-constraint-default="2020.01.09" rev-constraint-dynamic="2020.01.09" callerrev="2020.01.09"/>
 				<artifacts>
