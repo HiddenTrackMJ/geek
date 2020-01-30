@@ -10,6 +10,8 @@ import javafx.application.Platform
 import javafx.scene.text.Font
 import javafx.stage.Stage
 import org.seekloud.geek.client.common.StageContext
+import org.seekloud.geek.client.controller.{HomeController,LoginController}
+import org.seekloud.geek.client.scene.HomeScene
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration._
@@ -52,6 +54,11 @@ class Boot extends javafx.application.Application {
     val emojionemozilla = Font.loadFont(getClass.getResourceAsStream("/img/seguiemj.ttf"), 12) //表情浏览器？
     val context = new StageContext(primaryStage)
 
+
+    val homeScene = new HomeScene()
+    val homeSceneController = new HomeController(context, homeScene)
+//    rmManager ! RmManager.GetHomeItems(homeScene, homeSceneController)
+    homeSceneController.showScene()
 
     primaryStage.setOnCloseRequest(event => {
       println("OnCloseRequest...")
