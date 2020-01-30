@@ -7,15 +7,15 @@
 		revision="2020.01.09"
 		conf="test"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool, phantom-js-jetty"
-		date="20200130144847"/>
+		date="20200130194315"/>
 	<dependencies>
 		<module organisation="io.circe" name="circe-generic_sjs0.6_2.12">
 			<revision name="0.9.3" status="release" pubdate="20180328092332" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="18">
 				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="3764" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-generic_sjs0.6_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-generic_sjs0.6_2.12/0.9.3/circe-generic_sjs0.6_2.12-0.9.3.pom"/>
+				<metadata-artifact status="no" details="" size="3764" time="0" location="C:\Users\Administrator\.ivy2\cache\io.circe\circe-generic_sjs0.6_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-generic_sjs0.6_2.12/0.9.3/circe-generic_sjs0.6_2.12-0.9.3.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="2020.01.09" extra-info.apiURL="https://circe.github.io/circe/api/"/>
 				<artifacts>
-					<artifact name="circe-generic_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="13133" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-generic_sjs0.6_2.12\srcs\circe-generic_sjs0.6_2.12-0.9.3-sources.jar">
+					<artifact name="circe-generic_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="13133" time="0" location="C:\Users\Administrator\.ivy2\cache\io.circe\circe-generic_sjs0.6_2.12\srcs\circe-generic_sjs0.6_2.12-0.9.3-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/circe/circe-generic_sjs0.6_2.12/0.9.3/circe-generic_sjs0.6_2.12-0.9.3-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -24,10 +24,10 @@
 		<module organisation="com.chuusai" name="shapeless_sjs0.6_2.12">
 			<revision name="2.3.3" status="release" pubdate="20171231225207" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/shapeless" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="19">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="no" details="" size="3588" time="0" location="C:\Users\19783\.ivy2\cache\com.chuusai\shapeless_sjs0.6_2.12\ivy-2.3.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/chuusai/shapeless_sjs0.6_2.12/2.3.3/shapeless_sjs0.6_2.12-2.3.3.pom"/>
+				<metadata-artifact status="no" details="" size="3588" time="0" location="C:\Users\Administrator\.ivy2\cache\com.chuusai\shapeless_sjs0.6_2.12\ivy-2.3.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/chuusai/shapeless_sjs0.6_2.12/2.3.3/shapeless_sjs0.6_2.12-2.3.3.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="2.3.3" rev-constraint-default="2.3.3" rev-constraint-dynamic="2.3.3" callerrev="2020.01.09"/>
 				<artifacts>
-					<artifact name="shapeless_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="172401" time="0" location="C:\Users\19783\.ivy2\cache\com.chuusai\shapeless_sjs0.6_2.12\srcs\shapeless_sjs0.6_2.12-2.3.3-sources.jar">
+					<artifact name="shapeless_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="172401" time="0" location="C:\Users\Administrator\.ivy2\cache\com.chuusai\shapeless_sjs0.6_2.12\srcs\shapeless_sjs0.6_2.12-2.3.3-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/chuusai/shapeless_sjs0.6_2.12/2.3.3/shapeless_sjs0.6_2.12-2.3.3-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -36,10 +36,10 @@
 		<module organisation="org.typelevel" name="macro-compat_sjs0.6_2.12">
 			<revision name="1.1.1" status="release" pubdate="20161102164303" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/macro-compat" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="21">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="no" details="" size="3303" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\macro-compat_sjs0.6_2.12\ivy-1.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_sjs0.6_2.12/1.1.1/macro-compat_sjs0.6_2.12-1.1.1.pom"/>
+				<metadata-artifact status="no" details="" size="3303" time="0" location="C:\Users\Administrator\.ivy2\cache\org.typelevel\macro-compat_sjs0.6_2.12\ivy-1.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_sjs0.6_2.12/1.1.1/macro-compat_sjs0.6_2.12-1.1.1.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="1.1.1" rev-constraint-default="1.1.1" rev-constraint-dynamic="1.1.1" callerrev="2020.01.09"/>
 				<artifacts>
-					<artifact name="macro-compat_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1052" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\macro-compat_sjs0.6_2.12\srcs\macro-compat_sjs0.6_2.12-1.1.1-sources.jar">
+					<artifact name="macro-compat_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1052" time="0" location="C:\Users\Administrator\.ivy2\cache\org.typelevel\macro-compat_sjs0.6_2.12\srcs\macro-compat_sjs0.6_2.12-1.1.1-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_sjs0.6_2.12/1.1.1/macro-compat_sjs0.6_2.12-1.1.1-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -48,10 +48,10 @@
 		<module organisation="com.lihaoyi" name="scalatags_sjs0.6_2.12">
 			<revision name="0.6.7" status="release" pubdate="20170913051953" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lihaoyi/scalatags" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="16">
 				<license name="MIT license" url="http://www.opensource.org/licenses/mit-license.php"/>
-				<metadata-artifact status="no" details="" size="3861" time="0" location="C:\Users\19783\.ivy2\cache\com.lihaoyi\scalatags_sjs0.6_2.12\ivy-0.6.7.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/lihaoyi/scalatags_sjs0.6_2.12/0.6.7/scalatags_sjs0.6_2.12-0.6.7.pom"/>
+				<metadata-artifact status="no" details="" size="3861" time="0" location="C:\Users\Administrator\.ivy2\cache\com.lihaoyi\scalatags_sjs0.6_2.12\ivy-0.6.7.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/lihaoyi/scalatags_sjs0.6_2.12/0.6.7/scalatags_sjs0.6_2.12-0.6.7.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.6.7" rev-constraint-default="0.6.7" rev-constraint-dynamic="0.6.7" callerrev="2020.01.09"/>
 				<artifacts>
-					<artifact name="scalatags_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="78449" time="0" location="C:\Users\19783\.ivy2\cache\com.lihaoyi\scalatags_sjs0.6_2.12\srcs\scalatags_sjs0.6_2.12-0.6.7-sources.jar">
+					<artifact name="scalatags_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="78449" time="0" location="C:\Users\Administrator\.ivy2\cache\com.lihaoyi\scalatags_sjs0.6_2.12\srcs\scalatags_sjs0.6_2.12-0.6.7-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/lihaoyi/scalatags_sjs0.6_2.12/0.6.7/scalatags_sjs0.6_2.12-0.6.7-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -60,10 +60,10 @@
 		<module organisation="com.lihaoyi" name="sourcecode_sjs0.6_2.12">
 			<revision name="0.1.4" status="release" pubdate="20170709074042" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/lihaoyi/sourcecode" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="15">
 				<license name="MIT" url="http://www.opensource.org/licenses/mit-license.html"/>
-				<metadata-artifact status="no" details="" size="3301" time="0" location="C:\Users\19783\.ivy2\cache\com.lihaoyi\sourcecode_sjs0.6_2.12\ivy-0.1.4.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/lihaoyi/sourcecode_sjs0.6_2.12/0.1.4/sourcecode_sjs0.6_2.12-0.1.4.pom"/>
+				<metadata-artifact status="no" details="" size="3301" time="0" location="C:\Users\Administrator\.ivy2\cache\com.lihaoyi\sourcecode_sjs0.6_2.12\ivy-0.1.4.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/lihaoyi/sourcecode_sjs0.6_2.12/0.1.4/sourcecode_sjs0.6_2.12-0.1.4.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.1.4" rev-constraint-default="0.1.4" rev-constraint-dynamic="0.1.4" callerrev="2020.01.09"/>
 				<artifacts>
-					<artifact name="sourcecode_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="2593" time="0" location="C:\Users\19783\.ivy2\cache\com.lihaoyi\sourcecode_sjs0.6_2.12\srcs\sourcecode_sjs0.6_2.12-0.1.4-sources.jar">
+					<artifact name="sourcecode_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="2593" time="0" location="C:\Users\Administrator\.ivy2\cache\com.lihaoyi\sourcecode_sjs0.6_2.12\srcs\sourcecode_sjs0.6_2.12-0.1.4-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/lihaoyi/sourcecode_sjs0.6_2.12/0.1.4/sourcecode_sjs0.6_2.12-0.1.4-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -72,10 +72,10 @@
 		<module organisation="org.typelevel" name="macro-compat_2.12">
 			<revision name="1.1.1" status="release" pubdate="20161102164258" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/milessabin/macro-compat" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="14">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="no" details="" size="2999" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\macro-compat_2.12\ivy-1.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_2.12/1.1.1/macro-compat_2.12-1.1.1.pom"/>
+				<metadata-artifact status="no" details="" size="2999" time="0" location="C:\Users\Administrator\.ivy2\cache\org.typelevel\macro-compat_2.12\ivy-1.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_2.12/1.1.1/macro-compat_2.12-1.1.1.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="1.1.1" rev-constraint-default="1.1.1" rev-constraint-dynamic="1.1.1" callerrev="2020.01.09"/>
 				<artifacts>
-					<artifact name="macro-compat_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1052" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\macro-compat_2.12\srcs\macro-compat_2.12-1.1.1-sources.jar">
+					<artifact name="macro-compat_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1052" time="0" location="C:\Users\Administrator\.ivy2\cache\org.typelevel\macro-compat_2.12\srcs\macro-compat_2.12-1.1.1-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_2.12/1.1.1/macro-compat_2.12-1.1.1-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -84,10 +84,10 @@
 		<module organisation="io.circe" name="circe-parser_sjs0.6_2.12">
 			<revision name="0.9.3" status="release" pubdate="20180328092610" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="12">
 				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="3300" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-parser_sjs0.6_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-parser_sjs0.6_2.12/0.9.3/circe-parser_sjs0.6_2.12-0.9.3.pom"/>
+				<metadata-artifact status="no" details="" size="3300" time="0" location="C:\Users\Administrator\.ivy2\cache\io.circe\circe-parser_sjs0.6_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-parser_sjs0.6_2.12/0.9.3/circe-parser_sjs0.6_2.12-0.9.3.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="2020.01.09" extra-info.apiURL="https://circe.github.io/circe/api/"/>
 				<artifacts>
-					<artifact name="circe-parser_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="944" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-parser_sjs0.6_2.12\srcs\circe-parser_sjs0.6_2.12-0.9.3-sources.jar">
+					<artifact name="circe-parser_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="944" time="0" location="C:\Users\Administrator\.ivy2\cache\io.circe\circe-parser_sjs0.6_2.12\srcs\circe-parser_sjs0.6_2.12-0.9.3-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/circe/circe-parser_sjs0.6_2.12/0.9.3/circe-parser_sjs0.6_2.12-0.9.3-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -96,10 +96,10 @@
 		<module organisation="io.circe" name="circe-scalajs_sjs0.6_2.12">
 			<revision name="0.9.3" status="release" pubdate="20180328092232" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="17">
 				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="3150" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-scalajs_sjs0.6_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-scalajs_sjs0.6_2.12/0.9.3/circe-scalajs_sjs0.6_2.12-0.9.3.pom"/>
+				<metadata-artifact status="no" details="" size="3150" time="0" location="C:\Users\Administrator\.ivy2\cache\io.circe\circe-scalajs_sjs0.6_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-scalajs_sjs0.6_2.12/0.9.3/circe-scalajs_sjs0.6_2.12-0.9.3.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="2020.01.09" extra-info.apiURL="https://circe.github.io/circe/api/"/>
 				<artifacts>
-					<artifact name="circe-scalajs_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1569" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-scalajs_sjs0.6_2.12\srcs\circe-scalajs_sjs0.6_2.12-0.9.3-sources.jar">
+					<artifact name="circe-scalajs_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1569" time="0" location="C:\Users\Administrator\.ivy2\cache\io.circe\circe-scalajs_sjs0.6_2.12\srcs\circe-scalajs_sjs0.6_2.12-0.9.3-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/circe/circe-scalajs_sjs0.6_2.12/0.9.3/circe-scalajs_sjs0.6_2.12-0.9.3-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -108,10 +108,10 @@
 		<module organisation="io.circe" name="circe-core_sjs0.6_2.12">
 			<revision name="0.9.3" status="release" pubdate="20180328092320" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="20">
 				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="3298" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-core_sjs0.6_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-core_sjs0.6_2.12/0.9.3/circe-core_sjs0.6_2.12-0.9.3.pom"/>
+				<metadata-artifact status="no" details="" size="3298" time="0" location="C:\Users\Administrator\.ivy2\cache\io.circe\circe-core_sjs0.6_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-core_sjs0.6_2.12/0.9.3/circe-core_sjs0.6_2.12-0.9.3.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="2020.01.09" extra-info.apiURL="https://circe.github.io/circe/api/"/>
 				<artifacts>
-					<artifact name="circe-core_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="41503" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-core_sjs0.6_2.12\srcs\circe-core_sjs0.6_2.12-0.9.3-sources.jar">
+					<artifact name="circe-core_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="41503" time="0" location="C:\Users\Administrator\.ivy2\cache\io.circe\circe-core_sjs0.6_2.12\srcs\circe-core_sjs0.6_2.12-0.9.3-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/circe/circe-core_sjs0.6_2.12/0.9.3/circe-core_sjs0.6_2.12-0.9.3-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -120,10 +120,10 @@
 		<module organisation="io.circe" name="circe-numbers_sjs0.6_2.12">
 			<revision name="0.9.3" status="release" pubdate="20180328092110" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="13">
 				<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="3000" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-numbers_sjs0.6_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-numbers_sjs0.6_2.12/0.9.3/circe-numbers_sjs0.6_2.12-0.9.3.pom"/>
+				<metadata-artifact status="no" details="" size="3000" time="0" location="C:\Users\Administrator\.ivy2\cache\io.circe\circe-numbers_sjs0.6_2.12\ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/circe/circe-numbers_sjs0.6_2.12/0.9.3/circe-numbers_sjs0.6_2.12-0.9.3.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="2020.01.09" extra-info.apiURL="https://circe.github.io/circe/api/"/>
 				<artifacts>
-					<artifact name="circe-numbers_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="4026" time="0" location="C:\Users\19783\.ivy2\cache\io.circe\circe-numbers_sjs0.6_2.12\srcs\circe-numbers_sjs0.6_2.12-0.9.3-sources.jar">
+					<artifact name="circe-numbers_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="4026" time="0" location="C:\Users\Administrator\.ivy2\cache\io.circe\circe-numbers_sjs0.6_2.12\srcs\circe-numbers_sjs0.6_2.12-0.9.3-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/circe/circe-numbers_sjs0.6_2.12/0.9.3/circe-numbers_sjs0.6_2.12-0.9.3-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -132,10 +132,10 @@
 		<module organisation="org.typelevel" name="cats-core_sjs0.6_2.12">
 			<revision name="1.0.1" status="release" pubdate="20171231205016" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="6">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
-				<metadata-artifact status="no" details="" size="3710" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\cats-core_sjs0.6_2.12\ivy-1.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/cats-core_sjs0.6_2.12/1.0.1/cats-core_sjs0.6_2.12-1.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="3710" time="0" location="C:\Users\Administrator\.ivy2\cache\org.typelevel\cats-core_sjs0.6_2.12\ivy-1.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/cats-core_sjs0.6_2.12/1.0.1/cats-core_sjs0.6_2.12-1.0.1.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="1.0.1" rev-constraint-default="1.0.1" rev-constraint-dynamic="1.0.1" callerrev="2020.01.09" extra-info.apiURL="http://typelevel.org/cats/api/"/>
 				<artifacts>
-					<artifact name="cats-core_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="194939" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\cats-core_sjs0.6_2.12\srcs\cats-core_sjs0.6_2.12-1.0.1-sources.jar">
+					<artifact name="cats-core_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="194939" time="0" location="C:\Users\Administrator\.ivy2\cache\org.typelevel\cats-core_sjs0.6_2.12\srcs\cats-core_sjs0.6_2.12-1.0.1-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/typelevel/cats-core_sjs0.6_2.12/1.0.1/cats-core_sjs0.6_2.12-1.0.1-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -144,10 +144,10 @@
 		<module organisation="org.typelevel" name="cats-kernel_sjs0.6_2.12">
 			<revision name="1.0.1" status="release" pubdate="20171231204849" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="22">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
-				<metadata-artifact status="no" details="" size="3116" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\cats-kernel_sjs0.6_2.12\ivy-1.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/cats-kernel_sjs0.6_2.12/1.0.1/cats-kernel_sjs0.6_2.12-1.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="3116" time="0" location="C:\Users\Administrator\.ivy2\cache\org.typelevel\cats-kernel_sjs0.6_2.12\ivy-1.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/cats-kernel_sjs0.6_2.12/1.0.1/cats-kernel_sjs0.6_2.12-1.0.1.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="1.0.1" rev-constraint-default="1.0.1" rev-constraint-dynamic="1.0.1" callerrev="2020.01.09" extra-info.apiURL="http://typelevel.org/cats/api/"/>
 				<artifacts>
-					<artifact name="cats-kernel_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="43879" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\cats-kernel_sjs0.6_2.12\srcs\cats-kernel_sjs0.6_2.12-1.0.1-sources.jar">
+					<artifact name="cats-kernel_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="43879" time="0" location="C:\Users\Administrator\.ivy2\cache\org.typelevel\cats-kernel_sjs0.6_2.12\srcs\cats-kernel_sjs0.6_2.12-1.0.1-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/typelevel/cats-kernel_sjs0.6_2.12/1.0.1/cats-kernel_sjs0.6_2.12-1.0.1-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -156,10 +156,10 @@
 		<module organisation="org.typelevel" name="cats-macros_sjs0.6_2.12">
 			<revision name="1.0.1" status="release" pubdate="20171231204803" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/typelevel/cats" extra-info.apiURL="http://typelevel.org/cats/api/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="7">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
-				<metadata-artifact status="no" details="" size="3270" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\cats-macros_sjs0.6_2.12\ivy-1.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/cats-macros_sjs0.6_2.12/1.0.1/cats-macros_sjs0.6_2.12-1.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="3270" time="0" location="C:\Users\Administrator\.ivy2\cache\org.typelevel\cats-macros_sjs0.6_2.12\ivy-1.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/cats-macros_sjs0.6_2.12/1.0.1/cats-macros_sjs0.6_2.12-1.0.1.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="1.0.1" rev-constraint-default="1.0.1" rev-constraint-dynamic="1.0.1" callerrev="2020.01.09" extra-info.apiURL="http://typelevel.org/cats/api/"/>
 				<artifacts>
-					<artifact name="cats-macros_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1156" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\cats-macros_sjs0.6_2.12\srcs\cats-macros_sjs0.6_2.12-1.0.1-sources.jar">
+					<artifact name="cats-macros_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1156" time="0" location="C:\Users\Administrator\.ivy2\cache\org.typelevel\cats-macros_sjs0.6_2.12\srcs\cats-macros_sjs0.6_2.12-1.0.1-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/typelevel/cats-macros_sjs0.6_2.12/1.0.1/cats-macros_sjs0.6_2.12-1.0.1-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -168,10 +168,10 @@
 		<module organisation="org.typelevel" name="machinist_sjs0.6_2.12">
 			<revision name="0.6.2" status="release" pubdate="20170601112744" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/typelevel/machinist" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="8">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
-				<metadata-artifact status="no" details="" size="3123" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\machinist_sjs0.6_2.12\ivy-0.6.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/machinist_sjs0.6_2.12/0.6.2/machinist_sjs0.6_2.12-0.6.2.pom"/>
+				<metadata-artifact status="no" details="" size="3123" time="0" location="C:\Users\Administrator\.ivy2\cache\org.typelevel\machinist_sjs0.6_2.12\ivy-0.6.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/machinist_sjs0.6_2.12/0.6.2/machinist_sjs0.6_2.12-0.6.2.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.6.2" rev-constraint-default="0.6.2" rev-constraint-dynamic="0.6.2" callerrev="2020.01.09"/>
 				<artifacts>
-					<artifact name="machinist_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="3546" time="0" location="C:\Users\19783\.ivy2\cache\org.typelevel\machinist_sjs0.6_2.12\srcs\machinist_sjs0.6_2.12-0.6.2-sources.jar">
+					<artifact name="machinist_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="3546" time="0" location="C:\Users\Administrator\.ivy2\cache\org.typelevel\machinist_sjs0.6_2.12\srcs\machinist_sjs0.6_2.12-0.6.2-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/typelevel/machinist_sjs0.6_2.12/0.6.2/machinist_sjs0.6_2.12-0.6.2-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -180,10 +180,10 @@
 		<module organisation="com.github.karasiq" name="scalajs-videojs_sjs0.6_2.12">
 			<revision name="1.0.5" status="release" pubdate="20170125211630" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/Karasiq/scalajs-videojs" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="2">
 				<license name="The MIT License" url="http://opensource.org/licenses/MIT"/>
-				<metadata-artifact status="no" details="" size="3315" time="0" location="C:\Users\19783\.ivy2\cache\com.github.karasiq\scalajs-videojs_sjs0.6_2.12\ivy-1.0.5.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/karasiq/scalajs-videojs_sjs0.6_2.12/1.0.5/scalajs-videojs_sjs0.6_2.12-1.0.5.pom"/>
+				<metadata-artifact status="no" details="" size="3315" time="0" location="C:\Users\Administrator\.ivy2\cache\com.github.karasiq\scalajs-videojs_sjs0.6_2.12\ivy-1.0.5.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/karasiq/scalajs-videojs_sjs0.6_2.12/1.0.5/scalajs-videojs_sjs0.6_2.12-1.0.5.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="1.0.5" rev-constraint-default="1.0.5" rev-constraint-dynamic="1.0.5" callerrev="2020.01.09"/>
 				<artifacts>
-					<artifact name="scalajs-videojs_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="12927" time="0" location="C:\Users\19783\.ivy2\cache\com.github.karasiq\scalajs-videojs_sjs0.6_2.12\srcs\scalajs-videojs_sjs0.6_2.12-1.0.5-sources.jar">
+					<artifact name="scalajs-videojs_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="12927" time="0" location="C:\Users\Administrator\.ivy2\cache\com.github.karasiq\scalajs-videojs_sjs0.6_2.12\srcs\scalajs-videojs_sjs0.6_2.12-1.0.5-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/karasiq/scalajs-videojs_sjs0.6_2.12/1.0.5/scalajs-videojs_sjs0.6_2.12-1.0.5-sources.jar"/>
 					</artifact>
 				</artifacts>
@@ -192,23 +192,23 @@
 		<module organisation="org.webjars.bower" name="video-js">
 			<revision name="5.7.1" status="release" pubdate="20160216230324" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://webjars.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="5">
 				<license name="WTFPL" url="https://spdx.org/licenses/WTFPL#licenseText"/>
-				<metadata-artifact status="no" details="" size="2580" time="0" location="C:\Users\19783\.ivy2\cache\org.webjars.bower\video-js\ivy-5.7.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/webjars/bower/video-js/5.7.1/video-js-5.7.1.pom"/>
+				<metadata-artifact status="no" details="" size="2580" time="0" location="C:\Users\Administrator\.ivy2\cache\org.webjars.bower\video-js\ivy-5.7.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/webjars/bower/video-js/5.7.1/video-js-5.7.1.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="5.7.1" rev-constraint-default="5.7.1" rev-constraint-dynamic="5.7.1" callerrev="2020.01.09"/>
 				<artifacts>
-					<artifact name="video-js" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="22" time="0" location="C:\Users\19783\.ivy2\cache\org.webjars.bower\video-js\srcs\video-js-5.7.1-sources.jar">
+					<artifact name="video-js" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="22" time="0" location="C:\Users\Administrator\.ivy2\cache\org.webjars.bower\video-js\srcs\video-js-5.7.1-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/webjars/bower/video-js/5.7.1/video-js-5.7.1-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="in.nvilla" name="monadic-html_sjs0.6_2.12">
-			<revision name="0.4.0" status="release" pubdate="20191212212411" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/OlivierBlanvillain/monadic-html" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="1">
+			<revision name="0.4.0" status="release" pubdate="20191208002357" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/OlivierBlanvillain/monadic-html" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="1">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
-				<metadata-artifact status="no" details="" size="3561" time="0" location="C:\Users\19783\.ivy2\cache\in.nvilla\monadic-html_sjs0.6_2.12\ivy-0.4.0.xml" searched="false" origin-is-local="false" origin-location="http://maven.aliyun.com/nexus/content/groups/public/in/nvilla/monadic-html_sjs0.6_2.12/0.4.0/monadic-html_sjs0.6_2.12-0.4.0.pom"/>
+				<metadata-artifact status="no" details="" size="3561" time="0" location="C:\Users\Administrator\.ivy2\cache\in.nvilla\monadic-html_sjs0.6_2.12\ivy-0.4.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/in/nvilla/monadic-html_sjs0.6_2.12/0.4.0/monadic-html_sjs0.6_2.12-0.4.0.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.4.0" rev-constraint-default="0.4.0" rev-constraint-dynamic="0.4.0" callerrev="2020.01.09"/>
 				<artifacts>
-					<artifact name="monadic-html_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="5409" time="0" location="C:\Users\19783\.ivy2\cache\in.nvilla\monadic-html_sjs0.6_2.12\srcs\monadic-html_sjs0.6_2.12-0.4.0-sources.jar">
-						<origin-location is-local="false" location="http://maven.aliyun.com/nexus/content/groups/public/in/nvilla/monadic-html_sjs0.6_2.12/0.4.0/monadic-html_sjs0.6_2.12-0.4.0-sources.jar"/>
+					<artifact name="monadic-html_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="5409" time="0" location="C:\Users\Administrator\.ivy2\cache\in.nvilla\monadic-html_sjs0.6_2.12\srcs\monadic-html_sjs0.6_2.12-0.4.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/in/nvilla/monadic-html_sjs0.6_2.12/0.4.0/monadic-html_sjs0.6_2.12-0.4.0-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
@@ -216,29 +216,29 @@
 		<module organisation="org.scala-js" name="scalajs-dom_sjs0.6_2.12">
 			<revision name="0.9.7" status="release" pubdate="20190426175727" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://scala-js.org/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="9">
 				<license name="MIT" url="http://opensource.org/licenses/mit-license.php"/>
-				<metadata-artifact status="no" details="" size="2976" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-js\scalajs-dom_sjs0.6_2.12\ivy-0.9.7.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-js/scalajs-dom_sjs0.6_2.12/0.9.7/scalajs-dom_sjs0.6_2.12-0.9.7.pom"/>
+				<metadata-artifact status="no" details="" size="2976" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-js\scalajs-dom_sjs0.6_2.12\ivy-0.9.7.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-js/scalajs-dom_sjs0.6_2.12/0.9.7/scalajs-dom_sjs0.6_2.12-0.9.7.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.9.7" rev-constraint-default="0.9.7" rev-constraint-dynamic="0.9.7" callerrev="2020.01.09"/>
 				<artifacts>
-					<artifact name="scalajs-dom_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="224259" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-js\scalajs-dom_sjs0.6_2.12\srcs\scalajs-dom_sjs0.6_2.12-0.9.7-sources.jar">
+					<artifact name="scalajs-dom_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="224259" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-js\scalajs-dom_sjs0.6_2.12\srcs\scalajs-dom_sjs0.6_2.12-0.9.7-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-js/scalajs-dom_sjs0.6_2.12/0.9.7/scalajs-dom_sjs0.6_2.12-0.9.7-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="in.nvilla" name="monadic-rx_sjs0.6_2.12">
-			<revision name="0.4.0" status="release" pubdate="20191212212414" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/OlivierBlanvillain/monadic-html" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="11">
+			<revision name="0.4.0" status="release" pubdate="20191208002343" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/OlivierBlanvillain/monadic-html" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="11">
 				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
-				<metadata-artifact status="no" details="" size="3116" time="0" location="C:\Users\19783\.ivy2\cache\in.nvilla\monadic-rx_sjs0.6_2.12\ivy-0.4.0.xml" searched="false" origin-is-local="false" origin-location="http://maven.aliyun.com/nexus/content/groups/public/in/nvilla/monadic-rx_sjs0.6_2.12/0.4.0/monadic-rx_sjs0.6_2.12-0.4.0.pom"/>
+				<metadata-artifact status="no" details="" size="3116" time="0" location="C:\Users\Administrator\.ivy2\cache\in.nvilla\monadic-rx_sjs0.6_2.12\ivy-0.4.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/in/nvilla/monadic-rx_sjs0.6_2.12/0.4.0/monadic-rx_sjs0.6_2.12-0.4.0.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.4.0" rev-constraint-default="0.4.0" rev-constraint-dynamic="0.4.0" callerrev="2020.01.09"/>
 				<artifacts>
-					<artifact name="monadic-rx_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="5582" time="0" location="C:\Users\19783\.ivy2\cache\in.nvilla\monadic-rx_sjs0.6_2.12\srcs\monadic-rx_sjs0.6_2.12-0.4.0-sources.jar">
-						<origin-location is-local="false" location="http://maven.aliyun.com/nexus/content/groups/public/in/nvilla/monadic-rx_sjs0.6_2.12/0.4.0/monadic-rx_sjs0.6_2.12-0.4.0-sources.jar"/>
+					<artifact name="monadic-rx_sjs0.6_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="5582" time="0" location="C:\Users\Administrator\.ivy2\cache\in.nvilla\monadic-rx_sjs0.6_2.12\srcs\monadic-rx_sjs0.6_2.12-0.4.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/in/nvilla/monadic-rx_sjs0.6_2.12/0.4.0/monadic-rx_sjs0.6_2.12-0.4.0-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="shared" name="shared_sjs0.6_2.12">
-			<revision name="2020.01.09" status="integration" pubdate="20200130144838" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="0">
+			<revision name="2020.01.09" status="integration" pubdate="20200130194306" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="0">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="2020.01.09" rev-constraint-default="2020.01.09" rev-constraint-dynamic="2020.01.09" callerrev="2020.01.09"/>
 				<artifacts>
@@ -248,11 +248,11 @@
 		<module organisation="org.scala-js" name="scalajs-test-bridge_2.12">
 			<revision name="0.6.31" status="release" pubdate="20191121192247" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.scala-js.org/" extra-info.apiURL="http://www.scala-js.org/api/scalajs-test-bridge/0.6.31/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="23">
 				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="3209" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-js\scalajs-test-bridge_2.12\ivy-0.6.31.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-js/scalajs-test-bridge_2.12/0.6.31/scalajs-test-bridge_2.12-0.6.31.pom"/>
+				<metadata-artifact status="no" details="" size="3209" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-js\scalajs-test-bridge_2.12\ivy-0.6.31.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-js/scalajs-test-bridge_2.12/0.6.31/scalajs-test-bridge_2.12-0.6.31.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.6.31" rev-constraint-default="0.6.31" rev-constraint-dynamic="0.6.31" callerrev="2020.01.09" extra-info.apiURL="http://www.scala-js.org/api/scalajs-test-bridge/0.6.31/"/>
 				<artifacts>
-					<artifact name="scalajs-test-bridge_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="24860" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-js\scalajs-test-bridge_2.12\srcs\scalajs-test-bridge_2.12-0.6.31-sources.jar">
-						<origin-location is-local="false" location="http://maven.aliyun.com/nexus/content/groups/public/org/scala-js/scalajs-test-bridge_2.12/0.6.31/scalajs-test-bridge_2.12-0.6.31-sources.jar"/>
+					<artifact name="scalajs-test-bridge_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="24860" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-js\scalajs-test-bridge_2.12\srcs\scalajs-test-bridge_2.12-0.6.31-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-js/scalajs-test-bridge_2.12/0.6.31/scalajs-test-bridge_2.12-0.6.31-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
@@ -260,11 +260,11 @@
 		<module organisation="org.scala-js" name="scalajs-test-interface_2.12">
 			<revision name="0.6.31" status="release" pubdate="20191121192240" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.scala-js.org/" extra-info.apiURL="http://www.scala-js.org/api/scalajs-test-interface/0.6.31/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="24">
 				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="3064" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-js\scalajs-test-interface_2.12\ivy-0.6.31.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-js/scalajs-test-interface_2.12/0.6.31/scalajs-test-interface_2.12-0.6.31.pom"/>
+				<metadata-artifact status="no" details="" size="3064" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-js\scalajs-test-interface_2.12\ivy-0.6.31.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-js/scalajs-test-interface_2.12/0.6.31/scalajs-test-interface_2.12-0.6.31.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.6.31" rev-constraint-default="0.6.31" rev-constraint-dynamic="0.6.31" callerrev="2020.01.09" extra-info.apiURL="http://www.scala-js.org/api/scalajs-test-interface/0.6.31/"/>
 				<artifacts>
-					<artifact name="scalajs-test-interface_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="16680" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-js\scalajs-test-interface_2.12\srcs\scalajs-test-interface_2.12-0.6.31-sources.jar">
-						<origin-location is-local="false" location="http://maven.aliyun.com/nexus/content/groups/public/org/scala-js/scalajs-test-interface_2.12/0.6.31/scalajs-test-interface_2.12-0.6.31-sources.jar"/>
+					<artifact name="scalajs-test-interface_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="16680" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-js\scalajs-test-interface_2.12\srcs\scalajs-test-interface_2.12-0.6.31-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-js/scalajs-test-interface_2.12/0.6.31/scalajs-test-interface_2.12-0.6.31-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
@@ -272,11 +272,11 @@
 		<module organisation="org.scala-js" name="scalajs-library_2.12">
 			<revision name="0.6.31" status="release" pubdate="20191121191958" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.scala-js.org/" extra-info.apiURL="http://www.scala-js.org/api/scalajs-library/0.6.31/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="4">
 				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="3029" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-js\scalajs-library_2.12\ivy-0.6.31.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-js/scalajs-library_2.12/0.6.31/scalajs-library_2.12-0.6.31.pom"/>
+				<metadata-artifact status="no" details="" size="3029" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-js\scalajs-library_2.12\ivy-0.6.31.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-js/scalajs-library_2.12/0.6.31/scalajs-library_2.12-0.6.31.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="0.6.31" rev-constraint-default="0.6.31" rev-constraint-dynamic="0.6.31" callerrev="2020.01.09" extra-info.apiURL="http://www.scala-js.org/api/scalajs-library/0.6.31/"/>
 				<artifacts>
-					<artifact name="scalajs-library_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="152695" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-js\scalajs-library_2.12\srcs\scalajs-library_2.12-0.6.31-sources.jar">
-						<origin-location is-local="false" location="http://maven.aliyun.com/nexus/content/groups/public/org/scala-js/scalajs-library_2.12/0.6.31/scalajs-library_2.12-0.6.31-sources.jar"/>
+					<artifact name="scalajs-library_2.12" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="152695" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-js\scalajs-library_2.12\srcs\scalajs-library_2.12-0.6.31-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-js/scalajs-library_2.12/0.6.31/scalajs-library_2.12-0.6.31-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
@@ -284,23 +284,23 @@
 		<module organisation="org.scala-lang" name="scala-reflect">
 			<revision name="2.12.10" status="release" pubdate="20190911051922" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.scala-lang.org/" extra-info.apiURL="https://www.scala-lang.org/api/2.12.10/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="10">
 				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="2678" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang\scala-reflect\ivy-2.12.10.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.12.10/scala-reflect-2.12.10.pom"/>
+				<metadata-artifact status="no" details="" size="2870" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-lang\scala-reflect\ivy-2.12.10.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.12.10/scala-reflect-2.12.10.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="2.12.10" rev-constraint-default="2.12.10" rev-constraint-dynamic="2.12.10" callerrev="2020.01.09" extra-info.apiURL="https://www.scala-lang.org/api/2.12.10/"/>
 				<artifacts>
-					<artifact name="scala-reflect" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="623839" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang\scala-reflect\srcs\scala-reflect-2.12.10-sources.jar">
-						<origin-location is-local="false" location="http://maven.aliyun.com/nexus/content/groups/public/org/scala-lang/scala-reflect/2.12.10/scala-reflect-2.12.10-sources.jar"/>
+					<artifact name="scala-reflect" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="623839" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-lang\scala-reflect\srcs\scala-reflect-2.12.10-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.12.10/scala-reflect-2.12.10-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.scala-lang" name="scala-library">
-			<revision name="2.12.10" status="release" pubdate="20190911052052" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.scala-lang.org/" extra-info.apiURL="https://www.scala-lang.org/api/2.12.10/" downloaded="false" searched="false" default="false" conf="default, master(*), compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="3">
+			<revision name="2.12.10" status="release" pubdate="20190911052052" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.scala-lang.org/" extra-info.apiURL="https://www.scala-lang.org/api/2.12.10/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="3">
 				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="2508" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang\scala-library\ivy-2.12.10.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10.pom"/>
+				<metadata-artifact status="no" details="" size="2694" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-lang\scala-library\ivy-2.12.10.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10.pom"/>
 				<caller organisation="frontend" name="frontend$sources" conf="test, compile, runtime" rev="2.12.10" rev-constraint-default="2.12.10" rev-constraint-dynamic="2.12.10" callerrev="2020.01.09" extra-info.apiURL="https://www.scala-lang.org/api/2.12.10/"/>
 				<artifacts>
-					<artifact name="scala-library" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1027173" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang\scala-library\srcs\scala-library-2.12.10-sources.jar">
-						<origin-location is-local="false" location="http://maven.aliyun.com/nexus/content/groups/public/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10-sources.jar"/>
+					<artifact name="scala-library" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1027173" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-lang\scala-library\srcs\scala-library-2.12.10-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>

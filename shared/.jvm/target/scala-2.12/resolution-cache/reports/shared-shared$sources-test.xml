@@ -7,16 +7,16 @@
 		revision="2020.01.09"
 		conf="test"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20200130144850"/>
+		date="20200130194315"/>
 	<dependencies>
 		<module organisation="org.scala-lang" name="scala-library">
 			<revision name="2.12.10" status="release" pubdate="20190911052052" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.scala-lang.org/" extra-info.apiURL="https://www.scala-lang.org/api/2.12.10/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="0">
 				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="2508" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang\scala-library\ivy-2.12.10.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10.pom"/>
+				<metadata-artifact status="no" details="" size="2694" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-lang\scala-library\ivy-2.12.10.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10.pom"/>
 				<caller organisation="shared" name="shared$sources" conf="test, compile, runtime" rev="2.12.10" rev-constraint-default="2.12.10" rev-constraint-dynamic="2.12.10" callerrev="2020.01.09" extra-info.apiURL="https://www.scala-lang.org/api/2.12.10/"/>
 				<artifacts>
-					<artifact name="scala-library" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1027173" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang\scala-library\srcs\scala-library-2.12.10-sources.jar">
-						<origin-location is-local="false" location="http://maven.aliyun.com/nexus/content/groups/public/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10-sources.jar"/>
+					<artifact name="scala-library" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1027173" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-lang\scala-library\srcs\scala-library-2.12.10-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>

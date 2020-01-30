@@ -166,6 +166,7 @@
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: org.slf4j#slf4j-api;1.7.25 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] no default cache defined: set to C:\Users\Administrator\.ivy2\cache
 [debug] sbt-chain: module revision found in cache: org.slf4j#slf4j-api;1.7.25
 [debug] 	found org.slf4j#slf4j-api;1.7.25 in sbt-chain
 [debug] == resolving dependencies com.typesafe.akka#akka-slf4j_2.12;2.5.23->org.slf4j#slf4j-api;1.7.25 [compile->compile(*)]
@@ -689,14 +690,14 @@
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-reflect;2.12.10
 [debug] 	found org.scala-lang#scala-reflect;2.12.10 in sbt-chain
 [debug] 	[2.12.10] org.scala-lang#scala-reflect;2.12.10
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [compile->compile(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(compile)]
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->compile(*)]
 [debug] == resolving dependencies org.typelevel#cats-core_2.12;1.0.1->org.typelevel#cats-kernel_2.12;1.0.1 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
@@ -744,7 +745,7 @@
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [runtime->compile]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.typelevel#cats-core_2.12;1.0.1->org.typelevel#cats-kernel_2.12;1.0.1 [runtime->runtime(*)]
@@ -2546,14 +2547,14 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [compile->compile(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(compile)]
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->compile(*)]
 [debug] == resolving dependencies org.typelevel#cats-core_2.12;1.0.1->org.typelevel#cats-kernel_2.12;1.0.1 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
@@ -2607,7 +2608,7 @@
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [runtime->compile]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.typelevel#cats-core_2.12;1.0.1->org.typelevel#cats-kernel_2.12;1.0.1 [runtime->runtime(*)]
@@ -4327,14 +4328,14 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [compile->compile(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(compile)]
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->compile(*)]
 [debug] == resolving dependencies org.typelevel#cats-core_2.12;1.0.1->org.typelevel#cats-kernel_2.12;1.0.1 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
@@ -4390,7 +4391,7 @@
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [runtime->compile]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.typelevel#cats-core_2.12;1.0.1->org.typelevel#cats-kernel_2.12;1.0.1 [runtime->runtime(*)]
@@ -6569,14 +6570,14 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [compile->compile(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(compile)]
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->compile(*)]
 [debug] == resolving dependencies org.typelevel#cats-core_2.12;1.0.1->org.typelevel#cats-kernel_2.12;1.0.1 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
@@ -6634,7 +6635,7 @@
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [runtime->compile]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.typelevel#cats-core_2.12;1.0.1->org.typelevel#cats-kernel_2.12;1.0.1 [runtime->runtime(*)]
@@ -8618,14 +8619,14 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [compile->compile(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(compile)]
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->compile(*)]
 [debug] == resolving dependencies org.typelevel#cats-core_2.12;1.0.1->org.typelevel#cats-kernel_2.12;1.0.1 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
@@ -8683,7 +8684,7 @@
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [runtime->compile]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.typelevel#cats-core_2.12;1.0.1->org.typelevel#cats-kernel_2.12;1.0.1 [runtime->runtime(*)]
@@ -10767,14 +10768,14 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [compile->compile(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(compile)]
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->compile(*)]
 [debug] == resolving dependencies org.typelevel#cats-core_2.12;1.0.1->org.typelevel#cats-kernel_2.12;1.0.1 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.4 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
@@ -10836,7 +10837,7 @@
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.typelevel#machinist_2.12;0.6.2->org.scala-lang#scala-reflect;2.12.10 [runtime->compile]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.typelevel#cats-core_2.12;1.0.1->org.typelevel#cats-kernel_2.12;1.0.1 [runtime->runtime(*)]
@@ -12620,19 +12621,19 @@
 [debug] 	found org.scala-lang#scala-compiler;2.12.10 in sbt-chain
 [debug] == resolving dependencies backend#backend_2.12;2020.01.09->org.scala-lang#scala-compiler;2.12.10 [scala-tool->runtime]
 [debug] == resolving dependencies backend#backend_2.12;2020.01.09->org.scala-lang#scala-compiler;2.12.10 [scala-tool->compile]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(compile)]
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->compile(*)]
@@ -12641,40 +12642,40 @@
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->compile]
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master]
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->optional(default)]
-[debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-reflect;2.12.10 [compile->master(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-reflect;2.12.10 [compile->master(compile)]
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-reflect;2.12.10 [compile->compile(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->master(compile)]
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [compile->compile(*)]
-[debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang.modules#scala-xml_2.12;1.0.6 [compile->master(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang.modules#scala-xml_2.12;1.0.6 [compile->master(compile)]
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.0 {test=[runtime(*), master(*)]} => dependency: org.scala-lang#scala-compiler;2.12.10 {test=[runtime(*), master(*)]}
@@ -12700,60 +12701,60 @@
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.0 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang.modules#scala-xml_2.12;1.0.6->org.scala-lang#scala-library;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang.modules#scala-xml_2.12;1.0.6->org.scala-lang#scala-library;2.12.10 [runtime->compile]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-reflect;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang#scala-reflect;2.12.10 [runtime->compile]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang#scala-reflect;2.12.10->org.scala-lang#scala-library;2.12.10 [runtime->compile]
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang.modules#scala-xml_2.12;1.0.6 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.scala-lang.modules#scala-xml_2.12;1.0.6 [runtime->compile]
 [debug] == resolving dependencies backend#backend_2.12;2020.01.09->org.scala-lang#scala-compiler;2.12.10 [scala-tool->master]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies backend#backend_2.12;2020.01.09->org.scala-lang#scala-compiler;2.12.10 [scala-tool->optional(default)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->jline#jline;2.14.6 [optional->master(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->jline#jline;2.14.6 [optional->master(compile)]
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] sbt-chain: Checking cache for: dependency: jline#jline;2.14.6 {optional=[compile(*), master(*)]}
+[debug] sbt-chain: Checking cache for: dependency: jline#jline;2.14.6 {optional=[compile(*), master(compile)]}
 [debug] sbt-chain: module revision found in cache: jline#jline;2.14.6
 [debug] 	found jline#jline;2.14.6 in sbt-chain
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->jline#jline;2.14.6 [optional->compile(*)]
-[debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.fusesource.jansi#jansi;1.12 [optional->master(*)]
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
-[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(*)], runtime=[runtime(*)]}
+[debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.fusesource.jansi#jansi;1.12 [optional->master(compile)]
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
+[debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.10 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.10 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.10 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.10 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] sbt-chain: Checking cache for: dependency: org.fusesource.jansi#jansi;1.12 {optional=[compile(*), master(*)]}
+[debug] sbt-chain: Checking cache for: dependency: org.fusesource.jansi#jansi;1.12 {optional=[compile(*), master(compile)]}
 [debug] sbt-chain: module revision found in cache: org.fusesource.jansi#jansi;1.12
 [debug] 	found org.fusesource.jansi#jansi;1.12 in sbt-chain
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.10->org.fusesource.jansi#jansi;1.12 [optional->compile(*)]
@@ -12766,105 +12767,105 @@
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-actor-typed_2.12;2.5.23!akka-actor-typed_2.12.jar
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.10!scala-library.jar
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-actor_2.12;2.5.23!akka-actor_2.12.jar
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.10!scala-library.jar
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-stream_2.12;2.5.23!akka-stream_2.12.jar
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-stream-typed_2.12;2.5.23!akka-stream-typed_2.12.jar
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-slf4j_2.12;2.5.23!akka-slf4j_2.12.jar
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-http-testkit_2.12;10.1.8!akka-http-testkit_2.12.jar
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-http_2.12;10.1.8!akka-http_2.12.jar
 [debug] 	[NOT REQUIRED] ch.megard#akka-http-cors_2.12;0.4.0!akka-http-cors_2.12.jar
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-stream-typed_2.12;2.5.23!akka-stream-typed_2.12.jar
 [debug] 	[NOT REQUIRED] io.circe#circe-core_2.12;0.9.3!circe-core_2.12.jar
 [debug] 	[NOT REQUIRED] io.circe#circe-generic_2.12;0.9.3!circe-generic_2.12.jar
 [debug] 	[NOT REQUIRED] io.circe#circe-parser_2.12;0.9.3!circe-parser_2.12.jar
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(bundle)
-[debug] 	[NOT REQUIRED] com.typesafe.slick#slick_2.12;3.3.0!slick_2.12.jar(bundle)
-[debug] 	[NOT REQUIRED] com.typesafe.slick#slick-codegen_2.12;3.3.0!slick-codegen_2.12.jar
 [debug] 	[NOT REQUIRED] com.github.nscala-time#nscala-time_2.12;2.16.0!nscala-time_2.12.jar
+[debug] 	[NOT REQUIRED] com.typesafe.slick#slick-codegen_2.12;3.3.0!slick-codegen_2.12.jar
 [debug] 	[NOT REQUIRED] com.zaxxer#HikariCP;2.7.9!HikariCP.jar(bundle)
 [debug] 	[NOT REQUIRED] ch.qos.logback#logback-classic;1.2.3!logback-classic.jar
 [debug] 	[NOT REQUIRED] commons-codec#commons-codec;1.10!commons-codec.jar
 [debug] 	[NOT REQUIRED] org.postgresql#postgresql;9.4.1208!postgresql.jar(bundle)
 [debug] 	[NOT REQUIRED] net.sf.ehcache#ehcache;2.10.6!ehcache.jar
-[debug] 	[NOT REQUIRED] com.sun.mail#javax.mail;1.5.3!javax.mail.jar
-[debug] 	[NOT REQUIRED] org.seekloud#byteobject_2.12;0.1.1!byteobject_2.12.jar
 [debug] 	[NOT REQUIRED] org.asynchttpclient#async-http-client;2.8.1!async-http-client.jar
+[debug] 	[NOT REQUIRED] org.seekloud#byteobject_2.12;0.1.1!byteobject_2.12.jar
+[debug] 	[NOT REQUIRED] com.sun.mail#javax.mail;1.5.3!javax.mail.jar
 [debug] 	[NOT REQUIRED] com.h2database#h2;1.4.197!h2.jar
+[debug] 	[NOT REQUIRED] org.bytedeco#javacpp;1.5!javacpp.jar
 [debug] 	[NOT REQUIRED] org.bytedeco#javacv;1.5!javacv.jar
+[debug] 	[NOT REQUIRED] com.typesafe#config;1.3.3!config.jar(bundle)
+[debug] 	[NOT REQUIRED] org.bytedeco#ffmpeg;4.1.3-1.5!ffmpeg.jar
+[debug] 	[NOT REQUIRED] org.bytedeco#opencv;4.0.1-1.5!opencv.jar
+[debug] 	[NOT REQUIRED] org.bytedeco#ffmpeg;4.1.3-1.5!ffmpeg.jar
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-java8-compat_2.12;0.8.0!scala-java8-compat_2.12.jar(bundle)
-[debug] 	[NOT REQUIRED] org.bytedeco#ffmpeg;4.1.3-1.5!ffmpeg.jar
+[debug] 	[NOT REQUIRED] org.bytedeco#opencv;4.0.1-1.5!opencv.jar
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-protobuf_2.12;2.5.23!akka-protobuf_2.12.jar
-[debug] 	[NOT REQUIRED] org.slf4j#slf4j-api;1.7.25!slf4j-api.jar
-[debug] 	[NOT REQUIRED] org.bytedeco#opencv;4.0.1-1.5!opencv.jar
 [debug] 	[NOT REQUIRED] org.reactivestreams#reactive-streams;1.0.2!reactive-streams.jar
-[debug] 	[NOT REQUIRED] org.bytedeco#opencv;4.0.1-1.5!opencv.jar
-[debug] 	[NOT REQUIRED] org.bytedeco#ffmpeg;4.1.3-1.5!ffmpeg.jar
 [debug] 	[NOT REQUIRED] com.typesafe#ssl-config-core_2.12;0.3.7!ssl-config-core_2.12.jar(bundle)
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.12;1.1.1!scala-parser-combinators_2.12.jar(bundle)
-[debug] 	[NOT REQUIRED] com.typesafe#config;1.3.3!config.jar(bundle)
+[debug] 	[NOT REQUIRED] org.slf4j#slf4j-api;1.7.25!slf4j-api.jar
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-http-core_2.12;10.1.8!akka-http-core_2.12.jar
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-parsing_2.12;10.1.8!akka-parsing_2.12.jar
 [debug] 	[NOT REQUIRED] io.circe#circe-numbers_2.12;0.9.3!circe-numbers_2.12.jar
 [debug] 	[NOT REQUIRED] org.typelevel#cats-core_2.12;1.0.1!cats-core_2.12.jar
 [debug] 	[NOT REQUIRED] org.typelevel#cats-macros_2.12;1.0.1!cats-macros_2.12.jar
-[debug] 	[NOT REQUIRED] org.typelevel#machinist_2.12;0.6.2!machinist_2.12.jar
 [debug] 	[NOT REQUIRED] org.typelevel#cats-kernel_2.12;1.0.1!cats-kernel_2.12.jar
+[debug] 	[NOT REQUIRED] org.typelevel#machinist_2.12;0.6.2!machinist_2.12.jar
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.10!scala-reflect.jar
 [debug] 	[NOT REQUIRED] org.typelevel#macro-compat_2.12;1.1.1!macro-compat_2.12.jar
-[debug] 	[NOT REQUIRED] org.bytedeco#javacpp;1.5!javacpp.jar
 [debug] 	[NOT REQUIRED] com.chuusai#shapeless_2.12;2.3.3!shapeless_2.12.jar(bundle)
 [debug] 	[NOT REQUIRED] io.circe#circe-jawn_2.12;0.9.3!circe-jawn_2.12.jar
 [debug] 	[NOT REQUIRED] org.spire-math#jawn-parser_2.12;0.11.1!jawn-parser_2.12.jar
 [debug] 	[NOT REQUIRED] joda-time#joda-time;2.9.7!joda-time.jar
 [debug] 	[NOT REQUIRED] org.joda#joda-convert;1.2!joda-convert.jar
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.10!scala-reflect.jar
-[debug] 	[NOT REQUIRED] org.asynchttpclient#async-http-client-netty-utils;2.8.1!async-http-client-netty-utils.jar
 [debug] 	[NOT REQUIRED] ch.qos.logback#logback-core;1.2.3!logback-core.jar
+[debug] 	[NOT REQUIRED] org.asynchttpclient#async-http-client-netty-utils;2.8.1!async-http-client-netty-utils.jar
+[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-http_2.12;10.1.8!akka-http_2.12.jar
 [debug] 	[NOT REQUIRED] io.netty#netty-codec-http;4.1.33.Final!netty-codec-http.jar
 [debug] 	[NOT REQUIRED] io.netty#netty-handler;4.1.33.Final!netty-handler.jar
 [debug] 	[NOT REQUIRED] io.netty#netty-codec-socks;4.1.33.Final!netty-codec-socks.jar
 [debug] 	[NOT REQUIRED] io.netty#netty-handler-proxy;4.1.33.Final!netty-handler-proxy.jar
-[debug] 	[NOT REQUIRED] io.netty#netty-resolver-dns;4.1.33.Final!netty-resolver-dns.jar
 [debug] 	[NOT REQUIRED] io.netty#netty-transport-native-epoll;4.1.33.Final!netty-transport-native-epoll.jar
+[debug] 	[NOT REQUIRED] io.netty#netty-resolver-dns;4.1.33.Final!netty-resolver-dns.jar
 [debug] 	[NOT REQUIRED] com.typesafe.netty#netty-reactive-streams;2.0.0!netty-reactive-streams.jar
-[debug] 	[NOT REQUIRED] com.sun.activation#javax.activation;1.2.0!javax.activation.jar
-[debug] 	[NOT REQUIRED] io.netty#netty-common;4.1.33.Final!netty-common.jar
 [debug] 	[NOT REQUIRED] io.netty#netty-buffer;4.1.33.Final!netty-buffer.jar
+[debug] 	[NOT REQUIRED] com.typesafe.slick#slick_2.12;3.3.0!slick_2.12.jar(bundle)
 [debug] 	[NOT REQUIRED] io.netty#netty-transport;4.1.33.Final!netty-transport.jar
-[debug] 	[NOT REQUIRED] io.netty#netty-resolver;4.1.33.Final!netty-resolver.jar
+[debug] 	[NOT REQUIRED] com.sun.activation#javax.activation;1.2.0!javax.activation.jar
 [debug] 	[NOT REQUIRED] io.netty#netty-codec;4.1.33.Final!netty-codec.jar
+[debug] 	[NOT REQUIRED] io.netty#netty-resolver;4.1.33.Final!netty-resolver.jar
+[debug] 	[NOT REQUIRED] io.netty#netty-common;4.1.33.Final!netty-common.jar
 [debug] 	[NOT REQUIRED] io.netty#netty-codec-dns;4.1.33.Final!netty-codec-dns.jar
 [debug] 	[NOT REQUIRED] io.netty#netty-transport-native-unix-common;4.1.33.Final!netty-transport-native-unix-common.jar
+[debug] 	[NOT REQUIRED] org.bytedeco#flycapture;2.13.3.31-1.5!flycapture.jar
 [debug] 	[NOT REQUIRED] javax.activation#activation;1.1!activation.jar
 [debug] 	[NOT REQUIRED] org.bytedeco#libdc1394;2.2.5-1.5!libdc1394.jar
-[debug] 	[NOT REQUIRED] org.bytedeco#flycapture;2.13.3.31-1.5!flycapture.jar
 [debug] 	[NOT REQUIRED] org.bytedeco#libfreenect;0.5.7-1.5!libfreenect.jar
 [debug] 	[NOT REQUIRED] org.bytedeco#libfreenect2;0.2.0-1.5!libfreenect2.jar
+[debug] 	[NOT REQUIRED] org.bytedeco#librealsense;1.12.1-1.5!librealsense.jar
 [debug] 	[NOT REQUIRED] org.bytedeco#videoinput;0.200-1.5!videoinput.jar
-[debug] 	[NOT REQUIRED] org.bytedeco#artoolkitplus;2.3.1-1.5!artoolkitplus.jar
-[debug] 	[NOT REQUIRED] com.typesafe.akka#akka-http-core_2.12;10.1.8!akka-http-core_2.12.jar
 [debug] 	[NOT REQUIRED] org.bytedeco#flandmark;1.07-1.5!flandmark.jar
+[debug] 	[NOT REQUIRED] org.bytedeco#leptonica;1.78.0-1.5!leptonica.jar
+[debug] 	[NOT REQUIRED] org.bytedeco#artoolkitplus;2.3.1-1.5!artoolkitplus.jar
 [debug] 	[NOT REQUIRED] org.bytedeco#tesseract;4.0.0-1.5!tesseract.jar
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-testkit_2.12;2.5.23!akka-testkit_2.12.jar
-[debug] 	[NOT REQUIRED] org.bytedeco#leptonica;1.78.0-1.5!leptonica.jar
-[debug] 	[NOT REQUIRED] org.bytedeco#librealsense;1.12.1-1.5!librealsense.jar
 [debug] 	[NOT REQUIRED] org.scalatest#scalatest_2.12;3.0.7!scalatest_2.12.jar(bundle)
 [debug] 	[NOT REQUIRED] com.typesafe.akka#akka-actor-testkit-typed_2.12;2.5.23!akka-actor-testkit-typed_2.12.jar
 [debug] 	[NOT REQUIRED] org.scalactic#scalactic_2.12;3.0.7!scalactic_2.12.jar(bundle)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.10!scala-compiler.jar
-[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.1.0!scala-xml_2.12.jar(bundle)
-[debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.12!jansi.jar
 [debug] 	[NOT REQUIRED] jline#jline;2.14.6!jline.jar
-[debug] :: resolution report :: resolve 1096ms :: artifacts dl 33ms
-[debug] 	report for backend#backend_2.12;2020.01.09 compile produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-compile.xml
-[debug] 	report for backend#backend_2.12;2020.01.09 runtime produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-runtime.xml
-[debug] 	report for backend#backend_2.12;2020.01.09 test produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-test.xml
-[debug] 	report for backend#backend_2.12;2020.01.09 provided produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-provided.xml
-[debug] 	report for backend#backend_2.12;2020.01.09 optional produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-optional.xml
-[debug] 	report for backend#backend_2.12;2020.01.09 compile-internal produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-compile-internal.xml
-[debug] 	report for backend#backend_2.12;2020.01.09 runtime-internal produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-runtime-internal.xml
-[debug] 	report for backend#backend_2.12;2020.01.09 test-internal produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-test-internal.xml
-[debug] 	report for backend#backend_2.12;2020.01.09 plugin produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-plugin.xml
-[debug] 	report for backend#backend_2.12;2020.01.09 pom produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-pom.xml
-[debug] 	report for backend#backend_2.12;2020.01.09 scala-tool produced in F:\Scala\workspace\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-scala-tool.xml
-[debug] 	resolve done (1096ms resolve - 33ms download)
+[debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.12!jansi.jar
+[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.1.0!scala-xml_2.12.jar(bundle)
+[debug] :: resolution report :: resolve 2126ms :: artifacts dl 51ms
+[debug] 	report for backend#backend_2.12;2020.01.09 compile produced in D:\Github\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-compile.xml
+[debug] 	report for backend#backend_2.12;2020.01.09 runtime produced in D:\Github\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-runtime.xml
+[debug] 	report for backend#backend_2.12;2020.01.09 test produced in D:\Github\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-test.xml
+[debug] 	report for backend#backend_2.12;2020.01.09 provided produced in D:\Github\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-provided.xml
+[debug] 	report for backend#backend_2.12;2020.01.09 optional produced in D:\Github\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-optional.xml
+[debug] 	report for backend#backend_2.12;2020.01.09 compile-internal produced in D:\Github\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-compile-internal.xml
+[debug] 	report for backend#backend_2.12;2020.01.09 runtime-internal produced in D:\Github\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-runtime-internal.xml
+[debug] 	report for backend#backend_2.12;2020.01.09 test-internal produced in D:\Github\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-test-internal.xml
+[debug] 	report for backend#backend_2.12;2020.01.09 plugin produced in D:\Github\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-plugin.xml
+[debug] 	report for backend#backend_2.12;2020.01.09 pom produced in D:\Github\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-pom.xml
+[debug] 	report for backend#backend_2.12;2020.01.09 scala-tool produced in D:\Github\geek\backend\target\scala-2.12\resolution-cache\reports\backend-backend_2.12-scala-tool.xml
+[debug] 	resolve done (2126ms resolve - 51ms download)
 [info] Done updating.
 [warn] There may be incompatibilities among your library dependencies; run 'evicted' to see detailed eviction warnings.

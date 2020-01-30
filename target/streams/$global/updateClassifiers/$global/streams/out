@@ -281,21 +281,21 @@
 [debug] == resolving dependencies org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT->jline#jline;2.14.6 [scala-tool->master]
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
-[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.7!scala-library.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.7!scala-compiler.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(src)
 [debug] 	[NOT REQUIRED] jline#jline;2.14.6!jline.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.7!scala-reflect.jar(src)
-[debug] :: resolution report :: resolve 59ms :: artifacts dl 2ms
-[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT compile produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-compile.xml
-[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT runtime produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-runtime.xml
-[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT test produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-test.xml
-[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT provided produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-provided.xml
-[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT optional produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-optional.xml
-[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT compile-internal produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-compile-internal.xml
-[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT runtime-internal produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-runtime-internal.xml
-[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT test-internal produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-test-internal.xml
-[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT plugin produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-plugin.xml
-[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT pom produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-pom.xml
-[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT scala-tool produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-scala-tool.xml
-[debug] 	resolve done (59ms resolve - 2ms download)
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.7!scala-compiler.jar(src)
+[debug] :: resolution report :: resolve 57ms :: artifacts dl 4ms
+[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT compile produced in D:\Github\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-compile.xml
+[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT runtime produced in D:\Github\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-runtime.xml
+[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT test produced in D:\Github\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-test.xml
+[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT provided produced in D:\Github\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-provided.xml
+[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT optional produced in D:\Github\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-optional.xml
+[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT compile-internal produced in D:\Github\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-compile-internal.xml
+[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT runtime-internal produced in D:\Github\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-runtime-internal.xml
+[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT test-internal produced in D:\Github\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-test-internal.xml
+[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT plugin produced in D:\Github\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-plugin.xml
+[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT pom produced in D:\Github\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-pom.xml
+[debug] 	report for org-seekloud-geek#org-seekloud-geek$sources;0.1.0-SNAPSHOT scala-tool produced in D:\Github\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek$sources-scala-tool.xml
+[debug] 	resolve done (57ms resolve - 4ms download)
