@@ -43,7 +43,9 @@ class Boot extends javafx.application.Application{
   override def start(primaryStage: Stage): Unit = {
     val root: Group = new Group()
 
-    val media: Media = new Media("http://10.1.29.245:30389/geek/distributor/getRecord/1000008/1569213160185/record.mp4")
+//    val media: Media = new Media("http://10.1.29.245:30389/geek/distributor/getRecord/1000008/1569213160185/record.mp4")
+    val media: Media = new Media("http://ivi.bupt.edu.cn/hls/cctv1.m3u8")
+
     val player: MediaPlayer = new MediaPlayer(media)
     val view: MediaView = new MediaView(player)
     view.setFitHeight(640)

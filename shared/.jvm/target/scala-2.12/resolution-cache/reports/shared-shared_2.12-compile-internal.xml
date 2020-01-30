@@ -7,16 +7,16 @@
 		revision="2020.01.09"
 		conf="compile-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20200110113153"/>
+		date="20200130155516"/>
 	<dependencies>
 		<module organisation="org.scala-lang" name="scala-library">
 			<revision name="2.12.10" status="release" pubdate="20190911052052" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.scala-lang.org/" extra-info.apiURL="https://www.scala-lang.org/api/2.12.10/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="0">
 				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="no" details="" size="2508" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang\scala-library\ivy-2.12.10.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10.pom"/>
+				<metadata-artifact status="no" details="" size="2694" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-lang\scala-library\ivy-2.12.10.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10.pom"/>
 				<caller organisation="shared" name="shared_2.12" conf="compile-internal, compile, provided, optional" rev="2.12.10" rev-constraint-default="2.12.10" rev-constraint-dynamic="2.12.10" callerrev="2020.01.09"/>
 				<artifacts>
-					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="5276900" time="0" location="C:\Users\19783\.ivy2\cache\org.scala-lang\scala-library\jars\scala-library-2.12.10.jar">
-						<origin-location is-local="false" location="UNKNOWN"/>
+					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="5276900" time="0" location="C:\Users\Administrator\.ivy2\cache\org.scala-lang\scala-library\jars\scala-library-2.12.10.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>

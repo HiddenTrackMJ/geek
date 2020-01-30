@@ -1,3 +1,0 @@
-[warn] Multiple resolvers having different access mechanism configured with same name 'public'. To avoid conflict, Remove duplicate project resolvers (`resolvers`) or rename publishing resolver (`publishTo`).
-[debug] Other repositories:
-[debug] Default repositories:

@@ -5,7 +5,7 @@
 [debug] resolving dependencies for configuration 'compile'
 [debug] == resolving dependencies for shared#shared$sources;2020.01.09 [compile]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [compile->default]
-[debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-library;2.12.10 {compile=[default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master], runtime=[default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master], test=[default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master], compile-internal=[default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master], runtime-internal=[default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master], test-internal=[default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master], plugin=[master(*), compile, runtime(*), master(compile), runtime, compile(*), master], scala-tool=[default, master(*), compile, runtime(*), runtime, optional, optional(default), compile(*), master]}
+[debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-library;2.12.10 {compile=[default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master], runtime=[default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master], test=[default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master], compile-internal=[default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master], runtime-internal=[default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master], test-internal=[default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master], plugin=[master(*), compile, runtime(*), master(compile), runtime, compile(*), master], scala-tool=[default, master(*), compile, runtime(*), master(compile), runtime, optional, optional(default), compile(*), master]}
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-library;2.12.10
 [debug] 	found org.scala-lang#scala-library;2.12.10 in sbt-chain
 [debug] 	[2.12.10] org.scala-lang#scala-library;2.12.10
@@ -555,23 +555,22 @@
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [plugin->compile]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [plugin->compile(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [plugin->master]
-[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [plugin->master(*)]
-[debug] sbt-chain: Checking cache for: dependency: org.scala-lang.modules#scala-xml_2.12;1.0.6 {plugin=[master(*), compile, runtime(*), runtime, compile(*), master], scala-tool=[master(*), compile, runtime(*), runtime, compile(*), master]}
+[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [plugin->compile]
+[debug] sbt-chain: Checking cache for: dependency: org.scala-lang.modules#scala-xml_2.12;1.0.6 {plugin=[compile, runtime(*), master(compile), runtime, compile(*), master], scala-tool=[compile, runtime(*), master(compile), runtime, compile(*), master]}
 [debug] sbt-chain: module revision found in cache: org.scala-lang.modules#scala-xml_2.12;1.0.6
 [debug] 	found org.scala-lang.modules#scala-xml_2.12;1.0.6 in sbt-chain
-[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [plugin->compile]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [plugin->runtime(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [plugin->compile]
+[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [plugin->master(compile)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [plugin->runtime]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [plugin->compile]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [plugin->compile(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [plugin->master]
-[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [plugin->master(*)]
-[debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-reflect;2.12.10 {plugin=[master(*), compile, runtime(*), master(compile), runtime, compile(*), master], scala-tool=[master(*), compile, runtime(*), runtime, compile(*), master]}
+[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [plugin->compile]
+[debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-reflect;2.12.10 {plugin=[compile, runtime(*), master(compile), runtime, compile(*), master], scala-tool=[compile, runtime(*), master(compile), runtime, compile(*), master]}
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-reflect;2.12.10
 [debug] 	found org.scala-lang#scala-reflect;2.12.10 in sbt-chain
 [debug] 	[2.12.10] org.scala-lang#scala-reflect;2.12.10
-[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [plugin->compile]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [plugin->runtime(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [plugin->compile]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [plugin->master(compile)]
@@ -610,11 +609,11 @@
 [debug] == resolving dependencies for shared#shared$sources;2020.01.09 [pom]
 [debug] resolving dependencies for configuration 'scala-tool'
 [debug] == resolving dependencies for shared#shared$sources;2020.01.09 [scala-tool]
-[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.fusesource.jansi#jansi;1.12 [scala-tool->master(*)]
-[debug] sbt-chain: Checking cache for: dependency: org.fusesource.jansi#jansi;1.12 {scala-tool=[master(*), compile, compile(*), master]}
+[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.fusesource.jansi#jansi;1.12 [scala-tool->compile]
+[debug] sbt-chain: Checking cache for: dependency: org.fusesource.jansi#jansi;1.12 {scala-tool=[compile, master(compile), compile(*), master]}
 [debug] sbt-chain: module revision found in cache: org.fusesource.jansi#jansi;1.12
 [debug] 	found org.fusesource.jansi#jansi;1.12 in sbt-chain
-[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.fusesource.jansi#jansi;1.12 [scala-tool->compile]
+[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.fusesource.jansi#jansi;1.12 [scala-tool->master(compile)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.fusesource.jansi#jansi;1.12 [scala-tool->compile(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.fusesource.jansi#jansi;1.12 [scala-tool->master]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [scala-tool->default]
@@ -625,24 +624,25 @@
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [scala-tool->compile]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [scala-tool->runtime(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [scala-tool->compile]
+[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [scala-tool->master(compile)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [scala-tool->runtime]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [scala-tool->compile]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [scala-tool->optional]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [scala-tool->optional(default)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [scala-tool->compile(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-library;2.12.10 [scala-tool->master]
-[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [scala-tool->master(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [scala-tool->compile]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [scala-tool->runtime(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [scala-tool->compile]
+[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [scala-tool->master(compile)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [scala-tool->runtime]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [scala-tool->compile]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [scala-tool->compile(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang.modules#scala-xml_2.12;1.0.6 [scala-tool->master]
-[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [scala-tool->master(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [scala-tool->compile]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [scala-tool->runtime(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [scala-tool->compile]
+[debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [scala-tool->master(compile)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [scala-tool->runtime]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [scala-tool->compile]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-reflect;2.12.10 [scala-tool->compile(*)]
@@ -657,11 +657,11 @@
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-compiler;2.12.10 [scala-tool->optional]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-compiler;2.12.10 [scala-tool->optional(default)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->org.scala-lang#scala-compiler;2.12.10 [scala-tool->master]
-[debug] == resolving dependencies shared#shared$sources;2020.01.09->jline#jline;2.14.6 [scala-tool->master(*)]
-[debug] sbt-chain: Checking cache for: dependency: jline#jline;2.14.6 {scala-tool=[master(*), compile, compile(*), master]}
+[debug] == resolving dependencies shared#shared$sources;2020.01.09->jline#jline;2.14.6 [scala-tool->compile]
+[debug] sbt-chain: Checking cache for: dependency: jline#jline;2.14.6 {scala-tool=[compile, master(compile), compile(*), master]}
 [debug] sbt-chain: module revision found in cache: jline#jline;2.14.6
 [debug] 	found jline#jline;2.14.6 in sbt-chain
-[debug] == resolving dependencies shared#shared$sources;2020.01.09->jline#jline;2.14.6 [scala-tool->compile]
+[debug] == resolving dependencies shared#shared$sources;2020.01.09->jline#jline;2.14.6 [scala-tool->master(compile)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->jline#jline;2.14.6 [scala-tool->compile(*)]
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->jline#jline;2.14.6 [scala-tool->master]
 [debug] resolving dependencies for configuration 'phantom-js-jetty'
@@ -754,33 +754,33 @@
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.10!scala-library.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-js#scalajs-test-bridge_2.12;0.6.31!scalajs-test-bridge_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-js#scalajs-test-interface_2.12;0.6.31!scalajs-test-interface_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.10!scala-reflect.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-js#scalajs-library_2.12;0.6.31!scalajs-library_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.10!scala-compiler.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-js#scalajs-compiler_2.12.10;0.6.31!scalajs-compiler_2.12.10.jar(src)
 [debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.12!jansi.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-js#scalajs-test-interface_2.12;0.6.31!scalajs-test-interface_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-js#scalajs-compiler_2.12.10;0.6.31!scalajs-compiler_2.12.10.jar(src)
 [debug] 	[NOT REQUIRED] jline#jline;2.14.6!jline.jar(src)
-[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-continuation;8.1.16.v20140903!jetty-continuation.jar(src)
-[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-io;8.1.16.v20140903!jetty-io.jar(src)
-[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-websocket;8.1.16.v20140903!jetty-websocket.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-js#scalajs-test-bridge_2.12;0.6.31!scalajs-test-bridge_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-server;8.1.16.v20140903!jetty-server.jar(src)
+[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-io;8.1.16.v20140903!jetty-io.jar(src)
+[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-continuation;8.1.16.v20140903!jetty-continuation.jar(src)
+[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-websocket;8.1.16.v20140903!jetty-websocket.jar(src)
+[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-http;8.1.16.v20140903!jetty-http.jar(src)
 [debug] 	[NOT REQUIRED] org.eclipse.jetty.orbit#javax.servlet;3.0.0.v201112011016!javax.servlet.jar(src)
 [debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-util;8.1.16.v20140903!jetty-util.jar(src)
-[debug] 	[NOT REQUIRED] org.eclipse.jetty#jetty-http;8.1.16.v20140903!jetty-http.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-js#scalajs-library_2.12;0.6.31!scalajs-library_2.12.jar(src)
-[debug] :: resolution report :: resolve 148ms :: artifacts dl 8ms
-[debug] 	report for shared#shared$sources;2020.01.09 compile produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-compile.xml
-[debug] 	report for shared#shared$sources;2020.01.09 runtime produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-runtime.xml
-[debug] 	report for shared#shared$sources;2020.01.09 test produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-test.xml
-[debug] 	report for shared#shared$sources;2020.01.09 provided produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-provided.xml
-[debug] 	report for shared#shared$sources;2020.01.09 optional produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-optional.xml
-[debug] 	report for shared#shared$sources;2020.01.09 compile-internal produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-compile-internal.xml
-[debug] 	report for shared#shared$sources;2020.01.09 runtime-internal produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-runtime-internal.xml
-[debug] 	report for shared#shared$sources;2020.01.09 test-internal produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-test-internal.xml
-[debug] 	report for shared#shared$sources;2020.01.09 plugin produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-plugin.xml
-[debug] 	report for shared#shared$sources;2020.01.09 pom produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-pom.xml
-[debug] 	report for shared#shared$sources;2020.01.09 scala-tool produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-scala-tool.xml
-[debug] 	report for shared#shared$sources;2020.01.09 phantom-js-jetty produced in F:\Scala\workspace\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-phantom-js-jetty.xml
-[debug] 	resolve done (148ms resolve - 8ms download)
+[debug] :: resolution report :: resolve 88ms :: artifacts dl 15ms
+[debug] 	report for shared#shared$sources;2020.01.09 compile produced in D:\Github\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-compile.xml
+[debug] 	report for shared#shared$sources;2020.01.09 runtime produced in D:\Github\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-runtime.xml
+[debug] 	report for shared#shared$sources;2020.01.09 test produced in D:\Github\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-test.xml
+[debug] 	report for shared#shared$sources;2020.01.09 provided produced in D:\Github\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-provided.xml
+[debug] 	report for shared#shared$sources;2020.01.09 optional produced in D:\Github\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-optional.xml
+[debug] 	report for shared#shared$sources;2020.01.09 compile-internal produced in D:\Github\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-compile-internal.xml
+[debug] 	report for shared#shared$sources;2020.01.09 runtime-internal produced in D:\Github\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-runtime-internal.xml
+[debug] 	report for shared#shared$sources;2020.01.09 test-internal produced in D:\Github\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-test-internal.xml
+[debug] 	report for shared#shared$sources;2020.01.09 plugin produced in D:\Github\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-plugin.xml
+[debug] 	report for shared#shared$sources;2020.01.09 pom produced in D:\Github\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-pom.xml
+[debug] 	report for shared#shared$sources;2020.01.09 scala-tool produced in D:\Github\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-scala-tool.xml
+[debug] 	report for shared#shared$sources;2020.01.09 phantom-js-jetty produced in D:\Github\geek\shared\.js\target\scala-2.12\resolution-cache\reports\shared-shared$sources-phantom-js-jetty.xml
+[debug] 	resolve done (88ms resolve - 15ms download)
