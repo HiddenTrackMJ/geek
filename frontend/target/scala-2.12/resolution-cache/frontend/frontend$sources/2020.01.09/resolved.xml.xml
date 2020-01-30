@@ -4,7 +4,7 @@
 		module="frontend$sources"
 		revision="2020.01.09"
 		status="integration"
-		publication="20200129163926"
+		publication="20200130144847"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>

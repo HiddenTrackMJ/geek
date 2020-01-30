@@ -7,7 +7,7 @@
 		revision="0.1.0-SNAPSHOT"
 		conf="compile"
 		confs="compile, runtime, test, provided, optional"
-		date="20200129163915"/>
+		date="20200129225850"/>
 	<dependencies>
 		<module organisation="org.xerial.sbt" name="sbt-pack">
 			<revision name="0.12" status="release" pubdate="20190112060326" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://xerial.org/" extra-scalaVersion="2.12" extra-sbtVersion="1.0" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="107">

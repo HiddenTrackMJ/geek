@@ -83,11 +83,14 @@ object Grabber {
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
         case t: GetRecorder =>
-          val srcPath = "rtmp://127.0.0.1/oflaDemo/1234" //AppSettings.rtmpServer + liveId //
+          val srcPath =
+          //"rtmp://58.200.131.2:1935/livetv/hunantv"
+          "rtmp://10.1.29.247:1935/live/123456"
+          // AppSettings.rtmpServer + liveId //
           log.info(s"${ctx.self} receive a msg $t")
           val grabber = new FFmpegFrameGrabber(srcPath)
           Try {
-            grabber.start()
+            grabber.startUnsafe()
           } match {
             case Success(value) =>
               log.info(s"$liveId grabber start successfully")

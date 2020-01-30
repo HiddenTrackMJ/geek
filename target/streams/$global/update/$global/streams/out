@@ -9,7 +9,6 @@
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.7 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.7 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.7 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.7 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.7 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-library;2.12.7 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] no default cache defined: set to C:\Users\19783\.ivy2\cache
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-library;2.12.7
 [debug] 	found org.scala-lang#scala-library;2.12.7 in sbt-chain
 [debug] 	[2.12.7] org.scala-lang#scala-library;2.12.7
@@ -253,102 +252,23 @@
 [debug] ignoring unhandled DependencyDescriptorMediator: class sbt.internal.librarymanagement.IvyScalaUtil$OverrideScalaMediator
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.7!scala-library.jar
-[debug] no default ivy user dir defined: set to C:\Users\19783\.ivy2
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.7!scala-reflect.jar
-[debug] no default ivy user dir defined: set to C:\Users\19783\.ivy2
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.7!scala-compiler.jar
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.7!scala-library.jar
 [debug] 	[NOT REQUIRED] jline#jline;2.14.6!jline.jar
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(bundle)
-[debug] no default ivy user dir defined: set to C:\Users\19783\.ivy2
-[debug] no default ivy user dir defined: set to C:\Users\19783\.ivy2
-[debug] no default ivy user dir defined: set to C:\Users\19783\.ivy2
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] no default cache defined: set to C:\Users\19783\.ivy2\cache
-[debug] no default cache defined: set to C:\Users\19783\.ivy2\cache
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] no default cache defined: set to C:\Users\19783\.ivy2\cache
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] no default cache defined: set to C:\Users\19783\.ivy2\cache
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] no default cache defined: set to C:\Users\19783\.ivy2\cache
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] settings loaded (44ms)
-[debug] 	default cache: C:\Users\19783\.ivy2\cache
-[debug] 	default resolver: default
-[debug] 	-- 5 resolvers:
-[debug] 	shared [file]
-[debug] 	default [chain] [local, main]
-[debug] 	public [ibiblio]
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] 	main [chain] [shared, public]
-[debug] 	local [file]
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] settings loaded (60ms)
-[debug] 	default cache: C:\Users\19783\.ivy2\cache
-[debug] 	default resolver: default
-[debug] 	-- 5 resolvers:
-[debug] 	shared [file]
-[debug] 	default [chain] [local, main]
-[debug] 	public [ibiblio]
-[debug] 	main [chain] [shared, public]
-[debug] 	local [file]
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/C:/Users/19783/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] settings loaded (60ms)
-[debug] 	default cache: C:\Users\19783\.ivy2\cache
-[debug] 	default resolver: default
-[debug] 	-- 5 resolvers:
-[debug] 	shared [file]
-[debug] 	default [chain] [local, main]
-[debug] 	public [ibiblio]
-[debug] 	main [chain] [shared, public]
-[debug] 	local [file]
-[debug] settings loaded (60ms)
-[debug] 	default cache: C:\Users\19783\.ivy2\cache
-[debug] 	default resolver: default
-[debug] 	-- 5 resolvers:
-[debug] 	shared [file]
-[debug] 	default [chain] [local, main]
-[debug] 	public [ibiblio]
-[debug] settings loaded (60ms)
-[debug] 	main [chain] [shared, public]
-[debug] 	default cache: C:\Users\19783\.ivy2\cache
-[debug] 	local [file]
-[debug] 	default resolver: default
-[debug] 	-- 5 resolvers:
-[debug] 	shared [file]
-[debug] 	default [chain] [local, main]
-[debug] 	public [ibiblio]
-[debug] 	main [chain] [shared, public]
-[debug] 	local [file]
-[debug] :: resolution report :: resolve 428ms :: artifacts dl 75ms
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.7!scala-reflect.jar
+[debug] :: resolution report :: resolve 95ms :: artifacts dl 4ms
 [debug] 	report for org-seekloud-geek#org-seekloud-geek_2.12;0.1.0-SNAPSHOT compile produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek_2.12-compile.xml
 [debug] 	report for org-seekloud-geek#org-seekloud-geek_2.12;0.1.0-SNAPSHOT runtime produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek_2.12-runtime.xml
 [debug] 	report for org-seekloud-geek#org-seekloud-geek_2.12;0.1.0-SNAPSHOT test produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek_2.12-test.xml
 [debug] 	report for org-seekloud-geek#org-seekloud-geek_2.12;0.1.0-SNAPSHOT provided produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek_2.12-provided.xml
 [debug] 	report for org-seekloud-geek#org-seekloud-geek_2.12;0.1.0-SNAPSHOT optional produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek_2.12-optional.xml
+[debug] no default cache defined: set to C:\Users\19783\.ivy2\cache
 [debug] 	report for org-seekloud-geek#org-seekloud-geek_2.12;0.1.0-SNAPSHOT compile-internal produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek_2.12-compile-internal.xml
 [debug] 	report for org-seekloud-geek#org-seekloud-geek_2.12;0.1.0-SNAPSHOT runtime-internal produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek_2.12-runtime-internal.xml
 [debug] 	report for org-seekloud-geek#org-seekloud-geek_2.12;0.1.0-SNAPSHOT test-internal produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek_2.12-test-internal.xml
 [debug] 	report for org-seekloud-geek#org-seekloud-geek_2.12;0.1.0-SNAPSHOT plugin produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek_2.12-plugin.xml
 [debug] 	report for org-seekloud-geek#org-seekloud-geek_2.12;0.1.0-SNAPSHOT pom produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek_2.12-pom.xml
 [debug] 	report for org-seekloud-geek#org-seekloud-geek_2.12;0.1.0-SNAPSHOT scala-tool produced in F:\Scala\workspace\geek\target\scala-2.12\resolution-cache\reports\org-seekloud-geek-org-seekloud-geek_2.12-scala-tool.xml
-[debug] 	resolve done (428ms resolve - 75ms download)
+[debug] 	resolve done (95ms resolve - 4ms download)
 [info] Done updating.

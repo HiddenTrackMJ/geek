@@ -7,7 +7,7 @@
 		revision="2020.01.09"
 		conf="compile-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool, phantom-js-jetty"
-		date="20200114200213"/>
+		date="20200129225736"/>
 	<dependencies>
 		<module organisation="in.nvilla" name="monadic-html_sjs0.6_2.12">
 			<revision name="0.4.0" status="release" pubdate="20191212212411" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/OlivierBlanvillain/monadic-html" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="21">
@@ -252,7 +252,7 @@
 			</revision>
 		</module>
 		<module organisation="shared" name="shared_sjs0.6_2.12">
-			<revision name="2020.01.09" status="integration" pubdate="20200114200210" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="1">
+			<revision name="2020.01.09" status="integration" pubdate="20200129225736" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="1">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="frontend" name="frontend_sjs0.6_2.12" conf="compile-internal, compile, provided, optional" rev="2020.01.09" rev-constraint-default="2020.01.09" rev-constraint-dynamic="2020.01.09" callerrev="2020.01.09"/>
 				<artifacts>

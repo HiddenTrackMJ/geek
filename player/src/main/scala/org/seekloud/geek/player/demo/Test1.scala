@@ -22,7 +22,7 @@ import scala.language.postfixOps
   *
   *
   */
-class Test1 extends javafx.application.Application{
+object Test1 extends javafx.application.Application{
 
   import MediaPlayer._
 

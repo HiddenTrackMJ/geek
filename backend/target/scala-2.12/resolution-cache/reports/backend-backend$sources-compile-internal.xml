@@ -7,7 +7,7 @@
 		revision="2020.01.09"
 		conf="compile-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20200129163927"/>
+		date="20200130144844"/>
 	<dependencies>
 		<module organisation="io.circe" name="circe-parser_2.12">
 			<revision name="0.9.3" status="release" pubdate="20180328092252" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/circe/circe" extra-info.apiURL="https://circe.github.io/circe/api/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="78">
@@ -246,7 +246,7 @@
 			</revision>
 		</module>
 		<module organisation="shared" name="shared_2.12">
-			<revision name="2020.01.09" status="integration" pubdate="20200129163917" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="38">
+			<revision name="2020.01.09" status="integration" pubdate="20200130144838" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="38">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="backend" name="backend$sources" conf="compile-internal, compile, provided, optional" rev="2020.01.09" rev-constraint-default="2020.01.09" rev-constraint-dynamic="2020.01.09" callerrev="2020.01.09"/>
 				<artifacts>

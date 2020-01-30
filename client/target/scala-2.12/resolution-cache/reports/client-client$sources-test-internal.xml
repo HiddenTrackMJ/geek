@@ -7,7 +7,7 @@
 		revision="2020.01.09"
 		conf="test-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20200129163924"/>
+		date="20200130144848"/>
 	<dependencies>
 		<module organisation="com.github.oshi" name="oshi-core">
 			<revision name="4.0.0" status="release" pubdate="20190810145642" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="38">
@@ -72,7 +72,7 @@
 			</revision>
 		</module>
 		<module organisation="player" name="player_2.12">
-			<revision name="2020.01.09" status="integration" pubdate="20200129163917" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="9">
+			<revision name="2020.01.09" status="integration" pubdate="20200130144838" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="9">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="client" name="client$sources" conf="test, compile, provided, test-internal, runtime, optional" rev="2020.01.09" rev-constraint-default="2020.01.09" rev-constraint-dynamic="2020.01.09" callerrev="2020.01.09"/>
 				<artifacts>
@@ -440,7 +440,7 @@
 			</revision>
 		</module>
 		<module organisation="shared" name="shared_2.12">
-			<revision name="2020.01.09" status="integration" pubdate="20200129163917" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="24">
+			<revision name="2020.01.09" status="integration" pubdate="20200130144838" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="24">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="client" name="client$sources" conf="test, compile, provided, test-internal, runtime, optional" rev="2020.01.09" rev-constraint-default="2020.01.09" rev-constraint-dynamic="2020.01.09" callerrev="2020.01.09"/>
 				<artifacts>

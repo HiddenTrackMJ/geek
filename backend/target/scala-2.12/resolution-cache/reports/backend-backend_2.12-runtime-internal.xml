@@ -7,7 +7,7 @@
 		revision="2020.01.09"
 		conf="runtime-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20200129163919"/>
+		date="20200129225739"/>
 	<dependencies>
 		<module organisation="org.bytedeco" name="javacv">
 			<revision name="1.5" status="release" pubdate="20190410111840" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://bytedeco.org/javacv/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="66">
@@ -1075,7 +1075,7 @@
 			</revision>
 		</module>
 		<module organisation="shared" name="shared_2.12">
-			<revision name="2020.01.09" status="integration" pubdate="20200129163917" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="1">
+			<revision name="2020.01.09" status="integration" pubdate="20200129225736" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="compile, default(compile)" position="1">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="backend" name="backend_2.12" conf="compile, runtime-internal, runtime, optional" rev="2020.01.09" rev-constraint-default="2020.01.09" rev-constraint-dynamic="2020.01.09" callerrev="2020.01.09"/>
 				<artifacts>
