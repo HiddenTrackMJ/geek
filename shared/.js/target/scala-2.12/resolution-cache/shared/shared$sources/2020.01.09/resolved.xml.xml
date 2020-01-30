@@ -4,7 +4,7 @@
 		module="shared$sources"
 		revision="2020.01.09"
 		status="integration"
-		publication="20200130155533"
+		publication="20200130194307"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>

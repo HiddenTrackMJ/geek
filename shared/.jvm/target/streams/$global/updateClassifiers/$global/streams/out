@@ -289,13 +289,13 @@
 [debug] == resolving dependencies shared#shared$sources;2020.01.09->jline#jline;2.14.6 [scala-tool->master]
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
-[debug] 	[NOT REQUIRED] jline#jline;2.14.6!jline.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.10!scala-library.jar(src)
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.10!scala-reflect.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.fusesource.jansi#jansi;1.12!jansi.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.10!scala-library.jar(src)
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.10!scala-reflect.jar(src)
+[debug] 	[NOT REQUIRED] jline#jline;2.14.6!jline.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.10!scala-compiler.jar(src)
-[debug] :: resolution report :: resolve 34ms :: artifacts dl 4ms
+[debug] :: resolution report :: resolve 55ms :: artifacts dl 3ms
 [debug] 	report for shared#shared$sources;2020.01.09 compile produced in D:\Github\geek\shared\.jvm\target\scala-2.12\resolution-cache\reports\shared-shared$sources-compile.xml
 [debug] 	report for shared#shared$sources;2020.01.09 runtime produced in D:\Github\geek\shared\.jvm\target\scala-2.12\resolution-cache\reports\shared-shared$sources-runtime.xml
 [debug] 	report for shared#shared$sources;2020.01.09 test produced in D:\Github\geek\shared\.jvm\target\scala-2.12\resolution-cache\reports\shared-shared$sources-test.xml
@@ -307,4 +307,4 @@
 [debug] 	report for shared#shared$sources;2020.01.09 plugin produced in D:\Github\geek\shared\.jvm\target\scala-2.12\resolution-cache\reports\shared-shared$sources-plugin.xml
 [debug] 	report for shared#shared$sources;2020.01.09 pom produced in D:\Github\geek\shared\.jvm\target\scala-2.12\resolution-cache\reports\shared-shared$sources-pom.xml
 [debug] 	report for shared#shared$sources;2020.01.09 scala-tool produced in D:\Github\geek\shared\.jvm\target\scala-2.12\resolution-cache\reports\shared-shared$sources-scala-tool.xml
-[debug] 	resolve done (34ms resolve - 4ms download)
+[debug] 	resolve done (55ms resolve - 3ms download)
