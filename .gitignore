@@ -1,11 +1,11 @@
 # Project exclude paths
-/backend/target/
-/frontend/target/
-/project/project/target/
-/project/target/
-/shared/.js/target/
-/shared/.jvm/target/
-/target/
+#/backend/target/
+#/frontend/target/
+#/project/project/target/
+#/project/target/
+#/shared/.js/target/
+#/shared/.jvm/target/
+#/target/
 
 # Created by .ignore support plugin (hsz.mobi)
 ### JetBrains template
@@ -89,3 +89,7 @@ frontend/target
 
 .*/
 !/.gitignore
+/client/target/
+/frontend/target/
+/target/
+/backend/target/
