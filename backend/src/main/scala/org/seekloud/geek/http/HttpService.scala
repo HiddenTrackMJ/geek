@@ -18,6 +18,7 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
   */
 trait HttpService extends ResourceService
   with ServiceUtils
+  with RoomService
   {
 
     implicit val system: ActorSystem
@@ -41,7 +42,11 @@ trait HttpService extends ResourceService
           pathEndOrSingleSlash {
             getFromResource("html/home.html")
           } ~
-          resourceRoutes 
+          resourceRoutes ~
+          pathPrefix("roomManager"){
+            userRoutes
+          }
+
 
         } ~ home
       }
