@@ -3,9 +3,14 @@
 /frontend/target/
 /project/project/target/
 /project/target/
+/shared/target/
 /shared/.js/target/
 /shared/.jvm/target/
 /target/
+/client/target/
+#/frontend/target/
+#/target/
+#/backend/target/
 
 # Created by .ignore support plugin (hsz.mobi)
 ### JetBrains template
@@ -89,3 +94,5 @@ frontend/target
 
 .*/
 !/.gitignore
+
+

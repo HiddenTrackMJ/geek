@@ -85,7 +85,7 @@ object Grabber {
         case t: GetRecorder =>
           val srcPath =
           //"rtmp://58.200.131.2:1935/livetv/hunantv"
-          "rtmp://10.1.29.247:1935/live/123456"
+          "rtmp://127.0.0.1:1935/live/1000_1"
           // AppSettings.rtmpServer + liveId //
           log.info(s"${ctx.self} receive a msg $t")
           val grabber = new FFmpegFrameGrabber(srcPath)
@@ -159,7 +159,7 @@ object Grabber {
 
         case GrabFrame =>
           val frame = grabber.grab()
-          println(s"new frame: ${frame.imageHeight}")
+//          println(s"new frame: ${frame.imageHeight}")
           if(frame != null) {
             recorder ! Recorder.NewFrame(liveId, frame.clone())
             ctx.self ! GrabFrame

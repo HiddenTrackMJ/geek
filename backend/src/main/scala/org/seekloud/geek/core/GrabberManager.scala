@@ -71,7 +71,7 @@ object GrabberManager {
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
         case msg: StartLive =>
-          val recordActor = getRecorder(ctx, msg.roomId, msg.roomActor, msg.rtmpInfo.liveCode, 1)//todo layout
+          val recordActor = getRecorder(ctx, msg.roomId, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
           val grabbers = msg.rtmpInfo.liveCode.map {
             stream =>
               getGrabber(ctx, msg.roomId, stream, recordActor)
@@ -82,7 +82,7 @@ object GrabberManager {
 
         case msg: StopLive =>
           log.info(s"stopping room ${msg.roomId}")
-          val recordActor = getRecorder(ctx, msg.roomId, msg.roomActor, msg.rtmpInfo.liveCode, 1)//todo layout
+          val recordActor = getRecorder(ctx, msg.roomId, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
           recordActor ! Recorder.StopRecorder("user stop live")
           msg.rtmpInfo.liveCode.foreach {
             stream =>
@@ -95,7 +95,7 @@ object GrabberManager {
 
         case msg: StartTrans =>
           log.info(s"start testing...")
-          val recordActor = getRecorder(ctx, 0L, msg.roomActor, msg.src, 1, Some(msg.out))//todo layout
+          val recordActor = getRecorder(ctx, 0L, msg.roomActor, msg.src, 0, Some(msg.out))//todo layout
           msg.src.map {
             stream =>
               getGrabber(ctx, 0L, stream, recordActor)
