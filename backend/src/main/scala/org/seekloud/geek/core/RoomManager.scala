@@ -72,7 +72,7 @@ object RoomManager {
       msg match {
         case Test =>
           val roomActor = getRoomActor(ctx, 1000, RoomUserInfo("a", "b"))
-          Boot.grabManager ! GrabberManager.StartLive(1000, RtmpInfo("a",List("1000_1")), roomActor)
+          Boot.grabManager ! GrabberManager.StartLive(1000, RtmpInfo("a",List("1000_1", "1000_2")), roomActor)
           Behaviors.same
 
         case x@_ =>

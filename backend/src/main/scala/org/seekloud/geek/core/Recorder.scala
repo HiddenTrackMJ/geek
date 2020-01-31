@@ -66,7 +66,7 @@ object Recorder {
 
   case class Ts4Others(var time: Long = 0)
 
-  case class Image(var frame: Frame = null)
+  case class Image(var frame: mutable.HashMap[String,Frame] = mutable.HashMap.empty)
 
   case class Ts4LastImage(var time: Long = -1)
 
@@ -197,14 +197,8 @@ object Recorder {
 //          println(grabbers)
           if (frame.image != null) {
             if (liveId == host) {
-              try{
-                recorder4ts.record(frame)
-              }
-              catch {
-                case e: Exception =>
-                  log.info(s"record error: ${e.getMessage}")
-              }
-//              drawer ! Image4Host(frame)
+//              recorder4ts.record(frame.clone())
+              drawer ! Image4Host(frame)
             } else if (pullLiveId.contains(liveId)) {
               drawer ! Image4Others(liveId, frame)
             } else {
@@ -217,13 +211,10 @@ object Recorder {
           if (frame.samples != null) {
 //            println(1, ffFilter)
             if (ffFilter.nonEmpty) {
-              println(2)
               if (peopleOnline == 1) {
-                println(3)
                 recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
                 log.debug(s"record sample...")
               } else {
-                println(4)
                 val fil = ffFilter(peopleOnline)
                 if (filterInUse.nonEmpty && fil != filterInUse.get) {
                   filterInUse.get.close()
@@ -252,7 +243,7 @@ object Recorder {
               }
               catch {
                 case e: Exception =>
-                  log.info(s"record error: ${e.getMessage}")
+                  log.info(s"record sample error: ${e.getMessage}")
               }
 //              log.debug(s"record sample...")
             }
@@ -297,24 +288,35 @@ object Recorder {
         case t: Image4Host =>
           val time = t.frame.timestamp
           val img = convert1.convert(t.frame)
-          val clientImg = convert2.convert(clientFrame.frame)
+          val clientImg = if(clientFrame.frame.nonEmpty) clientFrame.frame.toList.sortBy(_._1.split("_").last.toInt).map(
+            i => convert2.convert(i._2)
+          )
+          else List.empty
           //          graph.clearRect(0, 0, canvasSize._1, canvasSize._2)
-          0 match {
+          layout match {
             case 0 =>
-              graph.drawImage(img, 0, canvasSize._2 / 4, canvasSize._1 / 2, canvasSize._2 / 2, null)
+              graph.drawImage(img, 0, 0, canvasSize._1 , canvasSize._2 , null)
               graph.drawString("主播", 24, 24)
 //              graph.drawImage(clientImg, canvasSize._1 / 2, canvasSize._2 / 4, canvasSize._1 / 2, canvasSize._2 / 2, null)
 //              graph.drawString("观众", 344, 24)
+              clientImg.zipWithIndex.foreach{ i =>
+                val index = i._2
+                index match {
+                  case 0 => graph.drawImage(i._1, 0, 0, canvasSize._1 / 2, canvasSize._2 / 2, null)
+                  case 1 => graph.drawImage(i._1, canvasSize._1 / 2, canvasSize._2 / 4, canvasSize._1 / 2, canvasSize._2 / 2, null)
+                  case _ =>
+                }
+              }
 
             case 1 =>
               graph.drawImage(img, 0, 0, canvasSize._1, canvasSize._2, null)
               graph.drawString("主播", 24, 24)
-              graph.drawImage(clientImg, canvasSize._1 / 4 * 3, 0, canvasSize._1 / 4, canvasSize._2 / 4, null)
-              graph.drawString("观众", 584, 24)
+//              graph.drawImage(clientImg, canvasSize._1 / 4 * 3, 0, canvasSize._1 / 4, canvasSize._2 / 4, null)
+//              graph.drawString("观众", 584, 24)
 
             case 2 =>
-              graph.drawImage(clientImg, 0, 0, canvasSize._1, canvasSize._2, null)
-              graph.drawString("观众", 24, 24)
+//              graph.drawImage(clientImg, 0, 0, canvasSize._1, canvasSize._2, null)
+//              graph.drawString("观众", 24, 24)
               graph.drawImage(img, canvasSize._1 / 4 * 3, 0, canvasSize._1 / 4, canvasSize._2 / 4, null)
               graph.drawString("主播", 584, 24)
 
@@ -326,7 +328,13 @@ object Recorder {
           //          }
           //fixme 此处为何不直接recordImage
           val frame = convert.convert(canvas)
-          recorder4ts.record(frame.clone())
+          try{
+            recorder4ts.record(frame.clone())
+          }
+          catch {
+            case e: Exception =>
+              log.info(s"record error: ${e.getMessage}")
+          }
 //          val f = frame.clone()
 //          recorder4ts.recordImage(
 //            f.imageWidth,
@@ -342,7 +350,7 @@ object Recorder {
           Behaviors.same
 
         case t: Image4Others =>
-          clientFrame.frame = t.frame
+          clientFrame.frame.put(t.id, t.frame)
           Behaviors.same
 
         case m@NewRecord4Ts(recorder4ts) =>
