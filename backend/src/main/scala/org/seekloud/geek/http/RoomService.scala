@@ -19,7 +19,7 @@ import akka.util.Timeout
 import scala.concurrent.Future
 
 
-trait RoomService extends ServiceUtils {
+trait RoomService extends BaseService with ServiceUtils {
   implicit val timeout: Timeout
 
   implicit val scheduler: Scheduler
