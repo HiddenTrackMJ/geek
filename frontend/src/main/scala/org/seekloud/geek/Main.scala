@@ -3,7 +3,7 @@ package org.seekloud.geek
 import mhtml.{Cancelable, Rx, Var, emptyHTML, mount}
 import org.scalajs.dom
 import org.seekloud.geek.common.Route
-import org.seekloud.geek.pages._
+
 import org.seekloud.geek.utils.{Http, JsFunc, PageSwitcher}
 import org.seekloud.geek.shared.ptcl.RoomProtocol._
 import io.circe.generic.auto._
@@ -43,12 +43,12 @@ object Main extends PageSwitcher{
   val currentPage: Rx[Node] = currentHashVar.map { ls =>
     println(s"currentPage change to ${ls.mkString(",")}")
     ls match {
-      case "home" :: Nil => Home.render
-      case "live" :: Nil => LiveRoom.render
-      case "room" :: r :: Nil => new WatchLive(r.toLong).render
-      case "login" :: Nil => Login.render
+//      case "home" :: Nil => Home.render
+//      case "live" :: Nil => LiveRoom.render
+//      case "room" :: r :: Nil => new WatchLive(r.toLong).render
+//      case "login" :: Nil => Login.render
 //      case "info" :: Nil => LiveHouse.render //fixme delete
-      case _ => Home.render
+      case _ => emptyHTML
     }
 
   }
@@ -56,7 +56,8 @@ object Main extends PageSwitcher{
   val header: Rx[Node] = currentHashVar.map {
     //    case "Login" :: Nil => <div></div>
     case "login" :: Nil => emptyHTML
-    case _ => Header.render
+//    case _ => Header.render
+    case _ => emptyHTML
   }
 
   def show(): Cancelable = {
