@@ -18,15 +18,13 @@ object MySlickCodeGenerator {
 
   import concurrent.ExecutionContext.Implicits.global
 
-  val slickDriver = "slick.jdbc.MySQLProfile"
-  val jdbcDriver = "com.mysql.jdbc.Driver"
-//  val url = "jdbc:mysql://10.1.29.248:6446/guanwang20?characterEncoding=utf-8&rewriteBatchedStatements=true&useSSL=false"
-  val url = "jdbc:mysql://10.1.62.54:3306/guanwang20?characterEncoding=utf-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
-//  val url = "jdbc:mysql://192.168.0.250:6446/guanwang20?characterEncoding=utf-8&rewriteBatchedStatements=true&useSSL=false"
+  val slickDriver = "slick.jdbc.H2Profile"
+  val jdbcDriver = "org.h2.Driver"
+  val url = "jdbc:h2:file:/Users/hewro/Documents/工作/东信北邮/公司开发项目/geek/backend/data/geek" //注意相对路径，会根据电脑系统的不同和启动路径的不同而发生变化
   val outputFolder = "target/gencode/genTablesPsql"
-  val pkg = "org.seekloud.MrQ.models"
-  val user = "leaf58"
-  val password = "databasefortest20191105"
+  val pkg = "org.seekloud.geek.models"
+  val user = "geek"
+  val password = "geek"
 
 
   //val dbDriver = MySQLDriver

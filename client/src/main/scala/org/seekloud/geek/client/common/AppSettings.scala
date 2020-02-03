@@ -45,7 +45,7 @@ object AppSettings {
   val rmProtocol = rmConfig.getString("protocol")
   val rmWsProtocol = rmConfig.getString("wsProtocol")
   val rmDomain = rmConfig.getString("domain")
-  val rmHostName = rmConfig.getString("hostName")
+//  val rmHostName = rmConfig.getString("hostName")
   val rmPort = rmConfig.getInt("port")
   val rmUrl = rmConfig.getString("url")
 //  val d_w = rmConfig.getInt("width")

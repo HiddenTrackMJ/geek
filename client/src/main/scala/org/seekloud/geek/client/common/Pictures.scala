@@ -1,6 +1,9 @@
 package org.seekloud.geek.client.common
 
 import javafx.scene.image.{Image, ImageView}
+import org.seekloud.geek.client.core.NetImageProcessor
+import org.seekloud.geek.client.Boot.netImageProcessor
+
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
@@ -28,7 +31,6 @@ object Pictures {
       val pic = if (isHeader) new ImageView("img/header.png") else new ImageView("img/defaultCover.jpg")
       loadingImages = (picUrl, pic) :: loadingImages
 //      netImageProcessor ! NetImageProcessor.GetNetImage(picUrl)
-//      有用
       pic
     }
   }

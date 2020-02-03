@@ -1,4 +1,4 @@
-package org.seekloud.utils
+package org.seekloud.geek.utils
 
 import com.zaxxer.hikari.HikariDataSource
 import org.slf4j.LoggerFactory

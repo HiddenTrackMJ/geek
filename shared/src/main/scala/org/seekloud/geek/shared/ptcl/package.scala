@@ -29,10 +29,10 @@ package object ptcl {
 
 
   object CommonErrorCode {
-    //    val jsonFormatError = ErrorRsp(msg = "json parse error.", errCode = 1000005)
-    //    val noSessionError = ErrorRsp(msg = "no session,need to login", errCode = 1000006)
-    //    val accountNoExitError = ErrorRsp(msg = "account no exit", errCode = 1000007)
-    //    val passwordError = ErrorRsp(msg = "wrong password", errCode = 1000008)
+        val jsonFormatError = ErrorRsp(msg = "json parse error.", errCode = 1000005)
+        val noSessionError = ErrorRsp(msg = "no session,need to login", errCode = 1000006)
+        val accountNoExitError = ErrorRsp(msg = "account no exit", errCode = 1000007)
+        val passwordError = ErrorRsp(msg = "wrong password", errCode = 1000008)
   }
 
 }

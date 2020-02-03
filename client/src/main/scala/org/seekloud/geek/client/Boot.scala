@@ -10,7 +10,8 @@ import javafx.application.Platform
 import javafx.scene.text.Font
 import javafx.stage.Stage
 import org.seekloud.geek.client.common.StageContext
-import org.seekloud.geek.client.controller.{HomeController,LoginController}
+import org.seekloud.geek.client.controller.{HomeController, LoginController}
+import org.seekloud.geek.client.core.{NetImageProcessor, RmManager}
 import org.seekloud.geek.client.scene.HomeScene
 import org.slf4j.LoggerFactory
 
@@ -34,6 +35,8 @@ object Boot {
   implicit val scheduler: Scheduler = system.scheduler
   implicit val timeout: Timeout = Timeout(20 seconds)
 
+  val netImageProcessor: ActorRef[NetImageProcessor.Command] = system.spawn(NetImageProcessor.create(), "netImageProcessor")
+
 
   def addToPlatform(fun: => Unit): Unit = {
     Platform.runLater(() => fun)
@@ -53,12 +56,21 @@ class Boot extends javafx.application.Application {
   override def start(primaryStage: Stage): Unit = {
     val emojionemozilla = Font.loadFont(getClass.getResourceAsStream("/img/seguiemj.ttf"), 12) //表情浏览器？
     val context = new StageContext(primaryStage)
+    val rmManager = system.spawn(RmManager.create(context), "rmManager")
 
+    val loginController = new LoginController(context, rmManager)
 
     val homeScene = new HomeScene()
-    val homeSceneController = new HomeController(context, homeScene)
-//    rmManager ! RmManager.GetHomeItems(homeScene, homeSceneController)
+    val homeSceneController = new HomeController(context, homeScene, loginController, null, rmManager)
+
+    rmManager ! RmManager.GetHomeItems(homeScene, homeSceneController)
     homeSceneController.showScene()
+
+//    addToPlatform {
+//      homeSceneController.loginByTemp()
+//    }
+
+
 
     primaryStage.setOnCloseRequest(event => {
       println("OnCloseRequest...")

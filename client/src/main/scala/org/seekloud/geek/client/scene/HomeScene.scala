@@ -12,7 +12,7 @@ import javafx.scene.paint.Color
 import javafx.scene.text.{Font, Text}
 import javafx.scene.{Group, Scene}
 import org.seekloud.geek.client.common.{Constants, Pictures}
-//import org.seekloud.geek.client.core.RmManager
+import org.seekloud.geek.client.core.RmManager
 import org.slf4j.LoggerFactory
 import javafx.scene.control.Tooltip
 import org.seekloud.geek.client.component.Common._
@@ -20,13 +20,13 @@ import org.seekloud.geek.client.component.Common._
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
+
 /**
-  * User: Arrow
-  * Date: 2019/7/16
-  * Time: 12:13
-  *
-  * 主页
-  */
+ * User: hewro
+ * Date: 2020/1/31
+ * Time: 18:08
+ * Description: client 应用首页的界面
+ */
 
 object HomeScene {
 
@@ -37,10 +37,10 @@ object HomeScene {
     def gotoRoomPage()
 
     def gotoLoginDialog(
-                         userName: Option[String] = None,
-                         pwd: Option[String] = None,
-                         isToLive: Boolean = false,
-                         isToWatch: Boolean = false)
+      userName: Option[String] = None,
+      pwd: Option[String] = None,
+      isToLive: Boolean = false,
+      isToWatch: Boolean = false)
 
     def gotoRegisterDialog()
 
@@ -94,7 +94,7 @@ class HomeScene {
     this.listener = listener
   }
 
-  //HBox是水平布局，意味着在top区域内是水平布局
+
   def addTopArea(): HBox = {
     val topHBox = new HBox()
     topHBox.setPadding(new Insets(30, 50, 20, 0))
@@ -102,28 +102,27 @@ class HomeScene {
     topHBox.setAlignment(Pos.CENTER_RIGHT)
 
     def createIDcard: HBox = {
-      //登陆后，确定userinfo不为空
-      val header = Pictures.getPic(/*RmManager.userInfo.get.headImgUrl*/"666") //头像
+
+      val header = Pictures.getPic(RmManager.userInfo.get.headImgUrl)
 
       header.setFitHeight(35)
       header.setFitWidth(35)
 
-      val userName = new Label(s"用户：${/*RmManager.userInfo.get.userName*/}")
-      val userId = new Label(s"${/*RmManager.userInfo.get.userId*/}")
+      val userName = new Label(s"用户：${RmManager.userInfo.get.userName}")
+      val userId = new Label(s"${RmManager.userInfo.get.userId}")
 
-      //VBox 是竖直分布
       val userInfo = new VBox()
       userInfo.getChildren.addAll(userName, userId)
-      userInfo.setSpacing(1) //内边距
+      userInfo.setSpacing(1)
       userInfo.setAlignment(Pos.CENTER_LEFT)
 
-      val IDcard = new HBox() //把头像放在名字和id旁边
+      val IDcard = new HBox()
       IDcard.getChildren.addAll(header, userInfo)
       IDcard.setSpacing(5)
       IDcard.setAlignment(Pos.CENTER_LEFT)
       IDcard.setPadding(new Insets(2, 13, 2, 5))
       IDcard.getStyleClass.add("homeScene-IDcard")
-      addBoxEffect(Left(IDcard)) //设置鼠标移上去会有阴影，移开没有阴影
+      addBoxEffect(Left(IDcard))
 
       Tooltip.install(IDcard, new Tooltip("点击修改个人资料"))
       IDcard.addEventHandler(MouseEvent.MOUSE_CLICKED, (_: MouseEvent) => {
@@ -133,7 +132,7 @@ class HomeScene {
       IDcard
     }
 
-    if (false/*RmManager.userInfo.nonEmpty*/) { //如果已经登录
+    if (RmManager.userInfo.nonEmpty) {
       val logoutIcon = new ImageView("img/logout.png")
       val logoutButton = new Button("注销", logoutIcon)
       logoutButton.setOnAction(_ => listener.logout())
@@ -148,7 +147,7 @@ class HomeScene {
       loginIcon.setFitHeight(30)
       loginIcon.setFitWidth(30)
       val loginButton = new Button("登录", loginIcon)
-      loginButton.setOnAction(_ => listener.gotoLoginDialog()) //按下按钮之后怎么出来弹窗的？
+      loginButton.setOnAction(_ => listener.gotoLoginDialog())
       addButtonEffect(loginButton)
       loginButton.getStyleClass.add("homeScene-topBtn")
 
@@ -169,20 +168,20 @@ class HomeScene {
   }
 
   def addMiddleArea(): StackPane = {
-        val welcomeText = new Text("多人直播会议系统")
-        welcomeText.getStyleClass.add("homeScene-text")
+    //    val welcomeText = new Text("欢迎来到Theia在线直播系统")
+    //    welcomeText.getStyleClass.add("homeScene-text")
 
 //    val welcomeText = new ImageView("img/welcomeText.png")
 //    welcomeText.setFitHeight(61)
 //    welcomeText.setFitWidth(690)
 
-    val welcomeBg = new ImageView("img/welcomeBg3.png")
+    val welcomeBg = new ImageView("img/banner.jpeg")
 
     welcomeBg.setFitWidth(width)
     welcomeBg.setFitHeight(height * 0.4)
 
-    val stackPane = new StackPane() //居中且铺满的布局
-    stackPane.getChildren.addAll(welcomeBg, welcomeText)
+    val stackPane = new StackPane()
+    stackPane.getChildren.addAll(welcomeBg)
     stackPane
   }
 
@@ -196,7 +195,7 @@ class HomeScene {
     liveBtn.setOnAction(_ => listener.liveCheck())
     addButtonEffect(liveBtn)
 
-    val liveText = new Text("我要直播")
+    val liveText = new Text("发起会议")
     liveText.getStyleClass.add("homeScene-bottomText")
 
     val liveVBox = new VBox()
@@ -212,7 +211,7 @@ class HomeScene {
     watchBtn.setOnAction(_ => listener.gotoRoomPage())
     addButtonEffect(watchBtn)
 
-    val watchText = new Text("观看直播")
+    val watchText = new Text("加入会议")
     watchText.getStyleClass.add("homeScene-bottomText")
 
     val watchVBox = new VBox()

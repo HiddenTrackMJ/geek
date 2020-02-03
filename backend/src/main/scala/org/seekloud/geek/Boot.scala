@@ -12,7 +12,7 @@ import scala.language.postfixOps
 import scala.util.{Failure, Success}
 import akka.actor.typed.scaladsl.adapter._
 import org.seekloud.geek.common.AppSettings
-import org.seekloud.geek.core.{GrabberManager, RoomManager}
+import org.seekloud.geek.core.{GrabberManager, RoomManager, UserManager}
 import org.seekloud.geek.http.HttpService
 import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomUserInfo, RtmpInfo}
 
@@ -44,6 +44,7 @@ object Boot extends HttpService {
   val roomManager:ActorRef[RoomManager.Command] = system.spawn(RoomManager.init(),"roomManager")
 
   val grabManager: ActorRef[GrabberManager.Command] = system.spawn(GrabberManager.init(), "GrabManager")
+  val userManager: ActorRef[UserManager.Command] = system.spawn(UserManager.create(), "userManager")
 
 
 

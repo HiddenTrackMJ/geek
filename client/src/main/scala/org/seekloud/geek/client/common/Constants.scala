@@ -23,18 +23,19 @@ object Constants {
 
   val imageCachePath: String = cachePath + "/images"
   val loginInfoCachePath: String = cachePath + "/login"
-  val recordPath: String = System.getProperty("user.home") + "\\.geek\\client\\record"
+  val recordPath: String = System.getProperty("user.home") + "\\.theia\\pcClient\\record"
 
-  val imageCache = new File(imageCachePath)
-  if (!imageCache.exists()) {
-    imageCache.mkdirs()
-  } else {
-    imageCache.listFiles().foreach { file =>
-      val image = new Image(new FileInputStream(file))
-      Pictures.pictureMap.put(file.getName, image)
-    }
-  }
+//  val imageCache = new File(imageCachePath)
+//  if (!imageCache.exists()) {
+//    imageCache.mkdirs()
+//  } else {
+//    imageCache.listFiles().foreach { file =>
+//      val image = new Image(new FileInputStream(file))
+//      Pictures.pictureMap.put(file.getName, image)
+//    }
+//  }
 
+  //登录信息的临时文件
   val loginInfoCache = new File(loginInfoCachePath)
   if (!loginInfoCache.exists()) loginInfoCache.mkdirs()
 
@@ -48,8 +49,7 @@ object Constants {
 
 
   object AppWindow {
-//    val width = 1152
-    val width = 1220
+    val width = 1152
     val height = 864
   }
   object DefaultPlayer {
