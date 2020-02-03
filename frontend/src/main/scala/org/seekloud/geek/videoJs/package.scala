@@ -8,8 +8,8 @@ import com.karasiq.videojs._
 import org.scalajs.dom
 import org.scalajs.dom.Element
 import org.seekloud.geek.common.Route
-import org.seekloud.geek.front.common.Route
-import org.seekloud.piscu.front.common.Route
+//import org.seekloud.geek.front.common.Route
+//import org.seekloud.piscu.front.common.Route
 
 import scala.language.postfixOps
 import scala.scalajs.js.JSApp

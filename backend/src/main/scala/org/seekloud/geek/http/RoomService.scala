@@ -57,6 +57,7 @@ trait RoomService extends BaseService with ServiceUtils {
     entity(as[Either[Error, GetRoomInfoReq]]) {
       case Right(req) =>
 //        complete("ok")
+        println("ok")
         complete(req)
       case Left(error) =>
         complete(ToResponseMarshallable(error))
@@ -68,7 +69,7 @@ trait RoomService extends BaseService with ServiceUtils {
 
 
   val userRoutes: Route = pathPrefix("user") {
-     getRoomInfo
+     getRoomInfo ~ getRoomInfo
   }
 
 }
