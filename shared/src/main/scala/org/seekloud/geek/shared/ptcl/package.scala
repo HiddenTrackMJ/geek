@@ -7,6 +7,8 @@ package org.seekloud.geek.shared
   */
 package object ptcl {
 
+  trait Request
+
   trait CommonRsp {
     val errCode: Int
     val msg: String

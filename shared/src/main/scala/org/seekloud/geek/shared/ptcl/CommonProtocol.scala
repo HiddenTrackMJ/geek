@@ -64,4 +64,18 @@ object CommonProtocol {
     var rtmp: Option[String] = None
   )
 
+  /**
+    * 根据userId,token查询roomInfo接口
+    **/
+  final case class GetRoomInfoReq(
+                                   userId: Long,
+                                   token: String
+                                 )
+
+  final case class RoomInfoRsp(
+                                roomInfoOpt: Option[RoomInfo],
+                                errCode: Int = 0,
+                                msg: String = "ok"
+                              )
+
 }
