@@ -84,7 +84,7 @@ project/plugins/project/
 .logs
 .eventLog
 backend/target
-backend/data
+#backend/data
 frontend/target
 # Created by .ignore support plugin (hsz.mobi)
 /backend/src/main/resources/application.conf
