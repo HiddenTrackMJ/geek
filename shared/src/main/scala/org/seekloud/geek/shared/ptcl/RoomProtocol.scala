@@ -28,7 +28,7 @@ object RoomProtocol {
 
   case class CreateRoomRsp(
     roomId: Long,
-    liveUrl: String,
+    liveCode: String,
     errCode: Int = 0,
     msg: String = "ok"
   ) extends Response
@@ -62,6 +62,19 @@ object RoomProtocol {
     msg: String = "ok"
   ) extends Response
 
+  case class StartLive4ClientReq(
+    roomId: Long,
+    userId: Long
+  )
+
+  case class StartLive4ClientRsp(
+    rtmp: Option[RtmpInfo] = None,
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends Response
+
+  val StartLive4ClientFail = StartLive4ClientRsp(None, errCode = 2000001, msg = "StartLive4Client fail.")
+
   case class StopLiveReq(
     roomId: Long
   )
@@ -87,7 +100,7 @@ object RoomProtocol {
   )
 
   case class RoomData(
-    url: String,
+    userLiveCodeMap: Map[String, Long],
     roomId: Long,
     roomInfo: RoomUserInfo
   )

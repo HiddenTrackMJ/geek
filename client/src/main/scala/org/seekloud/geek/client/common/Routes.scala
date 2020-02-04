@@ -31,5 +31,8 @@ object Routes {
   val roomUrl: String = baseUrl + "/room"
   val getRoomInfo: String = roomUrl + "/getRoomInfo"
   val createRoom: String = roomUrl + "/createRoom"
+  val startLive: String = roomUrl + "/startLive"
+  val startLive4Client: String = roomUrl + "/startLive4Client"
+  val stopLive: String = roomUrl + "/stopLive"
 
 }
