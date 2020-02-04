@@ -23,7 +23,7 @@ object HomePage extends Page {
                 <h1 class="white-text">We Create Miracles</h1>
                 <p class="white-text">La Vita Nuova.
                 </p>
-                <button class="white-btn" style="width:145px" onclick={() => gotoPage("live")}>Live</button>
+                <button class="white-btn" style="width:145px" onclick={() => gotoPage("inviterManage")}>Invite</button>
                 <button class="main-btn" style="width:145px" onclick={() =>
                   Main.getRoomList()
                   dom.window.setTimeout(() => Header.gotoLive(), 500)

@@ -21,9 +21,11 @@ import org.seekloud.geek.client.controller.{HomeController, LoginController}
 import org.seekloud.geek.client.scene.HomeScene
 import org.slf4j.LoggerFactory
 
+import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.language.postfixOps
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Failure, Success}
 
 /**
   * Author: xgy
@@ -35,7 +37,12 @@ object Main {
   import org.seekloud.geek.client.utils.RoomClient.getRoomInfo
 
   def main(args: Array[String]): Unit = {
-    getRoomInfo(100,"sss")
+//    getRoomInfo(100,"sss")
+    val f = Future{5}
+  f  andThen{
+    case Failure(e) =>println("sss1"+e)
+    case Success(e) =>println("sss2"+e)
+  }
 
   }
 

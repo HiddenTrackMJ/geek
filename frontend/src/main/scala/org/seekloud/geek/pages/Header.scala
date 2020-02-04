@@ -22,7 +22,7 @@ object Header extends Component {
 
   def gotoLive(): Unit = {
     if (Main.roomList.nonEmpty) gotoPage(s"room/${Main.roomList.head.roomId}")
-    else JsFunc.alert("当前没有房间！")
+    else JsFunc.alert("当前没有录像！")
   }
 
   override def render: Elem =
@@ -48,7 +48,7 @@ object Header extends Component {
             <a href="#/home">Home</a>
           </li>
           <li>
-            <a href="#/live">Live</a>
+            <a href="#/inviterManage">Invite</a>
           </li>
           <li>
             <a href="javascript:void(0)" onclick={() =>

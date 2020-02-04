@@ -130,7 +130,11 @@ object UserInfoPage extends Page{
             </div>
             <div class="createCourse-item">
               <div class="test">昵称：</div>
-              <input placeholder="不限" disabled="disabled" style="background: #f0f0f0;" class="test-input"></input>
+              <input placeholder="不限"  class="test-input"></input>
+            </div>
+            <div class="createCourse-item">
+              <div class="test">id号：</div>
+              <input placeholder="123456" disabled="disabled" style="background: #f0f0f0;" class="test-input"></input>
             </div>
             <div class="createCourse-item">
               <div class="test">性别：</div>
@@ -154,10 +158,7 @@ object UserInfoPage extends Page{
                 <input placeholder="请输入详细地址" id="classRoom"  class="test-input"></input>
               </div>
             </div>
-            <div class="createCourse-item">
-              <div class="test">服务提供方：</div>
-              <input placeholder="geek" disabled="disabled" style="background: #f0f0f0;"  class="test-input"></input>
-            </div>
+
           </div>
 
           <div class="createCourse-list-2" style="width:40%">
