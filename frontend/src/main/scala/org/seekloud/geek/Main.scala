@@ -44,6 +44,7 @@ object Main extends PageSwitcher{
     println(s"currentPage change to ${ls.mkString(",")}")
     ls match {
       case "home" :: Nil => HomePage.render
+      case "userInfo" :: Nil => UserInfoPage.render
 //      case "live" :: Nil => LiveRoom.render
 //      case "room" :: r :: Nil => new WatchLive(r.toLong).render
       case "login" :: Nil => Login.render

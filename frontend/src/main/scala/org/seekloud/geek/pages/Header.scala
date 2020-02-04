@@ -58,7 +58,7 @@ object Header extends Component {
             }>Watch</a>
           </li>
           <li class="has-dropdown">
-            <a href="#/home">
+            <a href="#/userInfo">
               <img style="width:25px;height:25px" src={Route.imgPath("cat.jpg")}></img>
             </a>
             <ul class="dropdown">

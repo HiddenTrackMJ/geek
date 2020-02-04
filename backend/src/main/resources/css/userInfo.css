@@ -1,0 +1,304 @@
+.courseM-header{
+    height: 56px;
+    background:rgba(255,255,255,1);
+    line-height: 56px;
+    padding-left: 24px;
+    margin-top: 64px;
+}
+.buildCourse{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width:108px;
+    height:32px;
+    background:rgba(49,144,255,1);
+    border-radius:4px;
+    color:rgba(255,255,255,1);
+    line-height: 32px;
+    padding: 0 10px;
+    font-size: 14px;
+}
+.courseContainer{
+    display: flex;
+    width: 96%;
+    margin: 0 24px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    height: 612px;
+}
+
+.courseItem{
+    width:256px;
+    height:270px;
+    background: white;
+    border-radius:2px;
+    box-shadow: 0 0 12px  rgba(233,233,233,1);
+    margin-bottom: 24px;
+    margin-left: 1.5%;
+}
+.courseItem-img{
+    width:256px;
+    height:160px;
+}
+.searchContainer{
+    display: flex;
+    border-radius:4px;
+    justify-content: space-between;
+    width: 93%;
+    height: 80px;
+    align-items: center;
+    background: white;
+    margin: 24px 24px;
+    padding: 0 24px;
+}
+.search{
+    display: flex;
+    font-size:14px;
+    width:224px;
+    height:32px;
+    border-radius:4px;
+    border:1px solid rgba(217,217,217,1);
+    color:rgba(0,0,0,0.25);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+.search input{
+    border: none;
+    height: 30px;
+    width: 160px;
+}
+.search img{
+    width:16px;
+    height:16px;
+}
+.courseItem-title{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.courseItem-name{
+    font-weight:600;
+    color:rgba(0,0,0,0.85);
+}
+.courseItem-price{
+    font-weight:500;
+    color:rgba(240,70,129,1);
+}
+.courseItem-teacher{
+    font-size:14px;
+    color:rgba(0,0,0,0.45);
+    margin-top: 5px;
+}
+.courseItem-peopleNum{
+    font-size:12px;
+    color:rgba(0,0,0,0.45);
+    margin-top: 12px;
+}
+.creatCourse{
+    width: 93%;
+    /* height: 588px; */
+    background: white;
+    margin: 40px auto;
+    padding-top: 24px;
+    padding-bottom: 65px;
+    margin-bottom: 10px;
+
+}
+.createCourse-title{
+    margin-left: 60px;
+    padding-bottom: 24px;
+}
+.createCouse-content{
+    display: flex;
+}
+
+.courseItem-time {
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*width: 280px;*/
+    /*justify-content: space-between;*/
+}
+.createCourse-list-1 .createCourse-item{
+    position: relative;
+}
+.createCourse-list-1 .createCourse-item select{
+    width: 280px;
+    height: 30px;
+    padding: 0 12px;
+    -webkit-appearance: none;
+    border: 1px solid rgba(217,217,217,1);
+    color:grey;
+}
+.createCourse-list-1 .createCourse-item select + img{
+    position: absolute;
+    right: 82px;
+    top: 8px;
+    width: 14px;
+}
+.createCourse-list-2{
+    display: flex;
+    flex-flow: column nowrap;
+}
+.createCourse-list-2 .createCourse-item{
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+.createCourse-list-2 .createCourse-item div{
+    width: 120px;
+    text-align: end;
+}
+.createCourse-list-2 .createCourse-item input{
+    width: 280px;
+    padding: 0 12px;
+}
+.createCourse-list-2 .createCourse-item select{
+    width: 280px;
+    height: 30px;
+    padding: 0 12px;
+    -webkit-appearance: none;
+    border: 1px solid rgba(217,217,217,1);
+    color:grey;
+}
+.createCourse-list-2 .createCourse-item input + img{
+    position: absolute;
+    right: 82px;
+    top: 8px;
+    width: 14px;
+}
+.createCourse-list-2 .createCourse-item select + img{
+    position: absolute;
+    right: 82px;
+    top: 8px;
+    width: 14px;
+}
+.createCourse-list-2 .createCourse-textarea{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+}
+.createCourse-list-2 .createCourse-item textarea{
+    width: 280px;
+    height: 150px;
+    padding: 8px 9px;
+}
+.createCourse-item{
+    display: flex;
+    margin-bottom: 20px;
+    font-size:14px;
+    color:rgba(0,0,0,0.85);
+    align-items: center;
+}
+.createCourse-item input{
+    width:280px;
+    height:32px;
+    border-radius:4px;
+    border:1px solid rgba(217,217,217,1);
+}
+.submit{
+    width:108px;
+    height:32px;
+    background:rgba(49,144,255,1);
+    font-size:14px;
+    color:rgba(255,255,255,1);
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 32px;
+    margin: 85px auto 0 auto;
+}
+.creatCourse-titleA{
+    display: flex;
+    justify-content: space-between;
+    border-bottom:1px solid rgba(232,232,232,1);
+    margin-bottom: 30px;
+
+}
+.creatCourse-titleA img{
+    width: 20px;
+    height: 20px;
+    margin-right: 60px;
+}
+
+/*-----detail-----*/
+.courseDetail{
+    margin: 27px 28px;
+}
+.detail-card{
+    display: flex;
+    flex-flow: column nowrap;
+    background:rgba(255,255,255,1);
+    height: 600px;
+}
+.detail-card .detail-title{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin: 0 40px;
+    padding: 0 40px;
+    height: 72px;
+    border-bottom: 1px solid rgba(232,232,232,1);
+}
+.detail-card .detail-title .title-text{
+    flex-grow: 1;
+    font-size: 16px;
+    font-family:PingFangSC-Regular,PingFang SC;
+    font-weight:400;
+    color:rgba(0,0,0,0.85);
+    line-height:22px;
+}
+.detail-card .detail-title .title-exit{
+    cursor: pointer;
+    font-size: 21px;
+}
+.detail-content{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    margin: 53px 150px 0 150px;
+}
+.detail-content .content-list-1{
+    display: flex;
+    flex-flow: column nowrap;
+}
+.detail-content .content-list-2{
+    display: flex;
+    flex-flow: column nowrap;
+}
+.detail-content .content-li{
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 0px 0 30px 0;
+}
+.detail-content .content-li .li-title{
+    flex-shrink: 0;
+    margin: 0 8px 0 0;
+    width: 100px;
+    text-align: end;
+    font-size: 14px;
+    font-family:PingFangSC-Regular,PingFang SC;
+    font-weight:400;
+    color:rgba(0,0,0,0.85);
+    line-height:22px;
+}
+.detail-content .content-li .li-text{
+    max-width: 320px;
+    font-size: 14px;
+    font-family:PingFangSC-Regular,PingFang SC;
+    font-weight:400;
+    color:rgba(0,0,0,0.65);
+    line-height:22px;
+}
+.test{
+    flex-shrink: 0;
+    width: 120px;
+    text-align: end;
+}
+.test-input{
+    padding: 0 12px;
+}

@@ -8,7 +8,10 @@ import org.seekloud.geek.utils.{Http, JsFunc, Modal, Page}
 import io.circe.generic.auto._
 import io.circe.syntax._
 import org.seekloud.geek.common.Route
-import org.seekloud.geek.shared.ptcl.UserProtocol.{SignInReq, SignInRsp}
+//import org.seekloud.geek.shared.ptcl.UserProtocol.{SignInReq, SignInRsp}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{SignIn, SignInRsp}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{SignUp, SignUpRsp}
+
 //import io.circe.syntax._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -31,8 +34,8 @@ object Login extends Page {
     val username = dom.document.getElementById("name").asInstanceOf[Input].value
     val password = dom.document.getElementById("pwd").asInstanceOf[Input].value
     if (username.nonEmpty && password.nonEmpty) {
-      val data = SignInReq(username, password).asJson.noSpaces
-      Http.postJsonAndParse[SignInRsp](Route.User.signUp, data).map {
+      val data = SignUp(username, password,"").asJson.noSpaces
+      Http.postJsonAndParse[SignUpRsp](Route.User.signUp, data).map {
         rsp =>
           rsp.errCode match {
             case 0 =>
@@ -48,23 +51,29 @@ object Login extends Page {
     }
   }
 
+
   private def signIn(): Unit = {
+    println("sss1")
     val username = dom.document.getElementById("username").asInstanceOf[Input].value
     val password = dom.document.getElementById("password").asInstanceOf[Input].value
+    println("sss2")
     if (username.nonEmpty && password.nonEmpty) {
-      val data = SignInReq(username, password).asJson.noSpaces
+      val data = SignIn(username, password).asJson.noSpaces
       Http.postJsonAndParse[SignInRsp](Route.User.signIn, data).map {
         rsp =>
+//          println("sss1")
           rsp.errCode match {
             case 0 =>
               //              JsFunc.alert(s"登陆成功！")
-              val userId = rsp.userId.get
+              val userId = rsp.userInfo.get.userId
               dom.window.localStorage.setItem("username", username)
               //              dom.window.localStorage.setItem("password", password)
               dom.window.localStorage.setItem("userId", userId.toString)
               dom.window.location.hash = s"#/home"
+//              println("sss2")
             case _ =>
               JsFunc.alert(rsp.msg)
+              println("sss3")
           }
       }
     } else {
