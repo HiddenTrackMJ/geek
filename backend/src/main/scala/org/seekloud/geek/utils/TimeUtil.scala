@@ -68,9 +68,28 @@ object TimeUtil {
   }
 
   def main(args: Array[String]): Unit = {
-    val date1 = "2018-01-22 00:00:00"
-    val date2 = "2018-01-23 00:00:00"
-    println(date2TimeStamp((date1,date2)))
+//    val date1 = "2018-01-22 00:00:00"
+//    val date2 = "2018-01-23 00:00:00"
+//    println(date2TimeStamp((date1,date2)))
+    val roomId = 1000
+    val userId = 147
+  var streams = List[String]()
+    (1 to 4).foreach { i =>
+      val streamName = s"${roomId}_$i"
+      streams = streamName :: streams
+    }
+    var selfCode = ""
+    val userLiveCodeMap = streams.reverse.zipWithIndex.toMap.map{ s =>
+      val index = s._2
+      if (index == 0) {
+        selfCode = s._1
+        (s._1, userId)
+      }
+      else {
+        (s._1, -1L)
+      }
+    }
+    println(userLiveCodeMap)
   }
 
 }

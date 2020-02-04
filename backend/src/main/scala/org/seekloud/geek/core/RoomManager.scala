@@ -9,8 +9,8 @@ import org.seekloud.geek.Boot
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.Boot.executor
 import org.seekloud.geek.common.AppSettings
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, RoomUserInfo, RtmpInfo, StartLiveReq, StartLiveRsp, StopLiveReq}
-import org.seekloud.geek.shared.ptcl.SuccessRsp
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{StartLive4ClientFail,CreateRoomReq, CreateRoomRsp, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, RoomData, RoomUserInfo, RtmpInfo, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLiveReq, UpdateRoomInfoReq}
+import org.seekloud.geek.shared.ptcl.{ComRsp, SuccessRsp}
 
 import scala.collection.mutable
 import scala.util.{Failure, Success}
@@ -33,7 +33,15 @@ object RoomManager {
 
   final case class StartLive(req: StartLiveReq, replyTo: ActorRef[StartLiveRsp]) extends Command
 
+  final case class StartLive4Client(req: StartLive4ClientReq, replyTo: ActorRef[StartLive4ClientRsp]) extends Command
+
   final case class StopLive(req: StopLiveReq, replyTo: ActorRef[SuccessRsp]) extends Command
+
+  final case class GetRoomList(replyTo: ActorRef[GetRoomListRsp]) extends Command
+
+  final case class GetUserInfo(req: GetUserInfoReq, replyTo: ActorRef[GetUserInfoRsp]) extends Command
+
+  final case class UpdateRoomInfo(req: UpdateRoomInfoReq, replyTo: ActorRef[ComRsp]) extends Command
 
   private final case class SwitchBehavior(
     name: String,
@@ -51,6 +59,14 @@ object RoomManager {
   private val initTime = 5.minutes
 
   case object Test extends Command
+
+  case class RoomDetailInfo(
+    roomUserInfo: RoomUserInfo,
+    rtmpInfo: RtmpInfo,
+    hostCode: String,
+    userLiveCodeMap: Map[String, Long],
+    roomActor: ActorRef[RoomActor.Command]
+  )
 
   private[this] def switchBehavior(ctx: ActorContext[Command],
     behaviorName: String, behavior: Behavior[Command], durationOpt: Option[FiniteDuration] = None, timeOut: TimeOut = TimeOut("busy time error"))
@@ -74,7 +90,7 @@ object RoomManager {
 
   private def idle(
     roomIdGenerator: AtomicLong,
-    rooms: mutable.HashMap[Long, (RoomUserInfo, RtmpInfo, String)], //RoomUserInfo, RtmpInfo, liveUrl
+    rooms: mutable.HashMap[Long, RoomDetailInfo], //RoomUserInfo, RtmpInfo, hostLiveCode, (userId -> liveStream)
     affiliation: mutable.HashMap[Long, List[Long]]   //userId -> List(roomId)
   )(
     implicit stashBuffer: StashBuffer[Command],
@@ -84,16 +100,125 @@ object RoomManager {
       msg match {
         case Test =>
           val roomActor = getRoomActor(ctx, 1000, RoomUserInfo("a", "b"))
-          Boot.grabManager ! GrabberManager.StartLive(1000, RtmpInfo("a",List("1000_1")), roomActor)
+          Boot.grabManager ! GrabberManager.StartLive(1000, RtmpInfo("a",List("1000_1")), "1000_1", roomActor)
           Behaviors.same
 
         case CreateRoom(req, rsp) =>
           val roomId = roomIdGenerator.getAndIncrement()
-          val liveUrl = AppSettings.baseUrl + "#/room" + s"/$roomId"
-          rooms.put(roomId, (req.info, RtmpInfo(AppSettings.rtmpServer, Nil), liveUrl))
+          val peopleNum = 4
+          var streams = List[String]()
+          (1 to peopleNum).foreach { i =>
+            val streamName = s"${roomId}_$i"
+            streams = streamName :: streams
+          }
+          val rtmpInfo = RtmpInfo(AppSettings.rtmpServer, streams.reverse)
+          var selfCode = ""
+          val userLiveCodeMap: Map[String, Long] = streams.reverse.zipWithIndex.toMap.map{ s =>
+            val index = s._2
+            if (index == 0) {
+              selfCode = s._1
+              (s._1, req.userId)
+            }
+            else {
+              (s._1, -1L)
+            }
+          }
+          rooms.put(roomId, RoomDetailInfo(req.info, rtmpInfo, selfCode, userLiveCodeMap, null))
           val assets = affiliation.getOrElse(req.userId, Nil)
           affiliation.put(req.userId, roomId :: assets)
-          rsp ! CreateRoomRsp(roomId, liveUrl)
+          rsp ! CreateRoomRsp(roomId, selfCode)
+          Behaviors.same
+
+        case msg: StartLive =>
+          assert(rooms.contains(msg.req.roomId))
+          val roomOldInfo = rooms(msg.req.roomId)
+          val roomActor = getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo)
+          rooms.put(msg.req.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, roomOldInfo.rtmpInfo, roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomActor))
+          //          RoomDao.updateLiveCode(msg.req.roomId, rtmpInfo.liveCode.mkString(";")).onComplete{
+//            case Success(_) =>
+//              msg.replyTo ! StartLiveRsp(rtmpInfo)
+//            case Failure(e) =>
+//              log.info(s"update live code at db failed due to $e")
+//              msg.replyTo ! StartLiveRsp(rtmpInfo)
+//          }
+          msg.replyTo ! StartLiveRsp(roomOldInfo.rtmpInfo)
+          roomActor ! RoomActor.StartLive(roomOldInfo.rtmpInfo, roomOldInfo.hostCode)
+          Behaviors.same
+
+        case msg: StartLive4Client =>
+          assert(rooms.contains(msg.req.roomId))
+          val roomOldInfo = rooms(msg.req.roomId)
+          if (roomOldInfo.userLiveCodeMap.exists(_._2 == msg.req.userId)) {
+            msg.replyTo ! StartLive4ClientRsp(Some(roomOldInfo.rtmpInfo))
+            roomOldInfo.roomActor ! RoomActor.StartLive4Client(roomOldInfo.rtmpInfo, roomOldInfo.userLiveCodeMap.find(_._2 == msg.req.userId).get._1)
+          }
+          else {
+            msg.replyTo ! StartLive4ClientFail
+          }
+          Behaviors.same
+
+        case msg: StopLive =>
+          log.info(s"stop live in room: ${msg.req.roomId}")
+          assert(rooms.contains(msg.req.roomId))
+          val liveCodes = rooms(msg.req.roomId).rtmpInfo.liveCode
+          val roomOldInfo = rooms(msg.req.roomId)
+          getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo) ! RoomActor.StopLive(RtmpInfo(AppSettings.rtmpServer, liveCodes))
+          rooms.put(msg.req.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, RtmpInfo(AppSettings.rtmpServer, Nil), roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomOldInfo.roomActor))
+          msg.replyTo ! SuccessRsp()
+          Behaviors.same
+
+        case msg: GetRoomList =>
+          val rsp = rooms.toList.map(i => RoomData(i._2.userLiveCodeMap,  i._1, i._2.roomUserInfo))
+          msg.replyTo ! GetRoomListRsp(rsp)
+          Behaviors.same
+
+        case msg: GetUserInfo =>
+          if (affiliation.contains(msg.req.userId)) {
+            affiliation(msg.req.userId) match {
+              case Nil =>
+                msg.replyTo ! GetUserInfoRsp(None, None)
+              case roomIds =>
+                val roomId = roomIds.head
+                rooms.get(roomId) match {
+                  case None =>
+                    msg.replyTo ! GetUserInfoRsp(None, None)
+                  case Some(roomInfo) =>
+                    val roomData = RoomData(roomInfo.userLiveCodeMap, roomId, roomInfo.roomUserInfo)
+                    val rtmpInfo = roomInfo.rtmpInfo
+                    msg.replyTo ! GetUserInfoRsp(Some(roomData), Some(rtmpInfo))
+                }
+            }
+          }
+          else {
+            msg.replyTo ! GetUserInfoRsp(None, None)
+          }
+          Behaviors.same
+
+        case msg: UpdateRoomInfo =>
+          if (rooms.contains(msg.req.roomId)) {
+            val roomOldInfo = rooms(msg.req.roomId)
+            val newName = if (msg.req.roomInfo.roomName.nonEmpty) {
+              msg.req.roomInfo.roomName.get
+            } else roomOldInfo.roomUserInfo.roomName
+
+            val newDes = if (msg.req.roomInfo.des.nonEmpty) {
+              msg.req.roomInfo.des.get
+            } else roomOldInfo.roomUserInfo.des
+
+            val newRoomInfo = RoomUserInfo(newName, newDes)
+            rooms.update(msg.req.roomId, RoomDetailInfo(newRoomInfo, roomOldInfo.rtmpInfo, roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomOldInfo.roomActor))
+//            RoomDao.updateRoom(msg.req.roomId, newName, newDes).onComplete{
+//              case Success(_) =>
+//                msg.replyTo ! ComRsp()
+//              case Failure(e) =>
+//                log.info(s"update room at db failed due to $e")
+//                msg.replyTo ! ComRsp()
+//            }
+            msg.replyTo ! ComRsp()
+          }
+          else {
+            msg.replyTo ! ComRsp(1000015, "This roomId doesn't exist")
+          }
           Behaviors.same
 
 

@@ -44,7 +44,7 @@ trait HttpService extends
           pathEndOrSingleSlash {
             getFromResource("html/home.html")
           } ~
-          resourceRoutes ~ userRoutes
+          resourceRoutes ~ userRoutes ~ roomRoutes
 
         } ~ home
       }

@@ -4,6 +4,7 @@ import akka.actor.typed.Behavior
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomUserInfo, RtmpInfo}
 import org.slf4j.LoggerFactory
+import org.seekloud.geek.Boot.grabManager
 
 import scala.concurrent.duration.FiniteDuration
 
@@ -16,6 +17,12 @@ object RoomActor {
   private val log = LoggerFactory.getLogger(this.getClass)
 
   sealed trait Command
+
+  final case class StartLive(rtmpInfo: RtmpInfo, hostCode: String) extends Command
+
+  final case class StartLive4Client(rtmpInfo: RtmpInfo, selfCode: String) extends Command
+
+  final case class StopLive(rtmpInfo: RtmpInfo) extends Command
 
   private final case class SwitchBehavior(
     name: String,
@@ -56,6 +63,19 @@ object RoomActor {
   ): Behavior[Command] =
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
+
+        case msg: StartLive =>
+          grabManager ! GrabberManager.StartLive(roomId, msg.rtmpInfo, msg.hostCode, ctx.self)
+          switchBehavior(ctx, "idle", idle(roomId, roomInfo, Some(msg.rtmpInfo)))
+
+        case msg: StartLive4Client =>
+          grabManager ! GrabberManager.StartLive4Client(roomId, msg.rtmpInfo, msg.selfCode, ctx.self)
+          switchBehavior(ctx, "idle", idle(roomId, roomInfo, Some(msg.rtmpInfo)))
+
+        case msg: StopLive =>
+          log.info(s"RoomActor-$roomId is stopping...")
+          grabManager ! GrabberManager.StopLive(roomId, msg.rtmpInfo, ctx.self)
+          Behaviors.stopped
 
         case x =>
           log.warn(s"unknown msg: $x")

@@ -17,14 +17,14 @@ import io.circe.generic.auto._
 import akka.actor.Scheduler
 import akka.util.Timeout
 import org.seekloud.geek.Boot
-import org.seekloud.geek.core.RoomManager.CreateRoom
+import org.seekloud.geek.core.RoomManager.{CreateRoom, StartLive, StartLive4Client, StopLive}
 import org.seekloud.geek.shared.ptcl.CommonErrorCode.jsonFormatError
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLiveReq}
 
 import scala.concurrent.Future
 
 
-trait RoomService extends BaseService with ServiceUtils {
+trait RoomService extends BaseService with ServiceUtils with UserService {
   implicit val timeout: Timeout
 
   implicit val scheduler: Scheduler
@@ -85,12 +85,61 @@ trait RoomService extends BaseService with ServiceUtils {
     }
   }
 
+  private val startLive = (path("startLive") & post){
+    entity(as[Either[Error, StartLiveReq]]) {
+      case Right(req) =>
+        dealFutureResult{
+          val rst: Future[StartLiveRsp] = Boot.roomManager ? (StartLive(req, _))
+          rst.map{
+            rsp=>
+              complete(rsp)
+          }
+        }
+
+      case Left(error) =>
+        complete(jsonFormatError)
+    }
+  }
+
+  private val startLive4Client = (path("startLive4Client") & post){
+    entity(as[Either[Error, StartLive4ClientReq]]) {
+      case Right(req) =>
+        dealFutureResult{
+          val rst: Future[StartLive4ClientRsp] = Boot.roomManager ? (StartLive4Client(req, _))
+          rst.map{
+            rsp=>
+              complete(rsp)
+          }
+        }
+
+      case Left(error) =>
+        complete(jsonFormatError)
+    }
+  }
+
+
+  private val stopLive = (path("stopLive") & post){
+    entity(as[Either[Error, StopLiveReq]]) {
+      case Right(req) =>
+        dealFutureResult{
+          val rst: Future[SuccessRsp] = Boot.roomManager ? (StopLive(req, _))
+          rst.map{
+            rsp=>
+              complete(rsp)
+          }
+        }
+
+      case Left(error) =>
+        complete(jsonFormatError)
+    }
+  }
+
 
 
 
 
   val roomRoutes: Route = pathPrefix("room") {
-     getRoomInfo
+     getRoomInfo ~ createRoom ~ startLive ~ startLive4Client ~ stopLive
   }
 
 }
