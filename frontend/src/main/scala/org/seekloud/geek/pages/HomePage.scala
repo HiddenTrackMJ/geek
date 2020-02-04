@@ -51,7 +51,7 @@ object HomePage extends Page {
       Header.userId := userId
       Header.username := userName
     } else {
-      gotoPage("login")
+//      gotoPage("login")
     }
 
     dom.document.body.style = "background-image: url('/piscu/static/img/bg1.png');" +
