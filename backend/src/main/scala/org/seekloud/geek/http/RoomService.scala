@@ -7,6 +7,7 @@ import akka.http.scaladsl.marshalling.{ToResponseMarshallable, ToResponseMarshal
 
 import scala.language.postfixOps
 import org.seekloud.geek.Boot.executor
+import akka.actor.typed.scaladsl.AskPattern._
 import io.circe.Error
 import akka.http.scaladsl.server.Route
 import org.seekloud.geek.shared.ptcl.{ComRsp, CommonRsp, SuccessRsp}
@@ -15,8 +16,10 @@ import io.circe._
 import io.circe.generic.auto._
 import akka.actor.Scheduler
 import akka.util.Timeout
+import org.seekloud.geek.Boot
+import org.seekloud.geek.core.RoomManager.CreateRoom
 import org.seekloud.geek.shared.ptcl.CommonErrorCode.jsonFormatError
-import org.seekloud.geek.shared.ptcl.RoomProtocol.CreateRoomReq
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp}
 
 import scala.concurrent.Future
 
@@ -69,7 +72,14 @@ trait RoomService extends BaseService with ServiceUtils {
   private val createRoom = (path("createRoom") & post){
     entity(as[Either[Error, CreateRoomReq]]) {
       case Right(req) =>
-        complete(req)
+        dealFutureResult{
+          val rst: Future[CreateRoomRsp] = Boot.roomManager ? (CreateRoom(req, _))
+          rst.map{
+            rsp=>
+              complete(rsp)
+          }
+        }
+
       case Left(error) =>
         complete(jsonFormatError)
     }

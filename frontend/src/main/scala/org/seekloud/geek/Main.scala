@@ -94,7 +94,6 @@ object Main extends PageSwitcher{
   }
 
   def main(args: Array[String]): Unit ={
-//    getRoomList()
     show()
 
   }

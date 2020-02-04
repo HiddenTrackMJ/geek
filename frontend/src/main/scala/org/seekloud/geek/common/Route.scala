@@ -8,7 +8,7 @@ package org.seekloud.geek.common
 
 object Route {
 
-  val baseUrl = "/piscu"
+  val baseUrl = "/geek"
 
   def imgPath(fileName: String): String = baseUrl + "/static/img/" + fileName
 

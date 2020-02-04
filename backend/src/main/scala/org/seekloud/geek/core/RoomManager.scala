@@ -8,7 +8,9 @@ import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerSch
 import org.seekloud.geek.Boot
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.Boot.executor
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, RoomUserInfo, RtmpInfo}
+import org.seekloud.geek.common.AppSettings
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, RoomUserInfo, RtmpInfo, StartLiveReq, StartLiveRsp, StopLiveReq}
+import org.seekloud.geek.shared.ptcl.SuccessRsp
 
 import scala.collection.mutable
 import scala.util.{Failure, Success}
@@ -27,7 +29,11 @@ object RoomManager {
 
   trait Command
 
-  final case class CreateRoom(req: CreateRoomReq, rsp: ActorRef[CreateRoomRsp])
+  final case class CreateRoom(req: CreateRoomReq, rsp: ActorRef[CreateRoomRsp]) extends Command
+
+  final case class StartLive(req: StartLiveReq, replyTo: ActorRef[StartLiveRsp]) extends Command
+
+  final case class StopLive(req: StopLiveReq, replyTo: ActorRef[SuccessRsp]) extends Command
 
   private final case class SwitchBehavior(
     name: String,
@@ -60,12 +66,16 @@ object RoomManager {
       log.info(s"RoomManager is starting...")
       implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)
       Behaviors.withTimers[Command] { implicit timer =>
+        val roomIdGenerator = new AtomicLong(1000L)
         ctx.self ! Test
-        idle()
+        idle(roomIdGenerator, mutable.HashMap.empty, mutable.HashMap.empty)
       }
     }
 
   private def idle(
+    roomIdGenerator: AtomicLong,
+    rooms: mutable.HashMap[Long, (RoomUserInfo, RtmpInfo, String)], //RoomUserInfo, RtmpInfo, liveUrl
+    affiliation: mutable.HashMap[Long, List[Long]]   //userId -> List(roomId)
   )(
     implicit stashBuffer: StashBuffer[Command],
     timer: TimerScheduler[Command]
@@ -77,6 +87,16 @@ object RoomManager {
           Boot.grabManager ! GrabberManager.StartLive(1000, RtmpInfo("a",List("1000_1")), roomActor)
           Behaviors.same
 
+        case CreateRoom(req, rsp) =>
+          val roomId = roomIdGenerator.getAndIncrement()
+          val liveUrl = AppSettings.baseUrl + "#/room" + s"/$roomId"
+          rooms.put(roomId, (req.info, RtmpInfo(AppSettings.rtmpServer, Nil), liveUrl))
+          val assets = affiliation.getOrElse(req.userId, Nil)
+          affiliation.put(req.userId, roomId :: assets)
+          rsp ! CreateRoomRsp(roomId, liveUrl)
+          Behaviors.same
+
+
         case x@_ =>
           log.info(s"${ctx.self} got an unknown msg:$x")
           Behaviors.same
@@ -86,7 +106,7 @@ object RoomManager {
    def getRoomActor(
     ctx: ActorContext[Command],
     roomId: Long,
-    roomInfo: RoomUserInfo) = {
+    roomInfo: RoomUserInfo): ActorRef[RoomActor.Command] = {
     val childName = s"RoomActor-$roomId"
 
     ctx.child(childName).getOrElse {
