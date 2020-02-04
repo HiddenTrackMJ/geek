@@ -35,6 +35,11 @@ object UserProtocol {
   ) extends Response
 
   /*sign up*/
+  case class SignUpReq(
+                        username: String,
+                        password: String
+                      ) extends Request
+
   val NicknameInvalid = SignInRsp(errCode = 200001, msg = "该用户名已被注册！")
 
   val SignUpFail = SignInRsp(errCode = 200002, msg = "服务器出错，请重试！")

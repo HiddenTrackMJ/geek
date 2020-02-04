@@ -3,7 +3,7 @@ package org.seekloud.geek
 import mhtml.{Cancelable, Rx, Var, emptyHTML, mount}
 import org.scalajs.dom
 import org.seekloud.geek.common.Route
-
+import org.seekloud.geek.pages._
 import org.seekloud.geek.utils.{Http, JsFunc, PageSwitcher}
 import org.seekloud.geek.shared.ptcl.RoomProtocol._
 import io.circe.generic.auto._
@@ -46,9 +46,9 @@ object Main extends PageSwitcher{
 //      case "home" :: Nil => Home.render
 //      case "live" :: Nil => LiveRoom.render
 //      case "room" :: r :: Nil => new WatchLive(r.toLong).render
-//      case "login" :: Nil => Login.render
+      case "login" :: Nil => Login2.render
 //      case "info" :: Nil => LiveHouse.render //fixme delete
-      case _ => emptyHTML
+      case _ => Login2.render
     }
 
   }
@@ -94,7 +94,7 @@ object Main extends PageSwitcher{
   }
 
   def main(args: Array[String]): Unit ={
-    getRoomList()
+//    getRoomList()
     show()
 
   }

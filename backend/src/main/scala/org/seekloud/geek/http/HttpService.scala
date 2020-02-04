@@ -16,9 +16,11 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
   * Date: 8/26/2016
   * Time: 10:27 PM
   */
-trait HttpService extends ResourceService
-  with ServiceUtils with RoomService
+trait HttpService extends
+       ServiceUtils
+  with RoomService
   with UserService
+  with ResourceService
   {
 
     implicit val system: ActorSystem
