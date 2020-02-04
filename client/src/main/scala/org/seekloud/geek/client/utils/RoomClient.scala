@@ -1,10 +1,13 @@
 package org.seekloud.geek.client.utils
 
 import java.io.File
+
 import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.common.Routes
 import org.seekloud.geek.shared.ptcl.CommonProtocol._
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, RoomUserInfo}
 import org.slf4j.LoggerFactory
+
 import scala.concurrent.Future
 
 /**
@@ -31,6 +34,21 @@ object RoomClient extends HttpUtil {
         decode[RoomInfoRsp](jsonStr)
       case Left(error) =>
         log.error(s"user-$userId getRoomInfo error: $error")
+        Left(error)
+    }
+  }
+
+  def createRoom(userId: Long, info: RoomUserInfo): Future[Either[Throwable, CreateRoomRsp]] = {
+
+    val methodName = "createRoom"
+    val url = Routes.createRoom
+
+    val data = CreateRoomReq(userId, info).asJson.noSpaces
+    postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
+      case Right(jsonStr) =>
+        decode[CreateRoomRsp](jsonStr)
+      case Left(error) =>
+        log.error(s"user-$userId createRoom error: $error")
         Left(error)
     }
   }

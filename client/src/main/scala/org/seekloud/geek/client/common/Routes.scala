@@ -22,9 +22,14 @@ object Routes {
   val getRoomList: String = userUrl + "/getRoomList"
   val searchRoom: String = userUrl + "/searchRoom"
   val temporaryUser: String = userUrl + "/temporaryUser"
-  val getRoomInfo: String = userUrl + "/getRoomInfo"
+
 
   val recordUrl: String = baseUrl + "/record"
   //  val getRecordList: String = recordUrl + "/getRecordList"
   val searchRecord: String = recordUrl + "/searchRecord"
+
+  val roomUrl: String = baseUrl + "/room"
+  val getRoomInfo: String = roomUrl + "/getRoomInfo"
+  val createRoom: String = roomUrl + "/createRoom"
+
 }

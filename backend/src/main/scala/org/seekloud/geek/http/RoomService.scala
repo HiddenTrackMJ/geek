@@ -9,12 +9,14 @@ import scala.language.postfixOps
 import org.seekloud.geek.Boot.executor
 import io.circe.Error
 import akka.http.scaladsl.server.Route
-import org.seekloud.geek.shared.ptcl.{ComRsp,SuccessRsp, CommonRsp}
+import org.seekloud.geek.shared.ptcl.{ComRsp, CommonRsp, SuccessRsp}
 import org.slf4j.LoggerFactory
 import io.circe._
 import io.circe.generic.auto._
 import akka.actor.Scheduler
 import akka.util.Timeout
+import org.seekloud.geek.shared.ptcl.CommonErrorCode.jsonFormatError
+import org.seekloud.geek.shared.ptcl.RoomProtocol.CreateRoomReq
 
 import scala.concurrent.Future
 
@@ -60,7 +62,16 @@ trait RoomService extends BaseService with ServiceUtils {
         println("ok")
         complete(req)
       case Left(error) =>
-        complete(ToResponseMarshallable(error))
+        complete(jsonFormatError)
+    }
+  }
+
+  private val createRoom = (path("createRoom") & post){
+    entity(as[Either[Error, CreateRoomReq]]) {
+      case Right(req) =>
+        complete(req)
+      case Left(error) =>
+        complete(jsonFormatError)
     }
   }
 
@@ -68,8 +79,8 @@ trait RoomService extends BaseService with ServiceUtils {
 
 
 
-  val userRoutes: Route = pathPrefix("user") {
-     getRoomInfo ~ getRoomInfo
+  val roomRoutes: Route = pathPrefix("room") {
+     getRoomInfo
   }
 
 }

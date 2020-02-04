@@ -8,7 +8,7 @@ import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerSch
 import org.seekloud.geek.Boot
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.Boot.executor
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomUserInfo, RtmpInfo}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, RoomUserInfo, RtmpInfo}
 
 import scala.collection.mutable
 import scala.util.{Failure, Success}
@@ -26,6 +26,8 @@ object RoomManager {
   private val log = LoggerFactory.getLogger(this.getClass)
 
   trait Command
+
+  final case class CreateRoom(req: CreateRoomReq, rsp: ActorRef[CreateRoomRsp])
 
   private final case class SwitchBehavior(
     name: String,
@@ -72,7 +74,7 @@ object RoomManager {
       msg match {
         case Test =>
           val roomActor = getRoomActor(ctx, 1000, RoomUserInfo("a", "b"))
-          Boot.grabManager ! GrabberManager.StartLive(1000, RtmpInfo("a",List("1000_1", "1000_2")), roomActor)
+          Boot.grabManager ! GrabberManager.StartLive(1000, RtmpInfo("a",List("1000_1")), roomActor)
           Behaviors.same
 
         case x@_ =>

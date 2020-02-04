@@ -319,9 +319,10 @@ object Recorder {
               clientImg.zipWithIndex.foreach{ i =>
                 val index = i._2
                 index match {
-                  case 0 => graph.drawImage(i._1, 0, 0, canvasSize._1 / 2, canvasSize._2 / 2, null)
-                  case 1 => graph.drawImage(i._1, canvasSize._1 / 2, canvasSize._2 / 4, canvasSize._1 / 2, canvasSize._2 / 2, null)
-                  case 2 => graph.drawImage(i._1, canvasSize._1 / 2, canvasSize._2 / 4, canvasSize._1 / 2, canvasSize._2 / 2, null)
+                  case 0 => graph.drawImage(i._1, 0, 0, canvasSize._1 / 4, canvasSize._2 / 4, null)
+                  case 1 => graph.drawImage(i._1, 0, canvasSize._2 / 4 * 3, canvasSize._1 / 4, canvasSize._2 / 4, null)
+                  case 2 => graph.drawImage(i._1, canvasSize._1 / 4 * 3, 0, canvasSize._1 / 4, canvasSize._2 / 4, null)
+                  case 3 => graph.drawImage(i._1, canvasSize._1 / 4 * 3, canvasSize._2 / 4 * 3, canvasSize._1 / 4, canvasSize._2 / 4, null)
                   case _ =>
                 }
               }

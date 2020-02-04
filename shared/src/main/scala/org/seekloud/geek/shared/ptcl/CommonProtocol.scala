@@ -58,9 +58,6 @@ object CommonProtocol {
     userName:String,
     headImgUrl:String,
     coverImgUrl:String,
-    var observerNum:Int,
-    var like:Int,
-    var mpd: Option[String] = None,
     var rtmp: Option[String] = None
   )
 
