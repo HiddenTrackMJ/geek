@@ -64,4 +64,12 @@ object CommonProtocol {
     var rtmp: Option[String] = None
   )
 
+  /*同一个房间的组员信息*/
+  case class MemberInfo(
+    userId: Long,
+    userName: String,
+    liveId: String
+  )
+
+
 }

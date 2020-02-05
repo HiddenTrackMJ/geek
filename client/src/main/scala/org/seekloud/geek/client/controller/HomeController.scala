@@ -36,8 +36,11 @@ class HomeController(
 
   homeScene.setListener(new HomeSceneListener {
     override def liveCheck(): Unit = {
-      if (RmManager.userInfo.nonEmpty && RmManager.roomInfo.nonEmpty) {
-//        rmManager ! RmManager.GoToLive
+      if (RmManager.userInfo.nonEmpty) {
+        if (RmManager.roomInfo.isEmpty){
+          RmManager.roomInfo = Some(RoomInfo(10001,"","",RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,"","",1,1))
+        }
+        rmManager ! RmManager.GoToCreateRoom
       } else {
         gotoLoginDialog(isToLive = true)
       }

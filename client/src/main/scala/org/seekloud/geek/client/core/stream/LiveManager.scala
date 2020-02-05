@@ -3,10 +3,15 @@ package org.seekloud.geek.client.core.stream
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import akka.actor.typed.{ActorRef, Behavior, DispatcherSelector}
 import javafx.scene.canvas.GraphicsContext
-import org.seekloud.geek.capture.sdk.MediaCapture
+import org.bytedeco.ffmpeg.global.avcodec
+import org.seekloud.geek.capture.sdk.{DeviceUtil, MediaCapture}
+import org.seekloud.geek.client.common.AppSettings
 import org.seekloud.geek.client.core.RmManager
+import org.seekloud.geek.client.core.collector.CaptureActor
+import org.seekloud.geek.client.utils.GetAllPixel
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.slf4j.LoggerFactory
+import org.seekloud.geek.client.Boot.executor
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -81,7 +86,7 @@ object LiveManager {
   private def idle(
     parent: ActorRef[RmManager.RmCommand],
     mediaPlayer: MediaPlayer,
-//    captureActor: Option[ActorRef[CaptureActor.CaptureCommand]] = None,
+    captureActor: Option[ActorRef[CaptureActor.CaptureCommand]] = None,
     streamPusher: Option[ActorRef[StreamPusher.PushCommand]] = None,
     streamPuller: Option[(String, ActorRef[StreamPuller.PullCommand])] = None,
     mediaCapture: Option[MediaCapture] = None,
@@ -93,21 +98,28 @@ object LiveManager {
   ): Behavior[LiveCommand] =
     Behaviors.receive[LiveCommand] { (ctx, msg) =>
       Behaviors.unhandled
-//      msg match {
-//        case msg: DevicesOn =>
-//          val captureActor = getCaptureActor(ctx, msg.gc, msg.isJoin, msg.callBackFunc)
-//          val mediaCapture = MediaCapture(captureActor, debug = AppSettings.captureDebug, needTimestamp = AppSettings.needTimestamp)
-////          mediaCapture.setImageHeight(AppSettings.d_h)
-////          mediaCapture.setImageWidth(AppSettings.d_w)
-//          captureActor ! CaptureActor.GetMediaCapture(mediaCapture)
-//
-//          mediaCapture.start()
-//          idle(parent, mediaPlayer, Some(captureActor), streamPusher, streamPuller, Some(mediaCapture), isStart = isStart, isRegular = isRegular)
-//
-//        case DeviceOff =>
-//          captureActor.foreach(_ ! CaptureActor.StopCapture)
-//          idle(parent, mediaPlayer, None, streamPusher, streamPuller, isStart = isStart, isRegular = isRegular)
-//
+      msg match {
+        case msg: DevicesOn =>
+          val captureActor = getCaptureActor(ctx, msg.gc, msg.isJoin, msg.callBackFunc)
+          val mediaCapture = MediaCapture(captureActor, debug = AppSettings.captureDebug, needTimestamp = AppSettings.needTimestamp)
+          val availableDevices = GetAllPixel.getAllDevicePixel()
+          var pixel = (640,360)
+          if(availableDevices.nonEmpty && !availableDevices.contains("640x360")){
+            pixel = DeviceUtil.parseImgResolution(availableDevices.max)
+          }
+          log.info("availableDevices pixels: "+availableDevices)
+//          mediaCapture.setAudioCodec(avcodec.AV_CODEC_ID_MP2)
+//          mediaCapture.setVideoCodec(avcodec.AV_CODEC_ID_MPEG2VIDEO)
+          mediaCapture.setImageWidth(pixel._1)
+          mediaCapture.setImageHeight(pixel._2)
+          captureActor ! CaptureActor.GetMediaCapture(mediaCapture)
+          mediaCapture.start()
+          idle(parent, mediaPlayer, Some(captureActor), streamPusher, streamPuller, Some(mediaCapture), isStart = isStart, isRegular = isRegular)
+
+        case DeviceOff =>
+          captureActor.foreach(_ ! CaptureActor.StopCapture)
+          idle(parent, mediaPlayer, None, streamPusher, streamPuller, isStart = isStart, isRegular = isRegular)
+
 //
 //
 //        case msg: SwitchMediaMode =>
@@ -201,58 +213,26 @@ object LiveManager {
 //          ctx.unwatch(childRef)
 //          Behaviors.same
 //
-//        case x =>
-//          log.warn(s"unknown msg in idle: $x")
-//          Behaviors.unhandled
-//      }
+        case x =>
+          log.warn(s"unknown msg in idle: $x")
+          Behaviors.unhandled
+      }
     }
 
-//  private def getCaptureActor(
-//    ctx: ActorContext[LiveCommand],
-//    gc: GraphicsContext,
-//    isJoin: Boolean,
-//    callBackFunc: Option[() => Unit],
-//    frameRate: Int = 30
-//  ) = {
-//    val childName = s"captureActor-${System.currentTimeMillis()}"
-//    ctx.child(childName).getOrElse {
-//      val actor = ctx.spawn(CaptureActor.create(frameRate, gc, isJoin, callBackFunc), childName)
-//      ctx.watchWith(actor, ChildDead(childName, actor))
-//      actor
-//    }.unsafeUpcast[CaptureActor.CaptureCommand]
-//  }
-//
-//  private def getStreamPusher(
-//    ctx: ActorContext[LiveCommand],
-//    liveId: String,
-//    liveCode: String,
-//    //    mediaActor: ActorRef[MediaActor.MediaCommand]
-//    captureActor: ActorRef[CaptureActor.CaptureCommand]
-//  ) = {
-//    val childName = s"streamPusher-$liveId"
-//    ctx.child(childName).getOrElse {
-//      val actor = ctx.spawn(StreamPusher.create(liveId, liveCode, ctx.self, captureActor), childName)
-//      ctx.watchWith(actor, ChildDead(childName, actor))
-//      actor
-//    }.unsafeUpcast[StreamPusher.PushCommand]
-//  }
-
-//  private def getStreamPuller(
-//    ctx: ActorContext[LiveCommand],
-//    liveId: String,
-//    mediaPlayer: MediaPlayer,
-//    joinInfo: Option[JoinInfo],
-//    watchInfo: Option[WatchInfo],
-//    audienceScene : Option[AudienceScene],
-//    hostScene: Option[HostScene]
-//  ) = {
-//    val childName = s"streamPuller-$liveId"
-//    ctx.child(childName).getOrElse {
-//      val actor = ctx.spawn(StreamPuller.create(liveId, ctx.self, mediaPlayer, joinInfo, watchInfo, audienceScene, hostScene), childName)
-//      ctx.watchWith(actor, ChildDead(childName, actor))
-//      actor
-//    }.unsafeUpcast[StreamPuller.PullCommand]
-//  }
+  private def getCaptureActor(
+    ctx: ActorContext[LiveCommand],
+    gc: GraphicsContext,
+    isJoin: Boolean,
+    callBackFunc: Option[() => Unit],
+    frameRate: Int = 30
+  ) = {
+    val childName = s"captureActor-${System.currentTimeMillis()}"
+    ctx.child(childName).getOrElse {
+      val actor = ctx.spawn(CaptureActor.create(frameRate, gc, isJoin, callBackFunc), childName)
+      ctx.watchWith(actor, ChildDead(childName, actor))
+      actor
+    }.unsafeUpcast[CaptureActor.CaptureCommand]
+  }
 
 
 }

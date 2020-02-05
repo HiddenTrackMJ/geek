@@ -5,6 +5,7 @@ val projectName = "org.seekloud.geek"
 val projectVersion = "2020.01.09"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
+resolvers += "jitpack" at "https://jitpack.io"
 
 
 val projectMainClass = "org.seekloud.geek.Boot"
