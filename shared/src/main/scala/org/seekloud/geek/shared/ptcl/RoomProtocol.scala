@@ -78,6 +78,27 @@ object RoomProtocol {
   case class StopLiveReq(
     roomId: Long
   )
+  case class JoinRoomReq(
+    roomId: Long,
+    userId: Long
+  )
+
+  case class JoinRoomRsp(
+    rtmp: Option[RtmpInfo] = None,
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends Response
+
+  case class InviteReq(
+    roomId: Long,
+    userId: Long
+  )
+
+  case class InviteRsp(
+    rtmp: Option[RtmpInfo] = None,
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends Response
 
   case class GetRoomListReq() extends Request
 

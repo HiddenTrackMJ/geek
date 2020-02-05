@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 import org.seekloud.geek.Boot.executor
 import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.models.dao.RoomDao
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomFail,CreateRoomReq, CreateRoomRsp, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, RoomData, RoomUserInfo, RtmpInfo, StartLive4ClientFail, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLiveReq, UpdateRoomInfoReq}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomFail, CreateRoomReq, CreateRoomRsp, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, InviteReq, InviteRsp, JoinRoomReq, JoinRoomRsp, RoomData, RoomUserInfo, RtmpInfo, StartLive4ClientFail, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLiveReq, UpdateRoomInfoReq}
 import org.seekloud.geek.shared.ptcl.{ComRsp, SuccessRsp}
 import io.circe.generic.auto._
 import io.circe.parser.decode
@@ -43,6 +43,10 @@ object RoomManager {
   final case class StartLive4Client(req: StartLive4ClientReq, replyTo: ActorRef[StartLive4ClientRsp]) extends Command
 
   final case class StopLive(req: StopLiveReq, replyTo: ActorRef[SuccessRsp]) extends Command
+
+  final case class JoinRoom(req: JoinRoomReq, replyTo: ActorRef[JoinRoomRsp]) extends Command
+
+  final case class Invite(req: InviteReq, replyTo: ActorRef[InviteRsp]) extends Command
 
   final case class GetRoomList(replyTo: ActorRef[GetRoomListRsp]) extends Command
 
@@ -176,6 +180,12 @@ object RoomManager {
 
         case ModifyRoom(room) =>
           RoomDao.modifyRoom(room)
+          Behaviors.same
+
+        case JoinRoom(req, rsp) =>
+          Behaviors.same
+
+        case Invite(req, rsp) =>
           Behaviors.same
 
         case msg: StartLive =>
