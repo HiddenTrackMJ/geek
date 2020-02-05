@@ -1,6 +1,7 @@
 -- geek 后台表
 
 -- user 用户信息
+create schema GEEK;
 
 -- auto-generated definition
 CREATE SEQUENCE user_id_seq START WITH 1000;
@@ -21,7 +22,7 @@ create table GEEK.ROOM
     ID       BIGINT default room_id_seq.nextval PRIMARY KEY,
     TITLE    VARCHAR(200)  not null,
     DESC     VARCHAR(200),
-    LIVECODE VARCHAR(1000) not null,
+    LIVECODE VARCHAR(1000) not null
 );
 
 create unique index GEEK.ROOM_ID_UINDEX
