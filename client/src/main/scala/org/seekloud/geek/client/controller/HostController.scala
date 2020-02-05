@@ -24,7 +24,7 @@ class HostController(
   private[this] val log = LoggerFactory.getLogger(this.getClass)
   var isConnecting = false
   var isLive = false
-  var likeNum: Int = RmManager.roomInfo.get.like
+  var likeNum: Int = 999
 
   def showScene(): Unit = {
     Boot.addToPlatform(

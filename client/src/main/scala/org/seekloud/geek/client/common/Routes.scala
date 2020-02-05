@@ -35,4 +35,9 @@ object Routes {
   val startLive4Client: String = roomUrl + "/startLive4Client"
   val stopLive: String = roomUrl + "/stopLive"
 
+  //ws
+  val wsBase: String = rmWsProtocol + "://" + rmDomain + "/" + rmUrl + "/user"
+  def linkRoomManager(userId: Long, roomId: Long): String = wsBase + "/setupWebSocket" + s"?userId=$userId&roomId=$roomId"
+
+
 }

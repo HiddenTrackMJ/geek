@@ -38,7 +38,7 @@ class HomeController(
     override def liveCheck(): Unit = {
       if (RmManager.userInfo.nonEmpty) {
         if (RmManager.roomInfo.isEmpty){
-          RmManager.roomInfo = Some(RoomInfo(10001,"","",RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,"","",1,1))
+          RmManager.roomInfo = Some(RoomInfo(10001,"","",RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,"",""))
         }
         rmManager ! RmManager.GoToCreateRoom
       } else {

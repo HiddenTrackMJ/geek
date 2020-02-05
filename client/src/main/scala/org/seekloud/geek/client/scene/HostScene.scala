@@ -147,7 +147,7 @@ class HostScene(stage: Stage) {
   roomDesArea.setPrefSize(width * 0.15, height * 0.1)
 
   val likeIcon: ImageView = Common.getImageView("img/like.png", 25, 25)
-  val likeLabel = new Label(s"${RmManager.roomInfo.get.like}", likeIcon)
+  val likeLabel = new Label(s"9999+", likeIcon)
 
 
   val connectionStateText = new Text("目前状态：无连接")

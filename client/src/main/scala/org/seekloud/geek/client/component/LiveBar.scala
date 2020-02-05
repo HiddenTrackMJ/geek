@@ -92,7 +92,7 @@ class LiveBar(val windowStatus: Int, width: Double, height: Double, recDuration:
       val seconds = (liveTime % 60000) / 1000
       liveTimeText.setText(s"${hours.toInt}:${minutes.toInt}:${seconds.toInt}")
     } else{
-      liveTimeText.setText(s"未直播")
+      liveTimeText.setText(s"未开启会议")
     }
 
 
