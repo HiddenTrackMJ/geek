@@ -14,7 +14,7 @@ trait SlickTables {
   import slick.jdbc.{GetResult => GR}
 
   /** DDL for all tables. Call .create to execute. */
-  lazy val schema: profile.SchemaDescription = tRoom.schema ++ tRoomUser.schema ++ tUser.schema
+  lazy val schema: profile.SchemaDescription = tRoom.schema ++ tUser.schema
   @deprecated("Use .schema instead of .ddl", "3.0")
   def ddl = schema
 
@@ -22,18 +22,21 @@ trait SlickTables {
    *  @param id Database column ID SqlType(BIGINT), PrimaryKey
    *  @param title Database column TITLE SqlType(VARCHAR), Length(200,true)
    *  @param desc Database column DESC SqlType(VARCHAR), Length(200,true), Default(None)
-   *  @param livecode Database column LIVECODE SqlType(VARCHAR), Length(1000,true) */
-  case class rRoom(id: Long, title: String, desc: Option[String] = None, livecode: String)
+   *  @param livecode Database column LIVECODE SqlType(VARCHAR), Length(1000,true)
+   *  @param hostcode Database column HOSTCODE SqlType(VARCHAR), Length(200,true)
+   *  @param serverurl Database column SERVERURL SqlType(VARCHAR), Length(200,true)
+   *  @param hostid Database column HOSTID SqlType(BIGINT) */
+  case class rRoom(id: Long, title: String, desc: Option[String] = None, livecode: String, hostcode: String, serverurl: String, hostid: Long)
   /** GetResult implicit for fetching rRoom objects using plain SQL queries */
   implicit def GetResultrRoom(implicit e0: GR[Long], e1: GR[String], e2: GR[Option[String]]): GR[rRoom] = GR{
     prs => import prs._
-      rRoom.tupled((<<[Long], <<[String], <<?[String], <<[String]))
+      rRoom.tupled((<<[Long], <<[String], <<?[String], <<[String], <<[String], <<[String], <<[Long]))
   }
   /** Table description of table ROOM. Objects of this class serve as prototypes for rows in queries. */
   class tRoom(_tableTag: Tag) extends profile.api.Table[rRoom](_tableTag, Some("GEEK"), "ROOM") {
-    def * = (id, title, desc, livecode) <> (rRoom.tupled, rRoom.unapply)
+    def * = (id, title, desc, livecode, hostcode, serverurl, hostid) <> (rRoom.tupled, rRoom.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ((Rep.Some(id), Rep.Some(title), desc, Rep.Some(livecode))).shaped.<>({r=>import r._; _1.map(_=> rRoom.tupled((_1.get, _2.get, _3, _4.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = ((Rep.Some(id), Rep.Some(title), desc, Rep.Some(livecode), Rep.Some(hostcode), Rep.Some(serverurl), Rep.Some(hostid))).shaped.<>({r=>import r._; _1.map(_=> rRoom.tupled((_1.get, _2.get, _3, _4.get, _5.get, _6.get, _7.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column ID SqlType(BIGINT), PrimaryKey */
     val id: Rep[Long] = column[Long]("ID", O.PrimaryKey)
@@ -43,43 +46,15 @@ trait SlickTables {
     val desc: Rep[Option[String]] = column[Option[String]]("DESC", O.Length(200,varying=true), O.Default(None))
     /** Database column LIVECODE SqlType(VARCHAR), Length(1000,true) */
     val livecode: Rep[String] = column[String]("LIVECODE", O.Length(1000,varying=true))
+    /** Database column HOSTCODE SqlType(VARCHAR), Length(200,true) */
+    val hostcode: Rep[String] = column[String]("HOSTCODE", O.Length(200,varying=true))
+    /** Database column SERVERURL SqlType(VARCHAR), Length(200,true) */
+    val serverurl: Rep[String] = column[String]("SERVERURL", O.Length(200,varying=true))
+    /** Database column HOSTID SqlType(BIGINT) */
+    val hostid: Rep[Long] = column[Long]("HOSTID")
   }
   /** Collection-like TableQuery object for table tRoom */
   lazy val tRoom = new TableQuery(tag => new tRoom(tag))
-
-  /** Entity class storing rows of table tRoomUser
-   *  @param id Database column ID SqlType(BIGINT), PrimaryKey
-   *  @param roomid Database column ROOMID SqlType(BIGINT)
-   *  @param userid Database column USERID SqlType(BIGINT)
-   *  @param memberids Database column MEMBERIDS SqlType(VARCHAR), Length(200,true) */
-  case class rRoomUser(id: Long, roomid: Long, userid: Long, memberids: String)
-  /** GetResult implicit for fetching rRoomUser objects using plain SQL queries */
-  implicit def GetResultrRoomUser(implicit e0: GR[Long], e1: GR[String]): GR[rRoomUser] = GR{
-    prs => import prs._
-      rRoomUser.tupled((<<[Long], <<[Long], <<[Long], <<[String]))
-  }
-  /** Table description of table ROOM_USER. Objects of this class serve as prototypes for rows in queries. */
-  class tRoomUser(_tableTag: Tag) extends profile.api.Table[rRoomUser](_tableTag, Some("GEEK"), "ROOM_USER") {
-    def * = (id, roomid, userid, memberids) <> (rRoomUser.tupled, rRoomUser.unapply)
-    /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ((Rep.Some(id), Rep.Some(roomid), Rep.Some(userid), Rep.Some(memberids))).shaped.<>({r=>import r._; _1.map(_=> rRoomUser.tupled((_1.get, _2.get, _3.get, _4.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
-
-    /** Database column ID SqlType(BIGINT), PrimaryKey */
-    val id: Rep[Long] = column[Long]("ID", O.PrimaryKey)
-    /** Database column ROOMID SqlType(BIGINT) */
-    val roomid: Rep[Long] = column[Long]("ROOMID")
-    /** Database column USERID SqlType(BIGINT) */
-    val userid: Rep[Long] = column[Long]("USERID")
-    /** Database column MEMBERIDS SqlType(VARCHAR), Length(200,true) */
-    val memberids: Rep[String] = column[String]("MEMBERIDS", O.Length(200,varying=true))
-
-    /** Foreign key referencing tRoom (database name ROOM_USER_ROOM_ID_FK) */
-    lazy val tRoomFk = foreignKey("ROOM_USER_ROOM_ID_FK", roomid, tRoom)(r => r.id, onUpdate=ForeignKeyAction.Cascade, onDelete=ForeignKeyAction.Cascade)
-    /** Foreign key referencing tUser (database name ROOM_USER_USER_ID_FK) */
-    lazy val tUserFk = foreignKey("ROOM_USER_USER_ID_FK", userid, tUser)(r => r.id, onUpdate=ForeignKeyAction.Cascade, onDelete=ForeignKeyAction.Cascade)
-  }
-  /** Collection-like TableQuery object for table tRoomUser */
-  lazy val tRoomUser = new TableQuery(tag => new tRoomUser(tag))
 
   /** Entity class storing rows of table tUser
    *  @param id Database column ID SqlType(BIGINT), PrimaryKey

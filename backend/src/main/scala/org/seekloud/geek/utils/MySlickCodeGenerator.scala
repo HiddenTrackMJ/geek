@@ -3,6 +3,7 @@ package org.seekloud.geek.utils
 import slick.codegen.SourceCodeGenerator
 import slick.driver.{JdbcProfile, MySQLDriver}
 import slick.jdbc.{JdbcProfile,MySQLProfile}
+import slick.jdbc.{JdbcProfile,H2Profile}
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -20,7 +21,7 @@ object MySlickCodeGenerator {
 
   val slickDriver = "slick.jdbc.H2Profile"
   val jdbcDriver = "org.h2.Driver"
-  val url = "jdbc:h2:file:/Users/hewro/Documents/工作/东信北邮/公司开发项目/geek/backend/data/geek" //注意相对路径，会根据电脑系统的不同和启动路径的不同而发生变化
+  val url = "jdbc:h2:file://F:\\Scala\\workspace\\geek\\data\\geek" //注意相对路径，会根据电脑系统的不同和启动路径的不同而发生变化
   val outputFolder = "target/gencode/genTablesPsql"
   val pkg = "org.seekloud.geek.models"
   val user = "geek"

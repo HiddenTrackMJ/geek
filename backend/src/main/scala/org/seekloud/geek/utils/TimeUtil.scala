@@ -68,18 +68,24 @@ object TimeUtil {
   }
 
   def main(args: Array[String]): Unit = {
+    import io.circe.generic.auto._
+    import io.circe.parser.decode
+    import io.circe.syntax._
+    import io.circe.generic.auto._
+    import scala.concurrent.ExecutionContext.Implicits.global
+    import io.circe.syntax._
 //    val date1 = "2018-01-22 00:00:00"
 //    val date2 = "2018-01-23 00:00:00"
 //    println(date2TimeStamp((date1,date2)))
     val roomId = 1000
-    val userId = 147
+    val userId = 147L
   var streams = List[String]()
     (1 to 4).foreach { i =>
       val streamName = s"${roomId}_$i"
       streams = streamName :: streams
     }
     var selfCode = ""
-    val userLiveCodeMap = streams.reverse.zipWithIndex.toMap.map{ s =>
+    val userLiveCodeMap: Map[String, Long] = streams.reverse.zipWithIndex.toMap.map{ s =>
       val index = s._2
       if (index == 0) {
         selfCode = s._1
@@ -88,6 +94,13 @@ object TimeUtil {
       else {
         (s._1, -1L)
       }
+    }
+//    println(userLiveCodeMap.asJson.noSpaces)
+    decode[Map[String, Long]](userLiveCodeMap.asJson.noSpaces) match {
+      case Right(rsp) =>
+        println("rsp: " + rsp)
+      case Left(e) =>
+        println("decode liveCode error")
     }
     println(userLiveCodeMap)
   }

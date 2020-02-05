@@ -9,8 +9,13 @@ import org.seekloud.geek.Boot
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.Boot.executor
 import org.seekloud.geek.common.AppSettings
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{StartLive4ClientFail,CreateRoomReq, CreateRoomRsp, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, RoomData, RoomUserInfo, RtmpInfo, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLiveReq, UpdateRoomInfoReq}
+import org.seekloud.geek.models.dao.RoomDao
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomFail,CreateRoomReq, CreateRoomRsp, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, RoomData, RoomUserInfo, RtmpInfo, StartLive4ClientFail, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLiveReq, UpdateRoomInfoReq}
 import org.seekloud.geek.shared.ptcl.{ComRsp, SuccessRsp}
+import io.circe.generic.auto._
+import io.circe.parser.decode
+import io.circe.syntax._
+import org.seekloud.geek.models.SlickTables
 
 import scala.collection.mutable
 import scala.util.{Failure, Success}
@@ -30,6 +35,8 @@ object RoomManager {
   trait Command
 
   final case class CreateRoom(req: CreateRoomReq, rsp: ActorRef[CreateRoomRsp]) extends Command
+
+  final case class ModifyRoom(room: SlickTables.rRoom) extends Command
 
   final case class StartLive(req: StartLiveReq, replyTo: ActorRef[StartLiveRsp]) extends Command
 
@@ -83,8 +90,38 @@ object RoomManager {
       implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)
       Behaviors.withTimers[Command] { implicit timer =>
         val roomIdGenerator = new AtomicLong(1000L)
-        ctx.self ! Test
-        idle(roomIdGenerator, mutable.HashMap.empty, mutable.HashMap.empty)
+        val rooms = mutable.HashMap[Long, RoomDetailInfo]()
+        val affiliation = mutable.HashMap[Long, List[Long]]()
+        timer.startSingleTimer(InitTimeKey, TimeOut("init"),initTime)
+        RoomDao.getAllRoom.onComplete {
+          case Success(roomList) =>
+            roomList.toList.map { r =>
+              val roomUserInfo = RoomUserInfo(r.title, r.desc.getOrElse(""))
+              //              val roomActor = getRoomActor(ctx, r.roomId, roomInfo)
+              val rtmpInfo = RtmpInfo(AppSettings.rtmpServer, Nil)
+              val liveCodeMap = decode[Map[String, Long]](r.livecode) match {
+                case Right(rsp) =>
+                  rsp
+                case Left(e) =>
+                  log.info("decode liveCode error")
+                  Map[String, Long]()
+              }
+              rooms.put(r.id, RoomDetailInfo(roomUserInfo, rtmpInfo, r.hostcode, liveCodeMap, null))
+            }
+            val user2Room = roomList.toList.groupBy(_.hostid).map(i => (i._1, i._2.map(_.id)))
+            user2Room.foreach { u =>
+              affiliation.put(u._1, u._2)
+            }
+            timer.cancel(InitTimeKey)
+            log.info("Init room info successfully!")
+            ctx.self ! SwitchBehavior("idle", idle(roomIdGenerator, rooms, affiliation))
+
+          case Failure(e) =>
+            log.info(s"Init room list error due to $e")
+        }
+//        ctx.self ! Test
+        busy()
+//        idle(roomIdGenerator, mutable.HashMap.empty, mutable.HashMap.empty)
       }
     }
 
@@ -104,29 +141,41 @@ object RoomManager {
           Behaviors.same
 
         case CreateRoom(req, rsp) =>
-          val roomId = roomIdGenerator.getAndIncrement()
-          val peopleNum = 4
-          var streams = List[String]()
-          (1 to peopleNum).foreach { i =>
-            val streamName = s"${roomId}_$i"
-            streams = streamName :: streams
+          val rRoom = SlickTables.rRoom(0L, req.info.roomName, Some(req.info.des), "", "", AppSettings.rtmpServer, req.userId)
+          RoomDao.addRoom(rRoom).onComplete{
+            case Success(roomId) =>
+              val peopleNum = 4
+              var streams = List[String]()
+              (1 to peopleNum).foreach { i =>
+                val streamName = s"${roomId}_$i"
+                streams = streamName :: streams
+              }
+              val rtmpInfo = RtmpInfo(AppSettings.rtmpServer, streams.reverse)
+              var selfCode = ""
+              val userLiveCodeMap: Map[String, Long] = streams.reverse.zipWithIndex.toMap.map{ s =>
+                val index = s._2
+                if (index == 0) {
+                  selfCode = s._1
+                  (s._1, req.userId)
+                }
+                else {
+                  (s._1, -1L)
+                }
+              }
+              val rRoomNew = SlickTables.rRoom(0L, req.info.roomName, Some(req.info.des), "", "", AppSettings.rtmpServer, req.userId)
+              rooms.put(roomId, RoomDetailInfo(req.info, rtmpInfo, selfCode, userLiveCodeMap, null))
+              val assets = affiliation.getOrElse(req.userId, Nil)
+              affiliation.put(req.userId, roomId :: assets)
+              ctx.self ! ModifyRoom(rRoomNew)
+              rsp ! CreateRoomRsp(roomId, selfCode)
+            case Failure(e) =>
+              log.info(s"add room to db failed due to $e")
+              rsp ! CreateRoomFail
           }
-          val rtmpInfo = RtmpInfo(AppSettings.rtmpServer, streams.reverse)
-          var selfCode = ""
-          val userLiveCodeMap: Map[String, Long] = streams.reverse.zipWithIndex.toMap.map{ s =>
-            val index = s._2
-            if (index == 0) {
-              selfCode = s._1
-              (s._1, req.userId)
-            }
-            else {
-              (s._1, -1L)
-            }
-          }
-          rooms.put(roomId, RoomDetailInfo(req.info, rtmpInfo, selfCode, userLiveCodeMap, null))
-          val assets = affiliation.getOrElse(req.userId, Nil)
-          affiliation.put(req.userId, roomId :: assets)
-          rsp ! CreateRoomRsp(roomId, selfCode)
+          Behaviors.same
+
+        case ModifyRoom(room) =>
+          RoomDao.modifyRoom(room)
           Behaviors.same
 
         case msg: StartLive =>
@@ -207,13 +256,13 @@ object RoomManager {
 
             val newRoomInfo = RoomUserInfo(newName, newDes)
             rooms.update(msg.req.roomId, RoomDetailInfo(newRoomInfo, roomOldInfo.rtmpInfo, roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomOldInfo.roomActor))
-//            RoomDao.updateRoom(msg.req.roomId, newName, newDes).onComplete{
-//              case Success(_) =>
-//                msg.replyTo ! ComRsp()
-//              case Failure(e) =>
-//                log.info(s"update room at db failed due to $e")
-//                msg.replyTo ! ComRsp()
-//            }
+            RoomDao.updateRoom(msg.req.roomId, newName, newDes).onComplete{
+              case Success(_) =>
+                msg.replyTo ! ComRsp()
+              case Failure(e) =>
+                log.info(s"update room at db failed due to $e")
+                msg.replyTo ! ComRsp()
+            }
             msg.replyTo ! ComRsp()
           }
           else {
