@@ -43,8 +43,8 @@ trait UserService extends BaseService {
       case Right(user) =>
         dealFutureResult{
           println("登录2")
-          val rsp:Future[SignInRsp] = userManager ? (MSignIn(user,_))
-          rsp.map{
+          val rst:Future[SignInRsp] = userManager ? (MSignIn(user,_))
+          rst.map{
             rsp=>
               complete(rsp)
           }
@@ -60,8 +60,8 @@ trait UserService extends BaseService {
     entity(as[Either[Error, SignUp]]) {
       case Right(user) =>
         dealFutureResult{
-          val rsp:Future[SignUpRsp] = userManager ? (MSignUp(user,_))
-          rsp.map{
+          val rst:Future[SignUpRsp] = userManager ? (MSignUp(user,_))
+          rst.map{
             rsp=>
               complete(rsp)
           }

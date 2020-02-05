@@ -162,26 +162,26 @@ lazy val backend = (project in file("backend")).enablePlugins(PackPlugin)
     libraryDependencies ++= Dependencies.bytedecoLibs,
     libraryDependencies ++= Dependencies.testLibs
   )
-//  .settings {
-//    (resourceGenerators in Compile) += Def.task {
-//      val fastJsOut = (fastOptJS in Compile in frontend).value.data
-//      val fastJsSourceMap = fastJsOut.getParentFile / (fastJsOut.getName + ".map")
-//      Seq(
-//        fastJsOut,
-//        fastJsSourceMap
-//      )
-//    }.taskValue
-//  }
-//  .settings((resourceGenerators in Compile) += Def.task {
-//    Seq(
-//      (packageJSDependencies in Compile in frontend).value
-//      //(packageMinifiedJSDependencies in Compile in frontend).value
-//    )
-//  }.taskValue)
-//  .settings(
-//    (resourceDirectories in Compile) += (crossTarget in frontend).value,
-//    watchSources ++= (watchSources in frontend).value
-//  )
+  .settings {
+    (resourceGenerators in Compile) += Def.task {
+      val fastJsOut = (fastOptJS in Compile in frontend).value.data
+      val fastJsSourceMap = fastJsOut.getParentFile / (fastJsOut.getName + ".map")
+      Seq(
+        fastJsOut,
+        fastJsSourceMap
+      )
+    }.taskValue
+  }
+  .settings((resourceGenerators in Compile) += Def.task {
+    Seq(
+      (packageJSDependencies in Compile in frontend).value
+      //(packageMinifiedJSDependencies in Compile in frontend).value
+    )
+  }.taskValue)
+  .settings(
+    (resourceDirectories in Compile) += (crossTarget in frontend).value,
+    watchSources ++= (watchSources in frontend).value
+  )
   .dependsOn(sharedJvm)
 
 

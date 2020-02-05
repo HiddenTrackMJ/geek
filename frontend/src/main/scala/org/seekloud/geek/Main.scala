@@ -43,12 +43,12 @@ object Main extends PageSwitcher{
   val currentPage: Rx[Node] = currentHashVar.map { ls =>
     println(s"currentPage change to ${ls.mkString(",")}")
     ls match {
-      case "home" :: Nil => Home.render
-      case "live" :: Nil => LiveRoom.render
-      case "room" :: r :: Nil => new WatchLive(r.toLong).render
-      case "login" :: Nil => Login.render
+//      case "home" :: Nil => Home.render
+//      case "live" :: Nil => LiveRoom.render
+//      case "room" :: r :: Nil => new WatchLive(r.toLong).render
+      case "login" :: Nil => Login2.render
 //      case "info" :: Nil => LiveHouse.render //fixme delete
-      case _ => Home.render
+      case _ => Login2.render
     }
 
   }
@@ -56,7 +56,8 @@ object Main extends PageSwitcher{
   val header: Rx[Node] = currentHashVar.map {
     //    case "Login" :: Nil => <div></div>
     case "login" :: Nil => emptyHTML
-    case _ => Header.render
+//    case _ => Header.render
+    case _ => emptyHTML
   }
 
   def show(): Cancelable = {
@@ -93,7 +94,6 @@ object Main extends PageSwitcher{
   }
 
   def main(args: Array[String]): Unit ={
-    getRoomList()
     show()
 
   }

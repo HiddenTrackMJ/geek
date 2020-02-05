@@ -50,7 +50,7 @@ package object videoJs {
       .setting(videoContainer)
   }
 
-  def renderLive(videoContainer: Element, url: String = "rtmp://10.1.29.245:1935/piscu/123456"): Unit = {
+  def renderLive(videoContainer: Element, url: String = "rtmp://10.1.29.245:1935/live/1000"): Unit = {
     VideoJSBuilderNew()
       .sources(VideoSource("rtmp/flv", url))
       .controls(true)

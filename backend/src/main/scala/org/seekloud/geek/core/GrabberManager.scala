@@ -35,7 +35,9 @@ object GrabberManager {
 
   private final case object BehaviorChangeKey
 
-  final case class StartLive(roomId: Long, rtmpInfo: RtmpInfo, roomActor: ActorRef[RoomActor.Command]) extends Command
+  final case class StartLive(roomId: Long, rtmpInfo: RtmpInfo, hostCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
+
+  final case class StartLive4Client(roomId: Long, rtmpInfo: RtmpInfo, selfCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
 
   final case class StopLive(roomId: Long, rtmpInfo: RtmpInfo, roomActor: ActorRef[RoomActor.Command]) extends Command
 
@@ -61,6 +63,7 @@ object GrabberManager {
       }
     }
 
+  private val isTest = true
   private def idle(
     activeRooms: mutable.HashMap[Long, (RtmpInfo, ActorRef[RoomActor.Command])],
     roomWorkers: mutable.HashMap[Long, (ActorRef[Recorder.Command], List[ActorRef[Grabber.Command]])]
@@ -72,21 +75,37 @@ object GrabberManager {
       msg match {
         case msg: StartLive =>
           val recordActor = getRecorder(ctx, msg.roomId, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
-          val grabbers = msg.rtmpInfo.liveCode.map {
-            stream =>
-              getGrabber(ctx, msg.roomId, stream, recordActor)
+          val grabbers = if (isTest) {
+            msg.rtmpInfo.liveCode.map {
+              stream =>
+                getGrabber(ctx, msg.roomId, stream, recordActor)
+            }
           }
+          else {
+            List(msg.hostCode).map {
+              stream =>
+                getGrabber(ctx, msg.roomId, stream, recordActor)
+            }
+          }
+
           activeRooms.put(msg.roomId, (msg.rtmpInfo, msg.roomActor))
           roomWorkers.put(msg.roomId, (recordActor, grabbers))
           Behaviors.same
 
+        case msg: StartLive4Client =>
+          val roomWorkersOld = roomWorkers(msg.roomId)
+          val grabber = getGrabber(ctx, msg.roomId, msg.selfCode, roomWorkersOld._1)
+          val grabbersNew = roomWorkersOld._2 :+ grabber
+          roomWorkers.update(msg.roomId, (roomWorkersOld._1, grabbersNew))
+          Behaviors.same
+
         case msg: StopLive =>
           log.info(s"stopping room ${msg.roomId}")
-          val recordActor = getRecorder(ctx, msg.roomId, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
-          recordActor ! Recorder.StopRecorder("user stop live")
-          msg.rtmpInfo.liveCode.foreach {
-            stream =>
-              getGrabber(ctx, msg.roomId, stream, recordActor) ! Grabber.StopGrabber("user stop live")
+//          val recordActor = getRecorder(ctx, msg.roomId, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
+          roomWorkers(msg.roomId)._1 ! Recorder.StopRecorder("user stop live")
+          roomWorkers(msg.roomId)._2.foreach {
+            grabber =>
+              grabber ! Grabber.StopGrabber("user stop live")
           }
           activeRooms.remove(msg.roomId)
           roomWorkers.remove(msg.roomId)

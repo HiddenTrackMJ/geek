@@ -9,7 +9,6 @@ object Dependencies {
 
 
 
-
   val slickV = "3.3.0"
   val akkaV = "2.5.23"
   val akkaHttpV = "10.1.8"
@@ -88,7 +87,7 @@ object Dependencies {
     case (lib, ver) => Seq(
       // Add both: dependency and its native binaries for the current `platform`
       "org.bytedeco" % lib % ver withSources() withJavadoc(),
-      "org.bytedeco" % lib % ver classifier platforms(2)
+      "org.bytedeco" % lib % ver classifier platforms(0)
     )
   }
 

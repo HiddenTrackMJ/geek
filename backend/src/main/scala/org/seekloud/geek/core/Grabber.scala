@@ -85,8 +85,8 @@ object Grabber {
         case t: GetRecorder =>
           val srcPath =
           //"rtmp://58.200.131.2:1935/livetv/hunantv"
-          "rtmp://127.0.0.1:1935/live/1000_1"
-          // AppSettings.rtmpServer + liveId //
+//          "rtmp://127.0.0.1:1935/live/1000_2"
+          AppSettings.rtmpServer + liveId
           log.info(s"${ctx.self} receive a msg $t")
           val grabber = new FFmpegFrameGrabber(srcPath)
           Try {

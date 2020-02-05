@@ -58,9 +58,6 @@ object CommonProtocol {
     userName:String,
     headImgUrl:String,
     coverImgUrl:String,
-    var observerNum:Int,
-    var like:Int,
-    var mpd: Option[String] = None,
     var rtmp: Option[String] = None
   )
 
@@ -71,5 +68,18 @@ object CommonProtocol {
     liveId: String
   )
 
+  /**
+    * 根据userId,token查询roomInfo接口
+    **/
+  final case class GetRoomInfoReq(
+                                   userId: Long,
+                                   token: String
+                                 )
+
+  final case class RoomInfoRsp(
+                                roomInfoOpt: Option[RoomInfo],
+                                errCode: Int = 0,
+                                msg: String = "ok"
+                              )
 
 }

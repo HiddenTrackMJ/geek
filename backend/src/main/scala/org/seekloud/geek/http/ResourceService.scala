@@ -48,16 +48,6 @@ trait ResourceService {
         getFromResourceDirectory("video")
       }
     } ~
-    pathPrefix("webfonts") {
-      extractUnmatchedPath { path =>
-        getFromResourceDirectory("webfonts")
-      }
-    } ~
-    pathPrefix("fonts") {
-      extractUnmatchedPath { path =>
-        getFromResourceDirectory("fonts")
-      }
-    } ~
     pathPrefix("js") {
       extractUnmatchedPath { path =>
         getFromResourceDirectory("js")

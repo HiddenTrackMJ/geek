@@ -19,6 +19,20 @@ object Routes {
   val signUp: String = userUrl + "/signUp"
   val signIn: String = userUrl + "/signIn"
 
+  val getRoomList: String = userUrl + "/getRoomList"
+  val searchRoom: String = userUrl + "/searchRoom"
+  val temporaryUser: String = userUrl + "/temporaryUser"
 
+
+  val recordUrl: String = baseUrl + "/record"
+  //  val getRecordList: String = recordUrl + "/getRecordList"
+  val searchRecord: String = recordUrl + "/searchRecord"
+
+  val roomUrl: String = baseUrl + "/room"
+  val getRoomInfo: String = roomUrl + "/getRoomInfo"
+  val createRoom: String = roomUrl + "/createRoom"
+  val startLive: String = roomUrl + "/startLive"
+  val startLive4Client: String = roomUrl + "/startLive4Client"
+  val stopLive: String = roomUrl + "/stopLive"
 
 }
