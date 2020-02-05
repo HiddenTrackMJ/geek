@@ -98,7 +98,7 @@ object RoomManager {
             roomList.toList.map { r =>
               val roomUserInfo = RoomUserInfo(r.title, r.desc.getOrElse(""))
               //              val roomActor = getRoomActor(ctx, r.roomId, roomInfo)
-              val rtmpInfo = RtmpInfo(AppSettings.rtmpServer, Nil)
+              val rtmpInfo = RtmpInfo(AppSettings.rtmpServer, "", Nil)
               val liveCodeMap = decode[Map[String, Long]](r.livecode) match {
                 case Right(rsp) =>
                   rsp
@@ -137,7 +137,7 @@ object RoomManager {
       msg match {
         case Test =>
           val roomActor = getRoomActor(ctx, 1000, RoomUserInfo("a", "b"))
-          Boot.grabManager ! GrabberManager.StartLive(1000, RtmpInfo("a",List("1000_1")), "1000_1", roomActor)
+          Boot.grabManager ! GrabberManager.StartLive(1000, RtmpInfo("a", "",List("1000_1")), "1000_1", roomActor)
           Behaviors.same
 
         case CreateRoom(req, rsp) =>
@@ -150,7 +150,7 @@ object RoomManager {
                 val streamName = s"${roomId}_$i"
                 streams = streamName :: streams
               }
-              val rtmpInfo = RtmpInfo(AppSettings.rtmpServer, streams.reverse)
+              val rtmpInfo = RtmpInfo(AppSettings.rtmpServer, "", streams.reverse)
               var selfCode = ""
               val userLiveCodeMap: Map[String, Long] = streams.reverse.zipWithIndex.toMap.map{ s =>
                 val index = s._2
@@ -181,8 +181,10 @@ object RoomManager {
         case msg: StartLive =>
           assert(rooms.contains(msg.req.roomId))
           val roomOldInfo = rooms(msg.req.roomId)
+          val stream = msg.req.roomId + "_" + System.currentTimeMillis()
+          val rtmpInfoNew = roomOldInfo.rtmpInfo.copy(stream = stream)
           val roomActor = getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo)
-          rooms.put(msg.req.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, roomOldInfo.rtmpInfo, roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomActor))
+          rooms.put(msg.req.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, rtmpInfoNew, roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomActor))
           //          RoomDao.updateLiveCode(msg.req.roomId, rtmpInfo.liveCode.mkString(";")).onComplete{
 //            case Success(_) =>
 //              msg.replyTo ! StartLiveRsp(rtmpInfo)
@@ -211,8 +213,8 @@ object RoomManager {
           assert(rooms.contains(msg.req.roomId))
           val liveCodes = rooms(msg.req.roomId).rtmpInfo.liveCode
           val roomOldInfo = rooms(msg.req.roomId)
-          getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo) ! RoomActor.StopLive(RtmpInfo(AppSettings.rtmpServer, liveCodes))
-          rooms.put(msg.req.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, RtmpInfo(AppSettings.rtmpServer, Nil), roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomOldInfo.roomActor))
+          getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo) ! RoomActor.StopLive(RtmpInfo(AppSettings.rtmpServer, "", liveCodes))
+          rooms.put(msg.req.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, RtmpInfo(AppSettings.rtmpServer, "", Nil), roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomOldInfo.roomActor))
           msg.replyTo ! SuccessRsp()
           Behaviors.same
 

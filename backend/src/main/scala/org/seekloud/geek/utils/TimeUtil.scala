@@ -105,4 +105,8 @@ object TimeUtil {
     println(userLiveCodeMap)
   }
 
+  case class  X(a: Int, b: Int)
+  val a = X(1, 2)
+  val b = a.copy(b = 3)
+  println(a, b)
 }

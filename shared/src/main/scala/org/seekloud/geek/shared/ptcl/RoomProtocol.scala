@@ -108,6 +108,7 @@ object RoomProtocol {
 
   case class RtmpInfo(
     serverUrl: String,
+    stream: String,
     liveCode: List[String]
   )
 

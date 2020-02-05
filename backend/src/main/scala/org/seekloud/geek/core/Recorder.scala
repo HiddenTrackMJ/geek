@@ -72,14 +72,14 @@ object Recorder {
 
   case class Ts4LastSample(var time: Long = 0)
 
-  def create(roomId: Long, pullLiveId:List[String], layout: Int, outTarget: Option[OutTarget] = None): Behavior[Command] = {
+  def create(roomId: Long, stream: String, pullLiveId:List[String], layout: Int, outTarget: Option[OutTarget] = None): Behavior[Command] = {
     Behaviors.setup[Command] { ctx =>
       implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)
       Behaviors.withTimers[Command] {
         implicit timer =>
           log.info(s"recorder-$roomId start----")
           avutil.av_log_set_level(-8)
-          val srcPath = AppSettings.rtmpServer + roomId
+          val srcPath = AppSettings.rtmpServer + stream
           println(s"path: $srcPath")
           val recorder4ts = new FFmpegFrameRecorder(srcPath, 640, 480, audioChannels)
           recorder4ts.setInterleaved(true)

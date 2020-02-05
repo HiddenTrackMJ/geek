@@ -74,7 +74,7 @@ object GrabberManager {
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
         case msg: StartLive =>
-          val recordActor = getRecorder(ctx, msg.roomId, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
+          val recordActor = getRecorder(ctx, msg.roomId, msg.rtmpInfo.stream, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
           val grabbers = if (isTest) {
             msg.rtmpInfo.liveCode.map {
               stream =>
@@ -151,13 +151,14 @@ object GrabberManager {
   def getRecorder(
     ctx: ActorContext[Command],
     roomId: Long,
+    stream: String,
     roomActor: ActorRef[RoomActor.Command],
     pullLiveId: List[String],
     layout: Int,
     outTarget: Option[OutTarget] = None): ActorRef[Recorder.Command] = {
     val childName = s"recorder_$roomId"
     ctx.child(childName).getOrElse{
-      val actor = ctx.spawn(Recorder.create(roomId, pullLiveId, layout, outTarget), childName)
+      val actor = ctx.spawn(Recorder.create(roomId, stream, pullLiveId, layout, outTarget), childName)
 //      ctx.watchWith(actor,ChildDead4Recorder(roomId, childName, actor))
       ctx.watchWith(actor, ChildDead(roomId, childName, actor))
       actor
