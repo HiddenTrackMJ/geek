@@ -127,7 +127,7 @@ object RoomManager {
           case Failure(e) =>
             log.info(s"Init room list error due to $e")
         }
-//        ctx.self ! Test
+        ctx.self ! Test
         busy()
 //        idle(roomIdGenerator, mutable.HashMap.empty, mutable.HashMap.empty)
       }
@@ -145,7 +145,7 @@ object RoomManager {
       msg match {
         case Test =>
           val roomActor = getRoomActor(ctx, 1000, RoomUserInfo(1000001, "a", "b"))
-          Boot.grabManager ! GrabberManager.StartLive(1000, 100000L, RtmpInfo("a", "1000",List("1000_1","1000_2")), "1000_1", roomActor)
+          Boot.grabManager ! GrabberManager.StartLive(1000, 100000L, RtmpInfo("a", "1000",List("1000_1", "1000_3")), "1000_3", roomActor)
           Behaviors.same
 
         case CreateRoom(req, rsp) =>

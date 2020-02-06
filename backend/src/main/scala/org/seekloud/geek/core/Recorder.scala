@@ -56,6 +56,11 @@ object Recorder {
 
   case object TimerKey4Close
 
+  final case object TimerKey4ImageRec
+
+  case object RecordImage extends Command with DrawCommand
+
+
   sealed trait DrawCommand
 
   case class Image4Host(frame: Frame) extends DrawCommand
@@ -208,13 +213,18 @@ object Recorder {
             ffFilter.foreach(_._2.setSampleRate(sampleRate))
             recorder4ts.setImageWidth(width)
             recorder4ts.setImageHeight(height)
+            timer.startPeriodicTimer(TimerKey4ImageRec, RecordImage, 33.3.millis)
             idle(roomId, hostId, stream, pullLiveId, roomActor, onlineNew, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, filterInUse)
           }
           else Behaviors.same
 
+        case RecordImage =>
+          drawer ! RecordImage
+          Behaviors.same
+
         case NewFrame(liveId, frame) =>
-//          println(grabbers)
           if (frame.image != null) {
+            println(liveId, frame.timestamp)
             if (liveId == host) {
 //              recorder4ts.record(frame.clone())
               drawer ! Image4Host(frame)
@@ -335,6 +345,7 @@ object Recorder {
     Behaviors.setup[DrawCommand] { ctx =>
       Behaviors.receiveMessage[DrawCommand] {
         case t: Image4Host =>
+//          log.info(s"add host")
           val time = t.frame.timestamp
           val img = convert1.convert(t.frame)
           val clientImg = if(clientFrame.frame.nonEmpty) clientFrame.frame.toList.sortBy(_._1.split("_").last.toInt).map(
@@ -378,14 +389,15 @@ object Recorder {
           //             graph.drawString(ts, canvasSize._1 - 200, 40)
           //          }
           //fixme 此处为何不直接recordImage
-          val frame = convert.convert(canvas)
-          try{
-            recorder4ts.record(frame.clone())
-          }
-          catch {
-            case e: Exception =>
-              log.info(s"record error: ${e.getMessage}")
-          }
+//          val frame = convert.convert(canvas)
+//          try{
+////            log.info("record image")
+//            recorder4ts.record(frame.clone())
+//          }
+//          catch {
+//            case e: Exception =>
+//              log.info(s"record error: ${e.getMessage}")
+//          }
 //          val f = frame.clone()
 //          recorder4ts.recordImage(
 //            f.imageWidth,
@@ -401,8 +413,32 @@ object Recorder {
           Behaviors.same
 
         case t: Image4Others =>
+//          log.info(s"add ${t.id}")
           clientFrame.frame.put(t.id, t.frame)
           Behaviors.same
+
+        case RecordImage =>
+          val frame = convert.convert(canvas)
+          try{
+            log.info("record image")
+//            recorder4ts.record(frame.clone())
+            val f = frame.clone()
+            recorder4ts.recordImage(
+              f.imageWidth,
+              f.imageHeight,
+              f.imageDepth,
+              f.imageChannels,
+              f.imageStride,
+              recorder4ts.getPixelFormat,
+              f.image: _*
+            )
+          }
+          catch {
+            case e: Exception =>
+              log.info(s"record error: ${e.getMessage}")
+          }
+          Behaviors.same
+
 
         case t: deleteImage4Others =>
           clientFrame.frame.-=(t.id)
