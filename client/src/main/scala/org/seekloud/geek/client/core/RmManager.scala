@@ -15,8 +15,12 @@ import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.client.Boot.{executor, materializer, scheduler, system, timeout}
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
+import org.seekloud.geek.client.core.player.VideoPlayer
 import org.seekloud.geek.client.core.stream.LiveManager.{JoinInfo, WatchInfo}
 import org.seekloud.geek.client.utils.WsUtil
+import org.seekloud.geek.player.protocol.Messages.AddPicture
+
+import scala.collection.immutable
 
 /**
  * User: hewro
@@ -171,7 +175,11 @@ object RmManager {
           //todo: http请求
           log.info(s"开始会议")
 
-//          hostController.isLive = true
+          
+//          WarningDialog.initWarningDialog("开始会议！")
+
+
+          //          hostController.isLive = true
 //          Boot.addToPlatform {
 //            hostScene.allowConnect()
 //          }
@@ -188,6 +196,18 @@ object RmManager {
 
           /*拉取观众的rtp流并播放*/
           val watchInfo =WatchInfo(roomInfo.get.roomId, hostScene.gc)
+
+
+          //定义 imageQueue 和 samplesQueue，用来接收图像和音频数据
+          val imageQueue = immutable.Queue[AddPicture]()
+          val samplesQueue = immutable.Queue[Array[Byte]]()
+
+          //直接启动播放器，拉流并播放到画布上
+          val playId = RmManager.roomInfo.get.roomId.toString
+          val videoPlayer = ctx.spawn(VideoPlayer.create(playId,None,Some(imageQueue), Some(samplesQueue)), s"videoPlayer$playId")
+
+          mediaPlayer.start(playId,videoPlayer,Left("rtmp://10.1.29.247:1935/live/1000_3"),Some(hostScene.gc),None)
+
           liveManager ! LiveManager.PullStream(userInfo.get.liveId, watchInfo=Some(watchInfo),hostScene = Some(hostScene))
           Behaviors.same
 
