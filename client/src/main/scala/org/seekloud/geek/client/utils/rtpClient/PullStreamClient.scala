@@ -321,6 +321,7 @@ class PullStreamClient(
   val pullStreamThread = new Thread(() => {
     try {
       while (true) {
+        log.info("pullStreamThread")
         val byteArray = dataQueue.take()
 //        if (dataQueue.size() >= 5)println(s"data queue length: ${dataQueue.size()}")
         val data: Data = parseData(byteArray)
@@ -328,6 +329,8 @@ class PullStreamClient(
 
         payloadType match {
           case t if t == pullStreamRsp =>
+            log.info("收到" + "pullStreamRsp")
+
             val liveIdSsrc = new String(data.body, "UTF-8").split(";")
             val liveInfo = liveIdSsrc.map {ls =>
               val liveId = ls.split("#").head.trim
@@ -351,6 +354,8 @@ class PullStreamClient(
 
 
           case t if t == tsStreamType =>
+            log.info("收到" + "tsStreamType")
+
             val ssrc = data.header.ssrc
             val seq = data.header.seq
             val liveId = pullLiveIdMap.get(ssrc)
@@ -409,9 +414,13 @@ class PullStreamClient(
             }
 
           case t if t == pullStreamRefuseResponse =>
+            log.info("收到" + "pullStreamRefuseResponse")
+
             actor ! PullStreamPacketLoss
 
           case t if t == getClientIdRsp =>
+            log.info("收到" + "getClientIdRsp")
+
             clientId = data.header.ssrc
             actor ! PullStreamReady
             timer = audioExecutor.scheduleAtFixedRate(
@@ -464,6 +473,8 @@ class PullStreamClient(
             )
 
           case t if t == streamStopped =>
+            log.info("收到" + "streamStopped")
+
             val liveId = new String(data.body, "UTF-8")
             actor ! StreamStop(liveId)
             streamBuffer -= liveId
@@ -472,6 +483,8 @@ class PullStreamClient(
             bandWidthInfoMap -= liveId
 
           case t if t == stopPullingRsp =>
+            log.info("收到" + "stopPullingRsp")
+
             interrupt()
 
 
@@ -587,6 +600,7 @@ class PullStreamClient(
 //      case e: Exception =>
 //        log.debug(s"pull channel bind $local_host error: $e")
 //    }
+    log.info("启动拉流")
     recvThread.start()
     pullStreamThread.start()
     commandThread.start()

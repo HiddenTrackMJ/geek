@@ -185,7 +185,9 @@ class HomeController(
         if (rsp.errCode == 0) {//登录成功
           rmManager ! RmManager.SignInSuccess(rsp.userInfo, rsp.roomInfo)
           RmManager.userInfo = rsp.userInfo
-          RmManager.roomInfo = rsp.roomInfo
+          RmManager.userInfo.get.liveId = Some("1000_3")
+//          RmManager.roomInfo = rsp.roomInfo
+          RmManager.roomInfo = Some(RoomInfo(1000,"","",1,"","",""))
           //todo 跳转到其他页面
 //          if (isToLive) {
 ////            rmManager ! RmManager.GoToLive

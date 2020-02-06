@@ -131,7 +131,7 @@ class HostController(
     }
 
     override def ask4Loss(): Unit = {
-//      rmManager ! RmManager.GetPackageLoss
+      rmManager ! RmManager.GetPackageLoss
     }
 
   })

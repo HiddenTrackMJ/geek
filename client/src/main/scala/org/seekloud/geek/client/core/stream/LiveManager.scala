@@ -15,7 +15,7 @@ import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.core.rtp.{PullChannel, PushChannel}
 import org.seekloud.geek.client.scene.HostScene
 import org.seekloud.geek.client.utils.rtpClient.{PullStreamClient, PushStreamClient}
-import org.seekloud.geek.client.utils.RtpUtil.{clientHost, clientHostQueue}
+import org.seekloud.geek.client.utils.RtpUtil.{clientHost, clientHostQueue, rtpServerHost, rtpServerPullPort}
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -175,6 +175,7 @@ object LiveManager {
             val pullChannel = new PullChannel
             val puller = getStreamPuller(ctx, RmManager.userInfo.get.liveId.get, mediaPlayer, msg.joinInfo, msg.watchInfo, msg.hostScene)
 
+            log.info("拉流地址" + rtpServerHost+":"+rtpServerPullPort)
             val rtpClient = new PullStreamClient(AppSettings.host, NetUtil.getFreePort, pullChannel.serverPullAddr, puller, AppSettings.rtpServerDst)
             puller ! StreamPuller.InitRtpClient(rtpClient)
             idle(parent, mediaPlayer, captureActor, streamPusher, Some((RmManager.userInfo.get.liveId.get, puller)), isStart = true, isRegular = isRegular)
@@ -185,30 +186,30 @@ object LiveManager {
             Behaviors.same
           }
 //
-//        case GetPackageLoss =>
-//          streamPuller.foreach { s =>
-//            s._2 ! StreamPuller.GetLossAndBand
-//          }
-//          Behaviors.same
+        case GetPackageLoss =>
+          streamPuller.foreach { s =>
+            s._2 ! StreamPuller.GetLossAndBand
+          }
+          Behaviors.same
 //
-//        case StopPull =>
-//          log.info(s"LiveManager stop puller")
-//          streamPuller.foreach {
-//            puller =>
-//              log.info(s"stopping puller-${puller._1}")
-//              puller._2 ! StreamPuller.StopPull
-//          }
-//          Behaviors.same
+        case StopPull =>
+          log.info(s"LiveManager stop puller")
+          streamPuller.foreach {
+            puller =>
+              log.info(s"stopping puller-${puller._1}")
+              puller._2 ! StreamPuller.StopPull
+          }
+          Behaviors.same
 //
-//        case PusherStopped =>
-//          log.info(s"LiveManager got pusher stopped.")
-//          idle(parent, mediaPlayer, captureActor, None, streamPuller, isStart = isStart, isRegular = isRegular)
-//
-//        case PullerStopped =>
-//          log.info(s"LiveManager got puller stopped.")
-//          if(isRegular) parent ! RmManager.PullerStopped
-//          idle(parent, mediaPlayer, captureActor, streamPusher, None, isStart = false, isRegular = false)
-//
+        case PusherStopped =>
+          log.info(s"LiveManager got pusher stopped.")
+          idle(parent, mediaPlayer, captureActor, None, streamPuller, isStart = isStart, isRegular = isRegular)
+
+        case PullerStopped =>
+          log.info(s"LiveManager got puller stopped.")
+          if(isRegular) parent ! RmManager.PullerStopped
+          idle(parent, mediaPlayer, captureActor, streamPusher, None, isStart = false, isRegular = false)
+
 //        case Ask4State(reply) =>
 //          reply ! isStart
 //          idle(parent, mediaPlayer, captureActor, streamPusher, streamPuller, isStart = isStart, isRegular = true)

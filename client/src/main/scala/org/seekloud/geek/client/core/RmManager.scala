@@ -15,7 +15,7 @@ import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.client.Boot.{executor, materializer, scheduler, system, timeout}
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
-import org.seekloud.geek.client.core.stream.LiveManager.JoinInfo
+import org.seekloud.geek.client.core.stream.LiveManager.{JoinInfo, WatchInfo}
 import org.seekloud.geek.client.utils.WsUtil
 
 /**
@@ -52,6 +52,9 @@ object RmManager {
   final case object BackToHome extends RmCommand
   final case object HostLiveReq extends RmCommand //请求开启会议
   final case object StopLive extends RmCommand
+  final case object PullerStopped extends RmCommand
+
+  final case object GetPackageLoss extends RmCommand
 
   //ws链接
   final case class GetSender(sender: ActorRef[WsMsgFront]) extends RmCommand
@@ -109,6 +112,7 @@ object RmManager {
             Behaviors.same
 
 
+
           case Logout =>
             log.info(s"退出登录.")
             this.roomInfo = None
@@ -164,7 +168,9 @@ object RmManager {
         case HostLiveReq =>
 
           //开始推流
+          //todo: http请求
           log.info(s"开始会议")
+
 //          hostController.isLive = true
 //          Boot.addToPlatform {
 //            hostScene.allowConnect()
@@ -181,9 +187,14 @@ object RmManager {
           liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostScene.resetBack)
 
           /*拉取观众的rtp流并播放*/
-          liveManager ! LiveManager.PullStream(userInfo.get.liveId, hostScene = Some(hostScene))
+          val watchInfo =WatchInfo(roomInfo.get.roomId, hostScene.gc)
+          liveManager ! LiveManager.PullStream(userInfo.get.liveId, watchInfo=Some(watchInfo),hostScene = Some(hostScene))
           Behaviors.same
 
+
+        case GetPackageLoss =>
+          liveManager ! LiveManager.GetPackageLoss
+          Behaviors.same
 
         case StopLive =>
           liveManager ! LiveManager.StopPush
@@ -218,6 +229,14 @@ object RmManager {
           System.gc()
           switchBehavior(ctx, "idle", idle(stageCtx, liveManager, mediaPlayer, homeController))
 
+
+        case PullerStopped =>
+          //停止拉流，切换到显示自己的视频流中
+          assert(userInfo.nonEmpty)
+          log.info(s"停止会议了！")
+          val userId = userInfo.get.userId
+
+          Behaviors.same
         case _=>
           Behaviors.unhandled
 

@@ -105,7 +105,7 @@ object StreamPuller {
           log.info(s"StreamPuller-$liveId init rtpClient.")
           msg.pullClient.pullStreamStart()
           timer.startSingleTimer(PullStartTimeOut, PullStartTimeOut, 5.seconds)
-          hostScene.foreach(_.startPackageLoss())
+//          hostScene.foreach(_.startPackageLoss())
           init(liveId, parent, mediaPlayer, joinInfo, watchInfo, hostScene, Some(msg.pullClient))
 
         case PullStreamReady =>
@@ -135,27 +135,26 @@ object StreamPuller {
           val inputStream = Channels.newInputStream(source)
 
           if (watchInfo.nonEmpty) {
+            log.info("拉流请求成功PullStreamReqSuccess")
             val playId = s"roomId${watchInfo.get.roomId}"
             mediaPlayer.setTimeGetter(playId, pullClient.get.getServerTimestamp)
             val videoPlayer = ctx.spawn(VideoPlayer.create(playId, None, None), s"videoPlayer$playId")
 
             //todo 播放流的内容
             mediaPlayer.start(playId, videoPlayer, Right(inputStream), Some(watchInfo.get.gc), None)
-
           }
           stashBuffer.unstashAll(ctx, pulling(liveId, parent, pullClient.get, mediaPlayer, sink, hostScene))
 
-//        case GetLossAndBand =>
-//          pullClient.foreach{ p =>
-//            val info = {
-//              p.getPackageLoss().map(i => i._1 -> PackageLossInfo(i._2.lossScale60, i._2.lossScale10, i._2.lossScale2))
-//            }
-//
-//            val bandInfo = p.getBandWidth().map(i => i._1 -> BandWidthInfo(i._2.bandWidth60s, i._2.bandWidth10s, i._2.bandWidth2s))
-//            audienceScene.foreach(_.drawPackageLoss(info, bandInfo))
+        case GetLossAndBand =>
+          pullClient.foreach{ p =>
+            val info = {
+              p.getPackageLoss().map(i => i._1 -> PackageLossInfo(i._2.lossScale60, i._2.lossScale10, i._2.lossScale2))
+            }
+
+            val bandInfo = p.getBandWidth().map(i => i._1 -> BandWidthInfo(i._2.bandWidth60s, i._2.bandWidth10s, i._2.bandWidth2s))
 //            hostScene.foreach(_.drawPackageLoss(info, bandInfo))
-//          }
-//          Behaviors.same
+          }
+          Behaviors.same
 //
 //        case PullStreamPacketLoss =>
 //          log.info(s"StreamPuller-$liveId PullStreamPacketLoss.")
