@@ -48,6 +48,7 @@ object AppSettings {
   val host = s"$serverHostName:$serverPort"
   //  val host = serverDomain
   val baseUrl: String = serverProtocol + "://" + host + "/" + serverUrl
+  val videoPath: String = appConfig.getString("server.videoPath")
 
   val httpInterface: String = appConfig.getString("http.interface")
   val httpPort: Int = appConfig.getInt("http.port")

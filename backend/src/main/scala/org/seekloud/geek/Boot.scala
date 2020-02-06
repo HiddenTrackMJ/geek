@@ -11,10 +11,8 @@ import akka.util.Timeout
 import scala.language.postfixOps
 import scala.util.{Failure, Success}
 import akka.actor.typed.scaladsl.adapter._
-import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.core.{GrabberManager, RoomManager, UserManager}
 import org.seekloud.geek.http.HttpService
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomUserInfo, RtmpInfo}
 
 /**
   * User: Taoz
