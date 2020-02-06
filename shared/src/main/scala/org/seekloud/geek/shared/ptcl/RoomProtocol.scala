@@ -106,6 +106,11 @@ object RoomProtocol {
     msg: String = "ok"
   ) extends Response
 
+  case class KickOffReq(
+    roomId: Long,
+    userId: Long
+  )
+
   case class GetRoomListReq() extends Request
 
   case class GetRoomListRsp(

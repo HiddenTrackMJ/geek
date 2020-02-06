@@ -25,10 +25,10 @@ import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import org.seekloud.geek.Boot
 import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.core.RoomManager
-import org.seekloud.geek.core.RoomManager.{CreateRoom, JoinRoom, StartLive, StartLive4Client, StopLive, StopLive4Client}
+import org.seekloud.geek.core.RoomManager.{CreateRoom, JoinRoom, KickOff, StartLive, StartLive4Client, StopLive, StopLive4Client}
 import org.seekloud.geek.models.dao.VideoDao
 import org.seekloud.geek.shared.ptcl.CommonErrorCode.jsonFormatError
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, GetRecordListReq, GetRecordListRsp, GetRoomListReq, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, JoinRoomReq, JoinRoomRsp, RecordData, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLive4ClientReq, StopLiveReq}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, GetRecordListReq, GetRecordListRsp, GetRoomListReq, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, JoinRoomReq, JoinRoomRsp, KickOffReq, RecordData, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLive4ClientReq, StopLiveReq}
 
 import scala.concurrent.Future
 
@@ -163,6 +163,22 @@ trait RoomService extends BaseService with ServiceUtils with UserService {
     }
   }
 
+  private val kickOff = (path("kickOff") & post){
+    entity(as[Either[Error, KickOffReq]]) {
+      case Right(req) =>
+        dealFutureResult{
+          val rst: Future[SuccessRsp] = Boot.roomManager ? (KickOff(req, _))
+          rst.map{
+            rsp=>
+              complete(rsp)
+          }
+        }
+
+      case Left(error) =>
+        complete(jsonFormatError)
+    }
+  }
+
   private val getRoomList = (path("getRoomList") & post) {
     entity(as[Either[Error, GetRoomListReq]]) {
       case Right(_) =>
@@ -241,7 +257,7 @@ trait RoomService extends BaseService with ServiceUtils with UserService {
 
   val roomRoutes: Route = pathPrefix("room") {
     getRoomInfo ~ createRoom ~ startLive ~ startLive4Client ~ stopLive ~ getRecordList ~ joinRoom ~
-    stopLive4Client ~ getRecord ~ getRoomList ~ getUserInfo
+    stopLive4Client ~ getRecord ~ getRoomList ~ getUserInfo ~ kickOff
   }
 
 }

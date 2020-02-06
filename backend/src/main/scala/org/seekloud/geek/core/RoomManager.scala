@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 import org.seekloud.geek.Boot.executor
 import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.models.dao.RoomDao
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomFail, CreateRoomReq, CreateRoomRsp, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, InviteReq, InviteRsp, JoinRoomReq, JoinRoomRsp, RoomData, RoomUserInfo, RtmpInfo, StartLive4ClientFail, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLive4ClientReq, StopLiveReq, UpdateRoomInfoReq, UserPushInfo}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomFail, CreateRoomReq, CreateRoomRsp, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, InviteReq, InviteRsp, JoinRoomReq, JoinRoomRsp, KickOffReq, RoomData, RoomUserInfo, RtmpInfo, StartLive4ClientFail, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLive4ClientReq, StopLiveReq, UpdateRoomInfoReq, UserPushInfo}
 import org.seekloud.geek.shared.ptcl.{ComRsp, ErrorRsp, SuccessRsp}
 import io.circe.generic.auto._
 import io.circe.parser.decode
@@ -49,6 +49,8 @@ object RoomManager {
   final case class JoinRoom(req: JoinRoomReq, replyTo: ActorRef[JoinRoomRsp]) extends Command
 
   final case class Invite(req: InviteReq, replyTo: ActorRef[InviteRsp]) extends Command
+
+  final case class KickOff(req: KickOffReq, replyTo: ActorRef[SuccessRsp]) extends Command
 
   final case class GetRoomList(replyTo: ActorRef[GetRoomListRsp]) extends Command
 
@@ -209,6 +211,30 @@ object RoomManager {
           Behaviors.same
 
         case Invite(req, rsp) =>
+          Behaviors.same
+
+        case msg: KickOff =>
+          log.info(s"user-${msg.req.userId} stop live in room: ${msg.req.roomId}")
+          assert(rooms.contains(msg.req.roomId))
+          val roomOldInfo = rooms(msg.req.roomId)
+          val selfCodeOpt = roomOldInfo.userLiveCodeMap.find(_._2 == msg.req.userId)
+          if (selfCodeOpt.isDefined) {
+            selfCodeOpt.foreach{ r =>
+              val userCodeMap = roomOldInfo.userLiveCodeMap.map{ u =>
+                if (u._2 == msg.req.userId){
+                  (u._1, -1)
+                }
+                else u
+              }
+              val roomNewInfo = roomOldInfo.copy(userLiveCodeMap = userCodeMap)
+              rooms.update(msg.req.roomId, roomNewInfo)
+              getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo) ! RoomActor.StopLive4Client(msg.req.userId, r._1)
+              msg.replyTo ! SuccessRsp()
+            }
+          }
+          else {
+            msg.replyTo ! SuccessRsp(100019, "kick off error")
+          }
           Behaviors.same
 
         case msg: StartLive =>
