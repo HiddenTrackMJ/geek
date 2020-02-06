@@ -184,6 +184,7 @@ class PullStreamClient(
   def getServerTimestamp() = System.currentTimeMillis() + differ
 
   def pullStreamData(liveIds: List[String]): Unit = {
+    log.info("请求pullStreamData")
     val data = liveIds.mkString("#").getBytes("UTF-8")
     sendData(Header(pullStreamReq, 0, 0, clientId, System.currentTimeMillis()),
       data, pullStreamDst, pullChannel, 750, true)
@@ -197,6 +198,7 @@ class PullStreamClient(
 
 
   def getClientId(): Unit = {
+    log.info("获取getClientId")
     sendData(Header(getClientIdReq, 0, 0, 0, System.currentTimeMillis()),
       Array.empty[Byte], pullStreamDst, pullChannel)
   }
@@ -321,11 +323,17 @@ class PullStreamClient(
   val pullStreamThread = new Thread(() => {
     try {
       while (true) {
-        log.info("pullStreamThread")
+
+
+        log.info("pullStreamThread1")
         val byteArray = dataQueue.take()
-//        if (dataQueue.size() >= 5)println(s"data queue length: ${dataQueue.size()}")
+        log.info("pullStreamThread2")
+        //        if (dataQueue.size() >= 5)println(s"data queue length: ${dataQueue.size()}")
         val data: Data = parseData(byteArray)
+        log.info("pullStreamThread3")
         val payloadType = data.header.payloadType
+
+        log.info("pullStreamThread:payloadType"+payloadType)
 
         payloadType match {
           case t if t == pullStreamRsp =>
@@ -594,12 +602,14 @@ class PullStreamClient(
 
   def pullStreamStart(): Unit = {
     pullChannel.socket().setReuseAddress(true)
-//    try {
+
+    try {
       pullChannel.socket().bind(new InetSocketAddress(local_host, local_port))
-//    } catch {
-//      case e: Exception =>
-//        log.debug(s"pull channel bind $local_host error: $e")
-//    }
+    } catch {
+      case e: Exception =>
+        log.debug(s"pull channel bind $local_host error: $e")
+    }
+    log.info(s"拉流绑定socket$local_host:$local_port")
     log.info("启动拉流")
     recvThread.start()
     pullStreamThread.start()
