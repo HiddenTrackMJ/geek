@@ -1,7 +1,6 @@
 package org.seekloud.geek.models.dao
 
 import scala.concurrent.Future
-import scala.concurrent.Future
 import org.seekloud.geek.utils.DBUtil.driver.api._
 import org.seekloud.geek.utils.DBUtil.db
 import org.seekloud.geek.models.SlickTables._
@@ -36,6 +35,11 @@ object RoomDao {
 
   def modifyRoom(room: rRoom): Future[Int] = {
     val action = tRoom.filter(_.id === room.id).update(room)
+    db.run(action)
+  }
+
+  def updateUserCodeMap(id: Long, userCodeMap: String): Future[Int] = {
+    val action = tRoom.filter(_.id === id).map(i => (i.livecode)).update((userCodeMap))
     db.run(action)
   }
 

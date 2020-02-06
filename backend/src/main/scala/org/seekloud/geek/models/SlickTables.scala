@@ -14,7 +14,7 @@ trait SlickTables {
   import slick.jdbc.{GetResult => GR}
 
   /** DDL for all tables. Call .create to execute. */
-  lazy val schema: profile.SchemaDescription = tRoom.schema ++ tUser.schema
+  lazy val schema: profile.SchemaDescription = tRoom.schema ++ tUser.schema ++ tVideo.schema
   @deprecated("Use .schema instead of .ddl", "3.0")
   def ddl = schema
 
@@ -84,4 +84,39 @@ trait SlickTables {
   }
   /** Collection-like TableQuery object for table tUser */
   lazy val tUser = new TableQuery(tag => new tUser(tag))
+
+  /** Entity class storing rows of table tVideo
+   *  @param id Database column ID SqlType(BIGINT), PrimaryKey
+   *  @param userid Database column USERID SqlType(BIGINT)
+   *  @param roomid Database column ROOMID SqlType(BIGINT)
+   *  @param timestamp Database column TIMESTAMP SqlType(BIGINT)
+   *  @param filename Database column FILENAME SqlType(VARCHAR), Length(300,true)
+   *  @param length Database column LENGTH SqlType(VARCHAR), Length(100,true) */
+  case class rVideo(id: Long, userid: Long, roomid: Long, timestamp: Long, filename: String, length: String)
+  /** GetResult implicit for fetching rVideo objects using plain SQL queries */
+  implicit def GetResultrVideo(implicit e0: GR[Long], e1: GR[String]): GR[rVideo] = GR{
+    prs => import prs._
+      rVideo.tupled((<<[Long], <<[Long], <<[Long], <<[Long], <<[String], <<[String]))
+  }
+  /** Table description of table VIDEO. Objects of this class serve as prototypes for rows in queries. */
+  class tVideo(_tableTag: Tag) extends profile.api.Table[rVideo](_tableTag, Some("GEEK"), "VIDEO") {
+    def * = (id, userid, roomid, timestamp, filename, length) <> (rVideo.tupled, rVideo.unapply)
+    /** Maps whole row to an option. Useful for outer joins. */
+    def ? = ((Rep.Some(id), Rep.Some(userid), Rep.Some(roomid), Rep.Some(timestamp), Rep.Some(filename), Rep.Some(length))).shaped.<>({r=>import r._; _1.map(_=> rVideo.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+
+    /** Database column ID SqlType(BIGINT), PrimaryKey */
+    val id: Rep[Long] = column[Long]("ID", O.PrimaryKey)
+    /** Database column USERID SqlType(BIGINT) */
+    val userid: Rep[Long] = column[Long]("USERID")
+    /** Database column ROOMID SqlType(BIGINT) */
+    val roomid: Rep[Long] = column[Long]("ROOMID")
+    /** Database column TIMESTAMP SqlType(BIGINT) */
+    val timestamp: Rep[Long] = column[Long]("TIMESTAMP")
+    /** Database column FILENAME SqlType(VARCHAR), Length(300,true) */
+    val filename: Rep[String] = column[String]("FILENAME", O.Length(300,varying=true))
+    /** Database column LENGTH SqlType(VARCHAR), Length(100,true) */
+    val length: Rep[String] = column[String]("LENGTH", O.Length(100,varying=true))
+  }
+  /** Collection-like TableQuery object for table tVideo */
+  lazy val tVideo = new TableQuery(tag => new tVideo(tag))
 }

@@ -35,7 +35,7 @@ object GrabberManager {
 
   private final case object BehaviorChangeKey
 
-  final case class StartLive(roomId: Long, rtmpInfo: RtmpInfo, hostCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
+  final case class StartLive(roomId: Long, userId: Long, rtmpInfo: RtmpInfo, hostCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
 
   final case class StartLive4Client(roomId: Long, rtmpInfo: RtmpInfo, selfCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
 
@@ -74,7 +74,7 @@ object GrabberManager {
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
         case msg: StartLive =>
-          val recordActor = getRecorder(ctx, msg.roomId, msg.rtmpInfo.stream, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
+          val recordActor = getRecorder(ctx, msg.roomId, msg.userId, msg.rtmpInfo.stream, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
           val grabbers = if (isTest) {
             msg.rtmpInfo.liveCode.map {
               stream =>
@@ -114,11 +114,12 @@ object GrabberManager {
 
         case msg: StartTrans =>
           log.info(s"start testing...")
-          val recordActor = getRecorder(ctx, 0L, msg.roomActor, msg.src, 0, Some(msg.out))//todo layout
+          val recordActor = getRecorder(ctx, 0L, 1000001L, "sss", msg.roomActor, msg.src, 0, Some(msg.out))//todo layout
           msg.src.map {
             stream =>
               getGrabber(ctx, 0L, stream, recordActor)
           }
+
           Behaviors.same
 
         case ChildDead(roomId, child, childRef) =>
@@ -151,6 +152,7 @@ object GrabberManager {
   def getRecorder(
     ctx: ActorContext[Command],
     roomId: Long,
+    hostId: Long,
     stream: String,
     roomActor: ActorRef[RoomActor.Command],
     pullLiveId: List[String],
@@ -158,7 +160,7 @@ object GrabberManager {
     outTarget: Option[OutTarget] = None): ActorRef[Recorder.Command] = {
     val childName = s"recorder_$roomId"
     ctx.child(childName).getOrElse{
-      val actor = ctx.spawn(Recorder.create(roomId, stream, pullLiveId, layout, outTarget), childName)
+      val actor = ctx.spawn(Recorder.create(roomId, hostId, stream, pullLiveId, roomActor, layout, outTarget), childName)
 //      ctx.watchWith(actor,ChildDead4Recorder(roomId, childName, actor))
       ctx.watchWith(actor, ChildDead(roomId, childName, actor))
       actor

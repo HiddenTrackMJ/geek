@@ -5,7 +5,7 @@ import java.io.File
 import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.common.Routes
 import org.seekloud.geek.shared.ptcl.CommonProtocol._
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, RoomUserInfo, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLiveReq}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, JoinRoomReq, JoinRoomRsp, RoomUserInfo, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLiveReq}
 import org.seekloud.geek.shared.ptcl.SuccessRsp
 import org.slf4j.LoggerFactory
 
@@ -93,6 +93,21 @@ object RoomClient extends HttpUtil {
     postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
       case Right(jsonStr) =>
         decode[SuccessRsp](jsonStr)
+      case Left(error) =>
+        log.error(s"room-$roomId startLive error: $error")
+        Left(error)
+    }
+  }
+
+  def joinRoom(roomId: Long, userId: Long): Future[Either[Throwable, JoinRoomRsp]] = {
+
+    val methodName = "stopLive"
+    val url = Routes.joinRoom
+
+    val data =  JoinRoomReq(roomId, userId).asJson.noSpaces
+    postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
+      case Right(jsonStr) =>
+        decode[JoinRoomRsp](jsonStr)
       case Left(error) =>
         log.error(s"room-$roomId startLive error: $error")
         Left(error)

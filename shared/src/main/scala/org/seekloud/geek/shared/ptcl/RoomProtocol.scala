@@ -84,7 +84,7 @@ object RoomProtocol {
   )
 
   case class JoinRoomRsp(
-    rtmp: Option[RtmpInfo] = None,
+    rtmp: Option[UserPushInfo] = None,
     errCode: Int = 0,
     msg: String = "ok"
   ) extends Response
@@ -95,7 +95,7 @@ object RoomProtocol {
   )
 
   case class InviteRsp(
-    rtmp: Option[RtmpInfo] = None,
+    rtmp: Option[UserPushInfo] = None,
     errCode: Int = 0,
     msg: String = "ok"
   ) extends Response
@@ -108,8 +108,24 @@ object RoomProtocol {
     msg: String = "ok"
   ) extends Response
 
+  case class RecordData(
+    userId: Long,
+    roomId: Long,
+    timeStamp: Long,
+    length: String
+  )
+
+  case class GetRecordListReq() extends Request
+
+  case class GetRecordListRsp(
+    roomList: List[RecordData],
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends Response
+
   /*common*/
   case class RoomUserInfo(
+    userId: Long,
     roomName: String,
     des: String
   )
@@ -133,7 +149,10 @@ object RoomProtocol {
     liveCode: List[String]
   )
 
-
+  case class UserPushInfo(
+    pushStream: String,
+    pullStream: String
+  )
 
 
 

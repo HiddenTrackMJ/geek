@@ -35,6 +35,8 @@ package object ptcl {
         val noSessionError = ErrorRsp(msg = "no session,need to login", errCode = 1000006)
         val accountNoExitError = ErrorRsp(msg = "account no exit", errCode = 1000007)
         val passwordError = ErrorRsp(msg = "wrong password", errCode = 1000008)
+        val fileNotExistError = ErrorRsp(1000008, "file does not exist")
+
   }
 
 }
