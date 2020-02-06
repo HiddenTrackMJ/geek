@@ -11,7 +11,7 @@ import akka.util.Timeout
 import scala.language.postfixOps
 import scala.util.{Failure, Success}
 import akka.actor.typed.scaladsl.adapter._
-import org.seekloud.geek.core.{GrabberManager, RoomManager, UserManager}
+import org.seekloud.geek.core.{GrabberManager, Invitation, RoomManager, UserManager}
 import org.seekloud.geek.http.HttpService
 
 /**
@@ -43,7 +43,7 @@ object Boot extends HttpService {
 
   val grabManager: ActorRef[GrabberManager.Command] = system.spawn(GrabberManager.init(), "GrabManager")
   val userManager: ActorRef[UserManager.Command] = system.spawn(UserManager.create(), "userManager")
-
+  val invitation: ActorRef[Invitation.Command] = system.spawn(Invitation.create(), "invitation")
 
 
   def main(args: Array[String]): Unit = {

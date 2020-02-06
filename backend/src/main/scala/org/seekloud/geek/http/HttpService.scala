@@ -21,6 +21,7 @@ trait HttpService extends
   with RoomService
   with UserService
   with ResourceService
+  with InvitationService
   {
 
     implicit val system: ActorSystem
@@ -44,7 +45,7 @@ trait HttpService extends
           pathEndOrSingleSlash {
             getFromResource("html/home.html")
           } ~
-          resourceRoutes ~ userRoutes ~ roomRoutes
+          resourceRoutes ~ userRoutes ~ roomRoutes ~ invitationRoutes
 
         } ~ home
       }

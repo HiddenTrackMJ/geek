@@ -53,10 +53,8 @@ object Login extends Page {
 
 
   private def signIn(): Unit = {
-    println("sss1")
     val username = dom.document.getElementById("username").asInstanceOf[Input].value
     val password = dom.document.getElementById("password").asInstanceOf[Input].value
-    println("sss2")
     if (username.nonEmpty && password.nonEmpty) {
       val data = SignIn(username, password).asJson.noSpaces
       Http.postJsonAndParse[SignInRsp](Route.User.signIn, data).map {

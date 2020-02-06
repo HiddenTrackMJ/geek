@@ -6,12 +6,12 @@ import akka.http.scaladsl.server.Route
 import scala.language.postfixOps
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import org.seekloud.geek.Boot.{executor, roomManager, scheduler, userManager}
+import org.seekloud.geek.Boot.{executor, invitation, roomManager, scheduler, userManager}
 import akka.actor.typed.scaladsl.AskPattern._
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.ws.Message
 import org.seekloud.geek.models.dao.UserDao
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{GetRoomInfoReq, SignIn, SignInRsp, SignUp, SignUpRsp}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{GetRoomInfoReq, InvitationReq, InvitationRsp, InviterAndInviteeReq, SignIn, SignInRsp, SignUp, SignUpRsp}
 import org.seekloud.geek.utils.SecureUtil
 import org.seekloud.geek.shared.ptcl.CommonErrorCode._
 import org.slf4j.LoggerFactory
@@ -22,7 +22,9 @@ import akka.util.Timeout
 import akka.actor.typed.scaladsl.AskPattern._
 import ch.megard.akka.http.cors.scaladsl.model.HttpOriginMatcher
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
+import org.seekloud.geek.core.Invitation.{DelInvitee, GetInviteeList, GetInviterList}
 import org.seekloud.geek.core.UserManager.{MSignIn, MSignUp}
+import org.seekloud.geek.shared.ptcl.SuccessRsp
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.Future
@@ -56,12 +58,12 @@ trait InvitationService extends BaseService{
 //    }
 //  }
 
-  private def signIn = (path("signIn") & post){
-    entity(as[Either[Error, SignIn]]) {
+  private def getInviterList = (path("getInviterList") & post){
+    entity(as[Either[Error, InvitationReq]]) {
       case Right(user) =>
         dealFutureResult{
-          println("登录2")
-          val rst:Future[SignInRsp] = userManager ? (MSignIn(user,_))
+          println("getInviterList")
+          val rst:Future[InvitationRsp] = invitation ? (GetInviterList(user,_))
           rst.map{
             rsp=>
               complete(rsp)
@@ -69,9 +71,49 @@ trait InvitationService extends BaseService{
         }
 
       case Left(e) =>
-        log.debug(s"signIn parse json failed,error:${e.getMessage}")
+        log.debug(s"getInviterList parse json failed,error:${e.getMessage}")
         complete(jsonFormatError)
     }
+  }
+
+
+  private def getInviteeList = (path("getInviteeList") & post){
+    entity(as[Either[Error, InvitationReq]]) {
+      case Right(user) =>
+        dealFutureResult{
+          println("getInviteeList")
+          val rst:Future[InvitationRsp] = invitation ? (GetInviteeList(user,_))
+          rst.map{
+            rsp=>
+              complete(rsp)
+          }
+        }
+
+      case Left(e) =>
+        log.debug(s"getInviteeList parse json failed,error:${e.getMessage}")
+        complete(jsonFormatError)
+    }
+  }
+
+  private def delInvitee = (path("delInvitee") & post){
+    entity(as[Either[Error, InviterAndInviteeReq]]) {
+      case Right(user) =>
+        dealFutureResult{
+          println("delInvitee")
+          val rst:Future[SuccessRsp] = invitation ? (DelInvitee(user,_))
+          rst.map{
+            rsp=>
+              complete(rsp)
+          }
+        }
+      case Left(e) =>
+        log.debug(s"delInvitee parse json failed,error:${e.getMessage}")
+        complete(jsonFormatError)
+    }
+  }
+
+  val invitationRoutes: Route = pathPrefix("invitation") {
+    getInviterList ~ getInviteeList ~ delInvitee
   }
 
 }

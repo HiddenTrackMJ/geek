@@ -24,11 +24,11 @@ import ch.megard.akka.http.cors.scaladsl.model.HttpOriginMatcher
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import org.seekloud.geek.Boot
 import org.seekloud.geek.common.AppSettings
-import org.seekloud.geek.core.RoomManager
+import org.seekloud.geek.core.{Invitation, RoomManager}
 import org.seekloud.geek.core.RoomManager.{CreateRoom, JoinRoom, KickOff, StartLive, StartLive4Client, StopLive, StopLive4Client}
 import org.seekloud.geek.models.dao.VideoDao
 import org.seekloud.geek.shared.ptcl.CommonErrorCode.jsonFormatError
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, GetRecordListReq, GetRecordListRsp, GetRoomListReq, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, JoinRoomReq, JoinRoomRsp, KickOffReq, RecordData, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLive4ClientReq, StopLiveReq}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, GetRecordListReq, GetRecordListRsp, GetRoomListReq, GetRoomListRsp, GetRoomSectionListReq, GetRoomSectionListRsp, GetUserInfoReq, GetUserInfoRsp, JoinRoomReq, JoinRoomRsp, KickOffReq, RecordData, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLive4ClientReq, StopLiveReq}
 
 import scala.concurrent.Future
 
@@ -195,6 +195,22 @@ trait RoomService extends BaseService with ServiceUtils {
     }
   }
 
+  private val getRoomSectionList = (path("getRoomSectionList") & post) {
+    entity(as[Either[Error, GetRoomSectionListReq]]) {
+      case Right(req) =>
+        dealFutureResult {
+          val getRoomListRsp: Future[GetRoomSectionListRsp] = Boot.invitation ? (Invitation.GetRoomSectionList(req, _))
+          getRoomListRsp.map {
+            rsp =>
+              complete(rsp)
+          }
+        }
+      case Left(error) =>
+        log.error(s"getRoomSecList json parse error: $error")
+        complete(jsonFormatError)
+    }
+  }
+
   private val getUserInfo = (path("getUserInfo") & post) {
     entity(as[Either[Error, GetUserInfoReq]]) {
       case Right(req) =>
@@ -244,6 +260,8 @@ trait RoomService extends BaseService with ServiceUtils {
     }
   }
 
+
+
   private val joinRoom = (path("joinRoom") & post){
     entity(as[Either[Error, JoinRoomReq]]) {
       case Right(req) =>
@@ -264,7 +282,7 @@ trait RoomService extends BaseService with ServiceUtils {
 
   val roomRoutes: Route = pathPrefix("room") {
     getRoomInfo ~ createRoom ~ startLive ~ startLive4Client ~ stopLive ~ getRecordList ~ joinRoom ~
-    stopLive4Client ~ getRecord ~ getRoomList ~ getUserInfo ~ kickOff
+    stopLive4Client ~ getRecord ~ getRoomList ~ getUserInfo ~ kickOff ~getRoomSectionList
   }
 
 }

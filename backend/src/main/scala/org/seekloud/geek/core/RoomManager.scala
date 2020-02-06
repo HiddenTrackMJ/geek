@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 import org.seekloud.geek.Boot.executor
 import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.models.dao.RoomDao
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomFail, CreateRoomReq, CreateRoomRsp, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, InviteReq, InviteRsp, JoinRoomReq, JoinRoomRsp, KickOffReq, RoomData, RoomUserInfo, RtmpInfo, StartLive4ClientFail, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLive4ClientReq, StopLiveReq, UpdateRoomInfoReq, UserPushInfo}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomFail, CreateRoomReq, CreateRoomRsp, GetRoomListRsp, GetRoomSectionListReq, GetUserInfoReq, GetUserInfoRsp, InviteReq, InviteRsp, JoinRoomReq, JoinRoomRsp, KickOffReq, RoomData, RoomUserInfo, RtmpInfo, StartLive4ClientFail, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLive4ClientReq, StopLiveReq, UpdateRoomInfoReq, UserPushInfo}
 import org.seekloud.geek.shared.ptcl.{ComRsp, ErrorRsp, SuccessRsp}
 import io.circe.generic.auto._
 import io.circe.parser.decode

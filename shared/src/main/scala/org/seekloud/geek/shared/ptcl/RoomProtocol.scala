@@ -113,11 +113,19 @@ object RoomProtocol {
 
   case class GetRoomListReq() extends Request
 
+  case class GetRoomSectionListReq(userId:Long) extends Request
+
   case class GetRoomListRsp(
     roomList: List[RoomData],
     errCode: Int = 0,
     msg: String = "ok"
   ) extends Response
+
+  case class GetRoomSectionListRsp(
+                             roomList: List[RoomId],
+                             errCode: Int = 0,
+                             msg: String = "ok"
+                           ) extends Response
 
   case class RecordData(
     userId: Long,
@@ -153,6 +161,8 @@ object RoomProtocol {
     roomInfo: RoomUserInfo,
     liveOrNot: Boolean
   )
+
+  case class RoomId(roomId:Long)
 
 
   case class RtmpInfo(

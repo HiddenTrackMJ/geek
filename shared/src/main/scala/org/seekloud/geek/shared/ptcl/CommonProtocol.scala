@@ -35,13 +35,14 @@ object CommonProtocol {
     url: String //重定向url
   ) extends Request
 
-  case class InvitationRsp(
-                     userName: String,
-                     password: String,
-                     url: String //重定向url
+  case class InvitationReq(
+                     inviterId: Long,
                    ) extends Request
 
-
+  case class InviterAndInviteeReq(
+                            inviterId: Long,
+                            inviteeId: Long,
+                          ) extends Request
 
   case class SignUpRsp(
     //    code:String,
@@ -55,6 +56,18 @@ object CommonProtocol {
     errCode: Int = 0,
     msg: String = "ok"
   ) extends Response //fixme url，userName
+
+  case class Inviter(
+                      inviterName:String,
+                      inviterId:Long
+                    )
+
+  case class InvitationRsp(
+                         list: Option[List[Inviter]],
+                         errCode: Int = 0,
+                         msg: String = "Ok"
+                       ) extends Response
+
 
   case class RoomInfo(
     roomId: Long,
