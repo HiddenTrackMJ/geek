@@ -22,18 +22,21 @@ trait SlickTables {
     *  @param id Database column ID SqlType(BIGINT), PrimaryKey
     *  @param title Database column TITLE SqlType(VARCHAR), Length(200,true)
     *  @param desc Database column DESC SqlType(VARCHAR), Length(200,true), Default(None)
-    *  @param livecode Database column LIVECODE SqlType(VARCHAR), Length(1000,true) */
-  case class rRoom(id: Long, title: String, desc: Option[String] = None, livecode: String)
+    *  @param livecode Database column LIVECODE SqlType(VARCHAR), Length(1000,true)
+    *  @param hostcode Database column HOSTCODE SqlType(VARCHAR), Length(200,true)
+    *  @param serverurl Database column SERVERURL SqlType(VARCHAR), Length(200,true)
+    *  @param hostid Database column HOSTID SqlType(BIGINT) */
+  case class rRoom(id: Long, title: String, desc: Option[String] = None, livecode: String, hostcode: String, serverurl: String, hostid: Long)
   /** GetResult implicit for fetching rRoom objects using plain SQL queries */
   implicit def GetResultrRoom(implicit e0: GR[Long], e1: GR[String], e2: GR[Option[String]]): GR[rRoom] = GR{
     prs => import prs._
-      rRoom.tupled((<<[Long], <<[String], <<?[String], <<[String]))
+      rRoom.tupled((<<[Long], <<[String], <<?[String], <<[String], <<[String], <<[String], <<[Long]))
   }
   /** Table description of table ROOM. Objects of this class serve as prototypes for rows in queries. */
   class tRoom(_tableTag: Tag) extends profile.api.Table[rRoom](_tableTag, Some("GEEK"), "ROOM") {
-    def * = (id, title, desc, livecode) <> (rRoom.tupled, rRoom.unapply)
+    def * = (id, title, desc, livecode, hostcode, serverurl, hostid) <> (rRoom.tupled, rRoom.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ((Rep.Some(id), Rep.Some(title), desc, Rep.Some(livecode))).shaped.<>({r=>import r._; _1.map(_=> rRoom.tupled((_1.get, _2.get, _3, _4.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = ((Rep.Some(id), Rep.Some(title), desc, Rep.Some(livecode), Rep.Some(hostcode), Rep.Some(serverurl), Rep.Some(hostid))).shaped.<>({r=>import r._; _1.map(_=> rRoom.tupled((_1.get, _2.get, _3, _4.get, _5.get, _6.get, _7.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column ID SqlType(BIGINT), PrimaryKey */
     val id: Rep[Long] = column[Long]("ID", O.PrimaryKey)
@@ -43,9 +46,12 @@ trait SlickTables {
     val desc: Rep[Option[String]] = column[Option[String]]("DESC", O.Length(200,varying=true), O.Default(None))
     /** Database column LIVECODE SqlType(VARCHAR), Length(1000,true) */
     val livecode: Rep[String] = column[String]("LIVECODE", O.Length(1000,varying=true))
-    val hostcode: Rep[String] = column[String]("LIVECODE", O.Length(1000,varying=true))
-    val serverurl: Rep[String] = column[String]("LIVECODE", O.Length(1000,varying=true))
-    val hostid: Rep[Long] = column[Long]("LIVECODE", O.Length(1000,varying=true))
+    /** Database column HOSTCODE SqlType(VARCHAR), Length(200,true) */
+    val hostcode: Rep[String] = column[String]("HOSTCODE", O.Length(200,varying=true))
+    /** Database column SERVERURL SqlType(VARCHAR), Length(200,true) */
+    val serverurl: Rep[String] = column[String]("SERVERURL", O.Length(200,varying=true))
+    /** Database column HOSTID SqlType(BIGINT) */
+    val hostid: Rep[Long] = column[Long]("HOSTID")
   }
   /** Collection-like TableQuery object for table tRoom */
   lazy val tRoom = new TableQuery(tag => new tRoom(tag))

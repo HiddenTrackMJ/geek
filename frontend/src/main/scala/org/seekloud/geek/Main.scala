@@ -25,6 +25,7 @@ import scala.xml.{Elem, Node}
 object Main extends PageSwitcher{
 
   var roomList: List[RoomData] = Nil
+  var roomIdData: List[RoomId] = List()
   val numList = Var((1 to 5).toList)
 
   def modeOption(mode: Int): Rx[List[Elem]] = numList.map {
@@ -47,7 +48,7 @@ object Main extends PageSwitcher{
       case "home" :: Nil => HomePage.render
       case "userInfo" :: Nil => UserInfoPage.render
       case "inviterManage" :: Nil => InviterManagement.render
-      case "record" :: r :: Nil => new WatchRecord(r.toLong).render
+      case "room" :: r :: Nil => new WatchRecord(r.toLong).render
       case "login" :: Nil => Login.render
 //      case "info" :: Nil => LiveHouse.render //fixme delete
       case _ => HomePage.render
@@ -91,6 +92,18 @@ object Main extends PageSwitcher{
         catch {
           case e: Exception =>
             println(e)
+        }
+    }
+  }
+
+  def getRoomSecList(): Unit ={
+    val userId = dom.window.localStorage.getItem("userId").toLong
+    Http.postJsonAndParse[GetRoomSectionListRsp](Route.Room.getRoomSectionList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
+      rsp =>
+        if(rsp.errCode == 0) {
+          roomIdData = rsp.roomList
+        } else {
+          println(rsp.msg)
         }
     }
   }

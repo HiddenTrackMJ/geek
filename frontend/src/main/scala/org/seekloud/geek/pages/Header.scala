@@ -21,7 +21,9 @@ object Header extends Component {
   val username: Var[String] = Var("")
 
   def gotoLive(): Unit = {
-    if (Main.roomList.nonEmpty) gotoPage(s"room/${Main.roomList.head.roomId}")
+//    if (Main.roomList.nonEmpty) gotoPage(s"room/${Main.roomList.head.roomId}")
+//    else JsFunc.alert("当前没有录像！")
+    if (Main.roomIdData.nonEmpty) gotoPage(s"room/${Main.roomIdData.head.roomId}")
     else JsFunc.alert("当前没有录像！")
   }
 
@@ -52,7 +54,7 @@ object Header extends Component {
           </li>
           <li>
             <a href="javascript:void(0)" onclick={() =>
-              Main.getRoomList()
+              Main.getRoomSecList()
               dom.window.setTimeout(() => Header.gotoLive(), 500)
               ()
             }>Watch</a>

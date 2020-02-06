@@ -55,42 +55,44 @@ object Invitation {
                 if (rsp isEmpty){
                   replyTo ! GetRoomSectionListRsp(List(),-1,"查询为空")
                 }else{
-                  replyTo ! GetRoomSectionListRsp(rsp.map(e=>RoomId(e.roomid)).toList,0,"有该user的录像")
+                  replyTo ! GetRoomSectionListRsp(rsp.map(e=>RoomId(e.roomid)).toSet.toList,0,"有该user的录像")
                 }
             }
             Behaviors.same
 
-//          case GetInviterList(user, replyTo)=>
-//            VideoDao.getSecVideo(user.inviterId).map{
-//              rsp=>
-//                if (rsp isEmpty){
-//                  replyTo ! GetRoomSectionListRsp(List(),-1,"查询为空")
-//                }else{
-//                  replyTo ! GetRoomSectionListRsp(rsp.map(e=>RoomId(e.roomid)).toList,0,"有该user的录像")
-//                }
-//            }
-//            Behaviors.same
-//
-//          case GetInviteeList(user, replyTo)=>
-//            VideoDao.getSecVideo(user.userId).map{
-//              rsp=>
-//                if (rsp isEmpty){
-//                  replyTo ! GetRoomSectionListRsp(List(),-1,"查询为空")
-//                }else{
-//                  replyTo ! GetRoomSectionListRsp(rsp.map(e=>RoomId(e.roomid)).toList,0,"有该user的录像")
-//                }
-//            }
-//            Behaviors.same
-//          case DelInvitee(user, replyTo)=>
-//            VideoDao.getSecVideo(user.userId).map{
-//              rsp=>
-//                if (rsp isEmpty){
-//                  replyTo ! GetRoomSectionListRsp(List(),-1,"查询为空")
-//                }else{
-//                  replyTo ! GetRoomSectionListRsp(rsp.map(e=>RoomId(e.roomid)).toList,0,"有该user的录像")
-//                }
-//            }
-//            Behaviors.same
+          case GetInviterList(user, replyTo)=>
+            VideoDao.getInviter(user.inviterId).map{
+              rsp=>
+                if (rsp isEmpty){
+                  replyTo ! InvitationRsp(None,-1,"查询为空")
+                }else{
+                  replyTo ! InvitationRsp(Some(rsp.map(e=>Inviter("",e.userid)).toSet.toList),0,"有该user的录像")
+                }
+            }
+            Behaviors.same
+
+          case GetInviteeList(user, replyTo)=>
+            VideoDao.getInvitee(user.inviterId).map{
+              rsp=>
+                if (rsp isEmpty){
+                  replyTo ! InvitationRsp(None,-1,"查询为空")
+                }else{
+                  replyTo ! InvitationRsp(Some(rsp.map(e=>Inviter("",e.invitation)).toSet.toList),0,"有该user的录像")
+                }
+            }
+            Behaviors.same
+          case DelInvitee(user, replyTo)=>
+            VideoDao.delInvitee(user.inviterId,user.inviteeId).map{
+              rsp=>
+              var msg = ""
+              if (rsp == -1){
+                msg = "删除失败"
+              }else{
+                msg = "删除成功！"
+              }
+              replyTo ! SuccessRsp(rsp)
+            }
+            Behaviors.same
           case _=>
             log.info("收到未知消息create")
             Behaviors.unhandled

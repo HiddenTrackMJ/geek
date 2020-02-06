@@ -21,7 +21,7 @@ object VideoDao {
 
   def getSecVideo(userId: Long): Future[Seq[tVideo#TableElementType]] = {
     db.run{
-      tVideo.filter(_.roomid === userId).result
+      tVideo.filter(_.userid === userId).result
     }
   }
 
@@ -39,15 +39,20 @@ object VideoDao {
   //邀请相关
   def getInviter(id: Long) =
     db.run{
-      tVideo.filter(_.userid === id).result
+      tVideo.filter(_.invitation === id).result
     }
 
   def getInvitee(id: Long) =
     db.run{
-      tVideo.filter(_.invitation === id).result
+      tVideo.filter(_.userid === id).result
     }
 
-  def getInvitee(inviterId: Long,inviteeId :Long) =
+//  def getInvitee2(id: Long) =
+//    db.run{
+//      tVideo.filter(_.invitation === id).result
+//    }
+
+  def delInvitee(inviterId: Long,inviteeId :Long) =
     db.run{
       tVideo.filter(_.userid === inviterId).filter(_.invitation === inviteeId).delete
     }

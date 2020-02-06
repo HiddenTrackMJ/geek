@@ -24,6 +24,7 @@ object Route {
     val getRoomList: String = base + "/getRoomList"
     val getUserInfo: String = base + "/getUserInfo"
     val updateRoomInfo: String = base + "/updateRoomInfo"
+    val getRoomSectionList:String =base +"/getRoomSectionList"
   }
 
   object User {

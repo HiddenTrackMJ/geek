@@ -53,22 +53,23 @@ object InviterManagement extends Page{
   </div>
 
   val inviterDetail : Rx[Elem] = inviterData.map{
-    case None =>  <div class="row">暂无邀请</div>
+    case None =>  <div class="row"><div class="save">暂无邀请 </div></div>
     case Some(info) => <div class="row">
      {
         info.map{inviter =>
-          <div  title="点击删除邀请" class="save" onclick={()=>delInvitee(inviter.inviterId)}>{inviter.inviterName} </div>
+          <a href="#/inviterManage" title="点击无效" class="save">{inviter.inviterId} </a>
         }
       }
       </div>
   }
 
   val inviteeDetail : Rx[Elem] = inviteeData.map{
-    case None =>  <div class="row">暂无邀请</div>
+    case None =>  <div class="row"><div class="save">暂无邀请 </div></div>
     case Some(info) => <div class="row">
       {
       info.map{invitee =>
-        <a href="#/inviterManage" title="点击无效" class="save">{invitee.inviterName} </a>
+
+          <div  title="点击删除邀请" class="save" onclick={()=>delInvitee(invitee.inviterId)}>{invitee.inviterId} </div>
         }
       }
     </div>
@@ -76,13 +77,13 @@ object InviterManagement extends Page{
 
   val roomIdDetail : Rx[Elem] = roomIdData.map{
     case Nil => <select id="modifyPeople" class="modify-people">暂无数据</select>
-    case info => <div>
+    case info => <select id="modifyPeople" class="modify-people">
       {
       info.map(r=>
-      <select id="modifyPeople" class="modify-people">{r.roomId}</select>
+      <option >{r.roomId}</option>
       )
       }
-      </div>
+      </select>
   }
 
 
@@ -123,7 +124,9 @@ object InviterManagement extends Page{
     </div>
 
   def getInviterInfo(): Unit ={
-    val userId = dom.window.localStorage.getItem("userId")
+    val userName = dom.window.localStorage.getItem("username")
+    val userId = dom.window.localStorage.getItem("userId").toLong
+    println(userName+"sas"+userId)
     Http.postJsonAndParse[InvitationRsp](Route.Invitation.getInviterList, InvitationReq(userId).asJson.noSpaces).map {
       rsp =>
         if (rsp.errCode == 0) {
@@ -131,15 +134,14 @@ object InviterManagement extends Page{
           inviterData := Some(rsp.list.get)
           else inviterData := None
         } else {
-          JsFunc.alert(rsp.msg)
-          dom.window.location.hash = s"#/Login"
+//          JsFunc.alert(rsp.msg)
           println(rsp.msg)
         }
     }
   }
 
   def getInviteeInfo(): Unit ={
-    val userId = dom.window.localStorage.getItem("userId")
+    val userId = dom.window.localStorage.getItem("userId").toLong
     Http.postJsonAndParse[InvitationRsp](Route.Invitation.getInviteeList, InvitationReq(userId).asJson.noSpaces).map {
       rsp =>
         if (rsp.errCode == 0) {
@@ -147,8 +149,7 @@ object InviterManagement extends Page{
             inviteeData := Some(rsp.list.get)
           else inviteeData := None
         } else {
-          JsFunc.alert(rsp.msg)
-          dom.window.location.hash = s"#/Login"
+//          JsFunc.alert(rsp.msg)
           println(rsp.msg)
         }
     }
@@ -156,7 +157,7 @@ object InviterManagement extends Page{
 
   def delInvitee(invitee: Long): Unit ={
     val userId = dom.window.localStorage.getItem("userId").toLong
-    Http.postJsonAndParse[SuccessRsp](Route.Invitation.getInviteeList, InviterAndInviteeReq(userId,invitee).asJson.noSpaces).map {
+    Http.postJsonAndParse[SuccessRsp](Route.Invitation.delInvitee, InviterAndInviteeReq(userId,invitee).asJson.noSpaces).map {
       rsp =>
         if(rsp.errCode == 0) {
           JsFunc.alert("删除成功！")
@@ -182,7 +183,7 @@ object InviterManagement extends Page{
 
   def getRoomSecList(): Unit ={
     val userId = dom.window.localStorage.getItem("userId").toLong
-    Http.postJsonAndParse[GetRoomSectionListRsp](Route.Invitation.getInviteeList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
+    Http.postJsonAndParse[GetRoomSectionListRsp](Route.Room.getRoomSectionList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
       rsp =>
         if(rsp.errCode == 0) {
           roomIdData := rsp.roomList
@@ -209,6 +210,7 @@ object InviterManagement extends Page{
       "background-repeat: no-repeat;"
     getInviterInfo()
     getInviteeInfo()
+    getRoomSecList()
   }
 
   override def render: Elem = {

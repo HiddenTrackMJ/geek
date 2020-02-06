@@ -309,7 +309,7 @@ object Recorder {
           idle(roomId, hostId, stream, pullLiveId, roomActor, online, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, newFilterInUse)
 
         case CloseRecorder =>
-          val video = SlickTables.rVideo(0L, hostId, roomId, stream.split("_").last.toLong, stream + ".flv", "")
+          val video = SlickTables.rVideo(0L, hostId, roomId, stream.split("_").last.toLong, stream + ".flv", "",0,"")
           try {
             filterInUse.foreach(_.close())
             drawer ! Close
