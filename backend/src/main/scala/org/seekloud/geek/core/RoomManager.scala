@@ -145,7 +145,7 @@ object RoomManager {
       msg match {
         case Test =>
           val roomActor = getRoomActor(ctx, 1000, RoomUserInfo(1000001, "a", "b"))
-          Boot.grabManager ! GrabberManager.StartLive(1000, 100000L, RtmpInfo("a", "",List("1000_1")), "1000_1", roomActor)
+          Boot.grabManager ! GrabberManager.StartLive(1000, 100000L, RtmpInfo("a", "1000",List("1000_1","1000_2")), "1000_1", roomActor)
           Behaviors.same
 
         case CreateRoom(req, rsp) =>
@@ -192,7 +192,7 @@ object RoomManager {
           var selfCode = ""
           var flag = true
           val userCodeMap = roomOldInfo.userLiveCodeMap.map{ u =>
-            if (u._2 == -1 && flag){
+            if (u._2 == -1L && flag){
               flag = false
               selfCode = u._1
               (u._1, req.userId)
@@ -222,7 +222,7 @@ object RoomManager {
             selfCodeOpt.foreach{ r =>
               val userCodeMap = roomOldInfo.userLiveCodeMap.map{ u =>
                 if (u._2 == msg.req.userId){
-                  (u._1, -1)
+                  (u._1, -1L)
                 }
                 else u
               }

@@ -33,7 +33,7 @@ import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp,
 import scala.concurrent.Future
 
 
-trait RoomService extends BaseService with ServiceUtils with UserService {
+trait RoomService extends BaseService with ServiceUtils {
   implicit val timeout: Timeout
 
   implicit val scheduler: Scheduler
