@@ -211,9 +211,16 @@ trait RoomService extends BaseService with ServiceUtils {
     }
   }
 
-  val getRecord: Route = (path("getRecord" / Segments(2)) & get & pathEndOrSingleSlash & cors(settings)){
-    case roomId :: startTime :: Nil =>
+  val getRecord: Route = (path("getRecord" / Segments(3)) & get & pathEndOrSingleSlash & cors(settings)){
+    case roomId :: startTime :: userId :: Nil =>
       println(s"getRecord req for ${roomId}_$startTime.flv")
+//      dealFutureResult {
+//        val getRoomListRsp: Future[GetUserInfoRsp] = Boot.roomManager ? (RoomManager.GetUserInfo(req, _))
+//        getRoomListRsp.map {
+//          rsp =>
+//            complete(rsp)
+//        }
+//      }
       val f = new File(s"${AppSettings.videoPath}${roomId}_$startTime.flv").getAbsoluteFile
       getFromFile(f,ContentTypes.`application/octet-stream`)
 

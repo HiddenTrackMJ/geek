@@ -35,6 +35,12 @@ object CommonProtocol {
     url: String //重定向url
   ) extends Request
 
+  case class InvitationRsp(
+                     userName: String,
+                     password: String,
+                     url: String //重定向url
+                   ) extends Request
+
 
 
   case class SignUpRsp(
