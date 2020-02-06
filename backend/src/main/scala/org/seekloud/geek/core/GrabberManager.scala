@@ -35,11 +35,13 @@ object GrabberManager {
 
   private final case object BehaviorChangeKey
 
-  final case class StartLive(roomId: Long, rtmpInfo: RtmpInfo, hostCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
+  final case class StartLive(roomId: Long, userId: Long, rtmpInfo: RtmpInfo, hostCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
 
   final case class StartLive4Client(roomId: Long, rtmpInfo: RtmpInfo, selfCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
 
   final case class StopLive(roomId: Long, rtmpInfo: RtmpInfo, roomActor: ActorRef[RoomActor.Command]) extends Command
+
+  final case class StopLive4Client(roomId: Long, userId: Long, selfCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
 
   final case class StartTrans(src: List[String], out: OutTarget, roomActor: ActorRef[RoomActor.Command]) extends Command
 
@@ -74,7 +76,7 @@ object GrabberManager {
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
         case msg: StartLive =>
-          val recordActor = getRecorder(ctx, msg.roomId, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
+          val recordActor = getRecorder(ctx, msg.roomId, msg.userId, msg.rtmpInfo.stream, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
           val grabbers = if (isTest) {
             msg.rtmpInfo.liveCode.map {
               stream =>
@@ -111,14 +113,21 @@ object GrabberManager {
           roomWorkers.remove(msg.roomId)
           Behaviors.same
 
+        case msg: StopLive4Client =>
+          log.info(s"stopping grabbing , room ${msg.roomId} - ${msg.userId}")
+          roomWorkers(msg.roomId)._1 ! Recorder.StopRecorder("user stop live")
+          getGrabber(ctx, msg.roomId, msg.selfCode, roomWorkers(msg.roomId)._1) ! Grabber.StopGrabber("user stop live")
+          Behaviors.same
+
 
         case msg: StartTrans =>
           log.info(s"start testing...")
-          val recordActor = getRecorder(ctx, 0L, msg.roomActor, msg.src, 0, Some(msg.out))//todo layout
+          val recordActor = getRecorder(ctx, 0L, 1000001L, "sss", msg.roomActor, msg.src, 0, Some(msg.out))//todo layout
           msg.src.map {
             stream =>
               getGrabber(ctx, 0L, stream, recordActor)
           }
+
           Behaviors.same
 
         case ChildDead(roomId, child, childRef) =>
@@ -151,13 +160,15 @@ object GrabberManager {
   def getRecorder(
     ctx: ActorContext[Command],
     roomId: Long,
+    hostId: Long,
+    stream: String,
     roomActor: ActorRef[RoomActor.Command],
     pullLiveId: List[String],
     layout: Int,
     outTarget: Option[OutTarget] = None): ActorRef[Recorder.Command] = {
     val childName = s"recorder_$roomId"
     ctx.child(childName).getOrElse{
-      val actor = ctx.spawn(Recorder.create(roomId, pullLiveId, layout, outTarget), childName)
+      val actor = ctx.spawn(Recorder.create(roomId, hostId, stream, pullLiveId, roomActor, layout, outTarget), childName)
 //      ctx.watchWith(actor,ChildDead4Recorder(roomId, childName, actor))
       ctx.watchWith(actor, ChildDead(roomId, childName, actor))
       actor

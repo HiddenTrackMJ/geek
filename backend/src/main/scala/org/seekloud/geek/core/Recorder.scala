@@ -10,11 +10,13 @@ import org.bytedeco.ffmpeg.global.{avcodec, avutil}
 import org.bytedeco.javacv.{FFmpegFrameFilter, FFmpegFrameRecorder, Frame, Java2DFrameConverter}
 import org.seekloud.geek.Boot
 import org.seekloud.geek.common.AppSettings
+import org.seekloud.geek.models.SlickTables
 import org.seekloud.geek.shared.ptcl.Protocol.OutTarget
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
 import scala.util.{Failure, Success, Try}
+import scala.concurrent.duration._
 
 /**
  * Author: Jason
@@ -44,17 +46,28 @@ object Recorder {
 
   case class StopRecorder(msg: String) extends Command
 
+  case class GrabberStopped(liveId: String) extends Command
+
   case object CloseRecorder extends Command
 
   case class NewFrame(liveId: String, frame: Frame) extends Command
 
   case class UpdateRecorder(channel: Int, sampleRate: Int, frameRate: Double, width: Int, height: Int, liveId: String) extends Command
 
+  case object TimerKey4Close
+
+  final case object TimerKey4ImageRec
+
+  case object RecordImage extends Command with DrawCommand
+
+
   sealed trait DrawCommand
 
   case class Image4Host(frame: Frame) extends DrawCommand
 
   case class Image4Others(id: String, frame: Frame) extends DrawCommand
+
+  case class deleteImage4Others(id: String) extends DrawCommand
 
   case class SetLayout(layout: Int) extends DrawCommand
 
@@ -72,14 +85,14 @@ object Recorder {
 
   case class Ts4LastSample(var time: Long = 0)
 
-  def create(roomId: Long, pullLiveId:List[String], layout: Int, outTarget: Option[OutTarget] = None): Behavior[Command] = {
+  def create(roomId: Long, hostId: Long, stream: String, pullLiveId:List[String], roomActor: ActorRef[RoomActor.Command], layout: Int, outTarget: Option[OutTarget] = None): Behavior[Command] = {
     Behaviors.setup[Command] { ctx =>
       implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)
       Behaviors.withTimers[Command] {
         implicit timer =>
           log.info(s"recorder-$roomId start----")
           avutil.av_log_set_level(-8)
-          val srcPath = AppSettings.rtmpServer + roomId
+          val srcPath = AppSettings.rtmpServer + stream
           println(s"path: $srcPath")
           val recorder4ts = new FFmpegFrameRecorder(srcPath, 640, 480, audioChannels)
           recorder4ts.setInterleaved(true)
@@ -110,21 +123,24 @@ object Recorder {
 
           //          Boot.roomManager ! RoomManager.RecorderRef(roomId, ctx.self) //fixme 取消注释
           ctx.self ! Init
-          idle(roomId, pullLiveId,List.empty, pullLiveId.head, recorder4ts, mutable.HashMap.empty, drawer, mutable.HashMap.empty)
+          idle(roomId, hostId, stream, pullLiveId, roomActor,List.empty, pullLiveId.head, recorder4ts, mutable.HashMap.empty, drawer, mutable.HashMap.empty)
       }
     }
   }
 
-  val indexMap :mutable.HashMap[String, Int] = mutable.HashMap.empty
   private def idle(
     roomId: Long,
+    hostId: Long,
+    stream: String,
     pullLiveId:List[String],
+    roomActor: ActorRef[RoomActor.Command],
     online: List[Int],
     host: String,
     recorder4ts: FFmpegFrameRecorder,
     ffFilter:  mutable.HashMap[Int, FFmpegFrameFilter],
     drawer: ActorRef[DrawCommand],
     grabbers: mutable.HashMap[String, ActorRef[Grabber.Command]], // id -> grabActor
+    indexMap :mutable.HashMap[String, Int] = mutable.HashMap.empty,
     filterInUse: Option[FFmpegFrameFilter] = None,
   )(
     implicit stashBuffer: StashBuffer[Command],
@@ -172,12 +188,17 @@ object Recorder {
 //          ffFilterN.setSampleFormat(sampleFormat)
 //          ffFilterN.setAudioInputs(2)
 //          ffFilterN.start()
-          idle(roomId, pullLiveId, online, host, recorder4ts,filters, drawer, grabbers, filterInUse)
+          idle(roomId, hostId, stream, pullLiveId, roomActor, online, host, recorder4ts,filters, drawer, grabbers, indexMap, filterInUse)
 
         case GetGrabber(id, grabber) =>
           grabber ! Grabber.GetRecorder(ctx.self)
           grabbers.put(id, grabber)
-          idle(roomId, pullLiveId, online, host, recorder4ts, ffFilter, drawer, grabbers, filterInUse)
+          Behaviors.same
+
+        case GrabberStopped(liveId) =>
+          grabbers.-=(liveId)
+          drawer ! deleteImage4Others(liveId)
+          Behaviors.same
 
         case UpdateRecorder(channel, sampleRate, f, width, height, liveId) =>
           peopleOnline += 1
@@ -192,13 +213,18 @@ object Recorder {
             ffFilter.foreach(_._2.setSampleRate(sampleRate))
             recorder4ts.setImageWidth(width)
             recorder4ts.setImageHeight(height)
-            idle(roomId, pullLiveId, onlineNew, host, recorder4ts, ffFilter, drawer, grabbers, filterInUse)
+//            timer.startPeriodicTimer(TimerKey4ImageRec, RecordImage, 10.millis)
+            idle(roomId, hostId, stream, pullLiveId, roomActor, onlineNew, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, filterInUse)
           }
           else Behaviors.same
 
+        case RecordImage =>
+          drawer ! RecordImage
+          Behaviors.same
+
         case NewFrame(liveId, frame) =>
-//          println(grabbers)
           if (frame.image != null) {
+//            println(liveId, frame.timestamp)
             if (liveId == host) {
 //              recorder4ts.record(frame.clone())
               drawer ! Image4Host(frame)
@@ -222,29 +248,29 @@ object Recorder {
               } else {
                 val fil = ffFilter(peopleOnline)
 //                println(3, peopleOnline, fil)
-//                if (filterInUse.nonEmpty && fil != filterInUse.get) {
-//                  println(5)
-//                  filterInUse.get.close()
-//                  fil.start()
-//                  newFilterInUse = Some(fil)
-//                } else if (filterInUse.isEmpty) {
-//                  println(6)
-//                  fil.start()
-//                  newFilterInUse = Some(fil)
-//                }
+                if (filterInUse.nonEmpty && fil != filterInUse.get) {
+                  println(5)
+                  filterInUse.get.close()
+                  fil.start()
+                  newFilterInUse = Some(fil)
+                } else if (filterInUse.isEmpty) {
+                  println(6)
+                  fil.start()
+                  newFilterInUse = Some(fil)
+                }
                 try {
                   if (indexMap.isEmpty && !indexMap.contains(liveId)) indexMap.put(liveId, 0)
-                  else if (indexMap.nonEmpty && !indexMap.contains(liveId)) indexMap.put(liveId, 1)
+                  else if (indexMap.nonEmpty && !indexMap.contains(liveId)) indexMap.put(liveId, indexMap.maxBy(_._2)._2 + 1)
 //                  println(7, indexMap, fil, "index: " + (index-1), sampleFrame.audioChannels, sampleFrame.sampleRate, fil.getSampleFormat)
-//                  fil.pushSamples(indexMap(liveId), sampleFrame.audioChannels, sampleFrame.sampleRate, 1, sampleFrame.samples: _*)
-//                  val f = fil.pullSamples()
-//                  if (f != null) {
-//                    val ff = f.clone()
-//                    recorder4ts.recordSamples(ff.sampleRate, ff.audioChannels, ff.samples: _*)
-//                    log.debug(s"record sample...")
-//                  }
+                  fil.pushSamples(indexMap(liveId), sampleFrame.audioChannels, sampleFrame.sampleRate, 1, sampleFrame.samples: _*)
+                  val f = fil.pullSamples()
+                  if (f != null) {
+                    val ff = f.clone()
+                    recorder4ts.recordSamples(ff.sampleRate, ff.audioChannels, ff.samples: _*)
+                    log.debug(s"record sample...")
+                  }
 //                  if (liveId == "1000_1") {
-                    recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
+//                    recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
 //                  }
                 } catch {
                   case ex: Exception =>
@@ -254,7 +280,6 @@ object Recorder {
               }
             }
             else {
-//              println(4, ffFilter)
               try {
                 recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
               }
@@ -281,7 +306,24 @@ object Recorder {
 //                log.debug(s"$liveId record sample error system: $ex")
 //            }
           }
-          idle(roomId, pullLiveId, online, host, recorder4ts, ffFilter, drawer, grabbers, newFilterInUse)
+          idle(roomId, hostId, stream, pullLiveId, roomActor, online, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, newFilterInUse)
+
+        case CloseRecorder =>
+          val video = SlickTables.rVideo(0L, hostId, roomId, stream.split("_").last.toLong, stream + ".flv", "")
+          try {
+            filterInUse.foreach(_.close())
+            drawer ! Close
+            roomActor ! RoomActor.StoreVideo(video)
+          } catch {
+            case e: Exception =>
+              log.error(s"$roomId recorder close error ---")
+          }
+          Behaviors.stopped
+
+        case StopRecorder(msg) =>
+          log.info(s"recorder-$roomId stop because $msg")
+          timer.startSingleTimer(TimerKey4Close, CloseRecorder, 1.seconds)
+          Behaviors.same
 
         case x@_ =>
           log.info(s"${ctx.self} got an unknown msg:$x")
@@ -303,6 +345,7 @@ object Recorder {
     Behaviors.setup[DrawCommand] { ctx =>
       Behaviors.receiveMessage[DrawCommand] {
         case t: Image4Host =>
+//          log.info(s"add host")
           val time = t.frame.timestamp
           val img = convert1.convert(t.frame)
           val clientImg = if(clientFrame.frame.nonEmpty) clientFrame.frame.toList.sortBy(_._1.split("_").last.toInt).map(
@@ -313,7 +356,7 @@ object Recorder {
           layout match {
             case 0 =>
               graph.drawImage(img, 0, 0, canvasSize._1 , canvasSize._2 , null)
-              graph.drawString("主播", 24, 24)
+//              graph.drawString("主播", 24, 24)
 //              graph.drawImage(clientImg, canvasSize._1 / 2, canvasSize._2 / 4, canvasSize._1 / 2, canvasSize._2 / 2, null)
 //              graph.drawString("观众", 344, 24)
               clientImg.zipWithIndex.foreach{ i =>
@@ -348,6 +391,7 @@ object Recorder {
           //fixme 此处为何不直接recordImage
           val frame = convert.convert(canvas)
           try{
+            log.info("record image")
             recorder4ts.record(frame.clone())
           }
           catch {
@@ -369,7 +413,34 @@ object Recorder {
           Behaviors.same
 
         case t: Image4Others =>
+//          log.info(s"add ${t.id}")
           clientFrame.frame.put(t.id, t.frame)
+          Behaviors.same
+
+        case RecordImage =>
+          val frame = convert.convert(canvas)
+          try{
+            log.info("record image")
+            val f = frame.clone()
+            recorder4ts.recordImage(
+              f.imageWidth,
+              f.imageHeight,
+              f.imageDepth,
+              f.imageChannels,
+              f.imageStride,
+              recorder4ts.getPixelFormat,
+              f.image: _*
+            )
+          }
+          catch {
+            case e: Exception =>
+              log.info(s"record error: ${e.getMessage}")
+          }
+          Behaviors.same
+
+
+        case t: deleteImage4Others =>
+          clientFrame.frame.-=(t.id)
           Behaviors.same
 
         case m@NewRecord4Ts(recorder4ts) =>
