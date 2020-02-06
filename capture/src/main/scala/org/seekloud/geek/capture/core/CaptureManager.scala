@@ -307,7 +307,7 @@ object CaptureManager {
             val image = imageConverter.convert(targetImage.frame.clone())
             replyTo ! Messages.ImageRsp(LatestImage(image, System.currentTimeMillis()))
           } else {
-            log.info(s"No image captured yet.")
+//            log.info(s"No image captured yet.")
             replyTo ! Messages.NoImage
           }
 

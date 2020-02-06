@@ -15,6 +15,7 @@ import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.client.Boot.{executor, materializer, scheduler, system, timeout}
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
+import org.seekloud.geek.client.core.stream.LiveManager.JoinInfo
 import org.seekloud.geek.client.utils.WsUtil
 
 /**
@@ -49,7 +50,8 @@ object RmManager {
   final case object GoToCreateRoom extends RmCommand //进去创建会议的页面
   final case object HostWsEstablish extends RmCommand
   final case object BackToHome extends RmCommand
-
+  final case object HostLiveReq extends RmCommand //请求开启会议
+  final case object StopLive extends RmCommand
 
   //ws链接
   final case class GetSender(sender: ActorRef[WsMsgFront]) extends RmCommand
@@ -91,7 +93,9 @@ object RmManager {
             def callBack(): Unit = Boot.addToPlatform(hostScene.changeToggleAction())
 
             liveManager ! LiveManager.DevicesOn(hostScene.gc, callBackFunc = Some(callBack))
-            ctx.self ! HostWsEstablish
+
+            //todo: 暂时不建立ws连接，用http请求
+//            ctx.self ! HostWsEstablish
             Boot.addToPlatform {
               if (homeController != null) {
                 homeController.get.removeLoading()
@@ -130,7 +134,7 @@ object RmManager {
     mediaPlayer: MediaPlayer,
     sender: Option[ActorRef[WsMsgFront]] = None,
     hostStatus: Int = HostStatus.LIVE, //0-直播，1-连线
-    joinAudience: List[MemberInfo] = Nil//组员
+    joinAudience: Option[MemberInfo] = None //组员
   )(
     implicit stashBuffer: StashBuffer[RmCommand],
     timer: TimerScheduler[RmCommand]
@@ -156,6 +160,38 @@ object RmManager {
           val url = Routes.linkRoomManager(userInfo.get.userId, roomInfo.map(_.roomId).get)
           WsUtil.buildWebSocket(ctx, url, hostController, successFunc(), failureFunc())
           Behaviors.same
+
+        case HostLiveReq =>
+
+          //开始推流
+          log.info(s"开始会议")
+//          hostController.isLive = true
+//          Boot.addToPlatform {
+//            hostScene.allowConnect()
+//          }
+//          liveManager ! LiveManager.PushStream(userInfo.get.liveId.get, userInfo.get.liveId.get)
+
+
+
+          //开始拉流
+          /*背景改变*/
+          hostScene.resetBack()
+
+          /*媒体画面模式更改*/
+          liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostScene.resetBack)
+
+          /*拉取观众的rtp流并播放*/
+          liveManager ! LiveManager.PullStream(userInfo.get.liveId, hostScene = Some(hostScene))
+          Behaviors.same
+
+
+        case StopLive =>
+          liveManager ! LiveManager.StopPush
+          //todo: 进行http请求，停止推流
+//          sender.foreach(_ ! HostStopPushStream(roomInfo.get.roomId))
+          hostController.isLive = false
+          Behaviors.same
+
         case BackToHome =>
 //          timer.cancel(HeartBeat)
 //          timer.cancel(PingTimeOut)

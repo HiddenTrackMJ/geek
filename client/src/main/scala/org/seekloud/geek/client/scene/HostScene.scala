@@ -1019,16 +1019,18 @@ class HostScene(stage: Stage) {
   def changeToggleAction(): Unit = {
     liveBar.liveToggleButton.setDisable(false)
     liveBar.startTimer()
+    WarningDialog.initWarningDialog("点击了！")
+
 
     //    liveToggleButton.textProperty.bind(Bindings.when(liveToggleButton.selectedProperty).then("直播中").otherwise("点击直播"))
     liveBar.liveToggleButton.setOnAction {
       _ =>
         if (liveBar.liveToggleButton.isSelected) {
-          listener.startLive()
+          listener.startLive()//开始拉/推流
           liveBar.resetStartLiveTime(System.currentTimeMillis())
           isLive = true
           Tooltip.install(liveBar.liveToggleButton, new Tooltip("点击停止直播"))
-        } else {
+        } else {//停止拉/推流，显示用户自己的摄像头内容
           listener.stopLive()
           liveBar.isLiving = false
           liveBar.soundToggleButton.setDisable(false)

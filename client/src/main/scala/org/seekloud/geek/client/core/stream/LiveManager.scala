@@ -8,10 +8,14 @@ import org.seekloud.geek.capture.sdk.{DeviceUtil, MediaCapture}
 import org.seekloud.geek.client.common.AppSettings
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.core.collector.CaptureActor
-import org.seekloud.geek.client.utils.GetAllPixel
+import org.seekloud.geek.client.utils.{GetAllPixel, NetUtil, RtpUtil}
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.client.Boot.executor
+import org.seekloud.geek.client.core.rtp.{PullChannel, PushChannel}
+import org.seekloud.geek.client.scene.HostScene
+import org.seekloud.geek.client.utils.rtpClient.{PullStreamClient, PushStreamClient}
+import org.seekloud.geek.client.utils.RtpUtil.{clientHost, clientHostQueue}
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -21,13 +25,13 @@ import scala.language.postfixOps
   * Date: 2019/7/19
   * Time: 12:25
   *
-  * client 向服务器端进行推拉流鉴权及控制
+  * client 向服务器端进行推拉流鉴权及控制player的显示
   *
   */
 object LiveManager {
 
   private val log = LoggerFactory.getLogger(this.getClass)
-//  private var validHost = clientHost
+  private var validHost = clientHost//todo: 推流地址
 
   val dispatcher: DispatcherSelector = DispatcherSelector.fromConfig("akka.actor.my-blocking-dispatcher")
 
@@ -60,7 +64,7 @@ object LiveManager {
 
   final case class Ask4State(reply: ActorRef[Boolean]) extends LiveCommand
 
-//  final case class PullStream(liveId: String, joinInfo: Option[JoinInfo] = None, watchInfo: Option[WatchInfo] = None, audienceScene: Option[AudienceScene] = None, hostScene: Option[HostScene] = None) extends LiveCommand
+  final case class PullStream(stream: Option[String], joinInfo: Option[JoinInfo] = None, watchInfo: Option[WatchInfo] = None, hostScene: Option[HostScene] = None) extends LiveCommand
 
   final case object StopPull extends LiveCommand
 
@@ -122,9 +126,9 @@ object LiveManager {
 
 //
 //
-//        case msg: SwitchMediaMode =>
-//          captureActor.foreach(_ ! CaptureActor.SwitchMode(msg.isJoin, msg.reset))
-//          Behaviors.same
+        case msg: SwitchMediaMode =>
+          captureActor.foreach(_ ! CaptureActor.SwitchMode(msg.isJoin, msg.reset))
+          Behaviors.same
 //
 //        case msg: ChangeMediaOption =>
 //          captureActor.foreach(_ ! msg)
@@ -134,51 +138,52 @@ object LiveManager {
 //          captureActor.foreach(_ ! msg)
 //          Behaviors.same
 //
-//        case msg: PushStream =>
-//          log.debug(s"prepare push stream.")
-//          assert(captureActor.nonEmpty)
-//          if (streamPusher.isEmpty) {
-//            val pushChannel = new PushChannel
-//            val pusher = getStreamPusher(ctx, msg.liveId, msg.liveCode, captureActor.get)
-//            RtpUtil.initIpPool()
-//            validHost = clientHostQueue.dequeue()
-//            val rtpClient = new PushStreamClient(AppSettings.host, NetUtil.getFreePort, pushChannel.serverPushAddr, pusher,AppSettings.rtpServerDst)
-//            mediaCapture.foreach(_.setTimeGetter(rtpClient.getServerTimestamp))
-//            pusher ! StreamPusher.InitRtpClient(rtpClient)
-//            idle(parent, mediaPlayer, captureActor, Some(pusher), streamPuller, isStart = isStart, isRegular = isRegular)
-//          } else {
-//            log.info(s"waiting for old pusher stop.")
-//            ctx.self ! StopPush
-//            timer.startSingleTimer(PUSH_RETRY_TIMER_KEY, msg, 100.millis)
-//            Behaviors.same
-//          }
-//
-//        case InitRtpFailed =>
-//          ctx.self ! StopPush
-//          Behaviors.same
-//
-//        case StopPush =>
-//          log.info(s"LiveManager stop pusher!")
-//          streamPusher.foreach {
-//            pusher =>
-//              log.info(s"stopping pusher...")
-//              pusher ! StreamPusher.StopPush
-//          }
-//          Behaviors.same
-//
-//        case msg: PullStream =>
-//          if (streamPuller.isEmpty) {
-//            val pullChannel = new PullChannel
-//            val puller = getStreamPuller(ctx, msg.liveId, mediaPlayer, msg.joinInfo, msg.watchInfo, msg.audienceScene, msg.hostScene)
-//            val rtpClient = new PullStreamClient(AppSettings.host, NetUtil.getFreePort, pullChannel.serverPullAddr, puller, AppSettings.rtpServerDst)
-//            puller ! StreamPuller.InitRtpClient(rtpClient)
-//            idle(parent, mediaPlayer, captureActor, streamPusher, Some((msg.liveId, puller)), isStart = true, isRegular = isRegular)
-//          } else {
-//            log.info(s"waiting for old puller-${streamPuller.get._1} stop.")
-//            ctx.self ! StopPull
-//            timer.startSingleTimer(PULL_RETRY_TIMER_KEY, msg, 100.millis)
-//            Behaviors.same
-//          }
+        case msg: PushStream =>
+          log.debug(s"prepare push stream.")
+          assert(captureActor.nonEmpty)
+          if (streamPusher.isEmpty) {
+            val pushChannel = new PushChannel
+            val pusher = getStreamPusher(ctx, msg.liveId, msg.liveCode, captureActor.get)
+            RtpUtil.initIpPool()
+            validHost = clientHostQueue.dequeue()
+            val rtpClient = new PushStreamClient(AppSettings.host, NetUtil.getFreePort, pushChannel.serverPushAddr, pusher,AppSettings.rtpServerDst)
+            mediaCapture.foreach(_.setTimeGetter(rtpClient.getServerTimestamp))
+            pusher ! StreamPusher.InitRtpClient(rtpClient)
+            idle(parent, mediaPlayer, captureActor, Some(pusher), streamPuller, isStart = isStart, isRegular = isRegular)
+          } else {
+            log.info(s"waiting for old pusher stop.")
+            ctx.self ! StopPush
+            timer.startSingleTimer(PUSH_RETRY_TIMER_KEY, msg, 100.millis)
+            Behaviors.same
+          }
+
+        case InitRtpFailed =>
+          ctx.self ! StopPush
+          Behaviors.same
+
+        case StopPush =>
+          log.info(s"LiveManager stop pusher!")
+          streamPusher.foreach {
+            pusher =>
+              log.info(s"stopping pusher...")
+              pusher ! StreamPusher.StopPush
+          }
+          Behaviors.same
+
+        case msg: PullStream =>
+          if (streamPuller.isEmpty) {
+            val pullChannel = new PullChannel
+            val puller = getStreamPuller(ctx, RmManager.userInfo.get.liveId.get, mediaPlayer, msg.joinInfo, msg.watchInfo, msg.hostScene)
+
+            val rtpClient = new PullStreamClient(AppSettings.host, NetUtil.getFreePort, pullChannel.serverPullAddr, puller, AppSettings.rtpServerDst)
+            puller ! StreamPuller.InitRtpClient(rtpClient)
+            idle(parent, mediaPlayer, captureActor, streamPusher, Some((RmManager.userInfo.get.liveId.get, puller)), isStart = true, isRegular = isRegular)
+          } else {
+            log.info(s"waiting for old puller-${streamPuller.get._1} stop.")
+            ctx.self ! StopPull
+            timer.startSingleTimer(PULL_RETRY_TIMER_KEY, msg, 100.millis)
+            Behaviors.same
+          }
 //
 //        case GetPackageLoss =>
 //          streamPuller.foreach { s =>
@@ -232,6 +237,36 @@ object LiveManager {
       ctx.watchWith(actor, ChildDead(childName, actor))
       actor
     }.unsafeUpcast[CaptureActor.CaptureCommand]
+  }
+
+  private def getStreamPusher(
+    ctx: ActorContext[LiveCommand],
+    liveId: String,
+    liveCode: String,
+    captureActor: ActorRef[CaptureActor.CaptureCommand]
+  ) = {
+    val childName = s"streamPusher-$liveId"
+    ctx.child(childName).getOrElse {
+      val actor = ctx.spawn(StreamPusher.create(liveId, liveCode, ctx.self, captureActor), childName)
+      ctx.watchWith(actor, ChildDead(childName, actor))
+      actor
+    }.unsafeUpcast[StreamPusher.PushCommand]
+  }
+
+  private def getStreamPuller(
+    ctx: ActorContext[LiveCommand],
+    liveId: String,
+    mediaPlayer: MediaPlayer,
+    joinInfo: Option[JoinInfo],
+    watchInfo: Option[WatchInfo],
+    hostScene: Option[HostScene]
+  ) = {
+    val childName = s"streamPuller-$liveId"
+    ctx.child(childName).getOrElse {
+      val actor = ctx.spawn(StreamPuller.create(liveId, ctx.self, mediaPlayer, joinInfo, watchInfo, hostScene), childName)
+      ctx.watchWith(actor, ChildDead(childName, actor))
+      actor
+    }.unsafeUpcast[StreamPuller.PullCommand]
   }
 
 

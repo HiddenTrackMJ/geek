@@ -5,6 +5,8 @@ import java.nio.channels.{Channels, Pipe}
 
 import akka.actor.typed.scaladsl.{Behaviors, StashBuffer, TimerScheduler}
 import akka.actor.typed.{ActorRef, Behavior}
+import org.seekloud.geek.client.core.collector.CaptureActor
+import org.seekloud.geek.client.utils.rtpClient.PushStreamClient
 import org.seekloud.geek.shared.rtp.Protocol
 import org.slf4j.LoggerFactory
 
@@ -15,6 +17,7 @@ import scala.util.{Failure, Success, Try}
   * User: TangYaruo
   * Date: 2019/8/20
   * Time: 13:41
+  * Description：推流
   */
 object StreamPusher {
 
@@ -22,7 +25,7 @@ object StreamPusher {
 
   type PushCommand = Protocol.Command
 
-//  final case class InitRtpClient(pushClient: PushStreamClient) extends PushCommand
+  final case class InitRtpClient(pushClient: PushStreamClient) extends PushCommand
 
   final case object PushAuth extends PushCommand
 
@@ -40,7 +43,7 @@ object StreamPusher {
     liveId: String,
     liveCode: String,
     parent: ActorRef[LiveManager.LiveCommand],
-//    captureActor: ActorRef[CaptureActor.CaptureCommand]
+    captureActor: ActorRef[CaptureActor.CaptureCommand]
   ): Behavior[PushCommand] =
     Behaviors.setup[PushCommand] { ctx =>
       log.info(s"StreamPusher-$liveId is staring.")

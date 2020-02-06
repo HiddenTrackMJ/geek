@@ -37,12 +37,12 @@ class HostController(
   }
 
   hostScene.setListener(new HostSceneListener {
-    override def startLive(): Unit = {//开始推流，直播
-//      rmManager ! RmManager.HostLiveReq
+    override def startLive(): Unit = {//开始推流和拉流
+      rmManager ! RmManager.HostLiveReq
     }
 
-    override def stopLive(): Unit = {//停止直播
-//      rmManager ! RmManager.StopLive
+    override def stopLive(): Unit = {//停止推流和拉流
+      rmManager ! RmManager.StopLive
     }
 
     override def modifyRoomInfo(name: Option[String], des: Option[String]): Unit = {//修改房间信息

@@ -5,8 +5,14 @@ import java.nio.channels.{Channels, Pipe}
 
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import akka.actor.typed.{ActorRef, Behavior}
+import org.seekloud.geek.client.common.Constants.AudienceStatus
+import org.seekloud.geek.client.core.stream.LiveManager.{JoinInfo, WatchInfo}
+import org.seekloud.geek.client.scene.HostScene
+import org.seekloud.geek.client.utils.rtpClient.PullStreamClient
+import org.seekloud.geek.client.core.player.VideoPlayer
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.seekloud.geek.shared.rtp.Protocol
+import org.seekloud.geek.shared.rtp.Protocol.{PullStreamReady, PullStreamReqSuccess}
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration._
@@ -15,6 +21,7 @@ import scala.concurrent.duration._
   * User: TangYaruo
   * Date: 2019/8/20
   * Time: 13:41
+  * Description: 推流
   */
 object StreamPuller {
 
@@ -26,7 +33,7 @@ object StreamPuller {
 
   case class BandWidthInfo(bandWidth60s: Double, bandWidth10s: Double, bandWidth2s: Double)
 
-//  final case class InitRtpClient(pullClient: PullStreamClient) extends PullCommand
+  final case class InitRtpClient(pullClient: PullStreamClient) extends PullCommand
 
   final case object PullStartTimeOut extends PullCommand
 
@@ -66,16 +73,15 @@ object StreamPuller {
     liveId: String,
     parent: ActorRef[LiveManager.LiveCommand],
     mediaPlayer: MediaPlayer,
-//    joinInfo: Option[JoinInfo],
-//    watchInfo: Option[WatchInfo],
-//    audienceScene: Option[AudienceScene],
-//    hostScene: Option[HostScene]
+    joinInfo: Option[JoinInfo],
+    watchInfo: Option[WatchInfo],
+    hostScene: Option[HostScene]
   ): Behavior[PullCommand] =
     Behaviors.setup[PullCommand] { ctx =>
       log.info(s"StreamPuller-$liveId is starting.")
       implicit val stashBuffer: StashBuffer[PullCommand] = StashBuffer[PullCommand](Int.MaxValue)
       Behaviors.withTimers[PullCommand] { implicit timer =>
-        init(liveId, parent)
+        init(liveId, parent,mediaPlayer,joinInfo,watchInfo,hostScene)
       }
 
     }
@@ -83,73 +89,62 @@ object StreamPuller {
   private def init(
     liveId: String,
     parent: ActorRef[LiveManager.LiveCommand],
-//    mediaPlayer: MediaPlayer,
-//    joinInfo: Option[JoinInfo],
-//    watchInfo: Option[WatchInfo],
-//    audienceScene: Option[AudienceScene],
-//    hostScene: Option[HostScene],
-//    pullClient: Option[PullStreamClient]
+    mediaPlayer: MediaPlayer,
+    joinInfo: Option[JoinInfo],
+    watchInfo: Option[WatchInfo],
+    hostScene: Option[HostScene],
+    pullClient: Option[PullStreamClient] = None
   )(
     implicit timer: TimerScheduler[PullCommand],
     stashBuffer: StashBuffer[PullCommand]
   ): Behavior[PullCommand] =
     Behaviors.receive[PullCommand] { (ctx, msg) =>
       Behaviors.unhandled
-//      msg match {
-//        case msg: InitRtpClient =>
-//          log.info(s"StreamPuller-$liveId init rtpClient.")
-//          msg.pullClient.pullStreamStart()
-//          timer.startSingleTimer(PullStartTimeOut, PullStartTimeOut, 5.seconds)
-//          audienceScene.foreach(_.startPackageLoss())
-//          hostScene.foreach(_.startPackageLoss())
-//          init(liveId, parent, mediaPlayer, joinInfo, watchInfo, audienceScene, hostScene, Some(msg.pullClient))
+      msg match {
+        case msg: InitRtpClient =>
+          log.info(s"StreamPuller-$liveId init rtpClient.")
+          msg.pullClient.pullStreamStart()
+          timer.startSingleTimer(PullStartTimeOut, PullStartTimeOut, 5.seconds)
+          hostScene.foreach(_.startPackageLoss())
+          init(liveId, parent, mediaPlayer, joinInfo, watchInfo, hostScene, Some(msg.pullClient))
+
+        case PullStreamReady =>
+          log.info(s"StreamPuller-$liveId ready for pull.")
+          timer.cancel(PullStartTimeOut)
+          ctx.self ! PullStream
+          Behaviors.same
+
+        case PullStartTimeOut =>
+          pullClient.foreach(_.getClientId())
+          timer.startSingleTimer(PullStartTimeOut, PullStartTimeOut, 5.seconds)
+          Behaviors.same
 //
-//        case PullStreamReady =>
-//          log.info(s"StreamPuller-$liveId ready for pull.")
-//          timer.cancel(PullStartTimeOut)
-//          ctx.self ! PullStream
-//          Behaviors.same
+        case PullStream =>
+          log.info(s"StreamPuller-$liveId PullStream.")
+          pullClient.foreach(_.pullStreamData(List(liveId)))
+          timer.startSingleTimer(PullTimeOut, PullTimeOut, 30.seconds)
+          Behaviors.same
 //
-//        case PullStartTimeOut =>
-//          pullClient.foreach(_.getClientId())
-//          timer.startSingleTimer(PullStartTimeOut, PullStartTimeOut, 5.seconds)
-//          Behaviors.same
-//
-//        case PullStream =>
-//          log.info(s"StreamPuller-$liveId PullStream.")
-//          pullClient.foreach(_.pullStreamData(List(liveId)))
-//          timer.startSingleTimer(PullTimeOut, PullTimeOut, 30.seconds)
-//          Behaviors.same
-//
-//        case msg: PullStreamReqSuccess =>
-//          log.info(s"StreamPuller-$liveId PullStream-${msg.liveIds} success.")
-//          timer.cancel(PullTimeOut)
-//          val mediaPipe = Pipe.open() // server -> sink -> source -> client
-//          val sink = mediaPipe.sink()
-//          val source = mediaPipe.source()
-//          sink.configureBlocking(false)
-//          //          source.configureBlocking(false)
-//          //          val inputStream = new ChannelInputStream(source)
-//          val inputStream = Channels.newInputStream(source)
-//          if (joinInfo.nonEmpty) {
-//            audienceScene.foreach(_.autoReset())
-//            hostScene.foreach(_.resetBack())
-//            val playId = Ids.getPlayId(AudienceStatus.CONNECT, roomId = Some(joinInfo.get.roomId), audienceId = Some(joinInfo.get.audienceId))
-//            mediaPlayer.setTimeGetter(playId, pullClient.get.getServerTimestamp)
-//            val videoPlayer = ctx.spawn(VideoPlayer.create(playId, audienceScene, None, None), s"videoPlayer$playId")
-//            mediaPlayer.start(playId, videoPlayer, Right(inputStream), Some(joinInfo.get.gc), None)
-//          }
-//
-//          if (watchInfo.nonEmpty) {
-//            audienceScene.foreach(_.autoReset())
-//            val playId = Ids.getPlayId(AudienceStatus.LIVE, roomId = Some(watchInfo.get.roomId))
-//            mediaPlayer.setTimeGetter(playId, pullClient.get.getServerTimestamp)
-//            val videoPlayer = ctx.spawn(VideoPlayer.create(playId, audienceScene, None, None), s"videoPlayer$playId")
-//            mediaPlayer.start(playId, videoPlayer, Right(inputStream), Some(watchInfo.get.gc), None)
-//
-//          }
-//          stashBuffer.unstashAll(ctx, pulling(liveId, parent, pullClient.get, mediaPlayer, sink, audienceScene, hostScene))
-//
+        case msg: PullStreamReqSuccess =>
+          log.info(s"StreamPuller-$liveId PullStream-${msg.liveIds} success.")
+          timer.cancel(PullTimeOut)
+          val mediaPipe = Pipe.open() // server -> sink -> source -> client
+          val sink = mediaPipe.sink()
+          val source = mediaPipe.source()
+          sink.configureBlocking(false)
+          val inputStream = Channels.newInputStream(source)
+
+          if (watchInfo.nonEmpty) {
+            val playId = s"roomId${watchInfo.get.roomId}"
+            mediaPlayer.setTimeGetter(playId, pullClient.get.getServerTimestamp)
+            val videoPlayer = ctx.spawn(VideoPlayer.create(playId, None, None), s"videoPlayer$playId")
+
+            //todo 播放流的内容
+            mediaPlayer.start(playId, videoPlayer, Right(inputStream), Some(watchInfo.get.gc), None)
+
+          }
+          stashBuffer.unstashAll(ctx, pulling(liveId, parent, pullClient.get, mediaPlayer, sink, hostScene))
+
 //        case GetLossAndBand =>
 //          pullClient.foreach{ p =>
 //            val info = {
@@ -185,29 +180,30 @@ object StreamPuller {
 //          parent ! LiveManager.PullerStopped
 //          Behaviors.stopped
 //
-//        case x =>
-//          log.warn(s"unhandled msg in init: $x")
-//          stashBuffer.stash(x)
-//          Behaviors.same
-//      }
+        case x =>
+          log.warn(s"unhandled msg in init: $x")
+          stashBuffer.stash(x)
+          Behaviors.same
+      }
     }
   private object ENSURE_STOP_PULL
 
-//  private def pulling(
-//    liveId: String,
-//    parent: ActorRef[LiveManager.LiveCommand],
-//    pullClient: PullStreamClient,
-//    mediaPlayer: MediaPlayer,
-//    //    joinInfo: Option[JoinInfo],
-//    mediaSink: Pipe.SinkChannel,
-//    audienceScene: Option[AudienceScene],
-//    hostScene: Option[HostScene]
-//  )(
-//    implicit timer: TimerScheduler[PullCommand],
-//    stashBuffer: StashBuffer[PullCommand]
-//  ): Behavior[PullCommand] =
-//    Behaviors.receive[PullCommand] { (ctx, msg) =>
-//      msg match {
+
+  //拉流状态
+  private def pulling(
+    liveId: String,
+    parent: ActorRef[LiveManager.LiveCommand],
+    pullClient: PullStreamClient,
+    mediaPlayer: MediaPlayer,
+    //    joinInfo: Option[JoinInfo],
+    mediaSink: Pipe.SinkChannel,
+    hostScene: Option[HostScene]
+  )(
+    implicit timer: TimerScheduler[PullCommand],
+    stashBuffer: StashBuffer[PullCommand]
+  ): Behavior[PullCommand] =
+    Behaviors.receive[PullCommand] { (ctx, msg) =>
+      msg match {
 //        case msg: PullStreamData =>
 //          if (msg.data.nonEmpty) {
 //            try {
@@ -261,12 +257,12 @@ object StreamPuller {
 //
 //        case PullStream =>
 //          Behaviors.same
-//
-//        case x =>
-//          log.warn(s"unknown msg in pulling: $x")
-//          Behaviors.unhandled
-//      }
-//    }
+
+        case x =>
+          log.warn(s"unknown msg in pulling: $x")
+          Behaviors.unhandled
+      }
+    }
 //
 //
 //  private def busy(

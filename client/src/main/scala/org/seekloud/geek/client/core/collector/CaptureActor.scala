@@ -42,6 +42,7 @@ object CaptureActor {
 
   final case class DrawImage(image: Image) extends DrawCommand
 
+  //切换
   final case class SwitchMode(isJoin: Boolean, reset: () => Unit) extends DrawCommand with CaptureCommand
 
   final case class ReSet(reset: () => Unit, offOrOn: Boolean) extends DrawCommand
@@ -162,7 +163,7 @@ object CaptureActor {
           Behaviors.same
 
         case msg: SwitchMode =>
-          drawActor.foreach(_ ! msg)
+          drawActor.foreach(t =>t ! msg)
           Behaviors.same
 
 //        case msg: ChangeMediaOption =>

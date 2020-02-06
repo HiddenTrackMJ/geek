@@ -6,7 +6,7 @@ create schema GEEK;
 CREATE SEQUENCE user_id_seq START WITH 1000;
 create table GEEK.USER
 (
-    ID       BIGINT DEFAULT user_id_seq.nextval PRIMARY KEY,
+    ID       BIGINT auto_increment PRIMARY KEY,
     NAME     VARCHAR(100) not null,
     PASSWORD VARCHAR(300) not null,
     AVATAR   VARCHAR(300)
