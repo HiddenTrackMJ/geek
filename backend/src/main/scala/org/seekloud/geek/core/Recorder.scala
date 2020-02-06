@@ -46,6 +46,8 @@ object Recorder {
 
   case class StopRecorder(msg: String) extends Command
 
+  case class GrabberStopped(liveId: String) extends Command
+
   case object CloseRecorder extends Command
 
   case class NewFrame(liveId: String, frame: Frame) extends Command
@@ -59,6 +61,8 @@ object Recorder {
   case class Image4Host(frame: Frame) extends DrawCommand
 
   case class Image4Others(id: String, frame: Frame) extends DrawCommand
+
+  case class deleteImage4Others(id: String) extends DrawCommand
 
   case class SetLayout(layout: Int) extends DrawCommand
 
@@ -184,7 +188,12 @@ object Recorder {
         case GetGrabber(id, grabber) =>
           grabber ! Grabber.GetRecorder(ctx.self)
           grabbers.put(id, grabber)
-          idle(roomId, hostId, stream, pullLiveId, roomActor, online, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, filterInUse)
+          Behaviors.same
+
+        case GrabberStopped(liveId) =>
+          grabbers.-=(liveId)
+          drawer ! deleteImage4Others(liveId)
+          Behaviors.same
 
         case UpdateRecorder(channel, sampleRate, f, width, height, liveId) =>
           peopleOnline += 1
@@ -336,7 +345,7 @@ object Recorder {
           layout match {
             case 0 =>
               graph.drawImage(img, 0, 0, canvasSize._1 , canvasSize._2 , null)
-              graph.drawString("主播", 24, 24)
+//              graph.drawString("主播", 24, 24)
 //              graph.drawImage(clientImg, canvasSize._1 / 2, canvasSize._2 / 4, canvasSize._1 / 2, canvasSize._2 / 2, null)
 //              graph.drawString("观众", 344, 24)
               clientImg.zipWithIndex.foreach{ i =>
@@ -393,6 +402,10 @@ object Recorder {
 
         case t: Image4Others =>
           clientFrame.frame.put(t.id, t.frame)
+          Behaviors.same
+
+        case t: deleteImage4Others =>
+          clientFrame.frame.-=(t.id)
           Behaviors.same
 
         case m@NewRecord4Ts(recorder4ts) =>

@@ -78,6 +78,12 @@ object RoomProtocol {
   case class StopLiveReq(
     roomId: Long
   )
+
+  case class StopLive4ClientReq(
+    roomId: Long,
+    userId: Long
+  )
+
   case class JoinRoomReq(
     roomId: Long,
     userId: Long
@@ -139,7 +145,8 @@ object RoomProtocol {
   case class RoomData(
     userLiveCodeMap: Map[String, Long],
     roomId: Long,
-    roomInfo: RoomUserInfo
+    roomInfo: RoomUserInfo,
+    liveOrNot: Boolean
   )
 
 

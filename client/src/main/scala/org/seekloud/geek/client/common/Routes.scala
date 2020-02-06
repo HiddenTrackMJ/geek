@@ -19,7 +19,6 @@ object Routes {
   val signUp: String = userUrl + "/signUp"
   val signIn: String = userUrl + "/signIn"
 
-  val getRoomList: String = userUrl + "/getRoomList"
   val searchRoom: String = userUrl + "/searchRoom"
   val temporaryUser: String = userUrl + "/temporaryUser"
 
@@ -34,6 +33,7 @@ object Routes {
   val startLive: String = roomUrl + "/startLive"
   val startLive4Client: String = roomUrl + "/startLive4Client"
   val stopLive: String = roomUrl + "/stopLive"
+  val stopLive4Client: String = roomUrl + "/stopLive4Client"
   val joinRoom: String = roomUrl + "/joinRoom"
-
+  val getRoomList: String = roomUrl + "/getRoomList"
 }

@@ -24,10 +24,11 @@ import ch.megard.akka.http.cors.scaladsl.model.HttpOriginMatcher
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import org.seekloud.geek.Boot
 import org.seekloud.geek.common.AppSettings
-import org.seekloud.geek.core.RoomManager.{CreateRoom, JoinRoom, StartLive, StartLive4Client, StopLive}
+import org.seekloud.geek.core.RoomManager
+import org.seekloud.geek.core.RoomManager.{CreateRoom, JoinRoom, StartLive, StartLive4Client, StopLive, StopLive4Client}
 import org.seekloud.geek.models.dao.VideoDao
 import org.seekloud.geek.shared.ptcl.CommonErrorCode.jsonFormatError
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, GetRecordListReq, GetRecordListRsp, JoinRoomReq, JoinRoomRsp, RecordData, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLiveReq}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, GetRecordListReq, GetRecordListRsp, GetRoomListReq, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, JoinRoomReq, JoinRoomRsp, RecordData, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLive4ClientReq, StopLiveReq}
 
 import scala.concurrent.Future
 
@@ -129,6 +130,22 @@ trait RoomService extends BaseService with ServiceUtils with UserService {
     }
   }
 
+  private val stopLive4Client = (path("stopLive4Client") & post){
+    entity(as[Either[Error, StopLive4ClientReq]]) {
+      case Right(req) =>
+        dealFutureResult{
+          val rst: Future[SuccessRsp] = Boot.roomManager ? (StopLive4Client(req, _))
+          rst.map{
+            rsp=>
+              complete(rsp)
+          }
+        }
+
+      case Left(error) =>
+        complete(jsonFormatError)
+    }
+  }
+
 
   private val stopLive = (path("stopLive") & post){
     entity(as[Either[Error, StopLiveReq]]) {
@@ -142,6 +159,38 @@ trait RoomService extends BaseService with ServiceUtils with UserService {
         }
 
       case Left(error) =>
+        complete(jsonFormatError)
+    }
+  }
+
+  private val getRoomList = (path("getRoomList") & post) {
+    entity(as[Either[Error, GetRoomListReq]]) {
+      case Right(_) =>
+        dealFutureResult {
+          val getRoomListRsp: Future[GetRoomListRsp] = Boot.roomManager ? RoomManager.GetRoomList
+          getRoomListRsp.map {
+            rsp =>
+              complete(rsp)
+          }
+        }
+      case Left(error) =>
+        log.error(s"getRoomList json parse error: $error")
+        complete(jsonFormatError)
+    }
+  }
+
+  private val getUserInfo = (path("getUserInfo") & post) {
+    entity(as[Either[Error, GetUserInfoReq]]) {
+      case Right(req) =>
+        dealFutureResult {
+          val getRoomListRsp: Future[GetUserInfoRsp] = Boot.roomManager ? (RoomManager.GetUserInfo(req, _))
+          getRoomListRsp.map {
+            rsp =>
+              complete(rsp)
+          }
+        }
+      case Left(error) =>
+        log.error(s"getUserInfo json parse error: $error")
         complete(jsonFormatError)
     }
   }
@@ -191,7 +240,8 @@ trait RoomService extends BaseService with ServiceUtils with UserService {
 
 
   val roomRoutes: Route = pathPrefix("room") {
-     getRoomInfo ~ createRoom ~ startLive ~ startLive4Client ~ stopLive ~ getRecordList ~ joinRoom
+    getRoomInfo ~ createRoom ~ startLive ~ startLive4Client ~ stopLive ~ getRecordList ~ joinRoom ~
+    stopLive4Client ~ getRecord ~ getRoomList ~ getUserInfo
   }
 
 }

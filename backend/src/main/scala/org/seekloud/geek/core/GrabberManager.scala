@@ -41,6 +41,8 @@ object GrabberManager {
 
   final case class StopLive(roomId: Long, rtmpInfo: RtmpInfo, roomActor: ActorRef[RoomActor.Command]) extends Command
 
+  final case class StopLive4Client(roomId: Long, userId: Long, selfCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
+
   final case class StartTrans(src: List[String], out: OutTarget, roomActor: ActorRef[RoomActor.Command]) extends Command
 
   private[this] def switchBehavior(ctx: ActorContext[Command],
@@ -109,6 +111,12 @@ object GrabberManager {
           }
           activeRooms.remove(msg.roomId)
           roomWorkers.remove(msg.roomId)
+          Behaviors.same
+
+        case msg: StopLive4Client =>
+          log.info(s"stopping grabbing , room ${msg.roomId} - ${msg.userId}")
+          roomWorkers(msg.roomId)._1 ! Recorder.StopRecorder("user stop live")
+          getGrabber(ctx, msg.roomId, msg.selfCode, roomWorkers(msg.roomId)._1) ! Grabber.StopGrabber("user stop live")
           Behaviors.same
 
 

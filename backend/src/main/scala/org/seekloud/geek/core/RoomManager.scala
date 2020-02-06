@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory
 import org.seekloud.geek.Boot.executor
 import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.models.dao.RoomDao
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomFail, CreateRoomReq, CreateRoomRsp, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, InviteReq, InviteRsp, JoinRoomReq, JoinRoomRsp, RoomData, RoomUserInfo, RtmpInfo, StartLive4ClientFail, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLiveReq, UpdateRoomInfoReq, UserPushInfo}
-import org.seekloud.geek.shared.ptcl.{ComRsp, SuccessRsp}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomFail, CreateRoomReq, CreateRoomRsp, GetRoomListRsp, GetUserInfoReq, GetUserInfoRsp, InviteReq, InviteRsp, JoinRoomReq, JoinRoomRsp, RoomData, RoomUserInfo, RtmpInfo, StartLive4ClientFail, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLive4ClientReq, StopLiveReq, UpdateRoomInfoReq, UserPushInfo}
+import org.seekloud.geek.shared.ptcl.{ComRsp, ErrorRsp, SuccessRsp}
 import io.circe.generic.auto._
 import io.circe.parser.decode
 import io.circe.syntax._
@@ -43,6 +43,8 @@ object RoomManager {
   final case class StartLive4Client(req: StartLive4ClientReq, replyTo: ActorRef[StartLive4ClientRsp]) extends Command
 
   final case class StopLive(req: StopLiveReq, replyTo: ActorRef[SuccessRsp]) extends Command
+
+  final case class StopLive4Client(req: StopLive4ClientReq, replyTo: ActorRef[SuccessRsp]) extends Command
 
   final case class JoinRoom(req: JoinRoomReq, replyTo: ActorRef[JoinRoomRsp]) extends Command
 
@@ -249,8 +251,24 @@ object RoomManager {
           msg.replyTo ! SuccessRsp()
           Behaviors.same
 
+        case msg: StopLive4Client =>
+          log.info(s"user-${msg.req.userId} stop live in room: ${msg.req.roomId}")
+          assert(rooms.contains(msg.req.roomId))
+          val roomOldInfo = rooms(msg.req.roomId)
+          val selfCodeOpt = roomOldInfo.userLiveCodeMap.find(_._2 == msg.req.userId)
+          if (selfCodeOpt.isDefined) {
+            selfCodeOpt.foreach{ r =>
+              getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo) ! RoomActor.StopLive4Client(msg.req.userId, r._1)
+              msg.replyTo ! SuccessRsp()
+            }
+          }
+          else {
+            msg.replyTo ! SuccessRsp(100019, "stop error")
+          }
+          Behaviors.same
+
         case msg: GetRoomList =>
-          val rsp = rooms.toList.map(i => RoomData(i._2.userLiveCodeMap,  i._1, i._2.roomUserInfo))
+          val rsp = rooms.toList.map(i => RoomData(i._2.userLiveCodeMap,  i._1, i._2.roomUserInfo, if (i._2.roomActor == null) false else true))
           msg.replyTo ! GetRoomListRsp(rsp)
           Behaviors.same
 
@@ -265,7 +283,7 @@ object RoomManager {
                   case None =>
                     msg.replyTo ! GetUserInfoRsp(None, None)
                   case Some(roomInfo) =>
-                    val roomData = RoomData(roomInfo.userLiveCodeMap, roomId, roomInfo.roomUserInfo)
+                    val roomData = RoomData(roomInfo.userLiveCodeMap, roomId, roomInfo.roomUserInfo, if (roomInfo.roomActor == null) false else true)
                     val rtmpInfo = roomInfo.rtmpInfo
                     msg.replyTo ! GetUserInfoRsp(Some(roomData), Some(rtmpInfo))
                 }

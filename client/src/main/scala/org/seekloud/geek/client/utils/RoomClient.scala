@@ -5,7 +5,7 @@ import java.io.File
 import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.common.Routes
 import org.seekloud.geek.shared.ptcl.CommonProtocol._
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, JoinRoomReq, JoinRoomRsp, RoomUserInfo, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLiveReq}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomReq, CreateRoomRsp, GetRoomListReq, GetRoomListRsp, JoinRoomReq, JoinRoomRsp, RoomUserInfo, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLive4ClientReq, StopLiveReq}
 import org.seekloud.geek.shared.ptcl.SuccessRsp
 import org.slf4j.LoggerFactory
 
@@ -79,7 +79,7 @@ object RoomClient extends HttpUtil {
       case Right(jsonStr) =>
         decode[StartLive4ClientRsp](jsonStr)
       case Left(error) =>
-        log.error(s"user-$userId createRoom error: $error")
+        log.error(s"user-$userId startLive4Client error: $error")
         Left(error)
     }
   }
@@ -94,14 +94,29 @@ object RoomClient extends HttpUtil {
       case Right(jsonStr) =>
         decode[SuccessRsp](jsonStr)
       case Left(error) =>
-        log.error(s"room-$roomId startLive error: $error")
+        log.error(s"room-$roomId stopLive error: $error")
+        Left(error)
+    }
+  }
+
+  def stopLive4Client(roomId: Long, userId: Long): Future[Either[Throwable, SuccessRsp]] = {
+
+    val methodName = "stopLive4Client"
+    val url = Routes.stopLive4Client
+
+    val data = StopLive4ClientReq(roomId, userId).asJson.noSpaces
+    postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
+      case Right(jsonStr) =>
+        decode[SuccessRsp](jsonStr)
+      case Left(error) =>
+        log.error(s"room-$roomId stopLive4Client userId-$userId error: $error")
         Left(error)
     }
   }
 
   def joinRoom(roomId: Long, userId: Long): Future[Either[Throwable, JoinRoomRsp]] = {
 
-    val methodName = "stopLive"
+    val methodName = "joinRoom"
     val url = Routes.joinRoom
 
     val data =  JoinRoomReq(roomId, userId).asJson.noSpaces
@@ -109,7 +124,21 @@ object RoomClient extends HttpUtil {
       case Right(jsonStr) =>
         decode[JoinRoomRsp](jsonStr)
       case Left(error) =>
-        log.error(s"room-$roomId startLive error: $error")
+        log.error(s"room-$roomId user-$userId joinRoom error: $error")
+        Left(error)
+    }
+  }
+
+  def getRoomList: Future[Either[Throwable, GetRoomListRsp]] = {
+    val methodName = "getRoomList"
+    val url = Routes.joinRoom
+
+    val data =  GetRoomListReq().asJson.noSpaces
+    postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
+      case Right(jsonStr) =>
+        decode[GetRoomListRsp](jsonStr)
+      case Left(error) =>
+        log.error(s"get room list error: $error")
         Left(error)
     }
   }

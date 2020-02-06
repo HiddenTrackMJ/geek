@@ -33,6 +33,8 @@ object RoomActor {
 
   final case class StopLive(rtmpInfo: RtmpInfo) extends Command
 
+  final case class StopLive4Client(userId: Long, selfCode: String) extends Command
+
   final case class StoreVideo(video: SlickTables.rVideo) extends Command
 
   private final case class SwitchBehavior(
@@ -86,6 +88,11 @@ object RoomActor {
         case msg: StopLive =>
           log.info(s"RoomActor-$roomId is stopping...")
           grabManager ! GrabberManager.StopLive(roomId, msg.rtmpInfo, ctx.self)
+          Behaviors.same
+
+        case msg: StopLive4Client =>
+          log.info(s"RoomActor-$roomId userId-${msg.userId} is stopping...")
+          grabManager ! GrabberManager.StopLive4Client(roomId, msg.userId, msg.selfCode, ctx.self)
           Behaviors.same
 
         case msg: StoreVideo =>
