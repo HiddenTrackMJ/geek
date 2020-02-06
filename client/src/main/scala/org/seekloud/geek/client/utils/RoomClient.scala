@@ -131,7 +131,7 @@ object RoomClient extends HttpUtil {
 
   def getRoomList: Future[Either[Throwable, GetRoomListRsp]] = {
     val methodName = "getRoomList"
-    val url = Routes.joinRoom
+    val url = Routes.getRoomList
 
     val data =  GetRoomListReq().asJson.noSpaces
     postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
