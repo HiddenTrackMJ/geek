@@ -58,6 +58,7 @@ object RoomProtocol {
 
   case class StartLiveRsp(
     rtmp: RtmpInfo,
+    selfCode: String,
     errCode: Int = 0,
     msg: String = "ok"
   ) extends Response
@@ -69,6 +70,7 @@ object RoomProtocol {
 
   case class StartLive4ClientRsp(
     rtmp: Option[RtmpInfo] = None,
+    selfCode: String,
     errCode: Int = 0,
     msg: String = "ok"
   ) extends Response
