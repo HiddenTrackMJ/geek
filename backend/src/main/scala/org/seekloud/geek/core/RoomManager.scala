@@ -6,11 +6,10 @@ import java.util.concurrent.atomic.AtomicLong
 import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import org.seekloud.geek.Boot
-import org.slf4j.LoggerFactory
 import org.seekloud.geek.Boot.executor
 import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.models.dao.RoomDao
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{CreateRoomFail, CreateRoomReq, CreateRoomRsp, GetRoomListRsp, GetRoomSectionListReq, GetUserInfoReq, GetUserInfoRsp, InviteReq, InviteRsp, JoinRoomReq, JoinRoomRsp, KickOffReq, RoomData, RoomUserInfo, RtmpInfo, StartLive4ClientFail, StartLive4ClientReq, StartLive4ClientRsp, StartLiveReq, StartLiveRsp, StopLive4ClientReq, StopLiveReq, UpdateRoomInfoReq, UserPushInfo}
+import org.seekloud.geek.shared.ptcl.RoomProtocol._
 import org.seekloud.geek.shared.ptcl.{ComRsp, ErrorRsp, SuccessRsp}
 import io.circe.generic.auto._
 import io.circe.parser.decode
@@ -51,6 +50,8 @@ object RoomManager {
   final case class Invite(req: InviteReq, replyTo: ActorRef[InviteRsp]) extends Command
 
   final case class KickOff(req: KickOffReq, replyTo: ActorRef[SuccessRsp]) extends Command
+
+  final case class Shield(req: ShieldReq, replyTo: ActorRef[SuccessRsp]) extends Command
 
   final case class GetRoomList(replyTo: ActorRef[GetRoomListRsp]) extends Command
 
@@ -127,7 +128,7 @@ object RoomManager {
           case Failure(e) =>
             log.info(s"Init room list error due to $e")
         }
-        ctx.self ! Test
+//        ctx.self ! Test
 //        busy()
         idle(roomIdGenerator, mutable.HashMap.empty, mutable.HashMap.empty)
       }
@@ -183,6 +184,7 @@ object RoomManager {
           Behaviors.same
 
         case ModifyRoom(room) =>
+          log.info(s"modify room-${room.id}")
           RoomDao.modifyRoom(room)
           Behaviors.same
 
@@ -211,6 +213,21 @@ object RoomManager {
           Behaviors.same
 
         case Invite(req, rsp) =>
+          Behaviors.same
+
+        case Shield(req, replyTo) =>
+          if (rooms.contains(req.roomId)) {
+            val roomInfo = rooms(req.roomId)
+            val selfCodeOpt = roomInfo.userLiveCodeMap.find(_._2 == req.userId)
+            if (selfCodeOpt.isDefined) {
+              selfCodeOpt.foreach{ s =>
+                roomInfo.roomActor ! RoomActor.Shield(req, s._1)
+                replyTo ! SuccessRsp()
+              }
+            }
+            else replyTo ! SuccessRsp(100015, "This user doesn't exist")
+          }
+          else replyTo ! SuccessRsp(100014, "This room doesn't exist")
           Behaviors.same
 
         case msg: KickOff =>

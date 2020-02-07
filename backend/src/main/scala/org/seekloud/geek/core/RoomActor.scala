@@ -6,13 +6,12 @@ import akka.actor.typed.Behavior
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import org.bytedeco.javacpp.Loader
 import org.seekloud.geek.Boot.{executor, scheduler}
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomUserInfo, RtmpInfo}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomUserInfo, RtmpInfo, ShieldReq}
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.Boot.grabManager
 import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.models.SlickTables
 import org.seekloud.geek.models.dao.VideoDao
-
 
 import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.duration._
@@ -36,6 +35,8 @@ object RoomActor {
   final case class StopLive4Client(userId: Long, selfCode: String) extends Command
 
   final case class StoreVideo(video: SlickTables.rVideo) extends Command
+
+  final case class Shield(req: ShieldReq, liveCode: String) extends Command
 
   private final case class SwitchBehavior(
     name: String,
@@ -93,6 +94,10 @@ object RoomActor {
         case msg: StopLive4Client =>
           log.info(s"RoomActor-$roomId userId-${msg.userId} is stopping...")
           grabManager ! GrabberManager.StopLive4Client(roomId, msg.userId, msg.selfCode, ctx.self)
+          Behaviors.same
+
+        case msg: Shield =>
+          grabManager ! GrabberManager.Shield(msg.req, msg.liveCode)
           Behaviors.same
 
         case msg: StoreVideo =>

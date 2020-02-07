@@ -111,6 +111,13 @@ object RoomProtocol {
     userId: Long
   )
 
+  case class ShieldReq(
+    roomId: Long,
+    userId: Long,
+    isImage: Boolean,
+    isAudio: Boolean
+  )
+
   case class GetRoomListReq() extends Request
 
   case class GetRoomSectionListReq(userId:Long) extends Request

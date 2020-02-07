@@ -10,6 +10,7 @@ import org.bytedeco.ffmpeg.global.{avcodec, avutil}
 import org.bytedeco.javacv.{FFmpegFrameFilter, FFmpegFrameRecorder, Frame, Java2DFrameConverter}
 import org.seekloud.geek.Boot
 import org.seekloud.geek.common.AppSettings
+import org.seekloud.geek.core.Grabber.State
 import org.seekloud.geek.models.SlickTables
 import org.seekloud.geek.shared.ptcl.Protocol.OutTarget
 import org.slf4j.LoggerFactory
@@ -52,6 +53,8 @@ object Recorder {
 
   case class NewFrame(liveId: String, frame: Frame) extends Command
 
+  case class Shield(liveId: String, image: Boolean, audio: Boolean) extends Command
+
   case class UpdateRecorder(channel: Int, sampleRate: Int, frameRate: Double, width: Int, height: Int, liveId: String) extends Command
 
   case object TimerKey4Close
@@ -67,7 +70,7 @@ object Recorder {
 
   case class Image4Others(id: String, frame: Frame) extends DrawCommand
 
-  case class deleteImage4Others(id: String) extends DrawCommand
+  case class DeleteImage4Others(id: String) extends DrawCommand
 
   case class SetLayout(layout: Int) extends DrawCommand
 
@@ -141,6 +144,7 @@ object Recorder {
     drawer: ActorRef[DrawCommand],
     grabbers: mutable.HashMap[String, ActorRef[Grabber.Command]], // id -> grabActor
     indexMap :mutable.HashMap[String, Int] = mutable.HashMap.empty,
+    shieldMap :mutable.HashMap[String, State] = mutable.HashMap.empty,
     filterInUse: Option[FFmpegFrameFilter] = None,
   )(
     implicit stashBuffer: StashBuffer[Command],
@@ -188,7 +192,7 @@ object Recorder {
 //          ffFilterN.setSampleFormat(sampleFormat)
 //          ffFilterN.setAudioInputs(2)
 //          ffFilterN.start()
-          idle(roomId, hostId, stream, pullLiveId, roomActor, online, host, recorder4ts,filters, drawer, grabbers, indexMap, filterInUse)
+          idle(roomId, hostId, stream, pullLiveId, roomActor, online, host, recorder4ts,filters, drawer, grabbers, indexMap, shieldMap, filterInUse)
 
         case GetGrabber(id, grabber) =>
           grabber ! Grabber.GetRecorder(ctx.self)
@@ -197,12 +201,18 @@ object Recorder {
 
         case GrabberStopped(liveId) =>
           grabbers.-=(liveId)
-          drawer ! deleteImage4Others(liveId)
+          drawer ! DeleteImage4Others(liveId)
+          Behaviors.same
+
+        case Shield(liveId, image, audio) =>
+          shieldMap.put(liveId, State(image, audio))
+          if (image) drawer ! DeleteImage4Others(liveId)
           Behaviors.same
 
         case UpdateRecorder(channel, sampleRate, f, width, height, liveId) =>
           peopleOnline += 1
           val onlineNew = online :+ liveId.split("_").last.toInt
+          shieldMap.put(liveId, State(image = true, audio = true))
           log.info(s"$roomId updateRecorder channel:$channel, sampleRate:$sampleRate, frameRate:$f, width:$width, height:$height")
           if(liveId == host) {
 //            log.info(s"$roomId updateRecorder channel:$channel, sampleRate:$sampleRate, frameRate:$f, width:$width, height:$height")
@@ -214,7 +224,7 @@ object Recorder {
             recorder4ts.setImageWidth(width)
             recorder4ts.setImageHeight(height)
 //            timer.startPeriodicTimer(TimerKey4ImageRec, RecordImage, 10.millis)
-            idle(roomId, hostId, stream, pullLiveId, roomActor, onlineNew, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, filterInUse)
+            idle(roomId, hostId, stream, pullLiveId, roomActor, onlineNew, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, shieldMap, filterInUse)
           }
           else Behaviors.same
 
@@ -225,10 +235,10 @@ object Recorder {
         case NewFrame(liveId, frame) =>
           if (frame.image != null) {
 //            println(liveId, frame.timestamp)
-            if (liveId == host) {
+            if (liveId == host && shieldMap.filter(_._2.image).exists(_._1 == liveId)) {
 //              recorder4ts.record(frame.clone())
               drawer ! Image4Host(frame)
-            } else if (pullLiveId.contains(liveId)) {
+            } else if (pullLiveId.contains(liveId) && shieldMap.filter(_._2.image).exists(_._1 == liveId)) {
               drawer ! Image4Others(liveId, frame)
             } else {
               log.info(s"wrong, liveId, work got wrong img")
@@ -241,12 +251,12 @@ object Recorder {
             val sampleFrame = frame.clone()
             if (ffFilter.nonEmpty) {
 //              println(1,"index: " + index)
-              if (peopleOnline == 1) {
+              if (online.size == 1) {
 //                println(2, ffFilter)
                 recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
 //                log.debug(s"record sample...")
               } else {
-                val fil = ffFilter(peopleOnline)
+                val fil = ffFilter(shieldMap.count(_._2.audio))
 //                println(3, peopleOnline, fil)
                 if (filterInUse.nonEmpty && fil != filterInUse.get) {
                   println(5)
@@ -306,7 +316,7 @@ object Recorder {
 //                log.debug(s"$liveId record sample error system: $ex")
 //            }
           }
-          idle(roomId, hostId, stream, pullLiveId, roomActor, online, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, newFilterInUse)
+          idle(roomId, hostId, stream, pullLiveId, roomActor, online, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, shieldMap, newFilterInUse)
 
         case CloseRecorder =>
           val video = SlickTables.rVideo(0L, hostId, roomId, stream.split("_").last.toLong, stream + ".flv", "",0,"")
@@ -439,7 +449,7 @@ object Recorder {
           Behaviors.same
 
 
-        case t: deleteImage4Others =>
+        case t: DeleteImage4Others =>
           clientFrame.frame.-=(t.id)
           Behaviors.same
 

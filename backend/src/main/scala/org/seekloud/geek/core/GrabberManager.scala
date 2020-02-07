@@ -5,7 +5,7 @@ import java.io.{InputStream, OutputStream}
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import akka.actor.typed.{ActorRef, Behavior}
 import org.seekloud.geek.shared.ptcl.Protocol.OutTarget
-import org.seekloud.geek.shared.ptcl.RoomProtocol.RtmpInfo
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{RtmpInfo, ShieldReq}
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
@@ -44,6 +44,8 @@ object GrabberManager {
   final case class StopLive4Client(roomId: Long, userId: Long, selfCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
 
   final case class StartTrans(src: List[String], out: OutTarget, roomActor: ActorRef[RoomActor.Command]) extends Command
+
+  final case class Shield(req: ShieldReq, liveCode: String) extends Command
 
   private[this] def switchBehavior(ctx: ActorContext[Command],
     behaviorName: String, behavior: Behavior[Command], durationOpt: Option[FiniteDuration] = None, timeOut: TimeOut = TimeOut("busy time error"))
@@ -119,6 +121,17 @@ object GrabberManager {
           getGrabber(ctx, msg.roomId, msg.selfCode, roomWorkers(msg.roomId)._1) ! Grabber.StopGrabber("user stop live")
           Behaviors.same
 
+        case msg: Shield =>
+          val workerOpt = roomWorkers.find(_._1 == msg.req.roomId)
+          if (workerOpt.isDefined) {
+            workerOpt.foreach { w =>
+              w._2._1 ! Recorder.StopRecorder("user stop live")
+              getGrabber(ctx, msg.req.roomId, msg.liveCode, w._2._1) ! Grabber.StopGrabber("user stop live")
+
+            }
+          }
+          else log.info("shield error, this room doesn't exist!")
+          Behaviors.same
 
         case msg: StartTrans =>
           log.info(s"start testing...")
