@@ -124,7 +124,7 @@ object LiveManager {
 //
 //
         case msg: PushStream =>
-          log.debug(s"prepare push stream.")
+          log.debug(s"推流地址：${msg.rtmp}")
           captureActor.get ! StartEncode(msg.rtmp)
           Behaviors.same
 
@@ -138,6 +138,8 @@ object LiveManager {
           Behaviors.same
 
         case msg: PullStream =>
+
+          log.info(s"拉流地址：${msg.stream}")
           /*背景改变*/
           msg.hostScene.resetBack()
 
@@ -154,7 +156,7 @@ object LiveManager {
           val playId = RmManager.roomInfo.get.roomId.toString
           val videoPlayer = ctx.spawn(VideoPlayer.create(playId,None,Some(imageQueue), Some(samplesQueue)), s"videoPlayer$playId")
 
-          mediaPlayer.start(playId,videoPlayer,Left("rtmp://10.1.29.247:1935/live/1000_4"),Some(msg.hostScene.gc),None)
+          mediaPlayer.start(playId,videoPlayer,Left(msg.stream),Some(msg.hostScene.gc),None)
 
           Behaviors.same
 
