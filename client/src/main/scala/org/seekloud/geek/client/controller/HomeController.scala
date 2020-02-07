@@ -20,6 +20,7 @@ import org.seekloud.geek.client.utils.{RMClient, RoomClient}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{RoomInfo, UserInfo}
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.client.Boot.executor
+import org.seekloud.geek.shared.ptcl.RoomProtocol.RoomUserInfo
 
 import scala.concurrent.Future
 
@@ -43,12 +44,26 @@ class HomeController(
   homeScene.setListener(new HomeSceneListener {
     override def liveCheck(): Unit = {
       if (RmManager.userInfo.nonEmpty) {
-        if (RmManager.roomInfo.isEmpty){
-          RmManager.roomInfo = Some(RoomInfo(10001,"","",RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,"",""))
+        //创建房间
+        log.info("创建房间")
+        showLoading()
+        val userId = RmManager.userInfo.get.userId
+        val roomName = s"$userId 的会议间"
+        val roomDesc = "大家好才是真的好"
+        RoomClient.createRoom(userId,RoomUserInfo(userId,roomName,roomDesc)).map{
+          case Right(rsp) =>
+            RmManager.roomInfo = Some(RoomInfo(rsp.roomId,roomName,roomDesc,userId,RmManager.userInfo.get.userName))
+            //当前用户是房主
+            removeLoading()
+            RmManager.userInfo.get.isHost = Some(true)
+            RmManager.userInfo.get.pushStream = Some(RMClient.getPushStream(rsp.liveCode))
+            rmManager ! RmManager.GoToCreateAndJoinRoom
+
+          case Left(error: Error) =>
+            log.error(s"创建房间错误$error")
+            WarningDialog.initWarningDialog(s"网络请求错误")
         }
-        //当前用户是房主
-        RmManager.userInfo.get.isHost = Some(true)
-        rmManager ! RmManager.GoToCreateAndJoinRoom
+
       } else {
         gotoLoginDialog(isToLive = true)
       }
@@ -61,8 +76,6 @@ class HomeController(
         }
         //显示加入会议的弹窗
         goToJoinRoomDialog()
-
-//        rmManager ! RmManager.GoToCreateRoom
       } else {
         gotoLoginDialog(isToLive = true)
       }
@@ -225,7 +238,7 @@ class HomeController(
         if (rsp.errCode == 0) {//登录成功
           rmManager ! RmManager.SignInSuccess(rsp.userInfo, rsp.roomInfo)
           RmManager.userInfo = rsp.userInfo
-          RmManager.userInfo.get.liveId = Some("1000_3")
+          RmManager.userInfo.get.pushStream = Some("1000_3")
 //          RmManager.roomInfo = rsp.roomInfo
           RmManager.roomInfo = Some(RoomInfo(1000,"","",1,"","",""))
           //todo 跳转到其他页面
@@ -295,25 +308,23 @@ class HomeController(
 
 
   def joinRoom(userId:String,roomId:String)={
-    //http请求 todo 后端的这个请求需要返回房间信息
-//    RoomClient.joinRoom(roomId.toLong,userId.toLong).map {
-//      case Right(rsp) =>
-//        //修改用户信息不是房主
-//        RmManager.userInfo.get.isHost = false
-//        //跳转到视频页面
-//        rmManager ! RmManager.GoToCreateAndJoinRoom
-//
-//      case Left(error) =>
-//      //请求失败
-//
-//    }
-    //测试数据
-    RmManager.userInfo.get.isHost = Some(false)
-    if (RmManager.roomInfo.isEmpty){
-      RmManager.roomInfo = Some(RoomInfo(10001,"","",RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,"",""))
-    }
-    //跳转到视频页面
-    rmManager ! RmManager.GoToCreateAndJoinRoom
+    //http请求
+    showLoading()
+    RoomClient.joinRoom(roomId.toLong,userId.toLong).map {
+      case Right(rsp) =>
+        if (rsp.rtmp.nonEmpty){
+          //修改用户信息不是房主
+          RmManager.userInfo.get.isHost = Some(false)
+          //跳转到视频页面
+          rmManager ! RmManager.GoToCreateAndJoinRoom
+        }else{
+          WarningDialog.initWarningDialog(s"没有该房间号")
+        }
 
+      case Left(error) =>
+        //请求失败
+        log.error(s"加入房间错误：$error")
+        WarningDialog.initWarningDialog(s"网络错误")
+    }
   }
 }

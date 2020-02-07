@@ -50,11 +50,6 @@ object LiveManager {
 
   final case class SwitchMediaMode(isJoin: Boolean, reset: () => Unit) extends LiveCommand
 
-//  final case class ChangeMediaOption(bit: Option[Int], re: Option[String], frameRate: Option[Int],
-//    needImage: Boolean = true, needSound: Boolean = true, reset: () => Unit) extends LiveCommand with CaptureActor.CaptureCommand
-
-//  final case class RecordOption(recordOrNot: Boolean, path: Option[String] = None, reset: () => Unit)  extends LiveCommand with CaptureActor.CaptureCommand
-
   final case class PushStream(rtmp:String) extends LiveCommand
 
   final case object InitRtpFailed extends LiveCommand
@@ -71,9 +66,9 @@ object LiveManager {
 
   final case object PullerStopped extends LiveCommand
 
-  private object PUSH_RETRY_TIMER_KEY
 
-  private object PULL_RETRY_TIMER_KEY
+
+
 
 
   def create(parent: ActorRef[RmManager.RmCommand], mediaPlayer: MediaPlayer): Behavior[LiveCommand] =
@@ -150,7 +145,6 @@ object LiveManager {
           msg.liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = msg.hostScene.resetBack)
 
           /*拉取观众的rtp流并播放*/
-
 
           //定义 imageQueue 和 samplesQueue，用来接收图像和音频数据
           val imageQueue = immutable.Queue[AddPicture]()
