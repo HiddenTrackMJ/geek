@@ -171,20 +171,34 @@ object RmManager {
           Behaviors.same
 
         case HostLiveReq =>
-
-//          RoomClient.startLive(RmManager.roomInfo.get.roomId).map({
-//            rsp=>
-//
-//
-//          })
           //1.开始推流
           log.info(s"开始会议")
-          liveManager ! LiveManager.PushStream("rtmp://10.1.29.247:1935/live/1000_4")
+          liveManager ! LiveManager.PushStream(RmManager.userInfo.get.pushStream.get)
 
 //          //2.开始拉流
-          liveManager ! LiveManager.PullStream("",mediaPlayer,hostScene,liveManager)
-          Behaviors.same
+          //http请求服务器获取拉流地址
+          if (RmManager.userInfo.get.isHost.get){//房主
+            RoomClient.startLive(RmManager.roomInfo.get.roomId).map{
+              case Right(rsp) =>
+                //todo: 返回的拉流地址为空
+                RmManager.userInfo.get.pullStream = Some(rsp.rtmp.serverUrl+rsp.rtmp.stream)
+                liveManager ! LiveManager.PullStream(RmManager.userInfo.get.pullStream.get,mediaPlayer,hostScene,liveManager)
+              case Left(e) =>
+                log.info(s"开始会议失败：$e")
+            }
+          }else{//普通成员
+            RoomClient.startLive4Client(RmManager.userInfo.get.userId,RmManager.roomInfo.get.roomId).map{
+              case Right(rsp) =>
+                //todo: 返回的拉流地址为空
+                RmManager.userInfo.get.pullStream = Some(rsp.rtmp.get.serverUrl+rsp.rtmp.get.stream)
+                liveManager ! LiveManager.PullStream(RmManager.userInfo.get.pullStream.get,mediaPlayer,hostScene,liveManager)
+              case Left(e) =>
+                log.info(s"开始会议失败：$e")
+            }
 
+          }
+
+          Behaviors.same
 
         case GetPackageLoss =>
           liveManager ! LiveManager.GetPackageLoss
@@ -192,8 +206,31 @@ object RmManager {
 
         case StopLive =>
           liveManager ! LiveManager.StopPush
-          //todo: 进行http请求，停止推流
-//          sender.foreach(_ ! HostStopPushStream(roomInfo.get.roomId))
+          if (RmManager.userInfo.get.isHost.get){//房主
+            log.info("房主停止推流")
+            RoomClient.stopLive(RmManager.roomInfo.get.roomId).map{
+              case Right(value) =>
+                log.info("房主停止推流成功")
+              case Left(e) =>
+                log.info(s"房主停止推流失败:$e")
+
+            }
+          }else{//普通成员
+            log.info("普通用户停止推流")
+            RoomClient.stopLive4Client(RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId).map{
+              case Right(value) =>
+                log.info("普通用户停止推流成功")
+
+              case Left(e) =>
+              log.info(s"普通用户停止推流失败:$e")
+            }
+          }
+          //todo: 停止推流后，画布显示摄像头的信息
+          /*背景改变*/
+          hostScene.resetBack()
+          /*媒体画面模式更改*/
+          liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostScene.resetBack)
+
           hostController.isLive = false
           Behaviors.same
 

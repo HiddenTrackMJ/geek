@@ -63,6 +63,7 @@ object RoomClient extends HttpUtil {
     val data = StartLiveReq(roomId).asJson.noSpaces
     postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
       case Right(jsonStr) =>
+        log.info(s"开始会议:$jsonStr")
         decode[StartLiveRsp](jsonStr)
       case Left(error) =>
         log.error(s"room-$roomId startLive error: $error")
