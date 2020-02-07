@@ -162,6 +162,7 @@ object RoomProtocol {
   )
 
   case class UserPushInfo(
+    roomUserInfo: RoomUserInfo,
     pushStream: String,
     pullStream: String
   )
