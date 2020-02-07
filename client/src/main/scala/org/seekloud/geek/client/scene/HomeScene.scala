@@ -44,6 +44,8 @@ object HomeScene {
 
     def gotoRegisterDialog()
 
+    def goToJoinRoomDialog()
+
     def logout()
 
     def editInfo()

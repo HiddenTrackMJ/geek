@@ -23,6 +23,7 @@ object CommonProtocol {
     headImgUrl:String,
     var liveId:Option[String] = None,//推流的秘钥
     var pullStream:Option[String] = None,//拉流的地址
+    var isHost:Option[Boolean] = Some(false) //是否是房主，组员和房主的权限不同
   )
 
   case class SignIn(

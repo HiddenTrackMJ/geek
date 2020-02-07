@@ -52,7 +52,9 @@ object RmManager {
   final case class GetHomeItems(homeScene: HomeScene, homeController: HomeController) extends RmCommand
   final case class SignInSuccess(userInfo: Option[UserInfo] = None, roomInfo: Option[RoomInfo] = None) extends RmCommand
   final case object Logout extends RmCommand
-  final case object GoToCreateRoom extends RmCommand //进去创建会议的页面
+  final case object GoToCreateAndJoinRoom extends RmCommand //进去创建会议的页面
+//  final case object GoToJoinRoom extends RmCommand //进去加入会议的页面
+
   final case object HostWsEstablish extends RmCommand
   final case object BackToHome extends RmCommand
   final case object HostLiveReq extends RmCommand //请求开启会议
@@ -94,14 +96,11 @@ object RmManager {
           case GetHomeItems(homeScene, homeController) =>
             idle(stageCtx,liveManager,mediaPlayer,Some(homeController))
 
-          case GoToCreateRoom =>
+          case GoToCreateAndJoinRoom =>
             val hostScene = new HostScene(stageCtx.getStage)
             val hostController = new HostController(stageCtx, hostScene, ctx.self)
-
             def callBack(): Unit = Boot.addToPlatform(hostScene.changeToggleAction())
-
             liveManager ! LiveManager.DevicesOn(hostScene.gc, callBackFunc = Some(callBack))
-
             //todo: 暂时不建立ws连接，用http请求
 //            ctx.self ! HostWsEstablish
             Boot.addToPlatform {
@@ -111,6 +110,7 @@ object RmManager {
               hostController.showScene()
             }
             switchBehavior(ctx, "hostBehavior", hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer))
+
 
           case SignInSuccess(userInfo, roomInfo)=>
             //todo 可以进行登录后的一些处理，比如创建临时文件等，这部分属于优化项

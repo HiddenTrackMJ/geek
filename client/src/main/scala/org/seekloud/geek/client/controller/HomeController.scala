@@ -3,16 +3,22 @@ package org.seekloud.geek.client.controller
 import java.io._
 
 import akka.actor.typed.ActorRef
+import javafx.geometry.{Insets, Pos}
+import javafx.scene.Group
+import javafx.scene.control.ButtonBar.ButtonData
+import javafx.scene.control.{ButtonType, Dialog, Label, PasswordField, TextField}
+import javafx.scene.image.ImageView
+import javafx.scene.layout.{GridPane, HBox, VBox}
+import javafx.scene.text.{Font, Text}
 import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.common.{Constants, StageContext}
 import org.seekloud.geek.client.component.WarningDialog
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.scene.HomeScene
 import org.seekloud.geek.client.scene.HomeScene.HomeSceneListener
-import org.seekloud.geek.client.utils.RMClient
+import org.seekloud.geek.client.utils.{RMClient, RoomClient}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{RoomInfo, UserInfo}
 import org.slf4j.LoggerFactory
-
 import org.seekloud.geek.client.Boot.executor
 
 import scala.concurrent.Future
@@ -40,14 +46,27 @@ class HomeController(
         if (RmManager.roomInfo.isEmpty){
           RmManager.roomInfo = Some(RoomInfo(10001,"","",RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,"",""))
         }
-        rmManager ! RmManager.GoToCreateRoom
+        //当前用户是房主
+        RmManager.userInfo.get.isHost = Some(true)
+        rmManager ! RmManager.GoToCreateAndJoinRoom
       } else {
         gotoLoginDialog(isToLive = true)
       }
     }
 
     override def gotoRoomPage(): Unit = {
-//      rmManager ! RmManager.GoToRoomHall
+      if (RmManager.userInfo.nonEmpty) {
+        if (RmManager.roomInfo.isEmpty){
+          RmManager.roomInfo = Some(RoomInfo(10001,"","",RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,"",""))
+        }
+        //显示加入会议的弹窗
+        goToJoinRoomDialog()
+
+//        rmManager ! RmManager.GoToCreateRoom
+      } else {
+        gotoLoginDialog(isToLive = true)
+      }
+
     }
 
     override def gotoLoginDialog(
@@ -79,73 +98,15 @@ class HomeController(
 
     //修改用户信息
     override def editInfo(): Unit = {
-//      val editInfo = editController.editDialog()
-//      if (editInfo.nonEmpty) {
-//        log.debug("start changeUserName...")
-//        if (editInfo.get._3 != RmManager.userInfo.get.userName) {
-////          RMClient.changeUserName(RmManager.userInfo.get.userId, editInfo.get._3).map {
-////            case Right(rsp) =>
-////              if (rsp.errCode == 0) {
-////                rmManager ! RmManager.ChangeUserName(editInfo.get._3)
-////                log.debug(s"changeUserName success.")
-////              } else {
-////                log.error(s"changeUserName error: ${rsp.msg},errCode:${rsp.errCode}")
-////                Boot.addToPlatform {
-////                  WarningDialog.initWarningDialog(s"${rsp.msg}")
-////                }
-////              }
-////            case Left(error) =>
-////              log.error(s"upload header server error:$error")
-////              Boot.addToPlatform {
-////                WarningDialog.initWarningDialog(s"服务器出错: $error")
-////              }
-////          }
-//        }
-//        if (editInfo.get._1 != null) {
-//          log.debug("start uploading header...")
-////          RMClient.uploadImg(editInfo.get._1, RmManager.userInfo.get.userId, CommonInfo.ImgType.headImg).map {
-////            case Right(imgChangeRsp) =>
-////              if (imgChangeRsp.errCode == 0) {
-////                val headerUrl = imgChangeRsp.url
-////                rmManager ! RmManager.ChangeHeader(headerUrl)
-////                log.debug(s"upload header success,url:$headerUrl")
-////              } else {
-////                log.error(s"upload header error: ${imgChangeRsp.msg},errCode:${imgChangeRsp.errCode}")
-////                Boot.addToPlatform {
-////                  WarningDialog.initWarningDialog(s"${imgChangeRsp.msg}")
-////
-////                }
-////              }
-////            case Left(error) =>
-////              log.error(s"upload header server error:$error")
-////              Boot.addToPlatform {
-////                WarningDialog.initWarningDialog(s"服务器出错: $error")
-////              }
-////          }
-//        }
-//        if (editInfo.get._2 != null) {
-//          log.debug(s"start uploading cover...")
-////          RMClient.uploadImg(editInfo.get._2, RmManager.userInfo.get.userId, CommonInfo.ImgType.coverImg).map {
-////            case Right(imgChangeRsp) =>
-////              if (imgChangeRsp.errCode == 0) {
-////                val coverUrl = imgChangeRsp.url
-////                rmManager ! RmManager.ChangeCover(coverUrl)
-////                log.debug(s"upload cover success,url:$coverUrl")
-////              } else {
-////                log.error(s"upload cover error: ${imgChangeRsp.msg}")
-////                Boot.addToPlatform {
-////                  WarningDialog.initWarningDialog(s"${imgChangeRsp.msg}")
-////
-////                }
-////              }
-////            case Left(error) =>
-////              log.error(s"upload cover server error:$error")
-////              Boot.addToPlatform {
-////                WarningDialog.initWarningDialog(s"服务器出错: $error")
-////              }
-////          }
-//        }
-//      }
+
+    }
+
+    override def goToJoinRoomDialog(): Unit = {
+      val roomId = joinRoomDialog()
+      if (roomId.nonEmpty){
+        //查询该会议号的房间信息
+        joinRoom(RmManager.userInfo.get.userId.toString,roomId.get)
+      }
 
     }
   })
@@ -174,6 +135,85 @@ class HomeController(
     }
   }
 
+
+  def joinRoomDialog() = {
+    val dialog = new Dialog[(String)]()
+    dialog.setTitle("填写需要加入的会议号")
+
+    val welcomeText = new Text("加入会议")
+    welcomeText.setStyle("-fx-font: 35 KaiTi;-fx-fill: #333f50")
+    val upBox = new HBox()
+    upBox.setAlignment(Pos.TOP_CENTER)
+    upBox.setPadding(new Insets(40, 200, 0, 200))
+    upBox.getChildren.add(welcomeText)
+
+
+    //userNameGrid
+    val roomIdIcon = new ImageView("img/userName.png")
+    roomIdIcon.setFitHeight(30)
+    roomIdIcon.setFitWidth(30)
+    val roomIdLabel = new Label("会议号:")
+    roomIdLabel.setFont(Font.font(18))
+    val roomIdField = new TextField("")
+
+
+
+    val roomId = new GridPane //格子布局
+    roomId.setHgap(20)
+    roomId.setVgap(30)
+    roomId.add(roomIdIcon, 0, 0)
+    roomId.add(roomIdLabel, 1, 0)
+    roomId.add(roomIdField, 2, 0)
+    roomId.setStyle("-fx-background-color:#d4dbe3;")
+    roomId.setPadding(new Insets(60, 20, 60, 20))
+
+
+
+    //bottomBox
+    val bottomBox = new VBox()
+    bottomBox.getChildren.addAll(roomId) //默认
+    bottomBox.setAlignment(Pos.CENTER)
+    //    bottomBox.setStyle("-fx-background-color:#d4dbe3;-fx-background-radius: 10")
+    bottomBox.setPadding(new Insets(10, 100, 50, 100))
+
+
+    val box = new VBox()
+    box.getChildren.addAll(upBox, bottomBox)
+    box.setAlignment(Pos.CENTER)
+    box.setSpacing(30)
+    box.setStyle("-fx-background-color:#f2f5fb")
+
+    val confirmButton = new ButtonType("确定", ButtonData.OK_DONE)
+
+    val group = new Group()
+    group.getChildren.addAll(box)
+    dialog.getDialogPane.getButtonTypes.add(confirmButton)
+    dialog.getDialogPane.setContent(group)
+    dialog.setResultConverter(dialogButton =>
+      if (dialogButton == confirmButton) {
+        //        log.debug(s"tb1selected:${tb1.isSelected},tb2selected:${tb2.isSelected},userName:${userNameField.getText()},userPwd：${passWordField.getText()},email:${emailField.getText()},emailPwd:${emailPassWordField.getText()}")
+        if (roomIdField.getText().nonEmpty) {
+          (roomIdField.getText())
+        } else {
+          Boot.addToPlatform {
+            WarningDialog.initWarningDialog("请填写会议号！")
+          }
+          null
+        }
+      } else {
+        null
+      }
+    )
+    val rst = dialog.showAndWait()
+    var info:Option[String] = None
+    rst.ifPresent { a =>
+      if (a!= "" && a!=null)
+        info = Some(a)
+      else
+        None
+    }
+    info
+  }
   /**
     * 使用用户自己输入的信息登录
     */
@@ -250,6 +290,30 @@ class HomeController(
           WarningDialog.initWarningDialog(s"验证超时！")
         }
     }
+
+  }
+
+
+  def joinRoom(userId:String,roomId:String)={
+    //http请求 todo 后端的这个请求需要返回房间信息
+//    RoomClient.joinRoom(roomId.toLong,userId.toLong).map {
+//      case Right(rsp) =>
+//        //修改用户信息不是房主
+//        RmManager.userInfo.get.isHost = false
+//        //跳转到视频页面
+//        rmManager ! RmManager.GoToCreateAndJoinRoom
+//
+//      case Left(error) =>
+//      //请求失败
+//
+//    }
+    //测试数据
+    RmManager.userInfo.get.isHost = Some(false)
+    if (RmManager.roomInfo.isEmpty){
+      RmManager.roomInfo = Some(RoomInfo(10001,"","",RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,"",""))
+    }
+    //跳转到视频页面
+    rmManager ! RmManager.GoToCreateAndJoinRoom
 
   }
 }
