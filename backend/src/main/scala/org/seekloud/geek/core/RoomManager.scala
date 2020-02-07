@@ -268,8 +268,8 @@ object RoomManager {
 //              log.info(s"update live code at db failed due to $e")
 //              msg.replyTo ! StartLiveRsp(rtmpInfo)
 //          }
-          msg.replyTo ! StartLiveRsp(roomOldInfo.rtmpInfo)
-          roomActor ! RoomActor.StartLive(roomOldInfo.rtmpInfo, roomOldInfo.hostCode, roomOldInfo.roomUserInfo.userId)
+          msg.replyTo ! StartLiveRsp(rtmpInfoNew)
+          roomActor ! RoomActor.StartLive(rtmpInfoNew, roomOldInfo.hostCode, roomOldInfo.roomUserInfo.userId)
           Behaviors.same
 
         case msg: StartLive4Client =>
