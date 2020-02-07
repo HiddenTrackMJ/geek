@@ -1,6 +1,6 @@
 package org.seekloud.geek.client.utils
 
-import org.seekloud.geek.client.common.Routes
+import org.seekloud.geek.client.common.{AppSettings, Routes}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{SignIn, SignInRsp, SignUp, SignUpRsp}
 import org.slf4j.LoggerFactory
 
@@ -21,6 +21,9 @@ object RMClient extends HttpUtil{
 
   private val log = LoggerFactory.getLogger(this.getClass)
 
+  def getPushStream(liveCode:String) = {
+    AppSettings.rtpServerDst+"/live/"+liveCode
+  }
 
   //用户名登录
   def signIn(userName: String, pwd: String): Future[Either[Throwable, SignInRsp]] = {

@@ -47,6 +47,7 @@ object RoomClient extends HttpUtil {
     val data = CreateRoomReq(userId, info).asJson.noSpaces
     postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
       case Right(jsonStr) =>
+        log.info(s"createRomm 返回信息 $jsonStr")
         decode[CreateRoomRsp](jsonStr)
       case Left(error) =>
         log.error(s"user-$userId createRoom error: $error")

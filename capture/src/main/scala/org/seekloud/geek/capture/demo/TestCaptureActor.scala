@@ -55,7 +55,7 @@ object TestCaptureActor {
           system.scheduler.scheduleOnce(30.seconds, new Runnable {
             override def run(): Unit = {
 //              msg.manager ! Messages.StopEncodeFile
-              msg.manager ! Messages.StopEncodeFile
+//              msg.manager ! Messages.StopEncodeFile
             }
           })
           Behaviors.same

@@ -52,6 +52,8 @@ object Dependencies {
   val byteobject = "org.seekloud" %% "byteobject" % "0.1.1"
   val mail = "com.sun.mail" % "javax.mail" % "1.5.3"
   val h2Database = "com.h2database" % "h2" % "1.4.197"
+  val mysql ="mysql" % "mysql-connector-java" % "5.1.46"
+
 
   val backendDependencies =
     Dependencies.akkaSeq ++
@@ -70,7 +72,8 @@ object Dependencies {
       Dependencies.ehcache,
       Dependencies.byteobject,
       Dependencies.mail,
-      Dependencies.h2Database
+      Dependencies.h2Database,
+      Dependencies.mysql,
     )
 
 
@@ -87,7 +90,7 @@ object Dependencies {
     case (lib, ver) => Seq(
       // Add both: dependency and its native binaries for the current `platform`
       "org.bytedeco" % lib % ver withSources() withJavadoc(),
-      "org.bytedeco" % lib % ver classifier platforms(0)
+      "org.bytedeco" % lib % ver classifier platforms(2)
     )
   }
 
