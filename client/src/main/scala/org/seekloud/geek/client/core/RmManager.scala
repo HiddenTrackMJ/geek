@@ -177,7 +177,8 @@ object RmManager {
           if (RmManager.userInfo.get.isHost.get){//房主
             RoomClient.startLive(RmManager.roomInfo.get.roomId).map{
               case Right(rsp) =>
-                ctx.self ! StartLive(rsp.rtmp.serverUrl+rsp.rtmp.stream,rsp.rtmp.serverUrl+rsp.rtmp.liveCode)
+//                ctx.self ! StartLive(rsp.rtmp.serverUrl+rsp.rtmp.stream,rsp.rtmp.serverUrl+rsp.selfCode)
+                ctx.self ! StartLive("rtmp://10.1.29.247:1935/live/1002333","rtmp://10.1.29.247:1935/live/1002333")
               case Left(e) =>
                 log.info(s"开始会议失败：$e")
             }
@@ -185,7 +186,7 @@ object RmManager {
 
             RoomClient.startLive4Client(RmManager.userInfo.get.userId,RmManager.roomInfo.get.roomId).map{
               case Right(rsp) =>
-                ctx.self ! StartLive(rsp.rtmp.get.serverUrl+rsp.rtmp.get.stream,rsp.rtmp.get.serverUrl+rsp.rtmp.get.liveCode)
+                ctx.self ! StartLive(rsp.rtmp.get.serverUrl+rsp.rtmp.get.stream,rsp.rtmp.get.serverUrl+rsp.selfCode)
 
               case Left(e) =>
                 log.info(s"开始会议失败：$e")
