@@ -268,7 +268,7 @@ object RoomManager {
 //              log.info(s"update live code at db failed due to $e")
 //              msg.replyTo ! StartLiveRsp(rtmpInfo)
 //          }
-          msg.replyTo ! StartLiveRsp(rtmpInfoNew)
+          msg.replyTo ! StartLiveRsp(rtmpInfoNew, roomOldInfo.hostCode)
           roomActor ! RoomActor.StartLive(rtmpInfoNew, roomOldInfo.hostCode, roomOldInfo.roomUserInfo.userId)
           Behaviors.same
 
@@ -276,7 +276,7 @@ object RoomManager {
           assert(rooms.contains(msg.req.roomId))
           val roomOldInfo = rooms(msg.req.roomId)
           if (roomOldInfo.userLiveCodeMap.exists(_._2 == msg.req.userId)) {
-            msg.replyTo ! StartLive4ClientRsp(Some(roomOldInfo.rtmpInfo))
+            msg.replyTo ! StartLive4ClientRsp(Some(roomOldInfo.rtmpInfo), roomOldInfo.userLiveCodeMap.find(_._2 == msg.req.userId).get._1)
             roomOldInfo.roomActor ! RoomActor.StartLive4Client(roomOldInfo.rtmpInfo, roomOldInfo.userLiveCodeMap.find(_._2 == msg.req.userId).get._1)
           }
           else {
