@@ -1,7 +1,7 @@
-# create schema GEEK;
+-- # create schema GEEK;
 
 
-create table `geek`.`room`
+create table `GEEK`.`ROOM`
 (
     ID        BIGINT NOT NULL unique AUTO_INCREMENT primary key,
     TITLE     varchar(200) not null,
@@ -13,8 +13,8 @@ create table `geek`.`room`
 )ENGINE = InnoDB,auto_increment=1000;
 
 
-# 用户信息
-create table `geek`.`user`
+-- # 用户信息
+create table `GEEK`.`USER`
 (
     ID       BIGINT  NOT NULL unique AUTO_INCREMENT primary key,
     `NAME`     VARCHAR(100)                                       not null,
@@ -23,8 +23,8 @@ create table `geek`.`user`
 );
 
 
-# 录像信息
-create table `geek`.`video`
+-- # 录像信息
+create table `GEEK`.`VIDEO`
 (
     ID        BIGINT  NOT NULL unique AUTO_INCREMENT primary key,
     USERID    BIGINT                                              not null,
