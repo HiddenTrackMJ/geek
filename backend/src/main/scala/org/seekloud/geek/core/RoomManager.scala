@@ -203,7 +203,7 @@ object RoomManager {
           RoomDao.updateUserCodeMap(req.roomId, userCodeMap.asJson.noSpaces).onComplete{
             case Success(_) =>
               rooms.update(req.roomId, roomNewInfo)
-              rsp ! JoinRoomRsp(Some(UserPushInfo(selfCode, roomNewInfo.rtmpInfo.stream)))
+              rsp ! JoinRoomRsp(Some(UserPushInfo(roomNewInfo.roomUserInfo, selfCode, roomNewInfo.rtmpInfo.stream)))
 
             case Failure(e) =>
               rsp ! JoinRoomRsp(None, 10013, s"dataBase update error: ${e.getMessage}")
