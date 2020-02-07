@@ -130,7 +130,7 @@ object LiveManager {
 //
         case msg: PushStream =>
           log.debug(s"推流地址：${msg.rtmp}")
-          captureActor.get ! StartEncode("msg.rtmp")
+          captureActor.get ! StartEncode(msg.rtmp)
           Behaviors.same
 
         case InitRtpFailed =>
