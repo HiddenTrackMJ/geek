@@ -48,7 +48,12 @@ object LiveManager {
 
   final case object DeviceOff extends LiveCommand
 
+  //切换模式，isJoin为false显示本地摄像头的内容，true显示拉流的内容
   final case class SwitchMediaMode(isJoin: Boolean, reset: () => Unit) extends LiveCommand
+
+  final case class ChangeMediaOption(bit: Option[Int], re: Option[String], frameRate: Option[Int],
+    needImage: Boolean = true, needSound: Boolean = true, reset: () => Unit) extends LiveCommand with ClientCaptureActor.CaptureCommand
+
 
   final case class PushStream(rtmp:String) extends LiveCommand
 
@@ -125,7 +130,7 @@ object LiveManager {
 //
         case msg: PushStream =>
           log.debug(s"推流地址：${msg.rtmp}")
-          captureActor.get ! StartEncode(msg.rtmp)
+          captureActor.get ! StartEncode("msg.rtmp")
           Behaviors.same
 
         case InitRtpFailed =>

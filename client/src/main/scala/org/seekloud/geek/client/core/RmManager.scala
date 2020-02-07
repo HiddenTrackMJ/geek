@@ -58,6 +58,7 @@ object RmManager {
   final case object HostWsEstablish extends RmCommand
   final case object BackToHome extends RmCommand
   final case object HostLiveReq extends RmCommand //请求开启会议
+  final case class StartLive(pull:String, push:String) extends RmCommand
   final case object StopLive extends RmCommand
   final case object PullerStopped extends RmCommand
 
@@ -171,33 +172,39 @@ object RmManager {
           Behaviors.same
 
         case HostLiveReq =>
-          //1.开始推流
-          log.info(s"开始会议")
-          liveManager ! LiveManager.PushStream(RmManager.userInfo.get.pushStream.get)
 
-//          //2.开始拉流
           //http请求服务器获取拉流地址
           if (RmManager.userInfo.get.isHost.get){//房主
             RoomClient.startLive(RmManager.roomInfo.get.roomId).map{
               case Right(rsp) =>
-                //todo: 返回的拉流地址为空
-                RmManager.userInfo.get.pullStream = Some(rsp.rtmp.serverUrl+rsp.rtmp.stream)
-                liveManager ! LiveManager.PullStream(RmManager.userInfo.get.pullStream.get,mediaPlayer,hostScene,liveManager)
+                ctx.self ! StartLive(rsp.rtmp.serverUrl+rsp.rtmp.stream,rsp.rtmp.serverUrl+rsp.rtmp.liveCode)
               case Left(e) =>
                 log.info(s"开始会议失败：$e")
             }
           }else{//普通成员
+
             RoomClient.startLive4Client(RmManager.userInfo.get.userId,RmManager.roomInfo.get.roomId).map{
               case Right(rsp) =>
-                //todo: 返回的拉流地址为空
-                RmManager.userInfo.get.pullStream = Some(rsp.rtmp.get.serverUrl+rsp.rtmp.get.stream)
-                liveManager ! LiveManager.PullStream(RmManager.userInfo.get.pullStream.get,mediaPlayer,hostScene,liveManager)
+                ctx.self ! StartLive(rsp.rtmp.get.serverUrl+rsp.rtmp.get.stream,rsp.rtmp.get.serverUrl+rsp.rtmp.get.liveCode)
+
               case Left(e) =>
                 log.info(s"开始会议失败：$e")
             }
 
           }
 
+          Behaviors.same
+
+
+        case StartLive(pull, push)=>
+
+          //1.开始推流
+          log.info(s"开始会议")
+          liveManager ! LiveManager.PushStream(push)
+
+          //2.开始拉流：
+          RmManager.userInfo.get.pullStream = Some(pull)
+          liveManager ! LiveManager.PullStream(RmManager.userInfo.get.pullStream.get,mediaPlayer,hostScene,liveManager)
           Behaviors.same
 
         case GetPackageLoss =>
