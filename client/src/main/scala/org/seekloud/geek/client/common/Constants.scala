@@ -54,11 +54,11 @@ object Constants {
   }
   object DefaultPlayer {
     val width = 640
-    val height = 360
+    val height = 540
   }
 
   object HostStatus {
-    val LIVE = 0
+    val NOTCONNECT = 0
     val CONNECT = 1
   }
 
