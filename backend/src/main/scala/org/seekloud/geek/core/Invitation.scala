@@ -66,7 +66,7 @@ object Invitation {
                 if (rsp isEmpty){
                   replyTo ! InvitationRsp(None,-1,"查询为空")
                 }else{
-                  replyTo ! InvitationRsp(Some(rsp.map(e=>Inviter("",e.userid)).toSet.toList),0,"有该user的录像")
+                  replyTo ! InvitationRsp(Some(rsp.map(e=>Inviter(e._1.name,e._1.id)).toSet.toList),0,"有该user的录像")
                 }
             }
             Behaviors.same
@@ -77,7 +77,7 @@ object Invitation {
                 if (rsp isEmpty){
                   replyTo ! InvitationRsp(None,-1,"查询为空")
                 }else{
-                  replyTo ! InvitationRsp(Some(rsp.map(e=>Inviter("",e.invitation)).toSet.toList),0,"有该user的录像")
+                  replyTo ! InvitationRsp(Some(rsp.map(e=>Inviter(e._1.name,e._1.id)).toSet.toList),0,"有该user的录像")
                 }
             }
             Behaviors.same

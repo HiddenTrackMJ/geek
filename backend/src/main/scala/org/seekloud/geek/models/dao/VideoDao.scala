@@ -3,7 +3,7 @@ package org.seekloud.geek.models.dao
 import org.seekloud.geek.models.SlickTables._
 import org.seekloud.geek.utils.DBUtil.db
 import org.seekloud.geek.utils.DBUtil.driver.api._
-
+import org.seekloud.geek.Boot.executor
 import scala.concurrent.Future
 
 /**
@@ -37,15 +37,42 @@ object VideoDao {
     }
 
   //邀请相关
-  def getInviter(id: Long) =
-    db.run{
-      tVideo.filter(_.invitation === id).result
-    }
+//  def getInviter(id: Long) ={
+//      val action = for{
+//      inviteeName <- tVideo.filter(_.invitation === id).map(_.userid).result
+//      inviteeId <- tUser.filter(_.invitation === id).map(_.userid).result
+//      }
+//        yield (inviteeName,inviteeId)
+//    db.run{action.transactionally}
+//  }
 
-  def getInvitee(id: Long) =
-    db.run{
-      tVideo.filter(_.userid === id).result
+  def getInviter(id:Long) = {
+    val q = tUser join tVideo.filter(_.invitation === id) on{
+      (t1,t2)=>
+        List(t1.id === t2.userid).reduceLeft(_ || _)
     }
+    val innerJoin = for {
+      (inviterName, inviterId) <- q
+    } yield (inviterName,inviterId)
+    db.run(innerJoin.distinct.sortBy(_._1.id).result)
+  }
+
+  def getInvitee(id:Long) = {
+    val q = tUser join tVideo.filter(_.userid === id) on{
+      (t1,t2)=>
+        List(t1.id === t2.invitation).reduceLeft(_ || _)
+    }
+    val innerJoin = for {
+      (inviteeName, inviteeId) <- q
+    } yield (inviteeName,inviteeId)
+    db.run(innerJoin.distinct.sortBy(_._1.id).result)
+  }
+
+
+//  def getInvitee(id: Long) =
+//    db.run{
+//      tVideo.filter(_.userid === id).result
+//    }
 
 //  def getInvitee2(id: Long) =
 //    db.run{

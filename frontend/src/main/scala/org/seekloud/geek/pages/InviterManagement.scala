@@ -57,7 +57,7 @@ object InviterManagement extends Page{
     case Some(info) => <div class="row">
      {
         info.map{inviter =>
-          <a href="#/inviterManage" title="点击无效" class="save">{inviter.inviterId} </a>
+          <a href="#/inviterManage" title={"用户id:"+inviter.inviterId} class="save">{inviter.inviterName} </a>
         }
       }
       </div>
@@ -69,7 +69,7 @@ object InviterManagement extends Page{
       {
       info.map{invitee =>
 
-          <div  title="点击删除邀请" class="save" onclick={()=>delInvitee(invitee.inviterId)}>{invitee.inviterId} </div>
+          <div  title="点击删除邀请" class="save" onclick={()=>delInvitee(invitee.inviterId);getInviteeInfo()}>{invitee.inviterName} </div>
         }
       }
     </div>
@@ -87,14 +87,17 @@ object InviterManagement extends Page{
   }
 
 
+//    <div class="row">
+//      <p class="label">示例：</p>
+//    </div>
+//    <div class="row">
+//      <a href="#/home" title="点击无效" class="save">邱林辉 </a>
+//    </div>
+
+
+
   val inviterInfo: Elem =
-      <div class="roomInfo">
-        <div class="row">
-          <p class="label">示例：</p>
-        </div>
-        <div class="row">
-          <a href="#/home" title="点击无效" class="save">邱林辉 </a>
-        </div>
+    <div class="roomInfo">
         <div class="row" style="margin-top:12px">
           <p class="label">邀请我的：</p>
         </div>
@@ -162,7 +165,6 @@ object InviterManagement extends Page{
         if(rsp.errCode == 0) {
           JsFunc.alert("删除成功！")
         } else {
-          JsFunc.alert("删除失败！")
           println(rsp.msg)
         }
     }

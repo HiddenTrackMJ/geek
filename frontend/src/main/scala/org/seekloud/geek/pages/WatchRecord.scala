@@ -86,8 +86,13 @@ class WatchRecord(roomID: Long) extends Page{
       <li class={"media event eyesight " + isSelected} style="text-align:left">
 
         <div class="media-body">
-          {if (room._2==0) <div><a class="title" href="javascript:void(0)">{"xue1"}({"2020-2-4 23:11:23"})</a><p>{"w t f?"}</p></div>
-          else <div><a class="title" href="javascript:void(0)">{"xue2"}({"2020-2-5 13:15:03"})</a><p>{"666"}</p></div>}
+          {room._2 match {
+          case 1=> <div><a class="title" href="javascript:void(0)">{"xue1"}({"2020-2-4 23:11:23"})</a><p>{"w t f?"}</p></div>
+          case 2=> <div><a class="title" href="javascript:void(0)">{"xue2"}({"2020-2-5 13:15:03"})</a><p>{"666"}</p></div>
+          case 3=> <div><a class="title" href="javascript:void(0)">{"xue2"}({"2020-2-5 14:32:45"})</a><p>{"666"}</p></div>
+          case 4=> <div><a class="title" href="javascript:void(0)">{"xue3"}({"2020-2-5 14:45:05"})</a><p>{"什么鬼"}</p></div>
+          case _=> <div></div>
+        }}
 
         </div>
       </li>
@@ -109,10 +114,10 @@ class WatchRecord(roomID: Long) extends Page{
           <div class="x_content" >
             {
             roomIdData.map( l =>
-              if (l.isEmpty) <div><div>{roomListRx(l)}{container}</div><div>{commentListRx(l)}</div></div>
+              if (l.isEmpty) <div>{roomListRx(l)}{container}{commentListRx(l)}</div>
               else {
 //                dom.window.setTimeout(()=>renderLive(dom.document.getElementById("my-video"), l.filter(_.roomId == roomID).head.url), 1000)
-                <div><div>{roomListRx(l)}{container}</div><div>{commentListRx(l)}</div></div>
+                <div>{roomListRx(l)}{container}{commentListRx(l)}</div>
               }
             )
             }

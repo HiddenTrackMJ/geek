@@ -203,7 +203,9 @@ input[type=text]:focus,input[type=email]:focus,input[type=password]:focus,input[
 
 .navbar-brand .logo,.navbar-brand .logo-alt {
     max-height: 50px;
-    display: block
+    display: block;
+    font-size: 25px;
+    color: dodgerblue;
 }
 
 #nav:not(.nav-transparent):not(.fixed-nav) .navbar-brand .logo-alt {
