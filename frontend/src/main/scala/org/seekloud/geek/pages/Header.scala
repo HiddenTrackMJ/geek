@@ -34,7 +34,7 @@ object Header extends Component {
 
           <div class="navbar-brand" >
             <a href="#/home">
-              <img class="logo-alt" src={Route.imgPath("logo2.png")} alt="logo"></img>
+              <h1 class="logo-alt" alt="logo" style="font-color:blue;">Geek</h1>
             </a>
           </div>
 

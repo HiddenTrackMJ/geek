@@ -20,9 +20,7 @@ object HomePage extends Page {
 
             <div class="col-md-10 col-md-offset-1">
               <div class="home-content">
-                <h1 class="white-text">We Create Miracles</h1>
-                <p class="white-text">La Vita Nuova.
-                </p>
+                <h1 class="white-text">多人视频会议系统</h1>
                 <button class="white-btn" style="width:145px" onclick={() => gotoPage("inviterManage")}>Invite</button>
                 <button class="main-btn" style="width:145px" onclick={() =>
                   Main.getRoomList()
