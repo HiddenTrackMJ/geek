@@ -238,9 +238,7 @@ class HomeController(
         if (rsp.errCode == 0) {//登录成功
           rmManager ! RmManager.SignInSuccess(rsp.userInfo, rsp.roomInfo)
           RmManager.userInfo = rsp.userInfo
-          RmManager.userInfo.get.pushStream = Some("1000_3")
-//          RmManager.roomInfo = rsp.roomInfo
-          RmManager.roomInfo = Some(RoomInfo(1000,"","",1,"","",""))
+
           //todo 跳转到其他页面
 //          if (isToLive) {
 ////            rmManager ! RmManager.GoToLive
@@ -314,6 +312,9 @@ class HomeController(
       case Right(rsp) =>
         if (rsp.rtmp.nonEmpty){
           //修改用户信息不是房主
+          val roomUser = rsp.rtmp.get.roomUserInfo
+          //todo: 房主的用户名的信息没有
+          RmManager.roomInfo = Some(RoomInfo(roomId.toLong,roomUser.roomName,roomUser.des,roomUser.userId,"路人甲"))
           RmManager.userInfo.get.isHost = Some(false)
           //跳转到视频页面
           rmManager ! RmManager.GoToCreateAndJoinRoom

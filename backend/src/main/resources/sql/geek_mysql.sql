@@ -20,7 +20,7 @@ create table `GEEK`.`USER`
     `NAME`     VARCHAR(100)                                       not null,
     PASSWORD VARCHAR(300)                                       not null,
     AVATAR   VARCHAR(300)
-);
+)ENGINE = InnoDB,auto_increment=1000;
 
 
 -- # 录像信息
