@@ -179,9 +179,9 @@ object RmManager {
 //          })
           //1.开始推流
           log.info(s"开始会议")
-          liveManager ! LiveManager.PushStream("rtmp://10.1.29.247:1935/live/1000_3")
+          liveManager ! LiveManager.PushStream("rtmp://10.1.29.247:1935/live/1000_4")
 
-          //2.开始拉流
+//          //2.开始拉流
           liveManager ! LiveManager.PullStream("",mediaPlayer,hostScene,liveManager)
           Behaviors.same
 
@@ -203,15 +203,9 @@ object RmManager {
           sender.foreach(_ ! CompleteMsgClient)
           if (hostStatus == HostStatus.CONNECT) {//开启会议情况下
             //todo: 需要关闭player的显示
-//            playManager ! PlayManager.StopPlay(roomInfo.get.roomId, hostScene.resetBack, joinAudience.map(_.userId))
-//            val playId = joinAudience match {
-//              case Some(joinAud) =>
-//                Ids.getPlayId(audienceStatus = AudienceStatus.CONNECT, roomId = Some(roomInfo.get.roomId),audienceId = Some(joinAud.userId))
-//              case None =>
-//                Ids.getPlayId(audienceStatus = AudienceStatus.LIVE, roomId = Some(roomInfo.get.roomId))
-//            }
+            val playId = RmManager.roomInfo.get.roomId.toString
             //停止服务器拉流显示到player上
-//            mediaPlayer.stop(playId, hostScene.resetBack)
+            mediaPlayer.stop(playId, hostScene.resetBack)
             liveManager ! LiveManager.StopPull
           }
           liveManager ! LiveManager.StopPush

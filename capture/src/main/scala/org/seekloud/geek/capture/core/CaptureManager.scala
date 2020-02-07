@@ -218,6 +218,7 @@ object CaptureManager {
 
 
         case StartCapture =>
+          log.info("流程: StartCapture")
           val encodeActorMap = mutable.HashMap[EncoderType.Value, ActorRef[EncodeActor.Command]]()
           val montageActor = getMontageActor(ctx, latestFrame, mediaSettings)
 
@@ -241,13 +242,20 @@ object CaptureManager {
           }
 
           if (outputFile.nonEmpty) {
-            val fileEncoder = if (grabber.nonEmpty && line.isEmpty) { // image only
-              new FFmpegFrameRecorder(outputFile.get, grabber.get.getImageWidth, grabber.get.getImageHeight)
-            } else if (grabber.isEmpty && line.nonEmpty) { //sound only
-              new FFmpegFrameRecorder(outputFile.get, mediaSettings.channels)
-            } else {
-              new FFmpegFrameRecorder(outputFile.get, grabber.get.getImageWidth, grabber.get.getImageHeight, mediaSettings.channels)
-            }
+            val src = "rtmp://10.1.29.247:1935/live/1000_4"
+
+//            val fileEncoder = if (grabber.nonEmpty && line.isEmpty) { // image only
+//              new FFmpegFrameRecorder(src, grabber.get.getImageWidth, grabber.get.getImageHeight)
+//            } else if (grabber.isEmpty && line.nonEmpty) { //sound only
+//              new FFmpegFrameRecorder(src, mediaSettings.channels)
+//            } else {
+//              new FFmpegFrameRecorder(src, grabber.get.getImageWidth, grabber.get.getImageHeight, mediaSettings.channels)
+//            }
+            avutil.av_log_set_level(-8)
+
+            val fileEncoder = new FFmpegFrameRecorder(src, grabber.get.getImageWidth, grabber.get.getImageHeight, mediaSettings.channels)
+            fileEncoder.setInterleaved(true)
+
             setEncoder(ctx, mediaSettings, fileEncoder, EncoderType.FILE, imageCaptureOpt, soundCaptureOpt, encodeActorMap, replyTo)
           }
 
@@ -496,13 +504,15 @@ object CaptureManager {
           Behaviors.same
 
         case msg: StartEncodeFile =>
-          val fileEncoder = if (grabber.nonEmpty && line.isEmpty) { // image only
-            new FFmpegFrameRecorder(msg.file, grabber.get.getImageWidth, grabber.get.getImageHeight)
-          } else if (grabber.isEmpty && line.nonEmpty) { //sound only
-            new FFmpegFrameRecorder(msg.file, mediaSettings.channels)
-          } else {
-            new FFmpegFrameRecorder(msg.file, grabber.get.getImageWidth, grabber.get.getImageHeight, mediaSettings.channels)
-          }
+//          val fileEncoder = if (grabber.nonEmpty && line.isEmpty) { // image only
+//            new FFmpegFrameRecorder(msg.file,  640, 480)
+//          } else if (grabber.isEmpty && line.nonEmpty) { //sound only
+//            new FFmpegFrameRecorder(msg.file, mediaSettings.channels)
+//          } else {
+//            new FFmpegFrameRecorder(msg.file, grabber.get.getImageWidth, grabber.get.getImageHeight, mediaSettings.channels)
+//          }
+          val fileEncoder = new FFmpegFrameRecorder(msg.file, 640, 480, mediaSettings.channels)
+
           setEncoder(ctx, mediaSettings, fileEncoder, EncoderType.FILE, imageCaptureOpt, soundCaptureOpt, encodeActorMap, replyTo)
           Behaviors.same
 
@@ -514,38 +524,10 @@ object CaptureManager {
 //          } else {
 //            new FFmpegFrameRecorder(msg.rtmpDes, grabber.get.getImageWidth, grabber.get.getImageHeight, mediaSettings.channels)
 //          }
-//          setEncoder(ctx, mediaSettings, fileEncoder, EncoderType.FILE, imageCaptureOpt, soundCaptureOpt, encodeActorMap, replyTo)
-//
-
-          log.info(s"recorder start----")
           avutil.av_log_set_level(-8)
-          val srcPath = "rtmp://10.1.29.247:1935/live/1000_3"
-          println(s"path: $srcPath")
-
-          val recorder4ts = new FFmpegFrameRecorder(srcPath, 640, 480, mediaSettings.channels)
-          recorder4ts.setInterleaved(true)
-          recorder4ts.setFrameRate(mediaSettings.frameRate)
-          recorder4ts.setVideoBitrate(mediaSettings.outputBitrate)
-          //          recorder4ts.setVideoCodec(avcodec.AV_CODEC_ID_MPEG2VIDEO)
-          //          recorder4ts.setAudioCodec(avcodec.AV_CODEC_ID_MP2)
-          //          recorder4ts.setVideoOption("preset","ultrafast")
-          recorder4ts.setVideoOption("crf", "25")
-          recorder4ts.setAudioQuality(0)
-          recorder4ts.setSampleRate(44100)
-          recorder4ts.setMaxBFrames(0)
-          //          recorder4ts.setFormat("mpegts")
-          recorder4ts.setVideoCodec(avcodec.AV_CODEC_ID_H264)
-          recorder4ts.setAudioCodec(avcodec.AV_CODEC_ID_AAC)
-          recorder4ts.setFormat("flv")
-          Try {
-            recorder4ts.start()
-          } match {
-            case Success(_) =>
-              log.info(s"recorder starts successfully")
-            case Failure(e) =>
-              log.error(s" recorder starts error: ${e.getMessage}")
-          }
-
+          val fileEncoder = new FFmpegFrameRecorder(msg.rtmpDes, grabber.get.getImageWidth, grabber.get.getImageHeight, mediaSettings.channels)
+          fileEncoder.setInterleaved(true)
+          setEncoder(ctx, mediaSettings, fileEncoder, EncoderType.FILE, imageCaptureOpt, soundCaptureOpt, encodeActorMap, replyTo)
           Behaviors.same
 
 
@@ -603,24 +585,40 @@ object CaptureManager {
     replyTo: ActorRef[Messages.ReplyToCommand]
   ): Unit = {
 
-    encoder.setFormat("mpegts")
+    log.info("流程：setEncoder")
+//    encoder.setFormat("mpegts")
+//
+//    /*video*/
+//    encoder.setVideoOption("tune", "zerolatency")
+//    encoder.setVideoOption("preset", "ultrafast")
+//    encoder.setVideoOption("crf", "25")
+//    //    encoder.setVideoOption("keyint", "1")
+//    encoder.setVideoBitrate(mediaSettings.outputBitrate)
+//    encoder.setVideoCodec(mediaSettings.videoCodec)
+//    encoder.setFrameRate(mediaSettings.frameRate)
+//
+//    /*audio*/
+//    encoder.setAudioOption("crf", "0")
+//    encoder.setAudioQuality(0)
+//    encoder.setAudioBitrate(192000)
+//    encoder.setSampleRate(mediaSettings.sampleRate.toInt)
+//    encoder.setAudioChannels(mediaSettings.channels)
+//    encoder.setAudioCodec(mediaSettings.audioCodec)
 
-    /*video*/
-    encoder.setVideoOption("tune", "zerolatency")
-    encoder.setVideoOption("preset", "ultrafast")
-    encoder.setVideoOption("crf", "25")
-    //    encoder.setVideoOption("keyint", "1")
-    encoder.setVideoBitrate(mediaSettings.outputBitrate)
-    encoder.setVideoCodec(mediaSettings.videoCodec)
+//    encoder.setInterleaved(true)
     encoder.setFrameRate(mediaSettings.frameRate)
-
-    /*audio*/
-    encoder.setAudioOption("crf", "0")
+    encoder.setVideoBitrate(mediaSettings.outputBitrate)
+    //          recorder4ts.setVideoCodec(avcodec.AV_CODEC_ID_MPEG2VIDEO)
+    //          recorder4ts.setAudioCodec(avcodec.AV_CODEC_ID_MP2)
+    //          recorder4ts.setVideoOption("preset","ultrafast")
+    encoder.setVideoOption("crf", "25")
     encoder.setAudioQuality(0)
-    encoder.setAudioBitrate(192000)
-    encoder.setSampleRate(mediaSettings.sampleRate.toInt)
-    encoder.setAudioChannels(mediaSettings.channels)
-    encoder.setAudioCodec(mediaSettings.audioCodec)
+    encoder.setSampleRate(44100)
+    encoder.setMaxBFrames(0)
+    //          recorder4ts.setFormat("mpegts")
+    encoder.setVideoCodec(avcodec.AV_CODEC_ID_H264)
+    encoder.setAudioCodec(avcodec.AV_CODEC_ID_AAC)
+    encoder.setFormat("flv")
     encoderType match {
       case EncoderType.STREAM =>
         log.info(s"streamEncoder start success.")
@@ -630,6 +628,10 @@ object CaptureManager {
         log.info(s"fileEncoder start success.")
         val encodeActor = getEncodeActor(ctx, replyTo, EncoderType.FILE, encoder, latestFrame, mediaSettings.needImage, mediaSettings.needSound, debug)
         encodeActorMap.put(EncoderType.FILE, encodeActor)
+      case EncoderType.RTMP =>
+        log.info(s"rtmpEncoder start success.")
+        val encodeActor = getEncodeActor(ctx, replyTo, EncoderType.RTMP, encoder, latestFrame, mediaSettings.needImage, mediaSettings.needSound, debug)
+        encodeActorMap.put(EncoderType.RTMP, encodeActor)
     }
   }
 

@@ -22,7 +22,7 @@ object Messages {
   case class LatestSound(samples: ShortBuffer, ts: Long) //采集到声音样本的时间
 
   object EncoderType extends Enumeration {
-    val STREAM, FILE = Value
+    val STREAM, FILE, RTMP = Value
   }
 
 

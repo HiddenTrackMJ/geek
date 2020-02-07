@@ -160,7 +160,7 @@ object LiveManager {
           val playId = RmManager.roomInfo.get.roomId.toString
           val videoPlayer = ctx.spawn(VideoPlayer.create(playId,None,Some(imageQueue), Some(samplesQueue)), s"videoPlayer$playId")
 
-          mediaPlayer.start(playId,videoPlayer,Left("rtmp://10.1.29.247:1935/live/1000_3"),Some(msg.hostScene.gc),None)
+          mediaPlayer.start(playId,videoPlayer,Left("rtmp://10.1.29.247:1935/live/1000_4"),Some(msg.hostScene.gc),None)
 
           Behaviors.same
 

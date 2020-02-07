@@ -174,28 +174,6 @@ object ClientCaptureActor {
 //          drawActor.foreach(_ ! StopDraw)
           Behaviors.same
 
-//        case msg: ChangeMediaOption =>
-//          mediaCapture.foreach { m =>
-//            m.stop()
-//            val re = msg.re.map(DeviceUtil.parseImgResolution)
-//            m.setOptions(outputBitrate = msg.bit, frameRate = msg.frameRate, imageWidth = re.map(_._1), imageHeight = re.map(_._2),
-//              needImage = Some(msg.needImage), needSound = Some(msg.needSound))
-//            log.debug(s"change media settings: ${m.mediaSettings}")
-//            val offOrOn = msg.needImage
-//            drawActor.foreach(_ ! ReSet(msg.reset, offOrOn))
-//          }
-//          idle(frameRate, gc, isJoin, callBackFunc, Some(msg.reset), mediaCapture, reqActor, loopExecutor, imageLoop, drawActor)
-//
-//        case msg: RecordOption =>
-//          reqActor.foreach { req =>
-//            if (msg.recordOrNot) {
-//              req ! Messages.StartEncodeFile(new File(msg.path.get))
-//            } else {
-//              req ! Messages.StopEncodeFile
-//            }
-//          }
-//          idle(frameRate, gc, isJoin, callBackFunc, Some(msg.reset), mediaCapture, reqActor, loopExecutor, imageLoop, drawActor)
-
         case StopCapture =>
           log.info(s"Media capture is stopping...")
           imageLoop.foreach(_.cancel(false))

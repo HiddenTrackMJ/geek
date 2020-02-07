@@ -102,7 +102,7 @@ class MediaCapture(
   /*录制选项*/
   private var outRtmp :Option[String] = None
   private var outputFile: Option[File] = None
-  private var startOutputFile = false
+  private var startOutputFile = true//改成false由startEncode 开始控制
 
 
   def setImageWidth(imageWidth: Int): Unit = {
