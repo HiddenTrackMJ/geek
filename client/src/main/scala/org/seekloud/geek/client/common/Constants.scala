@@ -58,7 +58,7 @@ object Constants {
   }
 
   object HostStatus {
-    val LIVE = 0
+    val NOTCONNECT = 0
     val CONNECT = 1
   }
 

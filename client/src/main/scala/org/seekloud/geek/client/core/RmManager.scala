@@ -142,7 +142,7 @@ object RmManager {
     liveManager: ActorRef[LiveManager.LiveCommand],
     mediaPlayer: MediaPlayer,
     sender: Option[ActorRef[WsMsgFront]] = None,
-    hostStatus: Int = HostStatus.LIVE, //0-直播，1-连线
+    hostStatus: Int = HostStatus.NOTCONNECT, //0-直播，1-连线
     joinAudience: Option[MemberInfo] = None //组员
   )(
     implicit stashBuffer: StashBuffer[RmCommand],
@@ -201,8 +201,9 @@ object RmManager {
 //          timer.cancel(HeartBeat)
 //          timer.cancel(PingTimeOut)
           sender.foreach(_ ! CompleteMsgClient)
-          if (hostStatus == HostStatus.CONNECT) {//连线情况下
-            //            playManager ! PlayManager.StopPlay(roomInfo.get.roomId, hostScene.resetBack, joinAudience.map(_.userId))
+          if (hostStatus == HostStatus.CONNECT) {//开启会议情况下
+            //todo: 需要关闭player的显示
+//            playManager ! PlayManager.StopPlay(roomInfo.get.roomId, hostScene.resetBack, joinAudience.map(_.userId))
 //            val playId = joinAudience match {
 //              case Some(joinAud) =>
 //                Ids.getPlayId(audienceStatus = AudienceStatus.CONNECT, roomId = Some(roomInfo.get.roomId),audienceId = Some(joinAud.userId))

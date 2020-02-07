@@ -171,6 +171,7 @@ object ClientCaptureActor {
         case msg: SwitchMode =>
           drawActor.foreach(t =>t ! msg)
           //todo 关掉摄像头的drawer
+//          drawActor.foreach(_ ! StopDraw)
           Behaviors.same
 
 //        case msg: ChangeMediaOption =>
@@ -226,9 +227,10 @@ object ClientCaptureActor {
                 gc.drawImage(msg.image, 0.0, 0.0, sWidth, sHeight)
               }
             } else {
-              Boot.addToPlatform {
-                gc.drawImage(msg.image, 0.0, sHeight / 4, sWidth / 2, sHeight / 2)
-              }
+              //开启会议的时候，本地player不需要画图形
+//              Boot.addToPlatform {
+//                gc.drawImage(msg.image, 0.0, sHeight / 4, sWidth / 2, sHeight / 2)
+//              }
             }
           }
           Behaviors.same
@@ -237,9 +239,9 @@ object ClientCaptureActor {
           log.debug(s"Capture Drawer switch mode.")
           CaptureManager.setLatestFrame()
           Boot.addToPlatform (msg.reset())
-          Behaviors.same
+//          Behaviors.same
+          drawer(gc, msg.isJoin, needImage)
 
-        //          drawer(gc, msg.isJoin, needImage)
 
         case msg: ReSet =>
           log.info("drawer reset")
