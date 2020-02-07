@@ -100,6 +100,7 @@ class MediaCapture(
   private var audioCodec = avcodec.AV_CODEC_ID_AAC
 
   /*录制选项*/
+  private var outRtmp :Option[String] = None
   private var outputFile: Option[File] = None
   private var startOutputFile = false
 
@@ -160,6 +161,10 @@ class MediaCapture(
 
   def setOutputFile(file: File): Unit = {
     this.outputFile = Some(file)
+  }
+
+  def serOutPutRtmp(rtmp:String):Unit = {
+    this.outRtmp = Some(rtmp)
   }
 
   def getOutputFileName: Option[String] = this.outputFile.map(_.getName)

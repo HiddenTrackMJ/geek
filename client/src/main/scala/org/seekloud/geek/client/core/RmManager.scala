@@ -15,9 +15,10 @@ import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.client.Boot.{executor, materializer, scheduler, system, timeout}
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
+import org.seekloud.geek.client.core.collector.ClientCaptureActor
 import org.seekloud.geek.client.core.player.VideoPlayer
-import org.seekloud.geek.client.core.stream.LiveManager.{JoinInfo, WatchInfo}
-import org.seekloud.geek.client.utils.WsUtil
+import org.seekloud.geek.client.core.stream.LiveManager.{JoinInfo, PushStream, WatchInfo}
+import org.seekloud.geek.client.utils.{RoomClient, WsUtil}
 import org.seekloud.geek.player.protocol.Messages.AddPicture
 
 import scala.collection.immutable
@@ -171,44 +172,17 @@ object RmManager {
 
         case HostLiveReq =>
 
-          //开始推流
-          //todo: http请求
+//          RoomClient.startLive(RmManager.roomInfo.get.roomId).map({
+//            rsp=>
+//
+//
+//          })
+          //1.开始推流
           log.info(s"开始会议")
+          liveManager ! LiveManager.PushStream("rtmp://10.1.29.247:1935/live/1000_3")
 
-          
-//          WarningDialog.initWarningDialog("开始会议！")
-
-
-          //          hostController.isLive = true
-//          Boot.addToPlatform {
-//            hostScene.allowConnect()
-//          }
-//          liveManager ! LiveManager.PushStream(userInfo.get.liveId.get, userInfo.get.liveId.get)
-
-
-
-          //开始拉流
-          /*背景改变*/
-          hostScene.resetBack()
-
-          /*媒体画面模式更改*/
-          liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostScene.resetBack)
-
-          /*拉取观众的rtp流并播放*/
-          val watchInfo =WatchInfo(roomInfo.get.roomId, hostScene.gc)
-
-
-          //定义 imageQueue 和 samplesQueue，用来接收图像和音频数据
-          val imageQueue = immutable.Queue[AddPicture]()
-          val samplesQueue = immutable.Queue[Array[Byte]]()
-
-          //直接启动播放器，拉流并播放到画布上
-          val playId = RmManager.roomInfo.get.roomId.toString
-          val videoPlayer = ctx.spawn(VideoPlayer.create(playId,None,Some(imageQueue), Some(samplesQueue)), s"videoPlayer$playId")
-
-          mediaPlayer.start(playId,videoPlayer,Left("rtmp://10.1.29.247:1935/live/1000_3"),Some(hostScene.gc),None)
-
-          liveManager ! LiveManager.PullStream(userInfo.get.liveId, watchInfo=Some(watchInfo),hostScene = Some(hostScene))
+          //2.开始拉流
+          liveManager ! LiveManager.PullStream("",mediaPlayer,hostScene,liveManager)
           Behaviors.same
 
 

@@ -6,7 +6,7 @@ import java.util.concurrent.LinkedBlockingDeque
 import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import javax.sound.sampled._
-import org.bytedeco.ffmpeg.global.avcodec
+import org.bytedeco.ffmpeg.global.{avcodec, avutil}
 import org.bytedeco.ffmpeg.global.avcodec._
 import org.bytedeco.javacv.{FFmpegFrameGrabber, FFmpegFrameRecorder, JavaFXFrameConverter1, OpenCVFrameGrabber}
 import org.seekloud.geek.capture.processor.ImageConverter
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
 import scala.concurrent.Future
-import scala.util.{Failure, Success}
+import scala.util.{Failure, Success, Try}
 import concurrent.duration._
 import language.postfixOps
 
@@ -505,6 +505,49 @@ object CaptureManager {
           }
           setEncoder(ctx, mediaSettings, fileEncoder, EncoderType.FILE, imageCaptureOpt, soundCaptureOpt, encodeActorMap, replyTo)
           Behaviors.same
+
+        case msg:StartEncodeRtmp =>
+//          val fileEncoder = if (grabber.nonEmpty && line.isEmpty) { // image only
+//            new FFmpegFrameRecorder(msg.rtmpDes, grabber.get.getImageWidth, grabber.get.getImageHeight)
+//          } else if (grabber.isEmpty && line.nonEmpty) { //sound only
+//            new FFmpegFrameRecorder(msg.rtmpDes, mediaSettings.channels)
+//          } else {
+//            new FFmpegFrameRecorder(msg.rtmpDes, grabber.get.getImageWidth, grabber.get.getImageHeight, mediaSettings.channels)
+//          }
+//          setEncoder(ctx, mediaSettings, fileEncoder, EncoderType.FILE, imageCaptureOpt, soundCaptureOpt, encodeActorMap, replyTo)
+//
+
+          log.info(s"recorder start----")
+          avutil.av_log_set_level(-8)
+          val srcPath = "rtmp://10.1.29.247:1935/live/1000_3"
+          println(s"path: $srcPath")
+
+          val recorder4ts = new FFmpegFrameRecorder(srcPath, 640, 480, mediaSettings.channels)
+          recorder4ts.setInterleaved(true)
+          recorder4ts.setFrameRate(mediaSettings.frameRate)
+          recorder4ts.setVideoBitrate(mediaSettings.outputBitrate)
+          //          recorder4ts.setVideoCodec(avcodec.AV_CODEC_ID_MPEG2VIDEO)
+          //          recorder4ts.setAudioCodec(avcodec.AV_CODEC_ID_MP2)
+          //          recorder4ts.setVideoOption("preset","ultrafast")
+          recorder4ts.setVideoOption("crf", "25")
+          recorder4ts.setAudioQuality(0)
+          recorder4ts.setSampleRate(44100)
+          recorder4ts.setMaxBFrames(0)
+          //          recorder4ts.setFormat("mpegts")
+          recorder4ts.setVideoCodec(avcodec.AV_CODEC_ID_H264)
+          recorder4ts.setAudioCodec(avcodec.AV_CODEC_ID_AAC)
+          recorder4ts.setFormat("flv")
+          Try {
+            recorder4ts.start()
+          } match {
+            case Success(_) =>
+              log.info(s"recorder starts successfully")
+            case Failure(e) =>
+              log.error(s" recorder starts error: ${e.getMessage}")
+          }
+
+          Behaviors.same
+
 
         case StopEncodeFile =>
           encodeActorMap.get(EncoderType.FILE).foreach(_ ! EncodeActor.StopEncode)

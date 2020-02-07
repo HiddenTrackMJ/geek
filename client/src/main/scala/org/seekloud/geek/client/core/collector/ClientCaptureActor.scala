@@ -23,13 +23,13 @@ import scala.language.postfixOps
   * Time: 14:04
   * Description: rmManager -->> CaptureActor -->> captureManager
   */
-object CaptureActor {
+object ClientCaptureActor {
 
   private val log = LoggerFactory.getLogger(this.getClass)
 
   type CaptureCommand = ReplyToCommand
 
-  final case class StartEncode(output: Either[File, OutputStream]) extends CaptureCommand
+  final case class StartEncode(rtmp: String) extends CaptureCommand
 
   final case class StopEncode(encoderType: EncoderType.Value) extends CaptureCommand
 
@@ -139,20 +139,26 @@ object CaptureActor {
           Behaviors.same
 
         case msg: StartEncode =>
-          msg.output match {
-            case Right(outputStream) =>
-              if (reqActor.nonEmpty) {
-                reqActor.foreach(_ ! StartEncodeStream(outputStream))
-              } else {
-                timer.startSingleTimer(ENCODE_RETRY_TIMER_KEY, msg, 500.millis)
-              }
-            case Left(file) =>
-              if (reqActor.nonEmpty) {
-                reqActor.foreach(_ ! StartEncodeFile(file))
-              } else {
-                timer.startSingleTimer(ENCODE_RETRY_TIMER_KEY, msg, 500.millis)
-              }
+//          msg.output match {
+//            case Right(outputStream) =>
+//              if (reqActor.nonEmpty) {
+//                reqActor.foreach(_ ! StartEncodeStream(outputStream))
+//              } else {
+//                timer.startSingleTimer(ENCODE_RETRY_TIMER_KEY, msg, 500.millis)
+//              }
+//            case Left(file) =>
+//              if (reqActor.nonEmpty) {
+//                reqActor.foreach(_ ! StartEncodeFile(file))
+//              } else {
+//                timer.startSingleTimer(ENCODE_RETRY_TIMER_KEY, msg, 500.millis)
+//              }
+//          }
+          if (reqActor.nonEmpty) {
+            reqActor.foreach(_ ! StartEncodeRtmp(msg.rtmp))
+          } else {
+            timer.startSingleTimer(ENCODE_RETRY_TIMER_KEY, msg, 500.millis)
           }
+
           Behaviors.same
 
         case msg: StopEncode =>
@@ -164,6 +170,7 @@ object CaptureActor {
 
         case msg: SwitchMode =>
           drawActor.foreach(t =>t ! msg)
+          //todo 关掉摄像头的drawer
           Behaviors.same
 
 //        case msg: ChangeMediaOption =>
@@ -230,7 +237,9 @@ object CaptureActor {
           log.debug(s"Capture Drawer switch mode.")
           CaptureManager.setLatestFrame()
           Boot.addToPlatform (msg.reset())
-          drawer(gc, msg.isJoin, needImage)
+          Behaviors.same
+
+        //          drawer(gc, msg.isJoin, needImage)
 
         case msg: ReSet =>
           log.info("drawer reset")

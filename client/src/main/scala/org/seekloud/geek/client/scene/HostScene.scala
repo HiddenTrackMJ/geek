@@ -229,8 +229,8 @@ class HostScene(stage: Stage) {
   tb1.getStyleClass.add("hostScene-leftArea-toggleButton")
   val tb2 = new ToggleButton("设置 ", setIcon)
   tb2.getStyleClass.add("hostScene-leftArea-toggleButton")
-  val tb3 = new ToggleButton("连线 ", connectionIcon)
-  tb3.getStyleClass.add("hostScene-leftArea-toggleButton")
+//  val tb3 = new ToggleButton("连线 ", connectionIcon)
+//  tb3.getStyleClass.add("hostScene-leftArea-toggleButton")
 //  val tb4 = new ToggleButton("观众 ", audienceIcon)
 //  tb4.getStyleClass.add("hostScene-leftArea-toggleButton")
 
@@ -266,11 +266,13 @@ class HostScene(stage: Stage) {
     val sWidth = gc.getCanvas.getWidth
     val sHeight = gc.getCanvas.getHeight
     gc.drawImage(connectionBg, 0, 0, sWidth, sHeight)
-    gc.drawImage(waitPulling, sWidth / 2, sHeight / 4, sWidth / 2, sHeight / 2)
-    gc.drawImage(waitPulling, 0, sHeight / 4, sWidth / 2, sHeight / 2)
+//    gc.drawImage(waitPulling, sWidth / 2, sHeight / 4, sWidth / 2, sHeight / 2)
+//    gc.drawImage(waitPulling, 0, sHeight / 4, sWidth / 2, sHeight / 2)
+    gc.drawImage(waitPulling, 0, 0, sWidth , sHeight)
 //    gc.setFont(Font.font(emojiFont, 25))
     gc.setFill(Color.BLACK)
-    gc.fillText(s"连线中", liveImage.getWidth / 2 - 40, liveImage.getHeight / 8)
+    log.info("点击了开始会议，界面变化")
+//    gc.fillText(s"连线中", liveImage.getWidth / 2 - 40, liveImage.getHeight / 8)
   }
 
   def resetLoading(): Unit = {
@@ -333,9 +335,9 @@ class HostScene(stage: Stage) {
    *
    **/
   def updateAudienceList(audienceId: Long, audienceName: String): Unit = {
-    if (!tb3.isSelected) {
-      tb3.setGraphic(connectionIcon1)
-    }
+//    if (!tb3.isSelected) {
+//      tb3.setGraphic(connectionIcon1)
+//    }
     val agreeBtn = new Button("", new ImageView("img/agreeBtn.png"))
     val refuseBtn = new Button("", new ImageView("img/refuseBtn.png"))
 
@@ -385,11 +387,11 @@ class HostScene(stage: Stage) {
     val group = new ToggleGroup
     tb1.setToggleGroup(group)
     tb2.setToggleGroup(group)
-    tb3.setToggleGroup(group)
+//    tb3.setToggleGroup(group)
 //    tb4.setToggleGroup(group)
 
     val tbBox = new HBox()
-    tbBox.getChildren.addAll(tb1, tb2, tb3)
+    tbBox.getChildren.addAll(tb1, tb2)
 
     val content = new VBox()
     val left1Area = addLeftChild1Area()
@@ -412,12 +414,12 @@ class HostScene(stage: Stage) {
       content.getChildren.add(left2Area)
     }
     )
-    tb3.setOnAction(_ => {
-      tb3.setGraphic(connectionIcon)
-      content.getChildren.clear()
-      content.getChildren.add(left3Area)
-    }
-    )
+//    tb3.setOnAction(_ => {
+//      tb3.setGraphic(connectionIcon)
+//      content.getChildren.clear()
+//      content.getChildren.add(left3Area)
+//    }
+//    )
 //    tb4.setOnAction(_ => {
 //      tb4.setGraphic(audienceIcon)
 //      content.getChildren.clear()
