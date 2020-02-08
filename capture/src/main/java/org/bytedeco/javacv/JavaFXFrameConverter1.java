@@ -48,24 +48,25 @@ public abstract class JavaFXFrameConverter1 extends FrameConverter<Image> {
         int iw = frame.imageWidth;
         int ih = frame.imageHeight;
         PixelReader pr = new FramePixelReader(frame);
-        if (isFirst) {
-            isFirst = false;
-            answer = new WritableImage(pr, iw, ih);
-        } else {
-            if (iw != answer.getWidth() || ih != answer.getHeight()) {
-                answer = new WritableImage(pr, iw, ih);
-            } else {
-                BufferedImage bufferedImage = converter.convert(frame);
-                if (needTimestamp) {
-                    Long timeStamp = getTime();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S");
-                    String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));
-                    bufferedImage.getGraphics().drawString(sd, iw / 10, ih / 10);
-                }
-                    SwingFXUtils.toFXImage(bufferedImage, answer);
-                    answer = javaUtils.removeBlackEdge(answer);
-            }
-        }
+//        if (isFirst) {
+//            isFirst = false;
+//            answer = new WritableImage(pr, iw, ih);
+//        } else {
+//            if (iw != answer.getWidth() || ih != answer.getHeight()) {
+//                answer = new WritableImage(pr, iw, ih);
+//            } else {
+//                BufferedImage bufferedImage = converter.convert(frame);
+//                if (needTimestamp) {
+//                    Long timeStamp = getTime();
+//                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S");
+//                    String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));
+//                    bufferedImage.getGraphics().drawString(sd, iw / 10, ih / 10);
+//                }
+//                    SwingFXUtils.toFXImage(bufferedImage, answer);
+//                    answer = javaUtils.removeBlackEdge(answer);
+//            }
+//        }
+        answer = new WritableImage(pr,iw,ih);
         return answer;
     }
 
