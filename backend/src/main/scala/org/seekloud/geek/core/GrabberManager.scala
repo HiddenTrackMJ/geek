@@ -117,9 +117,11 @@ object GrabberManager {
 
         case msg: StopLive4Client =>
           log.info(s"stopping grabbing , room ${msg.roomId} - ${msg.userId}")
-          roomWorkers(msg.roomId)._1 ! Recorder.StopRecorder("user stop live")
-          getGrabber(ctx, msg.roomId, msg.selfCode, roomWorkers(msg.roomId)._1) ! Grabber.StopGrabber("user stop live")
-          Behaviors.same
+          if (roomWorkers.get(msg.roomId).isDefined) {
+            roomWorkers(msg.roomId)._1 ! Recorder.StopRecorder("user stop live")
+            getGrabber(ctx, msg.roomId, msg.selfCode, roomWorkers(msg.roomId)._1) ! Grabber.StopGrabber("user stop live")
+          }
+           Behaviors.same
 
         case msg: Shield =>
           val workerOpt = roomWorkers.find(_._1 == msg.req.roomId)

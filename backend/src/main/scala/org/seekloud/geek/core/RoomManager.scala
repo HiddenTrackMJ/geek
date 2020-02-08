@@ -129,8 +129,8 @@ object RoomManager {
             log.info(s"Init room list error due to $e")
         }
 //        ctx.self ! Test
-//        busy()
-        idle(roomIdGenerator, mutable.HashMap.empty, mutable.HashMap.empty)
+        busy()
+//        idle(roomIdGenerator, mutable.HashMap.empty, mutable.HashMap.empty)
       }
     }
 
@@ -290,7 +290,7 @@ object RoomManager {
           val liveCodes = rooms(msg.req.roomId).rtmpInfo.liveCode
           val roomOldInfo = rooms(msg.req.roomId)
           getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo) ! RoomActor.StopLive(RtmpInfo(AppSettings.rtmpServer, "", liveCodes))
-          rooms.put(msg.req.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, RtmpInfo(AppSettings.rtmpServer, "", Nil), roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomOldInfo.roomActor))
+          rooms.put(msg.req.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, RtmpInfo(AppSettings.rtmpServer, "", Nil), roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, null))
           msg.replyTo ! SuccessRsp()
           Behaviors.same
 

@@ -251,7 +251,7 @@ object Recorder {
             val sampleFrame = frame.clone()
             if (ffFilter.nonEmpty) {
 //              println(1,"index: " + index)
-              if (online.size == 1) {
+              if (online.size == 1 || shieldMap.count(_._2.audio) == 1) {
 //                println(2, ffFilter)
                 recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
 //                log.debug(s"record sample...")

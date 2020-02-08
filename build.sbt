@@ -154,7 +154,7 @@ lazy val backend = (project in file("backend")).enablePlugins(PackPlugin)
     //packSettings,
     // [Optional] Creating `hello` command that calls org.mydomain.Hello#main(Array[String])
     packMain := Map("org.seekloud.geek" -> projectMainClass),
-    packJvmOpts := Map("org.seekloud.geek" -> Seq("-Xmx512m", "-Xms1024m")),
+    packJvmOpts := Map("org.seekloud.geek" -> Seq("-Xmx1024m", "-Xms512m")),
     packExtraClasspath := Map("org.seekloud.geek" -> Seq("."))
   )
   .settings(

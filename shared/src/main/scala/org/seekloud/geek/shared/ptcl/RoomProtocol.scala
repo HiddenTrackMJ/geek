@@ -75,7 +75,7 @@ object RoomProtocol {
     msg: String = "ok"
   ) extends Response
 
-  val StartLive4ClientFail = StartLive4ClientRsp(None, "",errCode = 2000001, msg = "StartLive4Client fail.")
+  val StartLive4ClientFail = StartLive4ClientRsp(None, "", errCode = 2000001, msg = "StartLive4Client fail.")
 
   case class StopLiveReq(
     roomId: Long
