@@ -4,6 +4,7 @@ import java.io.{InputStream, OutputStream}
 
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import akka.actor.typed.{ActorRef, Behavior}
+import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.shared.ptcl.Protocol.OutTarget
 import org.seekloud.geek.shared.ptcl.RoomProtocol.{RtmpInfo, ShieldReq}
 import org.slf4j.LoggerFactory
@@ -67,7 +68,6 @@ object GrabberManager {
       }
     }
 
-  private val isTest = true
   private def idle(
     activeRooms: mutable.HashMap[Long, (RtmpInfo, ActorRef[RoomActor.Command])],
     roomWorkers: mutable.HashMap[Long, (ActorRef[Recorder.Command], List[ActorRef[Grabber.Command]])]
@@ -79,7 +79,7 @@ object GrabberManager {
       msg match {
         case msg: StartLive =>
           val recordActor = getRecorder(ctx, msg.roomId, msg.userId, msg.rtmpInfo.stream, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
-          val grabbers = if (isTest) {
+          val grabbers = if (AppSettings.rtmpIsTest) {
             msg.rtmpInfo.liveCode.map {
               stream =>
                 getGrabber(ctx, msg.roomId, stream, recordActor)

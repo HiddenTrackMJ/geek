@@ -28,6 +28,8 @@ import scala.concurrent.duration._
  * Date: 2020/1/25
  * Time: 15:20
  */
+
+
 object RoomManager {
   private val log = LoggerFactory.getLogger(this.getClass)
 
@@ -261,19 +263,11 @@ object RoomManager {
           val rtmpInfoNew = roomOldInfo.rtmpInfo.copy(stream = stream)
           val roomActor = getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo)
           rooms.put(msg.req.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, rtmpInfoNew, roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomActor))
-          //          RoomDao.updateLiveCode(msg.req.roomId, rtmpInfo.liveCode.mkString(";")).onComplete{
-//            case Success(_) =>
-//              msg.replyTo ! StartLiveRsp(rtmpInfo)
-//            case Failure(e) =>
-//              log.info(s"update live code at db failed due to $e")
-//              msg.replyTo ! StartLiveRsp(rtmpInfo)
-//          }
           msg.replyTo ! StartLiveRsp(rtmpInfoNew, roomOldInfo.hostCode)
           roomActor ! RoomActor.StartLive(rtmpInfoNew, roomOldInfo.hostCode, roomOldInfo.roomUserInfo.userId)
           Behaviors.same
 
         case msg: StartLive4Client =>
-          assert(rooms.contains(msg.req.roomId))
           val roomOldInfo = rooms(msg.req.roomId)
           if (roomOldInfo.userLiveCodeMap.exists(_._2 == msg.req.userId)) {
             msg.replyTo ! StartLive4ClientRsp(Some(roomOldInfo.rtmpInfo), roomOldInfo.userLiveCodeMap.find(_._2 == msg.req.userId).get._1)
@@ -286,28 +280,32 @@ object RoomManager {
 
         case msg: StopLive =>
           log.info(s"stop live in room: ${msg.req.roomId}")
-          assert(rooms.contains(msg.req.roomId))
-          val liveCodes = rooms(msg.req.roomId).rtmpInfo.liveCode
-          val roomOldInfo = rooms(msg.req.roomId)
-          getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo) ! RoomActor.StopLive(RtmpInfo(AppSettings.rtmpServer, "", liveCodes))
-          rooms.put(msg.req.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, RtmpInfo(AppSettings.rtmpServer, "", Nil), roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, null))
-          msg.replyTo ! SuccessRsp()
+          if ((rooms.contains(msg.req.roomId))) {
+            val liveCodes = rooms(msg.req.roomId).rtmpInfo.liveCode
+            val roomOldInfo = rooms(msg.req.roomId)
+            getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo) ! RoomActor.StopLive(RtmpInfo(AppSettings.rtmpServer, "", liveCodes))
+            rooms.put(msg.req.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, RtmpInfo(AppSettings.rtmpServer, "", Nil), roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, null))
+            msg.replyTo ! SuccessRsp()
+          }
+          else msg.replyTo ! SuccessRsp(100020, "stop live error")
           Behaviors.same
 
         case msg: StopLive4Client =>
           log.info(s"user-${msg.req.userId} stop live in room: ${msg.req.roomId}")
-          assert(rooms.contains(msg.req.roomId))
-          val roomOldInfo = rooms(msg.req.roomId)
-          val selfCodeOpt = roomOldInfo.userLiveCodeMap.find(_._2 == msg.req.userId)
-          if (selfCodeOpt.isDefined) {
-            selfCodeOpt.foreach{ r =>
-              getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo) ! RoomActor.StopLive4Client(msg.req.userId, r._1)
-              msg.replyTo ! SuccessRsp()
+          if ((rooms.contains(msg.req.roomId))) {
+            val roomOldInfo = rooms(msg.req.roomId)
+            val selfCodeOpt = roomOldInfo.userLiveCodeMap.find(_._2 == msg.req.userId)
+            if (selfCodeOpt.isDefined) {
+              selfCodeOpt.foreach{ r =>
+                getRoomActor(ctx, msg.req.roomId, roomOldInfo.roomUserInfo) ! RoomActor.StopLive4Client(msg.req.userId, r._1)
+                msg.replyTo ! SuccessRsp()
+              }
+            }
+            else {
+              msg.replyTo ! SuccessRsp(100019, "stop error, user doesn't exist")
             }
           }
-          else {
-            msg.replyTo ! SuccessRsp(100019, "stop error")
-          }
+          else msg.replyTo ! SuccessRsp(100021, "stop error, room doesn't exist")
           Behaviors.same
 
         case msg: GetRoomList =>

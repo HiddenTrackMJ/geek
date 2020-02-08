@@ -2,7 +2,7 @@ package org.seekloud.geek.core
 
 import akka.actor.Scheduler
 import akka.actor.typed.{ActorRef, Behavior}
-import akka.actor.typed.scaladsl.Behaviors
+import akka.actor.typed.scaladsl.{Behaviors, StashBuffer}
 import akka.http.scaladsl.server.Directives.complete
 import akka.util.Timeout
 import org.seekloud.geek.models.dao.UserDao
@@ -22,21 +22,24 @@ import scala.language.postfixOps
 object UserManager {
 
 
-  sealed trait Command
+  trait Command
   private val log = LoggerFactory.getLogger(this.getClass)
 
+  final case class MSignIn(user:SignIn,replyTo:ActorRef[SignInRsp]) extends Command//登录
 
-  case class MSignIn(user:SignIn,replyTo:ActorRef[SignInRsp]) extends Command//登录
-  case class MSignUp(user:SignUp,replyTo:ActorRef[SignUpRsp]) extends Command//注册
+  final case class MSignUp(user:SignUp,replyTo:ActorRef[SignUpRsp]) extends Command//注册
 
-  def create()(implicit timeout: Timeout, scheduler: Scheduler) =
+  def create()(implicit timeout: Timeout, scheduler: Scheduler): Behavior[Command] = {
+    log.info("UserManager started.")
     Behaviors.setup[Command] {
       _ =>
-        log.info("UserManager started.")
+        implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)
         Behaviors.withTimers[Command] { implicit timer =>
           idle()
         }
     }
+  }
+
 
   private def idle():Behavior[Command] =
     Behaviors.receive[Command] {
@@ -53,6 +56,7 @@ object UserManager {
                 }
             }
             Behaviors.same
+
           case MSignUp(user, replyTo)=>
             UserDao.signUp(user.userName,user.password).map{
               rsp=>
@@ -65,6 +69,7 @@ object UserManager {
                 replyTo ! SignUpRsp(rsp)
             }
             Behaviors.same
+
           case _=>
             log.info("收到未知消息create")
             Behaviors.unhandled

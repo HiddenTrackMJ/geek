@@ -24,7 +24,7 @@ import scala.concurrent.duration._
 object RoomActor {
   private val log = LoggerFactory.getLogger(this.getClass)
 
-  sealed trait Command
+  trait Command
 
   final case class StartLive(rtmpInfo: RtmpInfo, hostCode: String, hostId: Long) extends Command
 
