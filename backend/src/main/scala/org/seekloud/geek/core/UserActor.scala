@@ -1,22 +1,22 @@
 package org.seekloud.geek.core
 
-import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
+import akka.actor.typed.{ActorRef, Behavior}
 import akka.stream.OverflowStrategy
 import akka.stream.scaladsl.Flow
 import akka.stream.typed.scaladsl.{ActorSink, ActorSource}
-import org.seekloud.byteobject.MiddleBufferInJvm
 import org.seekloud.byteobject.ByteObject._
-import org.seekloud.geek.models.dao.UserDao
-import org.seekloud.geek.shared.ptcl.WsProtocol._
-import org.slf4j.LoggerFactory
-import org.seekloud.geek.Boot.{executor, roomManager, scheduler}
+import org.seekloud.byteobject.MiddleBufferInJvm
+import org.seekloud.geek.Boot.{executor, roomManager}
 import org.seekloud.geek.common.Common
+import org.seekloud.geek.models.dao.UserDao
 import org.seekloud.geek.protocol.RoomProtocol
 import org.seekloud.geek.shared.ptcl.WsProtocol
+import org.seekloud.geek.shared.ptcl.WsProtocol._
+import org.slf4j.LoggerFactory
 
-import scala.language.postfixOps
 import scala.concurrent.duration.{FiniteDuration, _}
+import scala.language.postfixOps
 
 /**
  * Author: Jason
@@ -102,11 +102,11 @@ object UserActor {
           init(userId, Some(roomId))
 
         case TimeOut(m) =>
-          log.debug(s"${ctx.self.path} is time out when busy,msg=${m}")
+          log.debug(s"${ctx.self.path} is time out when busy,msg=$m")
           Behaviors.stopped
 
         case unknown =>
-          log.debug(s"${ctx.self.path} recv an unknown msg:${msg} in init state...")
+          log.debug(s"${ctx.self.path} recv an unknown msg:$msg in init state...")
           stashBuffer.stash(unknown)
           Behavior.same
       }
@@ -175,7 +175,7 @@ object UserActor {
           Behaviors.stopped
 
         case FailMsgClient(ex) =>
-          log.debug(s"${ctx.self.path} websocket消息错误，断开ws=${userId} error=$ex")
+          log.debug(s"${ctx.self.path} websocket消息错误，断开ws=$userId error=$ex")
           roomManager ! RoomProtocol.HostCloseRoom(roomId)
           Behaviors.stopped
 
@@ -184,7 +184,7 @@ object UserActor {
           init(userId, None)
 
         case unknown =>
-          log.debug(s"${ctx.self.path} recv an unknown msg:${msg} in anchor state...")
+          log.debug(s"${ctx.self.path} recv an unknown msg:$msg in anchor state...")
           stashBuffer.stash(unknown)
           Behavior.same
       }
@@ -224,7 +224,7 @@ object UserActor {
           Behaviors.stopped
 
         case FailMsgClient(ex) =>
-          log.debug(s"${ctx.self.path} websocket消息错误，断开ws=${userId} error=$ex")
+          log.debug(s"${ctx.self.path} websocket消息错误，断开ws=$userId error=$ex")
           roomManager ! RoomProtocol.UpdateSubscriber(Common.Subscriber.left,roomId,userId,Some(ctx.self))
           Behaviors.stopped
 
@@ -270,7 +270,7 @@ object UserActor {
           init(userId, None)
 
         case unknown =>
-          log.debug(s"${ctx.self.path} recv an unknown msg:${msg} in audience state...")
+          log.debug(s"${ctx.self.path} recv an unknown msg:$msg in audience state...")
           stashBuffer.stash(unknown)
           Behavior.same
       }
