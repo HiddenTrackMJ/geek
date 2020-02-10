@@ -20,7 +20,8 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.util.Timeout
 import akka.actor.typed.scaladsl.AskPattern._
-import org.seekloud.geek.core.UserManager.{MSignIn, MSignUp}
+import akka.stream.scaladsl.Flow
+import org.seekloud.geek.core.UserManager.{MSignIn, MSignUp, SetupWs}
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.Future
@@ -73,9 +74,27 @@ trait UserService extends BaseService {
     }
   }
 
+  private val setupWebSocket = (path("setupWebSocket") & get) {
+    parameter(
+      'userId.as[Long],
+      'roomId.as[Long]
+    ) { (uid,  roomId) =>
+      val setWsFutureRsp: Future[Option[Flow[Message, Message, Any]]] = userManager ? (SetupWs(uid,  roomId, _))
+      dealFutureResult(
+        setWsFutureRsp.map {
+          case Some(rsp) => handleWebSocketMessages(rsp)
+          case None =>
+            log.debug(s"建立websocket失败，userId=$uid,roomId=$roomId")
+            complete("setup error")
+        }
+      )
+
+    }
+  }
+
 
   val userRoutes: Route = pathPrefix("user") {
-    signIn ~ signUp
+    signIn ~ signUp ~ setupWebSocket
   }
 
 

@@ -31,6 +31,8 @@ object WsProtocol  {
 
   case object DecodeError extends WsMsgRm
 
+  case class Test(msg: String) extends WsMsgClient
+
   /**
    *
    * 主播端

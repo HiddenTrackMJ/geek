@@ -7,6 +7,11 @@ package org.seekloud.geek.common
  */
 object Common {
 
+  object Role{
+    val host = 0
+    val audience = 1
+  }
+
   object Subscriber{
     val join = 1
     val left = 0

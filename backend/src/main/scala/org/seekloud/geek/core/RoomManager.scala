@@ -192,6 +192,16 @@ object RoomManager {
           RoomDao.modifyRoom(room)
           Behaviors.same
 
+
+        case ExistRoom(roomId,replyTo) =>
+          getRoomDealerOpt(roomId,ctx) match {
+            case Some(actor) =>
+              replyTo ! true
+            case None =>
+              replyTo ! true  //Todo
+          }
+          Behaviors.same
+
         case JoinRoom(req, rsp) =>
           assert(rooms.contains(req.roomId))
           val roomOldInfo = rooms(req.roomId)
@@ -380,23 +390,23 @@ object RoomManager {
     ctx.child(childName).getOrElse {
       ctx.spawn(RoomActor.create(roomId, roomInfo), childName)
     }.unsafeUpcast[RoomActor.Command]
+   }
 
+  def getRoomDealer(roomId:Long, ctx: ActorContext[Command]): ActorRef[RoomDealer.Command] = {
+    val childrenName = s"roomActor-${roomId}"
+    ctx.child(childrenName).getOrElse {
+      val actor = ctx.spawn(RoomDealer.create(roomId), childrenName)
+      ctx.watchWith(actor, RoomDealer.ChildDead(childrenName,actor))
+      actor
+    }.unsafeUpcast[RoomDealer.Command]
+  }
 
-     def getRoomDealer(roomId:Long, ctx: ActorContext[Command]) = {
-       val childrenName = s"roomActor-${roomId}"
-       ctx.child(childrenName).getOrElse {
-         val actor = ctx.spawn(RoomActor.create(roomId), childrenName)
-         ctx.watchWith(actor,ChildDead(childrenName,actor))
-         actor
-       }.unsafeUpcast[RoomActor.Command]
-     }
+  def getRoomDealerOpt(roomId:Long, ctx: ActorContext[Command]): Option[ActorRef[RoomDealer.Command]] = {
+    val childrenName = s"roomActor-${roomId}"
+    //    log.debug(s"${ctx.self.path} the child = ${ctx.children},get the roomActor opt = ${ctx.child(childrenName).map(_.unsafeUpcast[RoomActor.Command])}")
+    ctx.child(childrenName).map(_.unsafeUpcast[RoomDealer.Command])
 
-     def getRoomActorOpt(roomId:Long, ctx: ActorContext[Command]) = {
-       val childrenName = s"roomActor-${roomId}"
-       //    log.debug(s"${ctx.self.path} the child = ${ctx.children},get the roomActor opt = ${ctx.child(childrenName).map(_.unsafeUpcast[RoomActor.Command])}")
-       ctx.child(childrenName).map(_.unsafeUpcast[RoomActor.Command])
-
-     }  }
+  }
 
 
   private def busy()

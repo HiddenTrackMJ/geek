@@ -1,7 +1,8 @@
 package org.seekloud.geek.protocol
 
 import akka.actor.typed.ActorRef
-import org.seekloud.geek.core.{RoomActor, RoomManager, UserActor}
+import org.seekloud.geek.core.{RoomActor, RoomDealer, RoomManager, UserActor}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.RoomInfo
 import org.seekloud.geek.shared.ptcl.WsProtocol.WsMsgClient
 
 /**
@@ -11,7 +12,7 @@ import org.seekloud.geek.shared.ptcl.WsProtocol.WsMsgClient
  */
 object RoomProtocol {
 
-  trait RoomCommand extends RoomManager.Command with RoomActor.Command
+  trait RoomCommand extends RoomManager.Command with RoomActor.Command with RoomDealer.Command
 
   case class WebSocketMsgWithActor(userId:Long,roomId:Long,msg:WsMsgClient) extends RoomCommand
 
@@ -29,4 +30,5 @@ object RoomProtocol {
 
 
   case class BanOnAnchor(roomId:Long) extends RoomCommand
+
 }

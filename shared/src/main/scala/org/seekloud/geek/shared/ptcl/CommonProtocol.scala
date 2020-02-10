@@ -79,7 +79,9 @@ object CommonProtocol {
     userId: Long,  //房主id
     userName:String,
     headImgUrl:String = "",
-    coverImgUrl:String = ""
+    coverImgUrl:String = "",
+    var observerNum:Int,
+    var rtmp: Option[String] = None
   )
 
   /*同一个房间的组员信息*/

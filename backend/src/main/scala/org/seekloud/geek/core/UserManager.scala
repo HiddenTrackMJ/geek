@@ -132,6 +132,7 @@ object UserManager {
                     //                    actor ! UserActor.UserLogin(roomId,userId)
                     //                    replyTo ! Some(setupWebSocketFlow(actor))
                     replyTo ! None
+
                   case None =>
                     val userActor = getUserActor(userId, ctx)
                     userActor ! UserActor.UserLogin(roomId,userId)
@@ -145,8 +146,9 @@ object UserManager {
               }
             }
             Behaviors.same
+
           case _=>
-            log.info("收到未知消息create")
+            log.info("recv unknown msg when create")
             Behaviors.unhandled
         }
     }
