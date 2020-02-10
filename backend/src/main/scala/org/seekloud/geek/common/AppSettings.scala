@@ -103,5 +103,22 @@ object AppSettings {
     )
   }
 
+  val basicFilePath = appConfig.getString("fileSetting.basicFilePath")
+  val pdfFilePath = appConfig.getString("fileSetting.pdfFilePath")
+  val convertPdfFilePath = pdfFilePath + "/convert"
+  val imgFilePath = appConfig.getString("fileSetting.imgFilePath")
+  val tourFilePath = appConfig.getString("fileSetting.tourFilePath")
+  val videoFilePath = appConfig.getString("fileSetting.videoFilePath")
+  val excelFilePath = appConfig.getString("fileSetting.excelFilePath")
+  val statisticPath = appConfig.getString("fileSetting.statisticPath")
+
+  val hestiaConfig = config.getConfig("dependence.hestia")
+  val hestiaProtocol = hestiaConfig.getString("protocol")
+  val hestiaHost = hestiaConfig.getString("host")
+  val hestiaPort = hestiaConfig.getString("port")
+  val hestiaDomain = hestiaConfig.getString("domain")
+  val hestiaAppId = hestiaConfig.getString("appId")
+  val hestiaSecureKey = hestiaConfig.getString("secureKey")
+
 }
 

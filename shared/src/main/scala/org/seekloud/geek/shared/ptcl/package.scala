@@ -37,6 +37,10 @@ package object ptcl {
         val passwordError = ErrorRsp(msg = "wrong password", errCode = 1000008)
         val fileNotExistError = ErrorRsp(1000008, "file does not exist")
 
+        val sessionError = ErrorRsp(msg = "session error", errCode = 100009)
+        val fileWithSameNameExistError = ErrorRsp(msg = "file with same name exist", errCode = 100017)
+        val fileTypeNotSupportError = ErrorRsp(msg = "file type not support", errCode = 100012)
+
   }
 
 }

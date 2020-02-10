@@ -152,8 +152,9 @@ object Http {
                            bodyStr: FormData,
                            withCookie: Boolean = true)(implicit decoder: Decoder[T]): Future[Either[Error, T]] = {
     import io.circe.parser._
-    postFormData(url, bodyStr, withCookie).map(s => {println("ssss is",s);decode[T](s) })
+    postFormData(url, bodyStr, withCookie).map(s => {println("postFormAndP is",s);decode[T](s) })
   }
+
   def postFormData(url: String, bodyStr: FormData, withCookie: Boolean = true): Future[String] = {
     println(s"sendJsonPost: url=$url body=$bodyStr header=$formPostHeader")
     try {

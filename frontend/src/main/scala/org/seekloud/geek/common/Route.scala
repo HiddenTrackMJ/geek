@@ -11,7 +11,8 @@ object Route {
   val baseUrl = "/geek"
 
   def imgPath(fileName: String): String = baseUrl + "/static/img/" + fileName
-
+  def hestiaPath(fileName: String): String =  "http://127.0.0.1:30226/hestia/files/image/OnlyForTest/" + fileName
+//  val hestiaPath = "http://10.1.29.247/hestia/files/image/OnlyForTest/"
   object Admin {
     val base: String = baseUrl + "/admin"
   }
@@ -39,6 +40,21 @@ object Route {
     val getInviteeList: String = base + "/getInviteeList"
     val delInvitee: String = base + "/delInvitee"
     val signIn: String = base + "/signIn"
+  }
+
+  object Test {
+    val base: String = baseUrl + "/tests"
+    val getInviterList: String = base + "/delete"
+    val getInviteeList: String = base + "/resizeGet"
+  }
+
+  object File {
+    val base = baseUrl + "/file"
+    def upload(path: String) = base + s"/uploadFile?targetDir=$path&fileType=2"
+    def uploadSlice(path: String, fileType: Int, fileName: String, size: Long, sliceSize: Long, end: Double, pointer: Int) = base + s"/uploadSliceFile?targetDir=$path&fileType=2&fileName=$fileName&size=$size&sliceSize=$sliceSize&end=$end&pointer=$pointer"
+    def delete(name: String, fileType: Int) = base + s"/deleteFile?targetName=$name&fileType=2"
+    def deleteTmpFile(path: String, fileType: Int, fileName: String) = base + s"/deleteTmpFile?targetDir=$path&fileType=2&fileName=$fileName"
+    def checkPdf(tName: String) = base + s"/checkPdf?name=$tName&timestamp=${System.currentTimeMillis()}"
   }
 
 
