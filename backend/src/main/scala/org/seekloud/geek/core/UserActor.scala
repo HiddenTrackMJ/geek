@@ -43,7 +43,7 @@ object UserActor {
   final case class UserLogin(roomId:Long,userId:Long) extends Command with UserManager.Command//新用户请求mpd的时候处理这个消息，更新roomActor中的列表
 
   case class UserLeft[U](actorRef: ActorRef[U]) extends Command
-  final case class ChildDead[U](userId: Long,temporary:Boolean, childRef: ActorRef[U]) extends Command with UserManager.Command
+  final case class ChildDead[U](userId: Long, childRef: ActorRef[U]) extends Command with UserManager.Command
   final case object ChangeBehaviorToInit extends Command
   final case object SendHeartBeat extends  Command
 

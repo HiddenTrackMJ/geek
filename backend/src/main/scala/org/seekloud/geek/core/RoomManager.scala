@@ -61,6 +61,8 @@ object RoomManager {
 
   final case class UpdateRoomInfo(req: UpdateRoomInfoReq, replyTo: ActorRef[ComRsp]) extends Command
 
+  final case class ExistRoom(roomId:Long, replyTo:ActorRef[Boolean]) extends Command
+
   private final case class SwitchBehavior(
     name: String,
     behavior: Behavior[Command],
@@ -379,7 +381,22 @@ object RoomManager {
       ctx.spawn(RoomActor.create(roomId, roomInfo), childName)
     }.unsafeUpcast[RoomActor.Command]
 
-  }
+
+     def getRoomDealer(roomId:Long, ctx: ActorContext[Command]) = {
+       val childrenName = s"roomActor-${roomId}"
+       ctx.child(childrenName).getOrElse {
+         val actor = ctx.spawn(RoomActor.create(roomId), childrenName)
+         ctx.watchWith(actor,ChildDead(childrenName,actor))
+         actor
+       }.unsafeUpcast[RoomActor.Command]
+     }
+
+     def getRoomActorOpt(roomId:Long, ctx: ActorContext[Command]) = {
+       val childrenName = s"roomActor-${roomId}"
+       //    log.debug(s"${ctx.self.path} the child = ${ctx.children},get the roomActor opt = ${ctx.child(childrenName).map(_.unsafeUpcast[RoomActor.Command])}")
+       ctx.child(childrenName).map(_.unsafeUpcast[RoomActor.Command])
+
+     }  }
 
 
   private def busy()
