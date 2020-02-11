@@ -106,7 +106,7 @@ object UserInfoPagetest extends Page{
                   try {
                     var imgName = rsp.fileName
                     var  imgUrl = rsp.fileUrl
-
+                    println(imgName+" sss"+imgUrl)
                     setPic(HestiaImage(imgName,imgUrl,None,System.currentTimeMillis))
                     input.value = ""
                   } catch {
