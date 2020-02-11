@@ -407,7 +407,7 @@ object RoomManager {
   def getRoomDealer(roomId:Long, roomDetailInfo: RoomDetailInfo, ctx: ActorContext[Command]): ActorRef[RoomDealer.Command] = {
     val childrenName = s"roomActor-${roomId}"
     ctx.child(childrenName).getOrElse {
-      val actor = ctx.spawn(RoomDealer.create(roomId), childrenName)
+      val actor = ctx.spawn(RoomDealer.create(roomId, roomDetailInfo), childrenName)
       ctx.watchWith(actor, RoomDealer.ChildDead(childrenName,actor))
       actor
     }.unsafeUpcast[RoomDealer.Command]
