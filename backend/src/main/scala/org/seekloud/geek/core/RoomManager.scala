@@ -405,7 +405,7 @@ object RoomManager {
    }
 
   def getRoomDealer(roomId:Long, roomDetailInfo: RoomDetailInfo, ctx: ActorContext[Command]): ActorRef[RoomDealer.Command] = {
-    val childrenName = s"roomActor-${roomId}"
+    val childrenName = s"roomDealer-${roomId}"
     ctx.child(childrenName).getOrElse {
       val actor = ctx.spawn(RoomDealer.create(roomId, roomDetailInfo), childrenName)
       ctx.watchWith(actor, RoomDealer.ChildDead(childrenName,actor))
@@ -414,7 +414,7 @@ object RoomManager {
   }
 
   def getRoomDealerOpt(roomId:Long, ctx: ActorContext[Command]): Option[ActorRef[RoomDealer.Command]] = {
-    val childrenName = s"roomActor-${roomId}"
+    val childrenName = s"roomDealer-${roomId}"
     //    log.debug(s"${ctx.self.path} the child = ${ctx.children},get the roomActor opt = ${ctx.child(childrenName).map(_.unsafeUpcast[RoomActor.Command])}")
     ctx.child(childrenName).map(_.unsafeUpcast[RoomDealer.Command])
 
