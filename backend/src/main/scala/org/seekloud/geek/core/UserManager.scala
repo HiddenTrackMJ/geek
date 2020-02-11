@@ -147,6 +147,10 @@ object UserManager {
             }
             Behaviors.same
 
+          case UserActor.ChildDead(userId,actor) =>
+            log.debug(s"${ctx.self.path} the child = ${ctx.children}")
+            Behaviors.same
+
           case _=>
             log.info("recv unknown msg when create")
             Behaviors.unhandled
@@ -198,6 +202,7 @@ object UserManager {
           bytesDecode[WsMsgClient](buffer) match {
             case Right(req) =>
               UserActor.WebSocketMsg(Some(req))
+
             case Left(e) =>
               log.debug(s"websocket decode error:$e")
               UserActor.WebSocketMsg(None)
@@ -226,6 +231,7 @@ object UserManager {
           //
           //          }
           BinaryMessage.Strict(ByteString(t.ws))
+
         case x =>
           log.debug(s"websocket send an unknown msg:$x")
           TextMessage.apply("")

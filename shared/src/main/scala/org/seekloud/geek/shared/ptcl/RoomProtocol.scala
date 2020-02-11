@@ -160,8 +160,7 @@ object RoomProtocol {
 
   case class ModifyRoomInfo(
     roomName: Option[String] = None,
-    des: Option[String] = None,
-    peopleNum: Option[Int] = None
+    des: Option[String] = None
   )
 
   case class RoomData(

@@ -123,7 +123,7 @@ object RoomActor {
       }
     }
 
-  private def getVideoDuration(fileName: String) ={
+  def getVideoDuration(fileName: String) ={
     val ffprobe = Loader.load(classOf[org.bytedeco.ffmpeg.ffprobe])
     //容器时长（container duration）
     val pb = new ProcessBuilder(ffprobe,"-v","error","-show_entries","format=duration", "-of","csv=\"p=0\"","-i", s"${AppSettings.videoPath}${fileName}.flv")

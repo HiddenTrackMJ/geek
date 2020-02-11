@@ -116,7 +116,7 @@ object RoomManager {
                 case Right(rsp) =>
                   rsp
                 case Left(e) =>
-                  log.info("decode liveCode error")
+                  log.info(s"${r.livecode} decode liveCode error: ${e.getMessage}")
                   Map[String, Long]()
               }
               rooms.put(r.id, RoomDetailInfo(roomUserInfo, rtmpInfo, r.hostcode, liveCodeMap, null))
@@ -207,14 +207,26 @@ object RoomManager {
           val roomOldInfo = rooms(req.roomId)
           var selfCode = ""
           var flag = true
-          val userCodeMap = roomOldInfo.userLiveCodeMap.map{ u =>
-            if (u._2 == -1L && flag){
-              flag = false
-              selfCode = u._1
-              (u._1, req.userId)
+          val userCodeMap =
+            if (roomOldInfo.userLiveCodeMap.exists(_._2 == req.userId)) {
+              roomOldInfo.userLiveCodeMap.map{ u =>
+                if (u._2 == req.userId && flag){
+                  flag = false
+                  selfCode = u._1
+                }
+                u
+              }
             }
-            else u
-          }
+            else {
+              roomOldInfo.userLiveCodeMap.map{ u =>
+                if (u._2 == -1L && flag){
+                  flag = false
+                  selfCode = u._1
+                  (u._1, req.userId)
+                }
+                else u
+              }
+            }
           val roomNewInfo = roomOldInfo.copy(userLiveCodeMap = userCodeMap)
           RoomDao.updateUserCodeMap(req.roomId, userCodeMap.asJson.noSpaces).onComplete{
             case Success(_) =>
@@ -392,7 +404,7 @@ object RoomManager {
     }.unsafeUpcast[RoomActor.Command]
    }
 
-  def getRoomDealer(roomId:Long, ctx: ActorContext[Command]): ActorRef[RoomDealer.Command] = {
+  def getRoomDealer(roomId:Long, roomDetailInfo: RoomDetailInfo, ctx: ActorContext[Command]): ActorRef[RoomDealer.Command] = {
     val childrenName = s"roomActor-${roomId}"
     ctx.child(childrenName).getOrElse {
       val actor = ctx.spawn(RoomDealer.create(roomId), childrenName)

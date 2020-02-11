@@ -146,7 +146,7 @@ object UserActor {
                 UserDao.searchById(userId).map{
                   case Some(v) =>
                     req match {
-                      case StartLiveReq(`userId`,token,clientType) =>
+                      case StartLiveReq(`roomId`) =>
                         roomManager ! RoomProtocol.StartLiveAgain(roomId)
                         ctx.self ! SwitchBehavior("anchor",anchor(userId,clientActor,roomId))
 
@@ -230,6 +230,7 @@ object UserActor {
           Behaviors.stopped
 
         case WebSocketMsg(reqOpt) =>
+          println(s"ws msg: $reqOpt")
           if(reqOpt.contains(PingPackage)){
             if(timer.isTimerActive("HeartBeatKey_" + userId)) timer.cancel("HeartBeatKey_" + userId)
             ctx.self ! SendHeartBeat
@@ -241,7 +242,7 @@ object UserActor {
                 UserDao.searchById(userId).map{
                   case Some(v) =>
                     req match{
-                      case StartLiveReq(`userId`,token,clientType) =>
+                      case StartLiveReq(`roomId`) =>
                         roomManager ! RoomProtocol.StartRoom4Anchor(userId,roomId,ctx.self)
                         ctx.self ! SwitchBehavior("anchor",anchor(userId,clientActor,roomId))
 
@@ -308,7 +309,7 @@ object UserActor {
   )
 
 
-  def flow(userActor: ActorRef[UserActor.Command]):Flow[WebSocketMsg,WsMsgManager,Any] = {
+  def flow(userActor: ActorRef[UserActor.Command]):Flow[WebSocketMsg, WsMsgManager, Any] = {
     val in = Flow[WebSocketMsg].to(sink(userActor))
     val out = ActorSource.actorRef[WsMsgManager](
       completionMatcher = {

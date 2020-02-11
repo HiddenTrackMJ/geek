@@ -1,7 +1,10 @@
 package org.seekloud.geek.utils
 
+import java.io.File
 import java.text.SimpleDateFormat
 
+import org.seekloud.geek.common.AppSettings
+import org.seekloud.geek.core.RoomActor.getVideoDuration
 import org.slf4j.LoggerFactory
 
 /**
@@ -109,4 +112,19 @@ object TimeUtil {
   val a = X(1, 2)
   val b = a.copy(b = 3)
   println(a, b)
+
+  def fun(): Unit ={
+    log.info(s"RoomActor is storing video...")
+    var d = ""
+    val file = new File(s"C:\\Users\\19783\\Videos\\Captures\\2020-02-01 16-52-35.flv")
+    if(file.exists()){
+      d = getVideoDuration("2020-02-01 16-52-35")
+      log.info(s"duration:$d")
+    }else{
+      log.info(s"no record for")
+    }
+  }
+
+  fun()
+  Thread.sleep(2000)
 }
