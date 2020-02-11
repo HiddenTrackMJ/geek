@@ -134,6 +134,7 @@ object CaptureManager {
         val minfoSet: Array[Mixer.Info] = AudioSystem.getMixerInfo
         val mixer: Mixer = AudioSystem.getMixer(minfoSet(mediaSettings.audioDeviceIndex))
         val dataLineInfo = new DataLine.Info(classOf[TargetDataLine], audioFormat)
+        println(dataLineInfo)
 
         Future {
           val line = AudioSystem.getLine(dataLineInfo).asInstanceOf[TargetDataLine]

@@ -14,10 +14,10 @@ import org.seekloud.byteobject.ByteObject.bytesDecode
 import org.seekloud.byteobject.MiddleBufferInJvm
 import org.seekloud.geek.client.controller.HostController
 import org.seekloud.geek.client.core.RmManager.{GetSender, RmCommand}
-import org.seekloud.geek.shared.client2Manager.websocket.AuthProtocol.{CompleteMsgClient, DecodeError, FailMsgClient, TextMsg, WsMsgClient, WsMsgFront, WsMsgRm}
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.client.Boot.{executor, materializer, scheduler, system, timeout}
 import org.seekloud.byteobject.ByteObject._
+import org.seekloud.geek.shared.ptcl.WsProtocol.{CompleteMsgClient, DecodeError, FailMsgClient, TextMsg, WsMsgClient, WsMsgFront, WsMsgRm}
 
 import scala.concurrent.Future
 
@@ -95,6 +95,8 @@ object WsUtil {
   ): Sink[Message, Future[Done]] = {
     Sink.foreach[Message] {
       case TextMessage.Strict(msg) =>
+
+        //处理后端发过来的消息
         hController.wsMessageHandle(TextMsg(msg))
 
       case BinaryMessage.Strict(bMsg) =>
