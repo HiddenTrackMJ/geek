@@ -10,7 +10,6 @@ import org.seekloud.geek.client.controller.{HomeController, HostController}
 import org.seekloud.geek.client.core.stream.LiveManager
 import org.seekloud.geek.client.scene.{HomeScene, HostScene}
 import org.seekloud.geek.player.sdk.MediaPlayer
-import org.seekloud.geek.shared.client2Manager.websocket.AuthProtocol.{CompleteMsgClient, WsMsgFront}
 import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.client.Boot.{executor, materializer, scheduler, system, timeout}
@@ -20,6 +19,7 @@ import org.seekloud.geek.client.core.player.VideoPlayer
 import org.seekloud.geek.client.core.stream.LiveManager.{JoinInfo, PushStream, WatchInfo}
 import org.seekloud.geek.client.utils.{RoomClient, WsUtil}
 import org.seekloud.geek.player.protocol.Messages.AddPicture
+import org.seekloud.geek.shared.ptcl.WsProtocol.WsMsgFront
 
 import scala.collection.immutable
 
@@ -102,8 +102,8 @@ object RmManager {
             val hostController = new HostController(stageCtx, hostScene, ctx.self)
             def callBack(): Unit = Boot.addToPlatform(hostScene.changeToggleAction())
             liveManager ! LiveManager.DevicesOn(hostScene.gc, callBackFunc = Some(callBack))
-            //todo: 暂时不建立ws连接，用http请求
-//            ctx.self ! HostWsEstablish
+            //todo: 建立ws连接
+            ctx.self ! HostWsEstablish
             Boot.addToPlatform {
               if (homeController != null) {
                 homeController.get.removeLoading()
@@ -156,6 +156,9 @@ object RmManager {
           assert(userInfo.nonEmpty && roomInfo.nonEmpty)
 
           def successFunc(): Unit = {
+            Boot.addToPlatform {
+              WarningDialog.initWarningDialog("链接成功！")
+            }
             //            hostScene.allowConnect()
             //            Boot.addToPlatform {
             //              hostController.showScene()
@@ -170,6 +173,11 @@ object RmManager {
           val url = Routes.linkRoomManager(userInfo.get.userId, roomInfo.map(_.roomId).get)
           WsUtil.buildWebSocket(ctx, url, hostController, successFunc(), failureFunc())
           Behaviors.same
+
+        case msg: GetSender =>
+          //添加给后端发消息的对象sender
+          hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer, Some(msg.sender), hostStatus)
+
 
         case HostLiveReq =>
 
@@ -206,7 +214,8 @@ object RmManager {
           //2.开始拉流：
           RmManager.userInfo.get.pullStream = Some(pull)
           liveManager ! LiveManager.PullStream(RmManager.userInfo.get.pullStream.get,mediaPlayer,hostScene,liveManager)
-          Behaviors.same
+
+          switchBehavior(ctx, "hostBehavior", hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer,hostStatus=HostStatus.CONNECT))
 
         case GetPackageLoss =>
           liveManager ! LiveManager.GetPackageLoss
@@ -216,6 +225,7 @@ object RmManager {
           liveManager ! LiveManager.StopPush
           if (RmManager.userInfo.get.isHost.get){//房主
             log.info("房主停止推流")
+
             RoomClient.stopLive(RmManager.roomInfo.get.roomId).map{
               case Right(value) =>
                 log.info("房主停止推流成功")
@@ -239,13 +249,21 @@ object RmManager {
           /*媒体画面模式更改*/
           liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostScene.resetBack)
 
+          if (hostStatus == HostStatus.CONNECT) {//开启会议情况下
+            //todo: 需要关闭player的显示
+            val playId = RmManager.roomInfo.get.roomId.toString
+            //停止服务器拉流显示到player上
+            mediaPlayer.stop(playId, hostScene.resetBack)
+            liveManager ! LiveManager.StopPull
+          }
+
           hostController.isLive = false
           Behaviors.same
 
         case BackToHome =>
 //          timer.cancel(HeartBeat)
 //          timer.cancel(PingTimeOut)
-          sender.foreach(_ ! CompleteMsgClient)
+//          sender.foreach(_ ! CompleteMsgClient)
           if (hostStatus == HostStatus.CONNECT) {//开启会议情况下
             //todo: 需要关闭player的显示
             val playId = RmManager.roomInfo.get.roomId.toString

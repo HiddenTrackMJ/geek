@@ -7,7 +7,7 @@ import org.seekloud.geek.client.component.WarningDialog
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.scene.HostScene
 import org.seekloud.geek.client.scene.HostScene.{AudienceListInfo, HostSceneListener}
-import org.seekloud.geek.shared.client2Manager.websocket.AuthProtocol.WsMsgRm
+import org.seekloud.geek.shared.ptcl.WsProtocol.WsMsgRm
 import org.slf4j.LoggerFactory
 
 /**

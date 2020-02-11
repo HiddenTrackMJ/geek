@@ -52,7 +52,7 @@ class HomeController(
         val roomDesc = "大家好才是真的好"
         RoomClient.createRoom(userId,RoomUserInfo(userId,roomName,roomDesc)).map{
           case Right(rsp) =>
-            RmManager.roomInfo = Some(RoomInfo(rsp.roomId,roomName,roomDesc,userId,RmManager.userInfo.get.userName))
+            RmManager.roomInfo = Some(RoomInfo(rsp.roomId,roomName,roomDesc,userId,RmManager.userInfo.get.userName,"",observerNum=0))
             //当前用户是房主
             removeLoading()
             RmManager.userInfo.get.isHost = Some(true)
@@ -71,9 +71,6 @@ class HomeController(
 
     override def gotoRoomPage(): Unit = {
       if (RmManager.userInfo.nonEmpty) {
-        if (RmManager.roomInfo.isEmpty){
-          RmManager.roomInfo = Some(RoomInfo(10001,"","",RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,"",""))
-        }
         //显示加入会议的弹窗
         goToJoinRoomDialog()
       } else {
@@ -313,8 +310,8 @@ class HomeController(
         if (rsp.rtmp.nonEmpty){
           //修改用户信息不是房主
           val roomUser = rsp.rtmp.get.roomUserInfo
-          //todo: 房主的用户名的信息没有
-          RmManager.roomInfo = Some(RoomInfo(roomId.toLong,roomUser.roomName,roomUser.des,roomUser.userId,"路人甲"))
+          //todo: 房主的用户名的信息没有，也没有当前的房间参与人数
+          RmManager.roomInfo = Some(RoomInfo(roomId.toLong,roomUser.roomName,roomUser.des,roomUser.userId,"路人甲",observerNum = 1))
           RmManager.userInfo.get.isHost = Some(false)
           //跳转到视频页面
           rmManager ! RmManager.GoToCreateAndJoinRoom
