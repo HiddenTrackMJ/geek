@@ -94,18 +94,21 @@ trait SlickTables {
     *  @param id Database column ID SqlType(BIGINT), PrimaryKey
     *  @param name Database column NAME SqlType(VARCHAR), Length(100,true)
     *  @param password Database column PASSWORD SqlType(VARCHAR), Length(300,true)
-    *  @param avatar Database column AVATAR SqlType(VARCHAR), Length(300,true), Default(None) */
-  case class rUser(id: Long, name: String, password: String, avatar: Option[String] = None)
+    *  @param avatar Database column AVATAR SqlType(VARCHAR), Length(300,true), Default(None)
+    *  @param gender Database column GENDER SqlType(INTEGER), Default(None)
+    *  @param age Database column AGE SqlType(INTEGER), Default(None)
+    *  @param address Database column ADDRESS SqlType(VARCHAR), Length(100,true), Default(None) */
+  case class rUser(id: Long, name: String, password: String, avatar: Option[String] = None, gender: Option[Int] = None, age: Option[Int] = None, address: Option[String] = None)
   /** GetResult implicit for fetching rUser objects using plain SQL queries */
-  implicit def GetResultrUser(implicit e0: GR[Long], e1: GR[String], e2: GR[Option[String]]): GR[rUser] = GR{
+  implicit def GetResultrUser(implicit e0: GR[Long], e1: GR[String], e2: GR[Option[String]], e3: GR[Option[Int]]): GR[rUser] = GR{
     prs => import prs._
-      rUser.tupled((<<[Long], <<[String], <<[String], <<?[String]))
+      rUser.tupled((<<[Long], <<[String], <<[String], <<?[String], <<?[Int], <<?[Int], <<?[String]))
   }
   /** Table description of table USER. Objects of this class serve as prototypes for rows in queries. */
   class tUser(_tableTag: Tag) extends profile.api.Table[rUser](_tableTag, Some("GEEK"), "USER") {
-    def * = (id, name, password, avatar) <> (rUser.tupled, rUser.unapply)
+    def * = (id, name, password, avatar, gender, age, address) <> (rUser.tupled, rUser.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ((Rep.Some(id), Rep.Some(name), Rep.Some(password), avatar)).shaped.<>({r=>import r._; _1.map(_=> rUser.tupled((_1.get, _2.get, _3.get, _4)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = ((Rep.Some(id), Rep.Some(name), Rep.Some(password), avatar, gender, age, address)).shaped.<>({r=>import r._; _1.map(_=> rUser.tupled((_1.get, _2.get, _3.get, _4, _5, _6, _7)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column ID SqlType(BIGINT), PrimaryKey */
     val id: Rep[Long] = column[Long]("ID", O.PrimaryKey)
@@ -115,6 +118,12 @@ trait SlickTables {
     val password: Rep[String] = column[String]("PASSWORD", O.Length(300,varying=true))
     /** Database column AVATAR SqlType(VARCHAR), Length(300,true), Default(None) */
     val avatar: Rep[Option[String]] = column[Option[String]]("AVATAR", O.Length(300,varying=true), O.Default(None))
+    /** Database column GENDER SqlType(INTEGER), Default(None) */
+    val gender: Rep[Option[Int]] = column[Option[Int]]("GENDER", O.Default(None))
+    /** Database column AGE SqlType(INTEGER), Default(None) */
+    val age: Rep[Option[Int]] = column[Option[Int]]("AGE", O.Default(None))
+    /** Database column ADDRESS SqlType(VARCHAR), Length(100,true), Default(None) */
+    val address: Rep[Option[String]] = column[Option[String]]("ADDRESS", O.Length(100,varying=true), O.Default(None))
   }
   /** Collection-like TableQuery object for table tUser */
   lazy val tUser = new TableQuery(tag => new tUser(tag))

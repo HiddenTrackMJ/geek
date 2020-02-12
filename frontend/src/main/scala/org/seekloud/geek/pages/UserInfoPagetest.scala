@@ -1,13 +1,15 @@
 package org.seekloud.geek.pages
 import mhtml.{Rx, Var, emptyHTML}
 import org.scalajs.dom
-import org.scalajs.dom.html.{Button, Input}
+import org.scalajs.dom.html.{Button, Input,Select}
 import org.seekloud.geek.utils.{Http, JsFunc, Modal, Page, TimeTool}
 import org.scalajs.dom.raw.{Event, FileList, FormData, HTMLElement, KeyboardEvent}
 import io.circe.generic.auto._
 import io.circe.syntax._
 import org.seekloud.geek.common.Route
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{GetUserReq, GetUserRsp, UpdateUserReq, UserInfoDetail, UpdateAvatarReq}
 import org.seekloud.geek.shared.ptcl.FileProtocol._
+import org.seekloud.geek.shared.ptcl.SuccessRsp
 //import org.seekloud.geek.shared.ptcl.UserProtocol.{SignInReq, SignInRsp}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{SignIn, SignInRsp}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{SignUp, SignUpRsp}
@@ -29,8 +31,11 @@ object UserInfoPagetest extends Page{
 
   val pic = Var(HestiaImage("",""))
   var pic2 = HestiaImage("","")
+  val userDetail = Var(UserInfoDetail(1,"",Some(""),Some(1),Some(1),Some("")))
 
   val loadingState = Var(0)//上传状态
+
+
 
   case class HestiaImage(
                           fileName: String = "",
@@ -106,8 +111,9 @@ object UserInfoPagetest extends Page{
                   try {
                     var imgName = rsp.fileName
                     var  imgUrl = rsp.fileUrl
-                    println(imgName+" sss"+imgUrl)
+//                    println(imgName+" sss"+imgUrl)
                     setPic(HestiaImage(imgName,imgUrl,None,System.currentTimeMillis))
+                    updateAvatar(imgUrl)
                     input.value = ""
                   } catch {
                     case e: Exception =>
@@ -133,6 +139,7 @@ object UserInfoPagetest extends Page{
     } else {
       gotoPage("login")
     }
+    getUserInfo
 
     dom.document.body.style = "background-image: url('/geek/static/img/bg1.png');" +
       "background-attachment: fixed;" +
@@ -141,61 +148,158 @@ object UserInfoPagetest extends Page{
       "background-repeat: no-repeat;"
   }
 
+  def gotoPage(path: String): Unit = {
+    dom.window.location.hash = s"#/$path"
+  }
+
+  def getUserInfo: Unit ={
+    println("start getuserinfo")
+    val userId = dom.window.localStorage.getItem("userId").toLong
+    Http.postJsonAndParse[GetUserRsp](Route.User.getUserDetail, GetUserReq(userId).asJson.noSpaces).map {
+      rsp =>
+        println(rsp)
+        if (rsp.errCode == 0) {
+            userDetail :=rsp.userInfo.get
+          println("sss"+rsp)
+        } else {
+          //          JsFunc.alert(rsp.msg)
+          println(rsp.msg)
+        }
+        println("end getuserinfo")
+    }
+  }
+
+
+
+//  def getUserInfo: Unit ={
+//    println("start getuserinfo")
+//    val userId = dom.window.localStorage.getItem("userId").toLong
+//    Http.postJsonAndParse2[GetUserRsp](Route.User.getUserDetail, GetUserReq(userId).asJson.noSpaces).map {
+//      case Right(rsp) =>
+//        println(rsp)
+//        if (rsp.errCode == 0) {
+//          userDetail :=rsp.userInfo.get
+//          println("sss"+rsp)
+//        } else {
+//          //          JsFunc.alert(rsp.msg)
+//          println(rsp.msg)
+//        }
+//        println("end getuserinfo")
+//
+//    case Left(error) =>
+//    println(s"request sent complete, but error2 happen: $error")
+//    throw new IllegalArgumentException(s"parse error: $error")
+//  }}
+//  userId: Long,
+//  userName: String,
+//  //                            avatar:String,
+//  gender:Int,
+//  age:Int,
+//  address:String
 
   def updateUserInfo: Unit ={
+    val userId = dom.window.localStorage.getItem("userId").toLong
+    var username = ""
+    var gender = ""
+    var age = ""
+    var address = ""
+    if(dom.document.getElementById("userName").asInstanceOf[Input].value.nonEmpty)
+      username = dom.document.getElementById("userName").asInstanceOf[Input].value
+    else dom.document.getElementById("userName").asInstanceOf[Input].value = ""
+    if(dom.document.getElementById("userGender").asInstanceOf[Select].value.nonEmpty)
+    gender = dom.document.getElementById("userGender").asInstanceOf[Select].value
+    else dom.document.getElementById("userGender").asInstanceOf[Select].value = "-"
+    if(dom.document.getElementById("userAge").asInstanceOf[Input].value.nonEmpty)
+    age = dom.document.getElementById("userAge").asInstanceOf[Input].value
+    else dom.document.getElementById("userAge").asInstanceOf[Input].value = ""
+    if(dom.document.getElementById("userAddress").asInstanceOf[Input].value.nonEmpty)
+    address = dom.document.getElementById("userAddress").asInstanceOf[Input].value
+    else dom.document.getElementById("userAddress").asInstanceOf[Input].value = ""
+    userDetail.map { user =>
+      if(username=="" && username==null) username=user.userName
+      if (gender == "" && gender == null && gender == "-") gender = user.gender.get.toString
+      if (age == "" && age == null) age = user.age.get.toString
+      if (address == "" && address == null) address = user.address.get
+    }
+
+    Http.postJsonAndParse[SuccessRsp](Route.User.updateUserDetail, UpdateUserReq(userId,username,gender.toInt,age.toInt,address).asJson.noSpaces).map {
+      rsp =>
+        if (rsp.errCode == 0) {
+//          userDetail :=rsp.userInfo.get
+          dom.window.localStorage.setItem("username",username)
+          getUserInfo
+        } else {
+          //          JsFunc.alert(rsp.msg)
+          println(rsp.msg)
+        }
+    }
+
+  }
+  def updateAvatar(imgUrl:String): Unit ={
+    val userId = dom.window.localStorage.getItem("userId").toLong
+    Http.postJsonAndParse[SuccessRsp](Route.User.updateAvatar, UpdateAvatarReq(userId,imgUrl).asJson.noSpaces).map {
+      rsp =>
+        if (rsp.errCode == 0) {
+          getUserInfo
+          println("updateAvatarSuccess")
+        } else {
+          //          JsFunc.alert(rsp.msg)
+          println(rsp.msg)
+        }
+    }
 
   }
 
 
-  def closeCreateCourse(): Unit = {
-    updateUserInfo//
+  def closeUserInfo(): Unit = {
     dom.document.location.href="#/home"
   }
 
 
-  val courseLists: Elem =
+  val userDetailLists: Rx[Elem] =userDetail.map {user=>
+    val gender = user.gender.getOrElse("") match {
+      case 0 => "男"
+      case 1 => "女"
+      case _ => ""
+    }
     <div class="creatCourse">
       <div class="creatCourse-titleA">
         <div class="createCourse-title">个人详情</div>
-        <img src="/geek/static/img/关闭.svg"  onclick={()=>closeCreateCourse()}></img>
+        <img src="/geek/static/img/关闭.svg" onclick={() => closeUserInfo()}></img>
       </div>
       <div class="createCouse-content">
         <div class="createCourse-list-1" style="width:40%;margin-left:10%">
           <div class="createCourse-item">
             <div class="test">头像选择：</div>
-            <img style="cursor:pointer;height:30px;width:30px;"  src={Route.imgPath("cat.jpg")} ></img>
-            <img style="cursor:pointer;height:30px;width:30px;"  src={Route.hestiaPath("1001.jpg")} ></img>
-            <input class="hiddenIcon" type="file" onchange={(e:Event) => println(s"配图===========");uploadFunc(e.target.asInstanceOf[Input],e.target.asInstanceOf[Input].files, pic, s"img/test")}></input>
+            <img style="cursor:pointer;height:30px;width:30px;" src={Route.hestiaPath(user.avatar.getOrElse("cat.jpg"))}></img>
+            <div class="hiddenIcon">
+              <input class="hiddenIcon" type="file" onchange={(e: Event) => println(s"配图==========="); uploadFunc(e.target.asInstanceOf[Input], e.target.asInstanceOf[Input].files, pic, s"img/test")}></input>
+            </div>
 
           </div>
           <div class="createCourse-item">
-            <div class="test">昵称：</div>
-            <input placeholder="不限"  class="test-input"></input>
+            <div class="test" >昵称：</div>
+            <input placeholder={user.userName} class="test-input" id="userName"></input>
           </div>
           <div class="createCourse-item">
             <div class="test">id号：</div>
-            <input placeholder="123456" disabled="disabled" style="background: #f0f0f0;" class="test-input"></input>
+            <input placeholder={user.userId.toString} disabled="disabled" style="background: #f0f0f0;" class="test-input"></input>
           </div>
           <div class="createCourse-item">
             <div class="test">性别：</div>
-            <select id="mType" class="arrow-img">
-              <option value="-" disabled="true" selected="true" hidden="true">请选择</option>
-              <option value="兴趣班">男</option>
-              <option value="学课班">女</option>
-              <option value="特长班">无</option>
+            <select id="userGender" class="arrow-img">
+              <option value="-" disabled="true" selected="true" hidden="true">{gender}</option>
+              <option value="0">男</option>
+              <option value="1">女</option>
             </select>
-          </div>
-
-          {""}
-          <div class="createCourse-item">
-            <div class="test">年龄：</div>
-            <input placeholder="请输入年龄"   class="test-input"></input>
-          </div>
+          </div>{""}<div class="createCourse-item">
+          <div class="test">年龄：</div>
+          <input placeholder={user.age.getOrElse("请输入年龄").toString} class="test-input" id="userAge"></input>
+        </div>
           <div class="createCourse-item" style="align-items: flex-start;">
             <div class="test" style="margin-top: 4px">居住地址：</div>
             <div>
-              {""}
-              <input placeholder="请输入详细地址" id="classRoom"  class="test-input"></input>
+              {""}<input placeholder={user.address.getOrElse("请输入地址")} id="userAddress" class="test-input"></input>
             </div>
           </div>
 
@@ -218,19 +322,17 @@ object UserInfoPagetest extends Page{
           </div>
           <div class="createCourse-item createCourse-textarea">
             <div style="margin-top: 4px;">房间描述：</div>
-            <textarea placeholder="请描述下房间" ></textarea>
+            <textarea placeholder="请描述下房间"></textarea>
           </div>
 
 
         </div>
       </div>
-      <div class="submit" onclick={()=>updateUserInfo}>更新信息</div>
+      <div class="submit" onclick={() => updateUserInfo; getUserInfo}>更新信息</div>
     </div>
-
-
-  def gotoPage(path: String): Unit = {
-    dom.window.location.hash = s"#/$path"
   }
+
+
 
   override def render: Elem = {
     init()
@@ -238,7 +340,7 @@ object UserInfoPagetest extends Page{
 
     <div style="margin:0 0;">
       {loadingHtml}
-      {courseLists}
+      {userDetailLists}
     </div>
 
   }

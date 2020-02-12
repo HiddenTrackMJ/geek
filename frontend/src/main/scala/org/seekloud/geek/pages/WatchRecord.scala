@@ -58,6 +58,15 @@ class WatchRecord(roomID: Long) extends Page{
       </ul>
     </div>
 
+  private def commentRx =
+    <div class="col-md-9" style="background-color: #F5F5F5; margin-left:1%;margin-top:2px;height:40px">
+      <div class="comment-Video">
+        <div class="commentTitle"></div>
+        <input class="commentInput" placehoder="发个友善的评论">666</input>
+        <div class="commentSubmit" onclick={() =>()}>发表评论</div>
+      </div>
+    </div>
+
 
 
   private def getRoomItem(roomList: List[RoomId], selected: Long) = {
@@ -114,10 +123,10 @@ class WatchRecord(roomID: Long) extends Page{
           <div class="x_content" >
             {
             roomIdData.map( l =>
-              if (l.isEmpty) <div>{roomListRx(l)}{container}{commentListRx(l)}</div>
+              if (l.isEmpty) <div>{roomListRx(l)}{container}{commentListRx(l)}{commentRx}</div>
               else {
 //                dom.window.setTimeout(()=>renderLive(dom.document.getElementById("my-video"), l.filter(_.roomId == roomID).head.url), 1000)
-                <div>{roomListRx(l)}{container}{commentListRx(l)}</div>
+                <div>{roomListRx(l)}{container}{commentListRx(l)}{commentRx}</div>
               }
             )
             }

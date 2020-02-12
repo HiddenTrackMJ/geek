@@ -33,7 +33,7 @@ object Main extends PageSwitcher{
       options =>
         if (options.equals(mode))
           <option value={options.toString} selected="selected">
-            {options}
+            {options}.createCourse-item input
           </option>
         else
           <option value={options.toString}>

@@ -23,6 +23,15 @@ object CommonProtocol {
     headImgUrl:String
   )
 
+  case class UserInfoDetail(
+                       userId: Long,
+                       userName: String,
+                       avatar:Option[String],
+                       gender:Option[Int],
+                       age:Option[Int],
+                       address:Option[String]
+                     )
+
   case class SignIn(
     userName: String,
     password: String
@@ -38,6 +47,7 @@ object CommonProtocol {
   case class InvitationReq(
                      inviterId: Long,
                    ) extends Request
+
 
   case class InviterAndInviteeReq(
                             inviterId: Long,
@@ -93,5 +103,37 @@ object CommonProtocol {
                                 errCode: Int = 0,
                                 msg: String = "ok"
                               )
+
+
+  /**
+    * 获取，改变用户详细信息（不包含头像）接口
+    **/
+  case class GetUserReq(
+                        userId: Long
+                      ) extends Request
+
+  case class GetUserRsp(
+                      userInfo: Option[UserInfoDetail]=None,
+                      errCode: Int = 0,
+                      msg: String = "Ok"
+                      ) extends Request
+
+  case class UpdateUserReq(
+                            userId: Long,
+                            userName: String,
+                            //                            avatar:String,
+                            gender:Int,
+                            age:Int,
+                            address:String
+                          ) extends Request
+
+  /**
+    * 单独改变头像数据库接口
+    **/
+
+  case class UpdateAvatarReq(
+                         userId: Long,
+                         Avatar: String
+                       ) extends Request
 
 }

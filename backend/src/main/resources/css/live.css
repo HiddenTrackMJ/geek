@@ -50,7 +50,44 @@
     width: 30px;
     cursor: pointer;
 }
-
+.comment-Video{
+    display: flex;
+    align-items:center;
+}
+.commentSubmit{
+    /*display: flex;*/
+    width:108px;
+    height:32px;
+    background:rgba(49,144,255,1);
+    font-size:14px;
+    color:rgba(255,255,255,1);
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 32px;
+    margin: 5px;
+}
+.commentInput{
+    color: #212121;
+    /* -webkit-box-flex: 1; */
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    /* border: 0; */
+    /* height: 30px; */
+    margin: 5px;
+    line-height: 25px;
+    /* -webkit-box-sizing: border-box; */
+    /* box-sizing: border-box; */
+    /* z-index: 12; */
+    padding: 0 5px;
+    background: none;
+    /* font-size: 12px; */
+    /* min-width: 115px; */
+    width: 100%;
+}
+.commentTitle{
+    display: flex;
+}
 
 
 

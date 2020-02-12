@@ -11,7 +11,7 @@ import akka.actor.typed.scaladsl.AskPattern._
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.ws.Message
 import org.seekloud.geek.models.dao.UserDao
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{SignIn, SignInRsp, SignUp, SignUpRsp}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{GetUserReq, GetUserRsp, SignIn, SignInRsp, SignUp, SignUpRsp, UpdateAvatarReq, UpdateUserReq, UserInfoDetail}
 import org.seekloud.geek.utils.SecureUtil
 import org.seekloud.geek.shared.ptcl.CommonErrorCode._
 import org.slf4j.LoggerFactory
@@ -21,6 +21,7 @@ import akka.http.scaladsl.server.Route
 import akka.util.Timeout
 import akka.actor.typed.scaladsl.AskPattern._
 import org.seekloud.geek.core.UserManager.{MSignIn, MSignUp}
+import org.seekloud.geek.shared.ptcl.{ErrorRsp, SuccessRsp}
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.Future
@@ -28,7 +29,7 @@ import scala.concurrent.Future
  * User: hewro
  * Date: 2020/2/2
  * Time: 15:38
- * Description: 用户相关：登录注册
+ * Description: 用户相关：登录注册,用户详情
  */
 trait UserService extends BaseService {
 
@@ -73,9 +74,65 @@ trait UserService extends BaseService {
     }
   }
 
+  private def getUserDetail = (path("getUserDetail") & post){
+    entity(as[Either[Error, GetUserReq]]) {
+      case Right(req) =>
+        dealFutureResult {
+          UserDao.getUserDetail(req.userId).map { list =>
+            val data = list.map(r => UserInfoDetail(r.id, r.name, r.avatar, r.gender, r.age, r.address)).head
+            complete(GetUserRsp(Some(data)))
+          }
+        }
+      case Left(error) =>
+        log.warn(s"error in getUserDetail: $error")
+        complete(jsonFormatError)
+    }
+  }
+
+//  private def getUserDetail = (path("getUserDetail") & post){
+//    entity(as[Either[Error, GetUserReq]]) {
+//      case Right(req) =>
+//        complete(GetUserRsp(Some(UserInfoDetail(1,"",Some(""),Some(2),Some(3),Some("北京市")))))
+//      case Left(error) =>
+//        log.warn(s"error in getUserDetail: $error")
+//        complete(jsonFormatError)
+//    }
+//  }
+
+  private def updateUserDetail = (path("updateUserDetail") & post){
+    entity(as[Either[Error, UpdateUserReq]]) {
+      case Right(req) =>
+        dealFutureResult(
+          UserDao.updateUserDetail(req.userId,req.userName,req.gender,req.age,req.address).map{rsp=>
+            if(rsp == -1) complete(ErrorRsp(rsp,"error in updateUserDetail"))
+            else   complete(SuccessRsp())
+          }
+
+        )
+      case Left(error) =>
+        log.warn(s"error in updateUserDetail: $error")
+        complete(jsonFormatError)
+    }
+  }
+
+  private def updateAvatar = (path("updateAvatar") & post){
+    entity(as[Either[Error, UpdateAvatarReq]]) {
+      case Right(req) =>
+        dealFutureResult(
+          UserDao.updateAvatar(req.userId,req.Avatar).map { rsp =>
+            if(rsp == -1) complete(ErrorRsp(rsp,"error in updateAvatar"))
+            else   complete(SuccessRsp())
+          }
+        )
+      case Left(error) =>
+        log.warn(s"error in updateAvatar: $error")
+        complete(jsonFormatError)
+    }
+  }
+
 
   val userRoutes: Route = pathPrefix("user") {
-    signIn ~ signUp
+    signIn ~ signUp ~ getUserDetail ~ updateUserDetail ~ updateAvatar
   }
 
 

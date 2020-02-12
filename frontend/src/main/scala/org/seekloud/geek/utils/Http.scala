@@ -61,6 +61,14 @@ object Http {
       postJson(url, bodyStr, withCookie).map(s => decode[T](s))
     }*/
 
+  def postJsonAndParse2[T](
+                           url: String,
+                           bodyStr: String,
+                           withCookie: Boolean = true)(implicit decoder: Decoder[T]): Future[Either[Error, T]] = {
+    import io.circe.parser._
+    postJson(url, bodyStr, withCookie).map(s => decode[T](s))
+  }
+
 
 
   def postJsonAndParse[T](

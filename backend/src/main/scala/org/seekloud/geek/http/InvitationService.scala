@@ -11,7 +11,7 @@ import akka.actor.typed.scaladsl.AskPattern._
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.ws.Message
 import org.seekloud.geek.models.dao.UserDao
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{GetRoomInfoReq, InvitationReq, InvitationRsp, InviterAndInviteeReq, SignIn, SignInRsp, SignUp, SignUpRsp}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{GetRoomInfoReq, InvitationReq, InvitationRsp, Inviter, InviterAndInviteeReq, SignIn, SignInRsp, SignUp, SignUpRsp}
 import org.seekloud.geek.utils.SecureUtil
 import org.seekloud.geek.shared.ptcl.CommonErrorCode._
 import org.slf4j.LoggerFactory
@@ -94,6 +94,19 @@ trait InvitationService extends BaseService{
         complete(jsonFormatError)
     }
   }
+
+//  private def getInviteeList = (path("getInviteeList") & post){
+//    entity(as[Either[Error, InvitationReq]]) {
+//      case Right(user) =>
+//
+//          complete(InvitationRsp(Option(List(Inviter("sdfa",11),Inviter("sdfdsfa",11)))))
+//
+//
+//      case Left(e) =>
+//        log.debug(s"getInviteeList parse json failed,error:${e.getMessage}")
+//        complete(jsonFormatError)
+//    }
+//  }
 
   private def delInvitee = (path("delInvitee") & post){
     entity(as[Either[Error, InviterAndInviteeReq]]) {

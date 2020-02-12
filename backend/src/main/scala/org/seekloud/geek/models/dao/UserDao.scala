@@ -6,6 +6,7 @@ import org.seekloud.geek.Boot.executor
 import org.slf4j.LoggerFactory
 
 import scala.util.Failure
+import scala.concurrent.{Await, Future}
 /**
  * User: hewro
  * Date: 2020/2/2
@@ -34,6 +35,36 @@ object UserDao {
       }
     }yield m
     db.run(q)
+  }
+
+  def getUserDetail(userId:Long) = {
+    val action = tUser.filter(t=>t.id === userId).result
+    db.run(action)
+  }
+
+  def updateUserDetail(userId:Long,userName:String,gender:Int,age:Int,address:String) = {
+    val action = tUser.filter(t=>t.id === userId).map(x=> (x.name,x.gender,x.age,x.address)).update((userName,Some(gender),Some(age),Some(address)))
+    try{
+      db.run(action)
+    }
+    catch {
+      case e: Throwable =>
+        log.error(s"updateUserDetail error with error $e")
+        Future.successful(-1)
+    }
+
+  }
+
+  def updateAvatar(userId:Long,avatar:String) = {
+    val action = tUser.filter(t=>t.id === userId).map(_.avatar).update(Option(avatar))
+    try{
+      db.run(action)
+    }
+    catch {
+      case e: Throwable =>
+        log.error(s"updateAvatar error with error $e")
+        Future.successful(-1)
+    }
   }
 
 }

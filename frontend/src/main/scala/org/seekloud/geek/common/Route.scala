@@ -32,6 +32,9 @@ object Route {
     val base: String = baseUrl + "/user"
     val signUp: String = base + "/signUp"
     val signIn: String = base + "/signIn"
+    val getUserDetail:String = base + "/getUserDetail"
+    val updateUserDetail:String = base + "/updateUserDetail"
+    val updateAvatar:String = base + "/updateAvatar"
   }
 
   object Invitation {

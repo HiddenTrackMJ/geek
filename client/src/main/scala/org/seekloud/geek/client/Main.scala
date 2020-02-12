@@ -34,30 +34,41 @@ import scala.util.{Failure, Success}
   */
 
 object Main {
+
   import org.seekloud.geek.client.utils.RoomClient.getRoomInfo
 
   def main(args: Array[String]): Unit = {
-//    getRoomInfo(100,"sss")
-    val f = Future{5}
-  f  andThen{
-    case Failure(e) =>println("sss1"+e)
-    case Success(e) =>println("sss2"+e)
-  }
+    //    getRoomInfo(100,"sss")
+
+    //    val f = Future{5}
+    //  f  andThen{
+    //    case Failure(e) =>println("sss1"+e)
+    //    case Success(e) =>println("sss2"+e)
+    //  }
+
+    def reverseString(s: Array[Char]): Array[Char] = {
+      // var k:Char = ' '
+      for (i <- 0 until  s.length/2) {
+        val k = s(i)
+        s(i) = s(s.length -i-1)
+        s(s.length -i-1) = k
+      }
+
+      s
+
+    }
+
 
   }
 
+
+  class Main {
+
+
+  }
+
+
 }
-
-
-
-class Main {
-
-
-
-}
-
-
-
 
 //简单的client前端demo
 /*class Main extends javafx.application.Application{

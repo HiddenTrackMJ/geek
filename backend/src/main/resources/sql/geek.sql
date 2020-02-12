@@ -74,7 +74,9 @@ create table GEEK.USER
         primary key,
     NAME     VARCHAR(100)                                       not null,
     PASSWORD VARCHAR(300)                                       not null,
-    AVATAR   VARCHAR(300)
+    GENDER   INT,
+    AGE   INT,
+    ADDRESS   VARCHAR(100),
 );
 
 create unique index GEEK.USER_ID_UINDEX

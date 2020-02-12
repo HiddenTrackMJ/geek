@@ -200,6 +200,15 @@
     border-radius:4px;
     border:1px solid rgba(217,217,217,1);
 }
+.hiddenIcon{
+    margin:5px;
+}
+.hiddenIcon input{
+    width:200px;
+    height:32px;
+    border-radius:4px;
+    border: 0px;
+}
 .submit{
     width:108px;
     height:32px;
