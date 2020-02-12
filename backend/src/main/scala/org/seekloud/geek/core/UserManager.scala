@@ -147,6 +147,10 @@ object UserManager {
             }
             Behaviors.same
 
+          case UserActor.ChildDead(userId,actor) =>
+            log.debug(s"${ctx.self.path} the child = ${userId}")
+            Behaviors.same
+
           case _=>
             log.info("recv unknown msg when create")
             Behaviors.unhandled
@@ -182,14 +186,14 @@ object UserManager {
         Some(wsMsg)
       } catch {
         case e: Exception =>
-          log.warn(s"parse front msg failed when json parse,s=${s},e=$e")
+          log.warn(s"parse front msg failed when json parse,s=$s,e=$e")
           None
       }
     }
     Flow[Message]
       .collect {
         case TextMessage.Strict(m) =>
-          log.debug(s"接收到ws消息，类型TextMessage.Strict，msg-${m}")
+          log.debug(s"接收到ws消息，类型TextMessage.Strict，msg-$m")
           UserActor.WebSocketMsg(m)
 
         case BinaryMessage.Strict(m) =>
@@ -198,6 +202,7 @@ object UserManager {
           bytesDecode[WsMsgClient](buffer) match {
             case Right(req) =>
               UserActor.WebSocketMsg(Some(req))
+
             case Left(e) =>
               log.debug(s"websocket decode error:$e")
               UserActor.WebSocketMsg(None)
@@ -226,6 +231,7 @@ object UserManager {
           //
           //          }
           BinaryMessage.Strict(ByteString(t.ws))
+
         case x =>
           log.debug(s"websocket send an unknown msg:$x")
           TextMessage.apply("")

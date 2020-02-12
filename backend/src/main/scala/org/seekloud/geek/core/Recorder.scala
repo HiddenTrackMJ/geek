@@ -88,7 +88,7 @@ object Recorder {
 
   case class Ts4LastSample(var time: Long = 0)
 
-  def create(roomId: Long, hostId: Long, stream: String, pullLiveId:List[String], roomActor: ActorRef[RoomActor.Command], layout: Int, outTarget: Option[OutTarget] = None): Behavior[Command] = {
+  def create(roomId: Long, hostId: Long, stream: String, pullLiveId:List[String], roomActor: ActorRef[RoomDealer.Command], layout: Int, outTarget: Option[OutTarget] = None): Behavior[Command] = {
     Behaviors.setup[Command] { ctx =>
       implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)
       Behaviors.withTimers[Command] {
@@ -136,7 +136,7 @@ object Recorder {
     hostId: Long,
     stream: String,
     pullLiveId:List[String],
-    roomActor: ActorRef[RoomActor.Command],
+    roomDealer: ActorRef[RoomDealer.Command],
     online: List[Int],
     host: String,
     recorder4ts: FFmpegFrameRecorder,
@@ -156,7 +156,7 @@ object Recorder {
           val filters = mutable.HashMap[Int, FFmpegFrameFilter]()
           if (pullLiveId.size > 1) {
             (2 to pullLiveId.size).foreach { p =>
-              val complexFilter = s" amix=inputs=$p:duration=longest:dropout_transition=3:weights=3 2"
+              val complexFilter = s" amix=inputs=$p:duration=longest:dropout_transition=3:weights=3"
               //音频混流
               var filterStr = complexFilter
               (1 to p).reverse.foreach { i =>
@@ -192,7 +192,7 @@ object Recorder {
 //          ffFilterN.setSampleFormat(sampleFormat)
 //          ffFilterN.setAudioInputs(2)
 //          ffFilterN.start()
-          idle(roomId, hostId, stream, pullLiveId, roomActor, online, host, recorder4ts,filters, drawer, grabbers, indexMap, shieldMap, filterInUse)
+          idle(roomId, hostId, stream, pullLiveId, roomDealer, online, host, recorder4ts,filters, drawer, grabbers, indexMap, shieldMap, filterInUse)
 
         case GetGrabber(id, grabber) =>
           grabber ! Grabber.GetRecorder(ctx.self)
@@ -224,7 +224,7 @@ object Recorder {
             recorder4ts.setImageWidth(width)
             recorder4ts.setImageHeight(height)
 //            timer.startPeriodicTimer(TimerKey4ImageRec, RecordImage, 10.millis)
-            idle(roomId, hostId, stream, pullLiveId, roomActor, onlineNew, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, shieldMap, filterInUse)
+            idle(roomId, hostId, stream, pullLiveId, roomDealer, onlineNew, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, shieldMap, filterInUse)
           }
           else Behaviors.same
 
@@ -316,14 +316,14 @@ object Recorder {
 //                log.debug(s"$liveId record sample error system: $ex")
 //            }
           }
-          idle(roomId, hostId, stream, pullLiveId, roomActor, online, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, shieldMap, newFilterInUse)
+          idle(roomId, hostId, stream, pullLiveId, roomDealer, online, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, shieldMap, newFilterInUse)
 
         case CloseRecorder =>
           val video = SlickTables.rVideo(0L, hostId, roomId, stream.split("_").last.toLong, stream + ".flv", "",0,"")
           try {
             filterInUse.foreach(_.close())
             drawer ! Close
-            roomActor ! RoomActor.StoreVideo(video)
+            roomDealer ! RoomDealer.StoreVideo(video)
           } catch {
             case e: Exception =>
               log.error(s"$roomId recorder close error ---")

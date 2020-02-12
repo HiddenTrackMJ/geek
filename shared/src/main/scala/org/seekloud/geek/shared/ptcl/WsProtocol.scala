@@ -1,6 +1,7 @@
 package org.seekloud.geek.shared.ptcl
 
 import org.seekloud.geek.shared.ptcl.CommonInfo.{AudienceInfo, LiveInfo, RoomInfo, UserDes}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{ModifyRoomInfo, RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
 
 /**
  * Author: Jason
@@ -34,6 +35,41 @@ object WsProtocol  {
   case class Test(msg: String) extends WsMsgClient
 
   /**
+   *  通用
+   */
+  case class GetUserInfoReq(
+    userId: Long
+  ) extends WsMsgClient
+
+  case class GetUserInfoRsp(
+    roomData: Option[RoomData],
+    rtmpInfo: Option[RtmpInfo],
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
+
+  case class GetRoomListReq() extends WsMsgClient
+
+  case class GetRoomListRsp(
+    roomList: List[RoomData],
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
+
+  case class CreateRoomReq(
+    userId: Long,
+    info: RoomUserInfo
+  ) extends WsMsgClient
+
+  case class CreateRoomRsp(
+    roomId: Long,
+    liveCode: String,
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
+
+
+  /**
    *
    * 主播端
    *
@@ -63,32 +99,85 @@ object WsProtocol  {
 
   case class ReFleshRoomInfo(roomInfo: RoomInfo) extends WsMsgRm
   /*申请直播*/
-  case class GetTokenReq(
-    userId: Long
-  ) extends WsMsgClient
 
-  case class GetTokenRsp(
-    tokenOpt: Option[String],
-    SecureKeyOpt: Option[String],
-    errCode: Int = 0,
-    msg: String = "ok"
-  ) extends WsMsgRm2Host
+
+//  case class StartLiveReq(
+//    userId: Long,
+//    token: String,
+//    clientType: Int
+//  ) extends WsMsgHost
+//
+//  case class StartLiveRsp(
+//    liveInfo: Option[LiveInfo] = None,
+//    errCode: Int = 0,
+//    msg: String = "ok"
+//  ) extends WsMsgRm2Host
+
+  case class UpdateRoomInfoReq(
+    roomId: Long,
+    roomInfo: ModifyRoomInfo
+  ) extends WsMsgHost
+
 
   case class StartLiveReq(
-    userId: Long,
-    token: String,
-    clientType: Int
+    roomId: Long
   ) extends WsMsgHost
 
   case class StartLiveRsp(
-    liveInfo: Option[LiveInfo] = None,
+    rtmp: RtmpInfo,
+    selfCode: String,
     errCode: Int = 0,
     msg: String = "ok"
   ) extends WsMsgRm2Host
 
-  val StartLiveRefused: StartLiveRsp = StartLiveRsp(errCode = 200001, msg = "start live refused.")
-  val StartLiveRefused4Seal: StartLiveRsp = StartLiveRsp(errCode = 200001, msg = "start live refused.account has been sealed")
-  val StartLiveRefused4LiveInfoError: StartLiveRsp = StartLiveRsp(errCode = 200001, msg = "start live refused because of getting live info from distributor error.")
+  case class StopLiveReq(
+    roomId: Long
+  ) extends WsMsgHost
+
+  case class StopLiveRsp(
+    roomId: Long,
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
+
+  case class InviteReq(
+    roomId: Long,
+    userId: Long
+  ) extends WsMsgHost
+
+  case class InviteRsp(
+    rtmp: Option[UserPushInfo] = None,
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
+
+  case class KickOffReq(
+    roomId: Long,
+    userId: Long
+  ) extends WsMsgHost
+
+  case class KickOffRsp(
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
+
+  case class ShieldReq(
+    roomId: Long,
+    userId: Long,
+    isImage: Boolean,
+    isAudio: Boolean
+  ) extends WsMsgHost
+
+  case class ShieldRsp(
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
+
+
+
+//  val StartLiveRefused: StartLiveRsp = StartLiveRsp(errCode = 200001, msg = "start live refused.")
+//  val StartLiveRefused4Seal: StartLiveRsp = StartLiveRsp(errCode = 200001, msg = "start live refused.account has been sealed")
+//  val StartLiveRefused4LiveInfoError: StartLiveRsp = StartLiveRsp(errCode = 200001, msg = "start live refused because of getting live info from distributor error.")
 
 
   /*修改房间信息*/
@@ -156,7 +245,6 @@ object WsProtocol  {
   /*申请连线*/
   case class JoinReq(userId: Long, roomId: Long, clientType: Int) extends WsMsgAudience
 
-
   case class JoinRsp(
     hostLiveId: Option[String] = None, //房主liveId
     joinInfo: Option[LiveInfo] = None, //连线者live信息
@@ -169,15 +257,53 @@ object WsProtocol  {
     errCode: Int = 0,
     msg: String = "ok",
   ) extends WsMsgRm2Audience
-  /*
-  点赞
-   */
-  case class LikeRoom(userId: Long, roomId: Long, upDown:Int) extends WsMsgClient
 
-  case class LikeRoomRsp(
+  case class StartLive4ClientReq(
+    roomId: Long,
+    userId: Long
+  ) extends WsMsgAudience
+
+  case class StartLive4ClientRsp(
+    rtmp: Option[RtmpInfo] = None,
+    selfCode: String,
     errCode: Int = 0,
     msg: String = "ok"
   ) extends WsMsgRm2Audience
+
+  case class StopLive4ClientReq(
+    roomId: Long,
+    userId: Long
+  )extends WsMsgAudience
+
+  case class StopLive4ClientRsp(
+    roomId: Long,
+    userId: Long,
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
+
+  case class JoinRoomReq(
+    roomId: Long,
+    userId: Long
+  )extends WsMsgAudience
+
+  case class JoinRoomRsp(
+    rtmp: Option[UserPushInfo] = None,
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm2Audience
+
+
+  val StartLive4ClientFail = StartLive4ClientRsp(None, "", errCode = 2000001, msg = "StartLive4Client fail.")
+  /*
+  点赞
+   */
+//  case class LikeRoom(userId: Long, roomId: Long, upDown:Int) extends WsMsgClient
+//
+//  case class LikeRoomRsp(
+//    errCode: Int = 0,
+//    msg: String = "ok"
+//  ) extends WsMsgRm2Audience
 
   case class JudgeLike(userId: Long, roomId:Long) extends WsMsgClient
 
