@@ -43,8 +43,10 @@ object WsUtil {
   ): Unit = {
     log.debug(s"build ws with roomManager: $url")
     val webSocketFlow = Http().webSocketClientFlow(WebSocketRequest(url))
+    //c -> b
     val source = getSource(ctx.self)
 
+    //b->c
     val sink = getRMSink(controller)
 
     val (stream, response) =

@@ -19,7 +19,7 @@ import org.seekloud.geek.client.core.player.VideoPlayer
 import org.seekloud.geek.client.core.stream.LiveManager.{JoinInfo, PushStream, WatchInfo}
 import org.seekloud.geek.client.utils.{RoomClient, WsUtil}
 import org.seekloud.geek.player.protocol.Messages.AddPicture
-import org.seekloud.geek.shared.ptcl.WsProtocol.WsMsgFront
+import org.seekloud.geek.shared.ptcl.WsProtocol.{CompleteMsgClient, TextMsg, WsMsgFront}
 
 import scala.collection.immutable
 
@@ -163,6 +163,7 @@ object RmManager {
             //            Boot.addToPlatform {
             //              hostController.showScene()
             //            }
+            sender.get ! CompleteMsgClient
           }
           def failureFunc(): Unit = {
             //            liveManager ! LiveManager.DeviceOff
