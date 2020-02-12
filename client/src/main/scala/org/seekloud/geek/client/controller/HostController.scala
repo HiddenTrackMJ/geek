@@ -140,14 +140,14 @@ class HostController(
 
   })
 
-  
+
 
   //接收处理与【后端发过来】的消息
   def wsMessageHandle(data: WsMsgRm): Unit = {
     data match {
 
       case msg: HeatBeat =>
-        log.debug(s"heartbeat: ${msg.ts}")
+//        log.debug(s"heartbeat: ${msg.ts}")
 //        rmManager ! HeartBeat
 
       case msg: StartLiveRsp =>

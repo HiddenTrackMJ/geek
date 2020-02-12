@@ -185,8 +185,8 @@ object RmManager {
 
 
         case HostLiveReq =>
-
           //ws请求服务器获取拉流地址
+          log.info("ws-client:请求开始会议")
           if (RmManager.userInfo.get.isHost.get){//房主
             sender.get ! WsProtocol.StartLiveReq(RmManager.roomInfo.get.roomId)
           }else{
