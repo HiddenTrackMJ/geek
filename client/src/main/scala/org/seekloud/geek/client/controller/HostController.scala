@@ -140,24 +140,7 @@ class HostController(
 
   })
 
-
-  def stopLiveC = {
-    //todo: 停止推流后，画布显示摄像头的信息
-    /*背景改变*/
-    hostScene.resetBack()
-    /*媒体画面模式更改*/
-    liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostScene.resetBack)
-
-    if (hostStatus == HostStatus.CONNECT) {//开启会议情况下
-      //todo: 需要关闭player的显示
-      val playId = RmManager.roomInfo.get.roomId.toString
-      //停止服务器拉流显示到player上
-      mediaPlayer.stop(playId, hostScene.resetBack)
-      liveManager ! LiveManager.StopPull
-    }
-
-    hostController.isLive = false
-  }
+  
 
   //接收处理与【后端发过来】的消息
   def wsMessageHandle(data: WsMsgRm): Unit = {
