@@ -7,6 +7,7 @@ import akka.actor.typed.{ActorRef, Behavior}
 import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.shared.ptcl.Protocol.OutTarget
 import org.seekloud.geek.shared.ptcl.RoomProtocol.{RtmpInfo, ShieldReq}
+import org.seekloud.geek.shared.ptcl.WsProtocol
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
@@ -36,17 +37,17 @@ object GrabberManager {
 
   private final case object BehaviorChangeKey
 
-  final case class StartLive(roomId: Long, userId: Long, rtmpInfo: RtmpInfo, hostCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
+  final case class StartLive(roomId: Long, userId: Long, rtmpInfo: RtmpInfo, hostCode: String, roomDealer: ActorRef[RoomDealer.Command]) extends Command
 
-  final case class StartLive4Client(roomId: Long, rtmpInfo: RtmpInfo, selfCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
+  final case class StartLive4Client(roomId: Long, rtmpInfo: RtmpInfo, selfCode: String, roomDealer: ActorRef[RoomDealer.Command]) extends Command
 
-  final case class StopLive(roomId: Long, rtmpInfo: RtmpInfo, roomActor: ActorRef[RoomActor.Command]) extends Command
+  final case class StopLive(roomId: Long, rtmpInfo: RtmpInfo) extends Command
 
-  final case class StopLive4Client(roomId: Long, userId: Long, selfCode: String, roomActor: ActorRef[RoomActor.Command]) extends Command
+  final case class StopLive4Client(roomId: Long, userId: Long, selfCode: String) extends Command
 
-  final case class StartTrans(src: List[String], out: OutTarget, roomActor: ActorRef[RoomActor.Command]) extends Command
+  final case class StartTrans(src: List[String], out: OutTarget, roomDealer: ActorRef[RoomDealer.Command]) extends Command
 
-  final case class Shield(req: ShieldReq, liveCode: String) extends Command
+  final case class Shield(req: WsProtocol.ShieldReq, liveCode: String) extends Command
 
   private[this] def switchBehavior(ctx: ActorContext[Command],
     behaviorName: String, behavior: Behavior[Command], durationOpt: Option[FiniteDuration] = None, timeOut: TimeOut = TimeOut("busy time error"))
@@ -62,14 +63,14 @@ object GrabberManager {
       log.info(s"GrabberManager is starting...")
       implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)
       Behaviors.withTimers[Command] { implicit timer =>
-        val activeRooms = mutable.HashMap[Long, (RtmpInfo, ActorRef[RoomActor.Command])]()
+        val activeRooms = mutable.HashMap[Long, (RtmpInfo, ActorRef[RoomDealer.Command])]()
         val roomWorkers = mutable.HashMap[Long, (ActorRef[Recorder.Command], List[ActorRef[Grabber.Command]])]()
         switchBehavior(ctx, "idle", idle(activeRooms, roomWorkers))
       }
     }
 
   private def idle(
-    activeRooms: mutable.HashMap[Long, (RtmpInfo, ActorRef[RoomActor.Command])],
+    activeRooms: mutable.HashMap[Long, (RtmpInfo, ActorRef[RoomDealer.Command])],
     roomWorkers: mutable.HashMap[Long, (ActorRef[Recorder.Command], List[ActorRef[Grabber.Command]])]
   )(
     implicit stashBuffer: StashBuffer[Command],
@@ -78,7 +79,7 @@ object GrabberManager {
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
         case msg: StartLive =>
-          val recordActor = getRecorder(ctx, msg.roomId, msg.userId, msg.rtmpInfo.stream, msg.roomActor, msg.rtmpInfo.liveCode, 0)//todo layout
+          val recordActor = getRecorder(ctx, msg.roomId, msg.userId, msg.rtmpInfo.stream, msg.roomDealer, msg.rtmpInfo.liveCode, 0)//todo layout
           val grabbers = if (AppSettings.rtmpIsTest) {
             msg.rtmpInfo.liveCode.map {
               stream =>
@@ -92,7 +93,7 @@ object GrabberManager {
             }
           }
 
-          activeRooms.put(msg.roomId, (msg.rtmpInfo, msg.roomActor))
+          activeRooms.put(msg.roomId, (msg.rtmpInfo, msg.roomDealer))
           roomWorkers.put(msg.roomId, (recordActor, grabbers))
           Behaviors.same
 
@@ -137,7 +138,7 @@ object GrabberManager {
 
         case msg: StartTrans =>
           log.info(s"start testing...")
-          val recordActor = getRecorder(ctx, 0L, 1000001L, "sss", msg.roomActor, msg.src, 0, Some(msg.out))//todo layout
+          val recordActor = getRecorder(ctx, 0L, 1000001L, "sss", msg.roomDealer, msg.src, 0, Some(msg.out))//todo layout
           msg.src.map {
             stream =>
               getGrabber(ctx, 0L, stream, recordActor)
@@ -177,13 +178,13 @@ object GrabberManager {
     roomId: Long,
     hostId: Long,
     stream: String,
-    roomActor: ActorRef[RoomActor.Command],
+    roomDealer: ActorRef[RoomDealer.Command],
     pullLiveId: List[String],
     layout: Int,
     outTarget: Option[OutTarget] = None): ActorRef[Recorder.Command] = {
     val childName = s"recorder_$roomId"
     ctx.child(childName).getOrElse{
-      val actor = ctx.spawn(Recorder.create(roomId, hostId, stream, pullLiveId, roomActor, layout, outTarget), childName)
+      val actor = ctx.spawn(Recorder.create(roomId, hostId, stream, pullLiveId, roomDealer, layout, outTarget), childName)
 //      ctx.watchWith(actor,ChildDead4Recorder(roomId, childName, actor))
       ctx.watchWith(actor, ChildDead(roomId, childName, actor))
       actor

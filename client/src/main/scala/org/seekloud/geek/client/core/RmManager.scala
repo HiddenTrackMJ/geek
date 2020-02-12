@@ -19,6 +19,7 @@ import org.seekloud.geek.client.core.player.VideoPlayer
 import org.seekloud.geek.client.core.stream.LiveManager.{JoinInfo, PushStream, WatchInfo}
 import org.seekloud.geek.client.utils.{RoomClient, WsUtil}
 import org.seekloud.geek.player.protocol.Messages.AddPicture
+import org.seekloud.geek.shared.ptcl.WsProtocol
 import org.seekloud.geek.shared.ptcl.WsProtocol.WsMsgFront
 
 import scala.collection.immutable
@@ -176,6 +177,7 @@ object RmManager {
 
         case msg: GetSender =>
           //添加给后端发消息的对象sender
+          msg.sender ! WsProtocol.Test("I'm telling you")
           hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer, Some(msg.sender), hostStatus)
 
 

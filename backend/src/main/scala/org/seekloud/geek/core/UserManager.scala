@@ -148,7 +148,7 @@ object UserManager {
             Behaviors.same
 
           case UserActor.ChildDead(userId,actor) =>
-            log.debug(s"${ctx.self.path} the child = ${ctx.children}")
+            log.debug(s"${ctx.self.path} the child = ${userId}")
             Behaviors.same
 
           case _=>
@@ -186,14 +186,14 @@ object UserManager {
         Some(wsMsg)
       } catch {
         case e: Exception =>
-          log.warn(s"parse front msg failed when json parse,s=${s},e=$e")
+          log.warn(s"parse front msg failed when json parse,s=$s,e=$e")
           None
       }
     }
     Flow[Message]
       .collect {
         case TextMessage.Strict(m) =>
-          log.debug(s"接收到ws消息，类型TextMessage.Strict，msg-${m}")
+          log.debug(s"接收到ws消息，类型TextMessage.Strict，msg-$m")
           UserActor.WebSocketMsg(m)
 
         case BinaryMessage.Strict(m) =>

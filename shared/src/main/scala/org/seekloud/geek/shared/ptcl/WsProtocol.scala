@@ -56,6 +56,19 @@ object WsProtocol  {
     msg: String = "ok"
   ) extends WsMsgRm
 
+  case class CreateRoomReq(
+    userId: Long,
+    info: RoomUserInfo
+  ) extends WsMsgClient
+
+  case class CreateRoomRsp(
+    roomId: Long,
+    liveCode: String,
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
+
+
   /**
    *
    * 主播端
@@ -87,17 +100,6 @@ object WsProtocol  {
   case class ReFleshRoomInfo(roomInfo: RoomInfo) extends WsMsgRm
   /*申请直播*/
 
-  case class CreateRoomReq(
-    userId: Long,
-    info: RoomUserInfo
-  ) extends WsMsgClient
-
-  case class CreateRoomRsp(
-    roomId: Long,
-    liveCode: String,
-    errCode: Int = 0,
-    msg: String = "ok"
-  ) extends WsMsgRm
 
 //  case class StartLiveReq(
 //    userId: Long,

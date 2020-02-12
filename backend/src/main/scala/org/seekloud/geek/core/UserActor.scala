@@ -243,7 +243,7 @@ object UserActor {
                   case Some(v) =>
                     req match{
                       case StartLiveReq(`roomId`) =>
-                        roomManager ! RoomProtocol.StartRoom4Anchor(userId,roomId,ctx.self)
+                        roomManager ! RoomProtocol.StartRoom4Anchor(userId, roomId, ctx.self)
                         ctx.self ! SwitchBehavior("anchor",anchor(userId,clientActor,roomId))
 
                       case x =>
