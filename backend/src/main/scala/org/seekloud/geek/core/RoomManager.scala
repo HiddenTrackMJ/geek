@@ -107,35 +107,35 @@ object RoomManager {
         val rooms = mutable.HashMap[Long, RoomDetailInfo]()
         val affiliation = mutable.HashMap[Long, List[Long]]()
         timer.startSingleTimer(InitTimeKey, TimeOut("init"),initTime)
-//        RoomDao.getAllRoom.onComplete {
-//          case Success(roomList) =>
-//            roomList.toList.map { r =>
-//              val roomUserInfo = RoomUserInfo(r.hostid, r.title, r.desc.getOrElse(""))
-//              //              val roomActor = getRoomActor(ctx, r.roomId, roomInfo)
-//              val rtmpInfo = RtmpInfo(AppSettings.rtmpServer, "", Nil)
-//              val liveCodeMap = decode[Map[String, Long]](r.livecode) match {
-//                case Right(rsp) =>
-//                  rsp
-//                case Left(e) =>
-//                  log.info(s"${r.livecode} decode liveCode error: ${e.getMessage}")
-//                  Map[String, Long]()
-//              }
-//              rooms.put(r.id, RoomDetailInfo(roomUserInfo, rtmpInfo, r.hostcode, liveCodeMap, null))
-//            }
-//            val user2Room = roomList.toList.groupBy(_.hostid).map(i => (i._1, i._2.map(_.id)))
-//            user2Room.foreach { u =>
-//              affiliation.put(u._1, u._2)
-//            }
-//            timer.cancel(InitTimeKey)
-//            log.info("Init room info successfully!")
-//            ctx.self ! SwitchBehavior("idle", idle(roomIdGenerator, rooms, affiliation))
-//
-//          case Failure(e) =>
-//            log.info(s"Init room list error due to $e")
-//        }
+        RoomDao.getAllRoom.onComplete {
+          case Success(roomList) =>
+            roomList.toList.map { r =>
+              val roomUserInfo = RoomUserInfo(r.hostid, r.title, r.desc.getOrElse(""))
+              //              val roomActor = getRoomActor(ctx, r.roomId, roomInfo)
+              val rtmpInfo = RtmpInfo(AppSettings.rtmpServer, "", Nil)
+              val liveCodeMap = decode[Map[String, Long]](r.livecode) match {
+                case Right(rsp) =>
+                  rsp
+                case Left(e) =>
+                  log.info(s"${r.livecode} decode liveCode error: ${e.getMessage}")
+                  Map[String, Long]()
+              }
+              rooms.put(r.id, RoomDetailInfo(roomUserInfo, rtmpInfo, r.hostcode, liveCodeMap, null))
+            }
+            val user2Room = roomList.toList.groupBy(_.hostid).map(i => (i._1, i._2.map(_.id)))
+            user2Room.foreach { u =>
+              affiliation.put(u._1, u._2)
+            }
+            timer.cancel(InitTimeKey)
+            log.info("Init room info successfully!")
+            ctx.self ! SwitchBehavior("idle", idle(roomIdGenerator, rooms, affiliation))
+
+          case Failure(e) =>
+            log.info(s"Init room list error due to $e")
+        }
+        busy()
 //        ctx.self ! Test
-//        busy()
-        idle(roomIdGenerator, mutable.HashMap.empty, mutable.HashMap.empty)
+//        idle(roomIdGenerator, mutable.HashMap.empty, mutable.HashMap.empty)
       }
     }
 
@@ -208,20 +208,22 @@ object RoomManager {
             case Some(actor) =>
               x match {
                 case msg: WsProtocol.StartLiveReq =>
+                  log.info(s"room-$roomId is starting live...")
                   assert(rooms.contains(msg.roomId))
                   val roomOldInfo = rooms(msg.roomId)
                   val stream = msg.roomId + "_" + System.currentTimeMillis()
                   val rtmpInfoNew = roomOldInfo.rtmpInfo.copy(stream = stream)
                   val roomDealer = getRoomDealer(msg.roomId, roomOldInfo, ctx)
-                  rooms.put(msg.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, rtmpInfoNew, roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomDealer))
-                  roomDealer ! RoomDealer.StartLive(rtmpInfoNew, roomOldInfo.hostCode, roomOldInfo.roomUserInfo.userId)
+                  val roomInfoNew = RoomDetailInfo(roomOldInfo.roomUserInfo, rtmpInfoNew, roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomDealer)
+                  rooms.put(msg.roomId, roomInfoNew)
+                  roomDealer ! RoomDealer.StartLive(roomInfoNew, roomOldInfo.hostCode, roomOldInfo.roomUserInfo.userId)
 
                 case msg: WsProtocol.StartLive4ClientReq =>
                   val roomOldInfo = rooms(msg.roomId)
                   if (roomOldInfo.userLiveCodeMap.exists(_._2 == msg.userId)) {
                     getRoomDealerOpt(roomId, ctx)match{
-                      case Some(actor) =>actor ! RoomDealer.StartLive4Client(roomOldInfo.rtmpInfo, roomOldInfo.userLiveCodeMap.find(_._2 == msg.userId).get._1)
-                      case None => log.debug(s"${ctx.self.path}更新用户信息失败，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
+                      case Some(actor) =>actor ! RoomDealer.StartLive4Client(roomOldInfo, roomOldInfo.userLiveCodeMap.find(_._2 == msg.userId).get._1)
+                      case None => log.debug(s"${ctx.self.path} StartLive4Client，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
                     }
 //                    roomOldInfo.roomDealer ! RoomDealer.StartLive4Client(roomOldInfo.rtmpInfo, roomOldInfo.userLiveCodeMap.find(_._2 == msg.userId).get._1)
                   }
@@ -232,12 +234,13 @@ object RoomManager {
                   if ((rooms.contains(msg.roomId))) {
                     val liveCodes = rooms(msg.roomId).rtmpInfo.liveCode
                     val roomOldInfo = rooms(msg.roomId)
+                    val roomInfoNew = RoomDetailInfo(roomOldInfo.roomUserInfo, RtmpInfo(AppSettings.rtmpServer, "", Nil), roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, null)
                     getRoomDealerOpt(roomId, ctx) match{
-                      case Some(actor) =>actor !  RoomDealer.StopLive(RtmpInfo(AppSettings.rtmpServer, "", liveCodes))
-                      case None => log.debug(s"${ctx.self.path}更新用户信息失败，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
+                      case Some(actor) =>actor !  RoomDealer.StopLive(roomInfoNew, RtmpInfo(AppSettings.rtmpServer, "", liveCodes))
+                      case None => log.debug(s"${ctx.self.path} StopLiveReq，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
                     }
 //                    roomOldInfo.roomDealer ! RoomDealer.StopLive(RtmpInfo(AppSettings.rtmpServer, "", liveCodes))
-                    rooms.put(msg.roomId, RoomDetailInfo(roomOldInfo.roomUserInfo, RtmpInfo(AppSettings.rtmpServer, "", Nil), roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, null))
+                    rooms.put(msg.roomId, roomInfoNew)
 //                    msg.replyTo ! SuccessRsp()
                   }
                   else log.info("stop live error")
@@ -251,8 +254,8 @@ object RoomManager {
                     if (selfCodeOpt.isDefined) {
                       selfCodeOpt.foreach{ r =>
                         getRoomDealerOpt(roomId, ctx)match{
-                          case Some(actor) =>actor !  RoomDealer.StopLive4Client(msg.userId, r._1)
-                          case None => log.debug(s"${ctx.self.path}更新用户信息失败，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
+                          case Some(actor) =>actor !  RoomDealer.StopLive4Client(roomOldInfo, msg.userId, r._1)
+                          case None => log.debug(s"${ctx.self.path} StopLive4ClientReq，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
                         }
                       }
                     }
@@ -270,7 +273,7 @@ object RoomManager {
                       selfCodeOpt.foreach{ s =>
                         getRoomDealerOpt(roomId, ctx)match{
                           case Some(actor) =>actor !  RoomDealer.Shield(msg, s._1)
-                          case None => log.debug(s"${ctx.self.path}更新用户信息失败，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
+                          case None => log.debug(s"${ctx.self.path} ShieldReq，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
                         }
 //                        roomInfo.roomDealer ! RoomDealer.Shield(msg, s._1)
                       }
@@ -295,9 +298,9 @@ object RoomManager {
                       val roomNewInfo = roomOldInfo.copy(userLiveCodeMap = userCodeMap)
                       rooms.update(msg.roomId, roomNewInfo)
                       getRoomDealerOpt(roomId, ctx)match{
-                        case Some(actor) =>actor  ! RoomDealer.StopLive4Client(msg.userId, r._1)
+                        case Some(actor) =>actor  ! RoomDealer.StopLive4Client(roomNewInfo, msg.userId, r._1)
 
-                        case None => log.debug(s"${ctx.self.path}更新用户信息失败，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
+                        case None => log.debug(s"${ctx.self.path} KickOffReq，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
                       }
                     }
                   }

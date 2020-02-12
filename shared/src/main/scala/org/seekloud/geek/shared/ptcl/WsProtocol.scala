@@ -156,12 +156,22 @@ object WsProtocol  {
     userId: Long
   ) extends WsMsgHost
 
+  case class KickOffRsp(
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
+
   case class ShieldReq(
     roomId: Long,
     userId: Long,
     isImage: Boolean,
     isAudio: Boolean
   ) extends WsMsgHost
+
+  case class ShieldRsp(
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
 
 
 
@@ -267,6 +277,7 @@ object WsProtocol  {
 
   case class StopLive4ClientRsp(
     roomId: Long,
+    userId: Long,
     errCode: Int = 0,
     msg: String = "ok"
   ) extends WsMsgRm

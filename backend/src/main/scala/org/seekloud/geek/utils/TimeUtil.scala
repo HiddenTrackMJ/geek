@@ -4,7 +4,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 
 import org.seekloud.geek.common.AppSettings
-import org.seekloud.geek.core.RoomActor.getVideoDuration
+import org.seekloud.geek.core.RoomDealer.getVideoDuration
 import org.slf4j.LoggerFactory
 
 /**

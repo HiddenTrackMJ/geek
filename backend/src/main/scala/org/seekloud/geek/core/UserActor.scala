@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration.{FiniteDuration, _}
 import scala.language.postfixOps
+import scala.util.{Failure, Success}
 
 /**
  * Author: Jason
@@ -134,7 +135,7 @@ object UserActor {
           Behaviors.same
 
         case WebSocketMsg(reqOpt) =>
-          println(s"ws msg: $reqOpt")
+          println(s"ws msg1: $reqOpt")
           if(reqOpt.contains(PingPackage)){
             if(timer.isTimerActive("HeartBeatKey_" + userId)) timer.cancel("HeartBeatKey_" + userId)
             ctx.self ! SendHeartBeat
@@ -147,7 +148,8 @@ object UserActor {
                   case Some(v) =>
                     req match {
                       case StartLiveReq(`roomId`) =>
-                        roomManager ! RoomProtocol.StartLiveAgain(roomId)
+//                        roomManager ! RoomProtocol.StartLiveAgain(roomId)
+                        roomManager ! RoomProtocol.WebSocketMsgWithActor(userId, roomId, req)
                         ctx.self ! SwitchBehavior("anchor",anchor(userId,clientActor,roomId))
 
                       case x =>
@@ -230,28 +232,32 @@ object UserActor {
           Behaviors.stopped
 
         case WebSocketMsg(reqOpt) =>
-          println(s"ws msg: $reqOpt")
+          println(s"ws msg2: $reqOpt")
           if(reqOpt.contains(PingPackage)){
             if(timer.isTimerActive("HeartBeatKey_" + userId)) timer.cancel("HeartBeatKey_" + userId)
             ctx.self ! SendHeartBeat
             Behaviors.same
           }
           else{
+//            println(s"ws msg3: $reqOpt")
             reqOpt match{
               case Some(req) =>
-                UserDao.searchById(userId).map{
-                  case Some(v) =>
+                UserDao.searchById(userId).onComplete{
+                  case Success(v) =>
                     req match{
-                      case StartLiveReq(`roomId`) =>
-                        roomManager ! RoomProtocol.StartRoom4Anchor(userId, roomId, ctx.self)
-                        ctx.self ! SwitchBehavior("anchor",anchor(userId,clientActor,roomId))
+                      case WsProtocol.StartLiveReq(rId) =>
+//                        println(s"ws msg4: $req")
+//                        roomManager ! RoomProtocol.StartRoom4Anchor(userId, roomId, ctx.self)
+                        roomManager ! RoomProtocol.WebSocketMsgWithActor(userId, rId, req)
+                        ctx.self ! SwitchBehavior("anchor",anchor(userId, clientActor, roomId))
 
                       case x =>
+//                        println(s"ws msg5: $req")
                         roomManager ! RoomProtocol.WebSocketMsgWithActor(userId,roomId,req)
                         ctx.self ! SwitchBehavior("audience",audience(userId,clientActor,roomId))
                     }
 
-                  case None =>
+                  case Failure(e) =>
                     log.debug(s"${ctx.self.path} 该用户不存在，无法直播")
                     clientActor ! Wrap(WsProtocol.NoUser.asInstanceOf[WsMsgRm].fillMiddleBuffer(sendBuffer).result())
                     ctx.self ! CompleteMsgClient

@@ -178,6 +178,7 @@ object RmManager {
         case msg: GetSender =>
           //添加给后端发消息的对象sender
           msg.sender ! WsProtocol.Test("I'm telling you")
+//          msg.sender ! WsProtocol.StartLiveReq(1040)
           hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer, Some(msg.sender), hostStatus)
 
 

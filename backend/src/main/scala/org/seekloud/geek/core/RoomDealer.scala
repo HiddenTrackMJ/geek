@@ -39,13 +39,13 @@ object RoomDealer {
 
   trait Command
 
-  case class StartLive(rtmpInfo: RtmpInfo, hostCode: String, hostId: Long) extends Command
+  case class StartLive(roomDetailInfo: RoomDetailInfo, hostCode: String, hostId: Long) extends Command
 
-  case class StartLive4Client(rtmpInfo: RtmpInfo, selfCode: String) extends Command
+  case class StartLive4Client(roomDetailInfo: RoomDetailInfo, selfCode: String) extends Command
 
-  case class StopLive(rtmpInfo: RtmpInfo) extends Command
+  case class StopLive(roomDetailInfo: RoomDetailInfo, rtmpInfo: RtmpInfo) extends Command
 
-  case class StopLive4Client(userId: Long, selfCode: String) extends Command
+  case class StopLive4Client(roomDetailInfo: RoomDetailInfo, userId: Long, selfCode: String) extends Command
 
   case class Shield(req: ShieldReq, liveCode: String) extends Command
 
@@ -174,31 +174,38 @@ object RoomDealer {
           Behaviors.same
 
         case msg: StartLive =>
-          grabManager ! GrabberManager.StartLive(roomId, msg.hostId, msg.rtmpInfo, msg.hostCode, ctx.self)
-          Behaviors.same
+          log.info("sss")
+          grabManager ! GrabberManager.StartLive(roomId, msg.hostId, msg.roomDetailInfo.rtmpInfo, msg.hostCode, ctx.self)
+          dispatchTo(subscribe)(List(msg.hostId), WsProtocol.StartLiveRsp(msg.roomDetailInfo.rtmpInfo, msg.hostCode))
+          idle(roomId, msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StartLive4Client =>
-          grabManager ! GrabberManager.StartLive4Client(roomId, msg.rtmpInfo, msg.selfCode, ctx.self)
-          Behaviors.same
+          grabManager ! GrabberManager.StartLive4Client(roomId, msg.roomDetailInfo.rtmpInfo, msg.selfCode, ctx.self)
+          dispatch(subscribe)( WsProtocol.StartLive4ClientRsp(Some(msg.roomDetailInfo.rtmpInfo), msg.selfCode))
+          idle(roomId, msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StopLive =>
-          log.info(s"RoomActor-$roomId is stopping...")
-          grabManager ! GrabberManager.StopLive(roomId, msg.rtmpInfo)
-          Behaviors.same
+          log.info(s"RoomDealer-$roomId is stopping...")
+          grabManager ! GrabberManager.StopLive(roomId, msg.roomDetailInfo.rtmpInfo)
+          dispatch(subscribe)( WsProtocol.StopLiveRsp(roomId))
+          idle(roomId, roomDetailInfo.copy(rtmpInfo = msg.rtmpInfo), wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
 
         case msg: StopLive4Client =>
-          log.info(s"RoomActor-$roomId userId-${msg.userId} is stopping...")
+          log.info(s"RoomDealer-$roomId userId-${msg.userId} is stopping...")
           grabManager ! GrabberManager.StopLive4Client(roomId, msg.userId, msg.selfCode)
-          Behaviors.same
+          dispatch(subscribe)( WsProtocol.StopLive4ClientRsp(roomId, msg.userId))
+          idle(roomId, msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: Shield =>
+          log.info(s"RoomDealer-$roomId userId-${msg.req.userId} recv shield rsp...")
           grabManager ! GrabberManager.Shield(msg.req, msg.liveCode)
+          dispatch(subscribe)( WsProtocol.ShieldRsp())
           Behaviors.same
 
         case msg: StoreVideo =>
           def fun(): Unit ={
-            log.info(s"RoomActor-$roomId is storing video...")
+            log.info(s"RoomDealer-$roomId is storing video...")
             var d = ""
             val file = new File(s"${AppSettings.videoPath}${msg.video.filename}.flv")
             if(file.exists()){
@@ -227,7 +234,7 @@ object RoomDealer {
           var viewNum = totalView
           //虽然房间存在，但其实主播已经关闭房间，这时的startTime=-1
           //向所有人发送主播已经关闭房间的消息
-          log.info(s"-----roomActor get UpdateSubscriber id: $roomId")
+          log.info(s"-----RoomDealer get UpdateSubscriber id: $roomId")
           if (startTime == -1) {
             dispatchTo(subscribe)(List(userId), NoAuthor)
           }
@@ -359,8 +366,8 @@ object RoomDealer {
 
   //websocket处理消息的函数
   /**
-   * userActor --> roomManager --> roomActor --> userActor
-   * roomActor
+   * userActor --> roomManager --> RoomDealer --> userActor
+   * RoomDealer
    * subscribers:map(userId,userActor)
    *
    *
