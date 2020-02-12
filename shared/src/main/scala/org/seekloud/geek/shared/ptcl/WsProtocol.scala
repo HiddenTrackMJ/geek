@@ -10,13 +10,13 @@ import org.seekloud.geek.shared.ptcl.RoomProtocol.{ModifyRoomInfo, RoomData, Roo
  */
 object WsProtocol  {
 
-  sealed trait WsMsgFront
+  sealed trait WsMsgFront //前端发的消息
 
-  sealed trait WsMsgManager
+  sealed trait WsMsgManager //后端发的消息
 
-  sealed trait WsMsgClient extends WsMsgFront
+  sealed trait WsMsgClient extends WsMsgFront//client 发的消息
 
-  sealed trait WsMsgRm extends WsMsgManager
+  sealed trait WsMsgRm extends WsMsgManager// backend 发的消息
 
   case object CompleteMsgClient extends WsMsgFront
 

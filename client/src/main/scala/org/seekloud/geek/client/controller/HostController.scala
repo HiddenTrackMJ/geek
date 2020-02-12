@@ -2,12 +2,16 @@ package org.seekloud.geek.client.controller
 
 import akka.actor.typed.ActorRef
 import org.seekloud.geek.client.Boot
+import org.seekloud.geek.client.common.Constants.HostStatus
 import org.seekloud.geek.client.common.{Constants, StageContext}
 import org.seekloud.geek.client.component.WarningDialog
 import org.seekloud.geek.client.core.RmManager
+import org.seekloud.geek.client.core.RmManager.{StartLive, StopLiveFailed, StopLiveSuccess, log}
+import org.seekloud.geek.client.core.stream.LiveManager
 import org.seekloud.geek.client.scene.HostScene
 import org.seekloud.geek.client.scene.HostScene.{AudienceListInfo, HostSceneListener}
-import org.seekloud.geek.shared.ptcl.WsProtocol.WsMsgRm
+import org.seekloud.geek.client.utils.RoomClient
+import org.seekloud.geek.shared.ptcl.WsProtocol.{HeatBeat, StartLive4ClientRsp, StartLiveRsp, StopLive4ClientRsp, StopLiveRsp, WsMsgRm}
 import org.slf4j.LoggerFactory
 
 /**
@@ -137,23 +141,77 @@ class HostController(
   })
 
 
-  //处理与后端roomManager的ws连接消息处理
+  def stopLiveC = {
+    //todo: 停止推流后，画布显示摄像头的信息
+    /*背景改变*/
+    hostScene.resetBack()
+    /*媒体画面模式更改*/
+    liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostScene.resetBack)
+
+    if (hostStatus == HostStatus.CONNECT) {//开启会议情况下
+      //todo: 需要关闭player的显示
+      val playId = RmManager.roomInfo.get.roomId.toString
+      //停止服务器拉流显示到player上
+      mediaPlayer.stop(playId, hostScene.resetBack)
+      liveManager ! LiveManager.StopPull
+    }
+
+    hostController.isLive = false
+  }
+
+  //接收处理与【后端发过来】的消息
   def wsMessageHandle(data: WsMsgRm): Unit = {
     data match {
 
-//      case msg: HeatBeat =>
-////        log.debug(s"heartbeat: ${msg.ts}")
+      case msg: HeatBeat =>
+        log.debug(s"heartbeat: ${msg.ts}")
 //        rmManager ! HeartBeat
-//
-//      case msg: StartLiveRsp =>
-////        log.debug(s"get StartLiveRsp: $msg")
-//        if (msg.errCode == 0) {
-//          rmManager ! RmManager.StartLive(msg.liveInfo.get.liveId, msg.liveInfo.get.liveCode)
-//        } else {
-//          Boot.addToPlatform {
-//            WarningDialog.initWarningDialog(s"${msg.msg}")
-//          }
-//        }
+
+      case msg: StartLiveRsp =>
+        //房主收到的消息
+//        log.debug(s"get StartLiveRsp: $msg")
+        if (msg.errCode == 0) {
+          //开始直播
+          rmManager ! StartLive(msg.rtmp.serverUrl+msg.rtmp.stream,msg.rtmp.serverUrl+msg.selfCode)
+        } else {
+          Boot.addToPlatform {
+            WarningDialog.initWarningDialog(s"${msg.msg}")
+          }
+        }
+
+      case msg: StartLive4ClientRsp =>
+        if (msg.errCode == 0) {
+          //开始直播
+          rmManager ! StartLive(msg.rtmp.get.serverUrl+msg.rtmp.get.stream,msg.rtmp.get.serverUrl+msg.selfCode)
+        } else {
+          Boot.addToPlatform {
+            WarningDialog.initWarningDialog(s"${msg.msg}")
+          }
+        }
+
+
+      case msg: StopLiveRsp =>
+        if (msg.errCode == 0){
+          log.info(s"普通用户停止推流成功")
+          rmManager ! StopLiveSuccess
+        }else{
+          rmManager ! StopLiveFailed
+        }
+
+
+
+      case msg: StopLive4ClientRsp =>
+        if (msg.errCode == 0){
+          log.info("普通用户停止推流成功")
+          rmManager ! StopLiveSuccess
+        }else{
+          rmManager ! StopLiveFailed
+        }
+
+
+
+
+
 //
 //      case msg: ModifyRoomRsp =>
 //        //若失败，信息改成之前的信息

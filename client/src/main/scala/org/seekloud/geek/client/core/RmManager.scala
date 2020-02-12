@@ -19,9 +19,8 @@ import org.seekloud.geek.client.core.player.VideoPlayer
 import org.seekloud.geek.client.core.stream.LiveManager.{JoinInfo, PushStream, WatchInfo}
 import org.seekloud.geek.client.utils.{RoomClient, WsUtil}
 import org.seekloud.geek.player.protocol.Messages.AddPicture
-import org.seekloud.geek.shared.ptcl.WsProtocol.{CompleteMsgClient, TextMsg, WsMsgFront}
+import org.seekloud.geek.shared.ptcl.WsProtocol.{CompleteMsgClient, StopLive4ClientReq, StopLiveReq, TextMsg, WsMsgFront}
 import org.seekloud.geek.shared.ptcl.WsProtocol
-import org.seekloud.geek.shared.ptcl.WsProtocol.WsMsgFront
 
 import scala.collection.immutable
 
@@ -62,6 +61,8 @@ object RmManager {
   final case object HostLiveReq extends RmCommand //请求开启会议
   final case class StartLive(pull:String, push:String) extends RmCommand
   final case object StopLive extends RmCommand
+  final case object StopLiveSuccess extends RmCommand
+  final case object StopLiveFailed extends RmCommand
   final case object PullerStopped extends RmCommand
 
   final case object GetPackageLoss extends RmCommand
@@ -180,31 +181,16 @@ object RmManager {
         case msg: GetSender =>
           //添加给后端发消息的对象sender
           msg.sender ! WsProtocol.Test("I'm telling you")
-//          msg.sender ! WsProtocol.StartLiveReq(1040)
           hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer, Some(msg.sender), hostStatus)
 
 
         case HostLiveReq =>
 
-          //http请求服务器获取拉流地址
+          //ws请求服务器获取拉流地址
           if (RmManager.userInfo.get.isHost.get){//房主
-            RoomClient.startLive(RmManager.roomInfo.get.roomId).map{
-              case Right(rsp) =>
-                ctx.self ! StartLive(rsp.rtmp.serverUrl+rsp.rtmp.stream,rsp.rtmp.serverUrl+rsp.selfCode)
-//                ctx.self ! StartLive("rtmp://10.1.29.247:1935/live/1002333","rtmp://10.1.29.247:1935/live/1002333")
-              case Left(e) =>
-                log.info(s"开始会议失败：$e")
-            }
-          }else{//普通成员
-
-            RoomClient.startLive4Client(RmManager.userInfo.get.userId,RmManager.roomInfo.get.roomId).map{
-              case Right(rsp) =>
-                ctx.self ! StartLive(rsp.rtmp.get.serverUrl+rsp.rtmp.get.stream,rsp.rtmp.get.serverUrl+rsp.selfCode)
-
-              case Left(e) =>
-                log.info(s"开始会议失败：$e")
-            }
-
+            sender.get ! WsProtocol.StartLiveReq(RmManager.roomInfo.get.roomId)
+          }else{
+            sender.get ! WsProtocol.StartLive4ClientReq(RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId)
           }
 
           Behaviors.same
@@ -230,40 +216,44 @@ object RmManager {
           liveManager ! LiveManager.StopPush
           if (RmManager.userInfo.get.isHost.get){//房主
             log.info("房主停止推流")
+            sender.get ! StopLiveReq(RmManager.roomInfo.get.roomId)
 
-            RoomClient.stopLive(RmManager.roomInfo.get.roomId).map{
-              case Right(value) =>
-                log.info("房主停止推流成功")
-              case Left(e) =>
-                log.info(s"房主停止推流失败:$e")
-
-            }
           }else{//普通成员
             log.info("普通用户停止推流")
-            RoomClient.stopLive4Client(RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId).map{
-              case Right(value) =>
-                log.info("普通用户停止推流成功")
-
-              case Left(e) =>
-              log.info(s"普通用户停止推流失败:$e")
-            }
+            sender.get ! StopLive4ClientReq(RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId)
           }
-          //todo: 停止推流后，画布显示摄像头的信息
+
+
+          Behaviors.same
+
+        case StopLiveSuccess =>
+          //房主/普通组员均一样
           /*背景改变*/
           hostScene.resetBack()
           /*媒体画面模式更改*/
           liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostScene.resetBack)
 
           if (hostStatus == HostStatus.CONNECT) {//开启会议情况下
-            //todo: 需要关闭player的显示
             val playId = RmManager.roomInfo.get.roomId.toString
             //停止服务器拉流显示到player上
             mediaPlayer.stop(playId, hostScene.resetBack)
             liveManager ! LiveManager.StopPull
           }
-
+          Boot.addToPlatform {
+            WarningDialog.initWarningDialog("停止会议成功！")
+          }
           hostController.isLive = false
           Behaviors.same
+
+
+        case StopLiveFailed =>
+
+          Boot.addToPlatform {
+            WarningDialog.initWarningDialog("停止会议失败！")
+          }
+
+          Behaviors.same
+
 
         case BackToHome =>
 //          timer.cancel(HeartBeat)

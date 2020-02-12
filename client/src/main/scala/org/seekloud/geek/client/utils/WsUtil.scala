@@ -43,10 +43,10 @@ object WsUtil {
   ): Unit = {
     log.debug(s"build ws with roomManager: $url")
     val webSocketFlow = Http().webSocketClientFlow(WebSocketRequest(url))
-    //c -> b
+    //c -> b，获取后端的对象
     val source = getSource(ctx.self)
 
-    //b->c
+    //b->c backend给client发消息
     val sink = getRMSink(controller)
 
     val (stream, response) =
@@ -56,7 +56,7 @@ object WsUtil {
         .run()
     val connected = response.flatMap { upgrade =>
       if (upgrade.response.status == StatusCodes.SwitchingProtocols) {
-        ctx.self ! GetSender(stream)
+        ctx.self ! GetSender(stream) //获取后端的对象
         successFunc
         Future.successful(s"link room manager success.")
       } else {
@@ -97,7 +97,6 @@ object WsUtil {
   ): Sink[Message, Future[Done]] = {
     Sink.foreach[Message] {
       case TextMessage.Strict(msg) =>
-
         //处理后端发过来的消息
         hController.wsMessageHandle(TextMsg(msg))
 
