@@ -106,7 +106,7 @@ object RoomManager {
         val roomIdGenerator = new AtomicLong(1000L)
         val rooms = mutable.HashMap[Long, RoomDetailInfo]()
         val affiliation = mutable.HashMap[Long, List[Long]]()
-        timer.startSingleTimer(InitTimeKey, TimeOut("init"),initTime)
+//        timer.startSingleTimer(InitTimeKey, TimeOut("init"),initTime)
 //        RoomDao.getAllRoom.onComplete {
 //          case Success(roomList) =>
 //            roomList.toList.map { r =>
