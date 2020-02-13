@@ -248,7 +248,7 @@ object UserActor {
                       case WsProtocol.StartLiveReq(rId) =>
 //                        println(s"ws msg4: $req")
 //                        roomManager ! RoomProtocol.StartRoom4Anchor(userId, roomId, ctx.self)
-                        roomManager ! RoomProtocol.WebSocketMsgWithActor(userId, rId, req)
+                        roomManager ! RoomProtocol.StartRoom4Anchor(userId, roomId, ctx.self)
                         ctx.self ! SwitchBehavior("anchor",anchor(userId, clientActor, roomId))
 
                       case x =>

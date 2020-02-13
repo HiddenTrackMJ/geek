@@ -39,7 +39,7 @@ object RoomDealer {
 
   trait Command
 
-  case class StartLive(roomDetailInfo: RoomDetailInfo, hostCode: String, hostId: Long) extends Command
+  case class StartLive(roomDetailInfo: RoomDetailInfo, hostCode: String, hostId: Long, actor:ActorRef[UserActor.Command]) extends Command
 
   case class StartLive4Client(roomDetailInfo: RoomDetailInfo, selfCode: String) extends Command
 
@@ -117,7 +117,10 @@ object RoomDealer {
       Behaviors.withTimers[Command] { implicit timer =>
         implicit val sendBuffer: MiddleBufferInJvm = new MiddleBufferInJvm(1024)  //8192
         val subscribers = mutable.HashMap.empty[Long, ActorRef[UserActor.Command]]
-        init(roomId, subscribers)
+//        init(roomId, subscribers)
+        val wholeRoomInfo = RoomInfo(roomId, roomDetailInfo.roomUserInfo.roomName, roomDetailInfo.roomUserInfo.des, roomDetailInfo.roomUserInfo.userId, "", "", "", 0)
+        idle(roomDetailInfo, wholeRoomInfo, mutable.HashMap.empty, mutable.HashMap.empty, mutable.Set.empty, -1, 0, isJoinOpen = true)
+
       }
     }
   }
@@ -153,7 +156,6 @@ object RoomDealer {
   }
 
   private def idle(
-    roomId: Long,
     roomDetailInfo: RoomDetailInfo,
     wholeRoomInfo: RoomInfo, //可以考虑是否将主路的liveinfo加在这里，单独存一份连线者的liveinfo列表
     liveInfoMap: mutable.HashMap[Int, mutable.HashMap[Long, LiveInfo]],
@@ -175,37 +177,38 @@ object RoomDealer {
 
         case msg: StartLive =>
           log.info("sss")
-          grabManager ! GrabberManager.StartLive(roomId, msg.hostId, msg.roomDetailInfo.rtmpInfo, msg.hostCode, ctx.self)
+          subscribe.put(msg.hostId, msg.actor)
+          grabManager ! GrabberManager.StartLive(wholeRoomInfo.roomId, msg.hostId, msg.roomDetailInfo.rtmpInfo, msg.hostCode, ctx.self)
           dispatchTo(subscribe)(List(msg.hostId), WsProtocol.StartLiveRsp(msg.roomDetailInfo.rtmpInfo, msg.hostCode))
-          idle(roomId, msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
+          idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StartLive4Client =>
-          grabManager ! GrabberManager.StartLive4Client(roomId, msg.roomDetailInfo.rtmpInfo, msg.selfCode, ctx.self)
+          grabManager ! GrabberManager.StartLive4Client(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo, msg.selfCode, ctx.self)
           dispatch(subscribe)( WsProtocol.StartLive4ClientRsp(Some(msg.roomDetailInfo.rtmpInfo), msg.selfCode))
-          idle(roomId, msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
+          idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StopLive =>
-          log.info(s"RoomDealer-$roomId is stopping...")
-          grabManager ! GrabberManager.StopLive(roomId, msg.roomDetailInfo.rtmpInfo)
-          dispatch(subscribe)( WsProtocol.StopLiveRsp(roomId))
-          idle(roomId, roomDetailInfo.copy(rtmpInfo = msg.rtmpInfo), wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
+          log.info(s"RoomDealer-${wholeRoomInfo.roomId} is stopping...")
+          grabManager ! GrabberManager.StopLive(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo)
+          dispatch(subscribe)( WsProtocol.StopLiveRsp(wholeRoomInfo.roomId))
+          idle( roomDetailInfo.copy(rtmpInfo = msg.rtmpInfo), wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
 
         case msg: StopLive4Client =>
-          log.info(s"RoomDealer-$roomId userId-${msg.userId} is stopping...")
-          grabManager ! GrabberManager.StopLive4Client(roomId, msg.userId, msg.selfCode)
-          dispatch(subscribe)( WsProtocol.StopLive4ClientRsp(roomId, msg.userId))
-          idle(roomId, msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
+          log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.userId} is stopping...")
+          grabManager ! GrabberManager.StopLive4Client(wholeRoomInfo.roomId, msg.userId, msg.selfCode)
+          dispatch(subscribe)( WsProtocol.StopLive4ClientRsp(wholeRoomInfo.roomId, msg.userId))
+          idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: Shield =>
-          log.info(s"RoomDealer-$roomId userId-${msg.req.userId} recv shield rsp...")
+          log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.req.userId} recv shield rsp...")
           grabManager ! GrabberManager.Shield(msg.req, msg.liveCode)
           dispatch(subscribe)( WsProtocol.ShieldRsp())
           Behaviors.same
 
         case msg: StoreVideo =>
           def fun(): Unit ={
-            log.info(s"RoomDealer-$roomId is storing video...")
+            log.info(s"RoomDealer-${wholeRoomInfo.roomId} is storing video...")
             var d = ""
             val file = new File(s"${AppSettings.videoPath}${msg.video.filename}.flv")
             if(file.exists()){
@@ -214,7 +217,7 @@ object RoomDealer {
               val video = msg.video.copy(length = d)
               VideoDao.addVideo(video)
             }else{
-              log.info(s"no record for roomId:$roomId and startTime:${msg.video.timestamp}")
+              log.info(s"no record for roomId:${wholeRoomInfo.roomId} and startTime:${msg.video.timestamp}")
             }
           }
           scheduler.scheduleOnce(2.seconds)(() => fun())
@@ -224,7 +227,7 @@ object RoomDealer {
           //timer.cancel(DelayUpdateRtmpKey + wholeRoomInfo.roomId.toString)
           val newRoomInfo = wholeRoomInfo.copy(rtmp = Some(rtmp))
           log.debug(s"${ctx.self.path} 更新liveId=$rtmp,更新后的liveId=${newRoomInfo.rtmp}")
-          idle(roomId, roomDetailInfo, newRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
+          idle(roomDetailInfo, newRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case RoomProtocol.WebSocketMsgWithActor(userId, roomId, wsMsg) =>
           handleWebSocketMsg(roomDetailInfo, wholeRoomInfo, subscribe, liveInfoMap, liker, startTime, totalView, isJoinOpen, dispatch(subscribe), dispatchTo(subscribe))(ctx, userId, roomId, wsMsg)
@@ -276,7 +279,7 @@ object RoomDealer {
 //
 //          }  //Todo
           wholeRoomInfo.observerNum = subscribe.size - 1
-          idle(roomId, roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, viewNum, isJoinOpen)
+          idle(roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, viewNum, isJoinOpen)
 
         case RoomProtocol.HostCloseRoom(roomId) =>
           log.debug(s"${ctx.self.path} host close the room")
@@ -336,7 +339,7 @@ object RoomDealer {
           Behaviors.stopped
 
         case x =>
-          log.debug(s"${ctx.self.path} recv an unknown msg $x")
+          log.debug(s"${ctx.self.path} recv an unknown msg $x in idle state")
           Behaviors.same
       }
     }
@@ -400,7 +403,7 @@ object RoomDealer {
         }
         val liveList = liveInfoMap.toList.sortBy(_._1).flatMap(r => r._2).map(_._2.liveId)
         dispatchTo(List(wholeRoomInfo.userId), ChangeModeRsp())
-        idle(roomId, roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribers, liker, startTime, totalView, connect)
+        idle(roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribers, liker, startTime, totalView, connect)
 
       case JoinAccept(`roomId`, userId4Audience, clientType, accept) =>
         log.debug(s"${ctx.self.path} 接受连线者请求，roomId=$roomId")
@@ -450,7 +453,7 @@ object RoomDealer {
         log.debug(s"${ctx.self.path} modify the room info$info")
         dispatch(UpdateRoomInfo2Client(roomInfo.roomName, roomInfo.roomDes))
         dispatchTo(List(wholeRoomInfo.userId), ModifyRoomRsp())
-        idle(roomId, roomDetailInfo, info, liveInfoMap, subscribers, liker, startTime, totalView, isJoinOpen)
+        idle(roomDetailInfo, info, liveInfoMap, subscribers, liker, startTime, totalView, isJoinOpen)
 
 
       case HostStopPushStream(`roomId`) =>
@@ -480,9 +483,9 @@ object RoomDealer {
         log.debug(s"${ctx.self.path} 主播userId=${userId}已经停止推流，更新房间信息，liveId=${newroomInfo.rtmp}")
         subscribers.get((wholeRoomInfo.userId)) match {
           case Some(hostActor) =>
-            idle(roomId, roomDetailInfo, newroomInfo, liveInfoMap, mutable.HashMap(wholeRoomInfo.userId -> hostActor), mutable.Set[Long](), -1l, totalView, isJoinOpen)
+            idle(roomDetailInfo, newroomInfo, liveInfoMap, mutable.HashMap(wholeRoomInfo.userId -> hostActor), mutable.Set[Long](), -1l, totalView, isJoinOpen)
           case None =>
-            idle(roomId, roomDetailInfo, newroomInfo, liveInfoMap, mutable.HashMap.empty[Long, ActorRef[UserActor.Command]], mutable.Set[Long](), -1l, totalView, isJoinOpen)
+            idle(roomDetailInfo, newroomInfo, liveInfoMap, mutable.HashMap.empty[Long, ActorRef[UserActor.Command]], mutable.Set[Long](), -1l, totalView, isJoinOpen)
         }
 
       case JoinReq(userId4Audience, `roomId`, clientType) =>
@@ -546,10 +549,10 @@ object RoomDealer {
               case None =>
                 log.debug(s"${ctx.self.path.name} the database doesn't have the user")
             }
-            ctx.self ! SwitchBehavior("idle", idle(roomId, roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribers, liker, startTime, totalView, isJoinOpen))
+            ctx.self ! SwitchBehavior("idle", idle(roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribers, liker, startTime, totalView, isJoinOpen))
           case Failure(e) =>
             log.debug(s"s${ctx.self.path.name} the search by userId error:$e")
-            ctx.self ! SwitchBehavior("idle", idle(roomId, roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribers, liker, startTime, totalView, isJoinOpen))
+            ctx.self ! SwitchBehavior("idle", idle(roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribers, liker, startTime, totalView, isJoinOpen))
         }
         switchBehavior(ctx, "busy", busy(), InitTime, TimeOut("busy"))
 

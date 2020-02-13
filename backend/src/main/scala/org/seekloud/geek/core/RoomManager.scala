@@ -107,35 +107,35 @@ object RoomManager {
         val rooms = mutable.HashMap[Long, RoomDetailInfo]()
         val affiliation = mutable.HashMap[Long, List[Long]]()
         timer.startSingleTimer(InitTimeKey, TimeOut("init"),initTime)
-        RoomDao.getAllRoom.onComplete {
-          case Success(roomList) =>
-            roomList.toList.map { r =>
-              val roomUserInfo = RoomUserInfo(r.hostid, r.title, r.desc.getOrElse(""))
-              //              val roomActor = getRoomActor(ctx, r.roomId, roomInfo)
-              val rtmpInfo = RtmpInfo(AppSettings.rtmpServer, "", Nil)
-              val liveCodeMap = decode[Map[String, Long]](r.livecode) match {
-                case Right(rsp) =>
-                  rsp
-                case Left(e) =>
-                  log.info(s"${r.livecode} decode liveCode error: ${e.getMessage}")
-                  Map[String, Long]()
-              }
-              rooms.put(r.id, RoomDetailInfo(roomUserInfo, rtmpInfo, r.hostcode, liveCodeMap, null))
-            }
-            val user2Room = roomList.toList.groupBy(_.hostid).map(i => (i._1, i._2.map(_.id)))
-            user2Room.foreach { u =>
-              affiliation.put(u._1, u._2)
-            }
-            timer.cancel(InitTimeKey)
-            log.info("Init room info successfully!")
-            ctx.self ! SwitchBehavior("idle", idle(roomIdGenerator, rooms, affiliation))
-
-          case Failure(e) =>
-            log.info(s"Init room list error due to $e")
-        }
-        busy()
+//        RoomDao.getAllRoom.onComplete {
+//          case Success(roomList) =>
+//            roomList.toList.map { r =>
+//              val roomUserInfo = RoomUserInfo(r.hostid, r.title, r.desc.getOrElse(""))
+//              //              val roomActor = getRoomActor(ctx, r.roomId, roomInfo)
+//              val rtmpInfo = RtmpInfo(AppSettings.rtmpServer, "", Nil)
+//              val liveCodeMap = decode[Map[String, Long]](r.livecode) match {
+//                case Right(rsp) =>
+//                  rsp
+//                case Left(e) =>
+//                  log.info(s"${r.livecode} decode liveCode error: ${e.getMessage}")
+//                  Map[String, Long]()
+//              }
+//              rooms.put(r.id, RoomDetailInfo(roomUserInfo, rtmpInfo, r.hostcode, liveCodeMap, null))
+//            }
+//            val user2Room = roomList.toList.groupBy(_.hostid).map(i => (i._1, i._2.map(_.id)))
+//            user2Room.foreach { u =>
+//              affiliation.put(u._1, u._2)
+//            }
+//            timer.cancel(InitTimeKey)
+//            log.info("Init room info successfully!")
+//            ctx.self ! SwitchBehavior("idle", idle(roomIdGenerator, rooms, affiliation))
+//
+//          case Failure(e) =>
+//            log.info(s"Init room list error due to $e")
+//        }
+//        busy()
 //        ctx.self ! Test
-//        idle(roomIdGenerator, mutable.HashMap.empty, mutable.HashMap.empty)
+        idle(roomIdGenerator, mutable.HashMap.empty, mutable.HashMap.empty)
       }
     }
 
@@ -179,7 +179,8 @@ object RoomManager {
               }
               val rRoomNew = SlickTables.rRoom(roomId, req.info.roomName, Some(req.info.des), "", "", AppSettings.rtmpServer, req.userId)
               val roomDetailInfo = RoomDetailInfo(req.info, rtmpInfo, selfCode, userLiveCodeMap, null)
-              rooms.put(roomId, roomDetailInfo)
+              val roomDealer = getRoomDealer(roomId, roomDetailInfo, ctx)
+              rooms.put(roomId, roomDetailInfo.copy(roomDealer = roomDealer))
               val assets = affiliation.getOrElse(req.userId, Nil)
               affiliation.put(req.userId, roomId :: assets)
               ctx.self ! ModifyRoom(rRoomNew)
@@ -196,9 +197,17 @@ object RoomManager {
           RoomDao.modifyRoom(room)
           Behaviors.same
 
-        case r@RoomProtocol.StartRoom4Anchor(userId,roomId,actor) =>
+        case r@RoomProtocol.StartRoom4Anchor(userId, roomId, actor) =>
           if (rooms.get(roomId).isDefined) {
-            getRoomDealer(roomId, rooms(roomId), ctx) ! r
+            log.info(s"room-$roomId is starting live...")
+            assert(rooms.contains(roomId))
+            val roomOldInfo = rooms(roomId)
+            val stream = roomId + "_" + System.currentTimeMillis()
+            val rtmpInfoNew = roomOldInfo.rtmpInfo.copy(stream = stream)
+            val roomDealer = getRoomDealer(roomId, roomOldInfo, ctx)
+            val roomInfoNew = RoomDetailInfo(roomOldInfo.roomUserInfo, rtmpInfoNew, roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomDealer)
+            rooms.put(roomId, roomInfoNew)
+            roomDealer ! RoomDealer.StartLive(roomInfoNew, roomOldInfo.hostCode, roomOldInfo.roomUserInfo.userId, actor)
           }
           else log.debug(s"${ctx.self.path}请求错误，该房间还不存在，房间id=$roomId，用户id=$userId")
           Behaviors.same
@@ -216,7 +225,7 @@ object RoomManager {
                   val roomDealer = getRoomDealer(msg.roomId, roomOldInfo, ctx)
                   val roomInfoNew = RoomDetailInfo(roomOldInfo.roomUserInfo, rtmpInfoNew, roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomDealer)
                   rooms.put(msg.roomId, roomInfoNew)
-                  roomDealer ! RoomDealer.StartLive(roomInfoNew, roomOldInfo.hostCode, roomOldInfo.roomUserInfo.userId)
+//                  roomDealer ! RoomDealer.StartLive(roomInfoNew, roomOldInfo.hostCode, roomOldInfo.roomUserInfo.userId)
 
                 case msg: WsProtocol.StartLive4ClientReq =>
                   val roomOldInfo = rooms(msg.roomId)

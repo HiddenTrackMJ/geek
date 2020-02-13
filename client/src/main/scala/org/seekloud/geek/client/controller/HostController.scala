@@ -152,7 +152,7 @@ class HostController(
 
       case msg: StartLiveRsp =>
         //房主收到的消息
-//        log.debug(s"get StartLiveRsp: $msg")
+        log.debug(s"get StartLiveRsp: $msg")
         if (msg.errCode == 0) {
           //开始直播
           rmManager ! StartLive(msg.rtmp.serverUrl+msg.rtmp.stream,msg.rtmp.serverUrl+msg.selfCode)
