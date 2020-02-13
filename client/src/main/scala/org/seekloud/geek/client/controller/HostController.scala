@@ -163,6 +163,7 @@ class HostController(
         }
 
       case msg: StartLive4ClientRsp =>
+        log.info(s"收到后端的开始会议消息")
         if (msg.errCode == 0) {
           //开始直播
           rmManager ! StartLive(msg.rtmp.get.serverUrl+msg.rtmp.get.stream,msg.rtmp.get.serverUrl+msg.selfCode)

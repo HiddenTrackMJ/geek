@@ -275,6 +275,7 @@ object RmManager {
 //          timer.cancel(HeartBeat)
 //          timer.cancel(PingTimeOut)
 //          sender.foreach(_ ! CompleteMsgClient)
+          sender.foreach(_ ! CompleteMsgClient)//断开ws连接
           if (hostStatus == HostStatus.CONNECT) {//开启会议情况下
             //todo: 需要关闭player的显示
             val playId = RmManager.roomInfo.get.roomId.toString
@@ -284,6 +285,7 @@ object RmManager {
           }
           liveManager ! LiveManager.StopPush
           liveManager ! LiveManager.DeviceOff
+
           Boot.addToPlatform {
             hostScene.stopPackageLoss()
             homeController.foreach(_.showScene())
