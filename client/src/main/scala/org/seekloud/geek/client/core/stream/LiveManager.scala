@@ -3,13 +3,14 @@ package org.seekloud.geek.client.core.stream
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import akka.actor.typed.{ActorRef, Behavior, DispatcherSelector}
 import javafx.scene.canvas.GraphicsContext
+import org.seekloud.geek.capture.protocol.Messages.EncoderType
 import org.seekloud.geek.capture.sdk.{DeviceUtil, MediaCapture}
 import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.common.AppSettings
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.core.RmManager.roomInfo
 import org.seekloud.geek.client.core.collector.ClientCaptureActor
-import org.seekloud.geek.client.core.collector.ClientCaptureActor.StartEncode
+import org.seekloud.geek.client.core.collector.ClientCaptureActor.{StartEncode, StopEncode}
 import org.seekloud.geek.client.core.player.VideoPlayer
 import org.seekloud.geek.client.scene.HostScene
 import org.seekloud.geek.client.utils.GetAllPixel
@@ -139,7 +140,7 @@ object LiveManager {
 
         case StopPush =>
           log.info(s"LiveManager stop pusher!")
-
+          captureActor.get ! StopEncode(EncoderType.RTMP)
           Behaviors.same
 
         case msg: PullStream =>

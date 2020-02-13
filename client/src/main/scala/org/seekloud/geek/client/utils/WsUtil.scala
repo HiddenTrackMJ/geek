@@ -64,7 +64,7 @@ object WsUtil {
         throw new RuntimeException(s"link room manager failed: ${upgrade.response.status}")
       }
     } //链接建立时
-    connected.onComplete(i => log.info(i.toString))
+    connected.onComplete(i => log.info(s"ws connect error:${i.toString}"))
   }
 
 

@@ -160,7 +160,7 @@ object RmManager {
 
           def successFunc(): Unit = {
             Boot.addToPlatform {
-              WarningDialog.initWarningDialog("链接成功！")
+              WarningDialog.initWarningDialog("连接成功！")
             }
             //            hostScene.allowConnect()
             //            Boot.addToPlatform {
@@ -180,18 +180,28 @@ object RmManager {
 
         case msg: GetSender =>
           //添加给后端发消息的对象sender
+          log.info("获取到后端消息对象")
           msg.sender ! WsProtocol.Test("I'm telling you")
+//          switchBehavior(ctx, "hostBehavior", hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer,hostStatus=HostStatus.CONNECT))
+
           hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer, Some(msg.sender), hostStatus)
 
 
         case HostLiveReq =>
           //ws请求服务器获取拉流地址
           log.info("ws-client:请求开始会议")
-          if (RmManager.userInfo.get.isHost.get){//房主
-            sender.get ! WsProtocol.StartLiveReq(RmManager.roomInfo.get.roomId)
+          if (sender nonEmpty){
+            if (RmManager.userInfo.get.isHost.get){//房主
+              sender.get ! WsProtocol.StartLiveReq(RmManager.roomInfo.get.roomId)
+            }else{
+              sender.get ! WsProtocol.StartLive4ClientReq(RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId)
+            }
           }else{
-            sender.get ! WsProtocol.StartLive4ClientReq(RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId)
+            Boot.addToPlatform {
+              WarningDialog.initWarningDialog("与ws连接失败，请退出重新创建/进入房间！")
+            }
           }
+
 
           Behaviors.same
 
@@ -206,7 +216,9 @@ object RmManager {
           RmManager.userInfo.get.pullStream = Some(pull)
           liveManager ! LiveManager.PullStream(RmManager.userInfo.get.pullStream.get,mediaPlayer,hostScene,liveManager)
 
-          switchBehavior(ctx, "hostBehavior", hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer,hostStatus=HostStatus.CONNECT))
+          Behaviors.same
+
+//                  switchBehavior(ctx, "hostBehavior", hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer,hostStatus=HostStatus.CONNECT))
 
         case GetPackageLoss =>
           liveManager ! LiveManager.GetPackageLoss
@@ -216,7 +228,11 @@ object RmManager {
           liveManager ! LiveManager.StopPush
           if (RmManager.userInfo.get.isHost.get){//房主
             log.info("房主停止推流")
-            sender.get ! StopLiveReq(RmManager.roomInfo.get.roomId)
+            if (sender nonEmpty){
+              sender.get ! StopLiveReq(RmManager.roomInfo.get.roomId)
+            }else{
+              log.info("出现逻辑问题，sender为空")
+            }
 
           }else{//普通成员
             log.info("普通用户停止推流")

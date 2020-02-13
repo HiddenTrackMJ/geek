@@ -67,7 +67,7 @@ object Messages {
 
   final case class StartEncodeFile(file: File) extends ReqCommand
   final case class StartEncodeRtmp(rtmpDes: String) extends ReqCommand
-
+  final case object StopEncodeRtmp extends ReqCommand
   final case object StopEncodeFile extends ReqCommand
 
   final case object StopMediaCapture extends ReqCommand

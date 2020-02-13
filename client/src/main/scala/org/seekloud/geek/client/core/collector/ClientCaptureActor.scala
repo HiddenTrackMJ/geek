@@ -162,10 +162,12 @@ object ClientCaptureActor {
           Behaviors.same
 
         case msg: StopEncode =>
-          msg.encoderType match {
-            case EncoderType.STREAM => reqActor.foreach(_ ! StopEncodeStream)
-            case EncoderType.FILE => reqActor.foreach(_ ! StopEncodeFile)
-          }
+//          msg.encoderType match {
+//            case EncoderType.STREAM => reqActor.foreach(_ ! StopEncodeStream)
+//            case EncoderType.FILE => reqActor.foreach(_ ! StopEncodeFile)
+//          }
+
+          reqActor.foreach(_ ! StopEncodeRtmp)
           Behaviors.same
 
         case msg: SwitchMode =>

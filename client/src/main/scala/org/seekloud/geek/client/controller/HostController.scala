@@ -175,6 +175,9 @@ class HostController(
 
       case msg: StopLiveRsp =>
         if (msg.errCode == 0){
+          Boot.addToPlatform {
+            WarningDialog.initWarningDialog("停止会议成功！")
+          }
           log.info(s"普通用户停止推流成功")
           rmManager ! StopLiveSuccess
         }else{

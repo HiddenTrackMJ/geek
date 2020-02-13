@@ -532,6 +532,11 @@ object CaptureManager {
           Behaviors.same
 
 
+        case StopEncodeRtmp =>
+          encodeActorMap.get(EncoderType.FILE).foreach(_ ! EncodeActor.StopEncode)
+          encodeActorMap.remove(EncoderType.FILE)
+          Behaviors.same
+
         case StopEncodeFile =>
           encodeActorMap.get(EncoderType.FILE).foreach(_ ! EncodeActor.StopEncode)
           encodeActorMap.remove(EncoderType.FILE)
