@@ -25,6 +25,12 @@ object VideoDao {
     }
   }
 
+  def getInviteeVideo(inviteeId: Long,filename: String): Future[Seq[tVideo#TableElementType]] = {
+    db.run{
+      tVideo.filter(_.invitation === inviteeId).filter(_.filename === filename).result
+    }
+  }
+
   def addVideo(video: rVideo): Future[Long] = {
     db.run(
       tVideo.returning(tVideo.map(_.id)) += video
