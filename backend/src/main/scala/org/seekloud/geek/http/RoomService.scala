@@ -232,8 +232,8 @@ trait RoomService extends BaseService with ServiceUtils {
       println(s"getRecord req for $file")
       dealFutureResult {
         VideoDao.getInviteeVideo(userId.toLong,file).map { list =>
-          if (list != Vector()) {
-            complete(ErrorRsp(10001, "已关注"))
+          if (list == Vector()) {
+            complete(ErrorRsp(10001, "没有该录像"))
           }
           else {
             val f = new File(s"${AppSettings.videoPath}$file").getAbsoluteFile
