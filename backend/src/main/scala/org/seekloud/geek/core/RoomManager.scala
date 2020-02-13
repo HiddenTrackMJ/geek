@@ -231,7 +231,7 @@ object RoomManager {
                   val roomOldInfo = rooms(msg.roomId)
                   if (roomOldInfo.userLiveCodeMap.exists(_._2 == msg.userId)) {
                     getRoomDealerOpt(roomId, ctx)match{
-                      case Some(actor) =>actor ! RoomDealer.StartLive4Client(roomOldInfo, roomOldInfo.userLiveCodeMap.find(_._2 == msg.userId).get._1)
+                      case Some(actor) =>actor ! RoomDealer.StartLive4Client(roomOldInfo, msg.userId, roomOldInfo.userLiveCodeMap.find(_._2 == msg.userId).get._1)
                       case None => log.debug(s"${ctx.self.path} StartLive4Client，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
                     }
 //                    roomOldInfo.roomDealer ! RoomDealer.StartLive4Client(roomOldInfo.rtmpInfo, roomOldInfo.userLiveCodeMap.find(_._2 == msg.userId).get._1)

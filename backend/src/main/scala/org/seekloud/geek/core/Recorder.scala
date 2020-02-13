@@ -2,7 +2,7 @@ package org.seekloud.geek.core
 
 import java.awt.Graphics
 import java.awt.image.BufferedImage
-import java.io.OutputStream
+import java.io.{File, OutputStream}
 
 import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{Behaviors, StashBuffer, TimerScheduler}
@@ -11,7 +11,9 @@ import org.bytedeco.javacv.{FFmpegFrameFilter, FFmpegFrameRecorder, Frame, Java2
 import org.seekloud.geek.Boot
 import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.core.Grabber.State
+import org.seekloud.geek.core.RoomDealer.getVideoDuration
 import org.seekloud.geek.models.SlickTables
+import org.seekloud.geek.models.dao.VideoDao
 import org.seekloud.geek.shared.ptcl.Protocol.OutTarget
 import org.slf4j.LoggerFactory
 
@@ -277,7 +279,7 @@ object Recorder {
                   if (f != null) {
                     val ff = f.clone()
                     recorder4ts.recordSamples(ff.sampleRate, ff.audioChannels, ff.samples: _*)
-                    log.debug(s"record sample...")
+//                    log.debug(s"record sample...")
                   }
 //                  if (liveId == "1000_1") {
 //                    recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
@@ -319,11 +321,21 @@ object Recorder {
           idle(roomId, hostId, stream, pullLiveId, roomDealer, online, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, shieldMap, newFilterInUse)
 
         case CloseRecorder =>
-          val video = SlickTables.rVideo(0L, hostId, roomId, stream.split("_").last.toLong, stream + ".flv", "",0,"")
+          val video = SlickTables.rVideo(0L, hostId, roomId, stream.split("_").last.toLong, stream + ".mp4", "",0,"")
           try {
-            filterInUse.foreach(_.close())
-            drawer ! Close
-            roomDealer ! RoomDealer.StoreVideo(video)
+            log.info(s"Recorder-${roomId} is storing video...path: ${AppSettings.videoPath}${video.filename}")
+            var d = ""
+            val file = new File(s"${AppSettings.videoPath}${video.filename}")
+            if(file.exists()){
+              d = getVideoDuration(video.filename)
+              log.info(s"duration:$d")
+              val videoNew = video.copy(length = d)
+              VideoDao.addVideo(videoNew)
+            }else{
+              log.info(s"no record for roomId:${roomId} and startTime:${video.timestamp}")
+            }
+
+//            roomDealer ! RoomDealer.StoreVideo(video)
           } catch {
             case e: Exception =>
               log.error(s"$roomId recorder close error ---")
@@ -332,7 +344,9 @@ object Recorder {
 
         case StopRecorder(msg) =>
           log.info(s"recorder-$roomId stop because $msg")
-          timer.startSingleTimer(TimerKey4Close, CloseRecorder, 1.seconds)
+          drawer ! Close
+          filterInUse.foreach(_.close())
+          timer.startSingleTimer(TimerKey4Close, CloseRecorder, 5.seconds)
           Behaviors.same
 
         case x@_ =>
@@ -401,7 +415,7 @@ object Recorder {
           //fixme 此处为何不直接recordImage
           val frame = convert.convert(canvas)
           try{
-            log.info("record image")
+//            log.info("record image")
             recorder4ts.record(frame.clone())
           }
           catch {

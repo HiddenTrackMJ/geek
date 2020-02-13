@@ -116,7 +116,7 @@ object TimeUtil {
   def fun(): Unit ={
     log.info(s"RoomActor is storing video...")
     var d = ""
-    val file = new File(s"C:\\Users\\19783\\Videos\\Captures\\2020-02-01 16-52-35.flv")
+    val file = new File(s"http://10.1.29.247:42075/geek/room/getRecord/1001/1074_1581592782805.mp4")
     if(file.exists()){
       d = getVideoDuration("2020-02-01 16-52-35")
       log.info(s"duration:$d")

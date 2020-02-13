@@ -41,7 +41,7 @@ object RoomDealer {
 
   case class StartLive(roomDetailInfo: RoomDetailInfo, hostCode: String, hostId: Long, actor:ActorRef[UserActor.Command]) extends Command
 
-  case class StartLive4Client(roomDetailInfo: RoomDetailInfo, selfCode: String) extends Command
+  case class StartLive4Client(roomDetailInfo: RoomDetailInfo, userId: Long, selfCode: String) extends Command
 
   case class StopLive(roomDetailInfo: RoomDetailInfo, rtmpInfo: RtmpInfo) extends Command
 
@@ -76,7 +76,7 @@ object RoomDealer {
   def getVideoDuration(fileName: String) ={
     val ffprobe = Loader.load(classOf[org.bytedeco.ffmpeg.ffprobe])
     //容器时长（container duration）
-    val pb = new ProcessBuilder(ffprobe,"-v","error","-show_entries","format=duration", "-of","csv=\"p=0\"","-i", s"${AppSettings.videoPath}${fileName}.mp4")
+    val pb = new ProcessBuilder(ffprobe,"-v","error","-show_entries","format=duration", "-of","csv=\"p=0\"","-i", s"${AppSettings.videoPath}${fileName}")
     val processor = pb.start()
     val br = new BufferedReader(new InputStreamReader(processor.getInputStream))
     val s = br.readLine()
@@ -176,15 +176,15 @@ object RoomDealer {
           Behaviors.same
 
         case msg: StartLive =>
-          log.info("sss")
           subscribe.put(msg.hostId, msg.actor)
           grabManager ! GrabberManager.StartLive(wholeRoomInfo.roomId, msg.hostId, msg.roomDetailInfo.rtmpInfo, msg.hostCode, ctx.self)
           dispatchTo(subscribe)(List(msg.hostId), WsProtocol.StartLiveRsp(msg.roomDetailInfo.rtmpInfo, msg.hostCode))
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StartLive4Client =>
+          log.info(s"sss: ${subscribe}")
           grabManager ! GrabberManager.StartLive4Client(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo, msg.selfCode, ctx.self)
-          dispatch(subscribe)( WsProtocol.StartLive4ClientRsp(Some(msg.roomDetailInfo.rtmpInfo), msg.selfCode))
+          dispatchTo(subscribe)(List(msg.userId),  WsProtocol.StartLive4ClientRsp(Some(msg.roomDetailInfo.rtmpInfo), msg.selfCode))
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StopLive =>
@@ -195,7 +195,7 @@ object RoomDealer {
 
 
         case msg: StopLive4Client =>
-          log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.userId} is stopping...")
+          log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.userId} is stopping...${subscribe}")
           grabManager ! GrabberManager.StopLive4Client(wholeRoomInfo.roomId, msg.userId, msg.selfCode)
           dispatch(subscribe)( WsProtocol.StopLive4ClientRsp(wholeRoomInfo.roomId, msg.userId))
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
@@ -208,9 +208,9 @@ object RoomDealer {
 
         case msg: StoreVideo =>
           def fun(): Unit ={
-            log.info(s"RoomDealer-${wholeRoomInfo.roomId} is storing video...")
+            log.info(s"RoomDealer-${wholeRoomInfo.roomId} is storing video...path: ${AppSettings.videoPath}${msg.video.filename}")
             var d = ""
-            val file = new File(s"${AppSettings.videoPath}${msg.video.filename}.flv")
+            val file = new File(s"${AppSettings.videoPath}${msg.video.filename}")
             if(file.exists()){
               d = getVideoDuration(msg.video.filename)
               log.info(s"duration:$d")
@@ -238,7 +238,7 @@ object RoomDealer {
           //虽然房间存在，但其实主播已经关闭房间，这时的startTime=-1
           //向所有人发送主播已经关闭房间的消息
           log.info(s"-----RoomDealer get UpdateSubscriber id: $roomId")
-          if (startTime == -1) {
+          if (false) {
             dispatchTo(subscribe)(List(userId), NoAuthor)
           }
           else {
