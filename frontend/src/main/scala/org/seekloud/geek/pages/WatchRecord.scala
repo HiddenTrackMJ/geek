@@ -9,7 +9,7 @@ import org.scalajs.dom
 import org.seekloud.geek.Main
 import org.seekloud.geek.common.Route
 import org.seekloud.geek.videoJs._
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{GetRoomListReq, GetRoomListRsp, GetRoomSectionListReq, GetRoomSectionListRsp, RoomData, RoomId}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{GetRoomListReq, GetRoomListRsp, GetRoomSectionListReq, GetRoomSectionListRsp, RoomData, RoomInfoSection}
 import io.circe.generic.auto._
 import io.circe.syntax._
 import org.seekloud.geek.pages.HomePage
@@ -30,11 +30,11 @@ class WatchRecord(roomID: Long) extends Page{
 
   var roomList: List[RoomData] = Main.roomList
 
-  private val roomIdData: Var[List[RoomId]] = Var(Main.roomIdData)
+  private val roomIdData: Var[List[RoomInfoSection]] = Var(Main.roomIdData)
   private val liveRoomInfo = Var(roomList)
 
 
-  private def roomListRx(r: List[RoomId]) =
+  private def roomListRx(r: List[RoomInfoSection]) =
     <div class="col-md-3 col-sm-12 col-xs-12" style="background-color: #F5F5F5; margin-left:-11%;margin-right:1%;margin-top:2px;height:416px">
       <div class="x_title">
         <h2>录像列表</h2>
@@ -46,7 +46,7 @@ class WatchRecord(roomID: Long) extends Page{
       </ul>
     </div>
 
-  private def commentListRx(r: List[RoomId]) =
+  private def commentListRx(r: List[RoomInfoSection]) =
     <div class="col-md-3 col-sm-12 col-xs-12" style="background-color: #F5F5F5; margin-left:1%;margin-top:2px;height:416px">
       <div class="x_title">
         <h2>评论列表</h2>
@@ -69,7 +69,7 @@ class WatchRecord(roomID: Long) extends Page{
 
 
 
-  private def getRoomItem(roomList: List[RoomId], selected: Long) = {
+  private def getRoomItem(roomList: List[RoomInfoSection], selected: Long) = {
     roomList.map { room =>
       val isSelected = if (room.roomId == selected) "actived playerSelect" else ""
       <li class={"media event eyesight " + isSelected} style="text-align:left" onclick={() => switchEyesight(room.roomId)}>
@@ -78,17 +78,16 @@ class WatchRecord(roomID: Long) extends Page{
         </a>
         <div class="media-body">
           <a class="title" href="javascript:void(0)">
-            {"xue1"}({room.roomId})
+            {"主讲人"+room.userName}({"会议号"+room.roomId})
           </a>
-          <p>
-            {"nothing"}
-          </p>
+          <p>{"录像名："+room.fileName}</p>
+          <p>{"保存录像时间："+room.time}</p>
         </div>
       </li>
     }
   }
 
-  private def getCommitItem(roomList: List[RoomId], selected: Long) = {
+  private def getCommitItem(roomList: List[RoomInfoSection], selected: Long) = {
 
     roomList.zipWithIndex.map { room=>
       val isSelected = if (room._1.roomId == selected) "" else ""
@@ -159,9 +158,9 @@ class WatchRecord(roomID: Long) extends Page{
     }
   }
 
-  def getRoomSecList(): Unit ={//暂时接口，只是发起者的房间，实际要求邀请人的录像
+  def getRoomSecList(): Unit ={
     val userId = dom.window.localStorage.getItem("userId").toLong
-    Http.postJsonAndParse[GetRoomSectionListRsp](Route.Room.getRoomSectionList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
+    Http.postJsonAndParse[GetRoomSectionListRsp](Route.Room.getRoomIdList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
       rsp =>
         if(rsp.errCode == 0) {
           roomIdData := rsp.roomList

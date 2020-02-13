@@ -25,7 +25,7 @@ import scala.xml.{Elem, Node}
 object Main extends PageSwitcher{
 
   var roomList: List[RoomData] = Nil
-  var roomIdData: List[RoomId] = List()
+  var roomIdData: List[RoomInfoSection] = List()
   val numList = Var((1 to 5).toList)
 
   def modeOption(mode: Int): Rx[List[Elem]] = numList.map {

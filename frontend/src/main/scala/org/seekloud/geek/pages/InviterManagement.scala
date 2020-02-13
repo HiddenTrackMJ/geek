@@ -56,9 +56,12 @@ object InviterManagement extends Page{
     case None =>  <div class="row"><div class="save">暂无邀请 </div></div>
     case Some(info) => <div class="row">
      {
-        info.map{inviter =>
-          <a href="#/inviterManage" title={"用户id:"+inviter.inviterId} class="save">{inviter.inviterName} </a>
-        }
+      val username= dom.window.localStorage.getItem("username")
+      if(info.length<=1) <div class="save">暂无邀请 </div>
+      else <div>{info.filter(_.inviterName != username).map{inviter =>
+        <a href="#/inviterManage" title={"用户id:"+inviter.inviterId} class="save">{inviter.inviterName} </a>
+      }}</div>
+
       }
       </div>
   }
@@ -67,10 +70,11 @@ object InviterManagement extends Page{
     case None =>  <div class="row"><div class="save">暂无邀请 </div></div>
     case Some(info) => <div class="row">
       {
-      info.map{invitee =>
-
-          <div  title="点击删除邀请" class="save" onclick={()=>delInvitee(invitee.inviterId);getInviteeInfo()}>{invitee.inviterName} </div>
-        }
+      val username= dom.window.localStorage.getItem("username")
+      if(info.length<=1) <div class="save">暂无邀请 </div>
+      else <div>{info.filter(_.inviterName != username).map{invitee =>
+        <div  title="点击删除邀请" class="save" onclick={()=>delInvitee(invitee.inviterId);getInviteeInfo()}>{invitee.inviterName} </div>
+      }}</div>
       }
     </div>
   }
@@ -185,7 +189,7 @@ object InviterManagement extends Page{
 
   def getRoomSecList(): Unit ={
     val userId = dom.window.localStorage.getItem("userId").toLong
-    Http.postJsonAndParse[GetRoomSectionListRsp](Route.Room.getRoomSectionList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
+    Http.postJsonAndParse[GetRoomIdListRsp](Route.Room.getRoomIdList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
       rsp =>
         if(rsp.errCode == 0) {
           roomIdData := rsp.roomList

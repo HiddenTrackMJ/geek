@@ -10,7 +10,7 @@ import org.seekloud.geek.models.dao.UserDao
 import org.seekloud.geek.Boot.executor
 import org.seekloud.geek.core.RoomManager.{Command, idle}
 import org.seekloud.geek.shared.ptcl.CommonProtocol._
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{GetRoomSectionListReq, GetRoomSectionListRsp, RoomId}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{GetRoomIdListRsp, GetRoomSectionListReq, GetRoomSectionListRsp, RoomId, RoomInfoSection}
 import org.seekloud.geek.shared.ptcl.SuccessRsp
 import org.slf4j.LoggerFactory
 
@@ -29,6 +29,8 @@ object Invitation {
   private val log = LoggerFactory.getLogger(this.getClass)
 
   final case class GetRoomSectionList(req: GetRoomSectionListReq,replyTo: ActorRef[GetRoomSectionListRsp]) extends Command
+
+  final case class GetRoomIdList(req: GetRoomSectionListReq,replyTo: ActorRef[GetRoomIdListRsp]) extends Command
 
   final case class GetInviterList(req: InvitationReq,replyTo: ActorRef[InvitationRsp]) extends Command
 
@@ -49,13 +51,24 @@ object Invitation {
     Behaviors.receive[Command] {
       (ctx, msg) =>
         msg match {
-          case GetRoomSectionList(user, replyTo)=>
-            VideoDao.getSecVideo(user.userId).map{
+          case GetRoomSectionList(room, replyTo)=>
+            VideoDao.getSecVideo(room.inviteeId).map{
               rsp=>
                 if (rsp isEmpty){
                   replyTo ! GetRoomSectionListRsp(List(),-1,"查询为空")
                 }else{
-                  replyTo ! GetRoomSectionListRsp(rsp.map(e=>RoomId(e.roomid)).toSet.toList,0,"有该user的录像")
+                  replyTo ! GetRoomSectionListRsp(rsp.map(e=>RoomInfoSection(e._2.roomid,e._2.userid,e._1.name,e._2.filename,e._2.timestamp)).toSet.toList,0,"有该user的录像")
+                }
+            }
+            Behaviors.same
+
+          case GetRoomIdList(room, replyTo)=>
+            VideoDao.getSecVideo2(room.inviteeId).map{
+              rsp=>
+                if (rsp isEmpty){
+                  replyTo ! GetRoomIdListRsp(List(),-1,"查询为空")
+                }else{
+                  replyTo ! GetRoomIdListRsp(rsp.map(e=>RoomId(e.roomid)).toSet.toList,0,"有该user的录像")
                 }
             }
             Behaviors.same

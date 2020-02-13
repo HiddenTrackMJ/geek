@@ -113,7 +113,7 @@ object RoomProtocol {
 
   case class GetRoomListReq() extends Request
 
-  case class GetRoomSectionListReq(userId:Long) extends Request
+  case class GetRoomSectionListReq(inviteeId:Long) extends Request
 
   case class GetRoomListRsp(
     roomList: List[RoomData],
@@ -121,11 +121,21 @@ object RoomProtocol {
     msg: String = "ok"
   ) extends Response
 
+  case class RoomInfoSection(roomId:Long,userId:Long,userName:String,fileName:String,time:Long)
+
   case class GetRoomSectionListRsp(
-                             roomList: List[RoomId],
+                             roomList: List[RoomInfoSection],
                              errCode: Int = 0,
                              msg: String = "ok"
                            ) extends Response
+
+  case class RoomId(roomId:Long)
+
+  case class GetRoomIdListRsp(
+                                    roomList: List[RoomId],
+                                    errCode: Int = 0,
+                                    msg: String = "ok"
+                                  ) extends Response
 
   case class RecordData(
     userId: Long,
@@ -162,7 +172,6 @@ object RoomProtocol {
     liveOrNot: Boolean
   )
 
-  case class RoomId(roomId:Long)
 
 
   case class RtmpInfo(

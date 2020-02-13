@@ -19,10 +19,21 @@ object VideoDao {
     }
   }
 
-  def getSecVideo(userId: Long): Future[Seq[tVideo#TableElementType]] = {
+  def getSecVideo2(inviteeId: Long): Future[Seq[tVideo#TableElementType]] = {
     db.run{
-      tVideo.filter(_.userid === userId).result
+      tVideo.filter(_.invitation === inviteeId).result
     }
+  }
+
+  def getSecVideo(inviteeId: Long) = {
+    val q = tUser join tVideo.filter(_.invitation === inviteeId) on{
+      (t1,t2)=>
+        List(t1.id === t2.userid).reduceLeft(_ || _)
+    }
+//    val innerJoin = for {
+//      (inviterName, inviterId) <- q
+//    } yield (inviterName,inviterId)
+    db.run(q.distinct.sortBy(_._1.id).sortBy(_._2.roomid).result)
   }
 
   def addVideo(video: rVideo): Future[Long] = {
