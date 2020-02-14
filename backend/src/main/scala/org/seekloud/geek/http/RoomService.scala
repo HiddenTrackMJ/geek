@@ -227,7 +227,7 @@ trait RoomService extends BaseService with ServiceUtils {
     }
   }
 
-  val getRecord: Route = (path("getRecord" / Segments(2)) & get & pathEndOrSingleSlash & cors(settings)){
+  val getRecord: Route = (path("getRecord" / Segments(3)) & get & pathEndOrSingleSlash & cors(settings)){
     case userId :: file  :: Nil =>
       println(s"getRecord req for $file")
 //      dealFutureResult {
@@ -236,13 +236,13 @@ trait RoomService extends BaseService with ServiceUtils {
 //            complete(ErrorRsp(10001, "没有该录像"))
 //          }
 //          else {
-//
+//            val f = new File(s"${AppSettings.videoPath}$file").getAbsoluteFile
+                  val f = new File(s"/home/teamqhx/srs/srs-3.0-a8/trunk/objs/nginx/html/live/1053_1.mp4").getAbsoluteFile
+            getFromFile(f,ContentTypes.`application/octet-stream`)
+//            complete(SuccessRsp())
 //          }
 //        }
 //      }
-      val f = new File(s"${AppSettings.videoPath}$file").getAbsoluteFile
-      //      val f = new File(s"C:\\Users\\19783\\Videos\\Captures\\2020-02-01 16-52-35.mp4").getAbsoluteFile
-      getFromFile(f,ContentTypes.`application/octet-stream`)
 
 
     case x =>
