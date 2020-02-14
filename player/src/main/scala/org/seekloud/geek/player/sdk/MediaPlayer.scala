@@ -127,6 +127,7 @@ class MediaPlayer () {
     *
     * */
   def start(playId: String, replyTo: ActorRef[Messages.RTCommand], input:Either[String, InputStream], graphContext: Option[GraphicsContext], mediaSettings: Option[MediaSettings] = None): Unit = {
+    log.info(s"开始播放器playerId:$playId")
     if(mediaSettings.isEmpty){
       playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, MediaSettings(imageWidth, imageHeight, frameRate, needImage, needSound, outputFile))
     } else{
@@ -165,6 +166,7 @@ class MediaPlayer () {
     * */
   def stop(playId: String, resetFunc: () => Unit): Unit = {
     if(playerManager != null){
+      log.info(s"停止playerId:$playId")
       playerManager ! PlayerManager.StopPlay(playId, resetFunc)
 
     }

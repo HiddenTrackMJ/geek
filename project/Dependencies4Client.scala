@@ -36,7 +36,7 @@ object Dependencies4Client {
   val byteobject = "org.seekloud" %% "byteobject" % "0.1.1"
   //  val sigar =  "org.fusesource" % "sigar" % "1.6.4"
   val oshi = "com.github.oshi" % "oshi-core" % "4.0.0"
-
+//  val ui = "com.github.Xerosigma" % "jfoenix" % "1.0.0"
 
   val clientDependencies: Seq[ModuleID] =
     akkaSeq ++ akkaHttpSeq ++ circeSeq ++
@@ -45,7 +45,8 @@ object Dependencies4Client {
       asynchttpclient,
       byteobject,
       //      sigar,
-      oshi
+      oshi,
+//      ui
     )
 
 

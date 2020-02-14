@@ -36,6 +36,12 @@ object VideoDao {
     db.run(q.distinct.sortBy(_._1.id).sortBy(_._2.roomid).result)
   }
 
+  def getInviteeVideo(inviteeId: Long,filename: String): Future[Seq[tVideo#TableElementType]] = {
+    db.run{
+      tVideo.filter(_.invitation === inviteeId).filter(_.filename === filename).result
+    }
+  }
+
   def addVideo(video: rVideo): Future[Long] = {
     db.run(
       tVideo.returning(tVideo.map(_.id)) += video

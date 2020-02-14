@@ -20,7 +20,8 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.util.Timeout
 import akka.actor.typed.scaladsl.AskPattern._
-import org.seekloud.geek.core.UserManager.{MSignIn, MSignUp}
+import akka.stream.scaladsl.Flow
+import org.seekloud.geek.core.UserManager.{MSignIn, MSignUp, SetupWs}
 import org.seekloud.geek.shared.ptcl.{ErrorRsp, SuccessRsp}
 import org.slf4j.LoggerFactory
 
@@ -71,6 +72,24 @@ trait UserService extends BaseService {
       case Left(e) =>
         log.debug(s"signUp parse json failed,error:${e.getMessage}")
         complete(jsonFormatError)
+    }
+  }
+
+  private val setupWebSocket = (path("setupWebSocket") & get) {
+    parameter(
+      'userId.as[Long],
+      'roomId.as[Long]
+    ) { (uid,  roomId) =>
+      val setWsFutureRsp: Future[Option[Flow[Message, Message, Any]]] = userManager ? (SetupWs(uid,  roomId, _))
+      dealFutureResult(
+        setWsFutureRsp.map {
+          case Some(rsp) => handleWebSocketMessages(rsp)
+          case None =>
+            log.debug(s"建立websocket失败，userId=$uid,roomId=$roomId")
+            complete("setup error")
+        }
+      )
+
     }
   }
 
@@ -132,7 +151,7 @@ trait UserService extends BaseService {
 
 
   val userRoutes: Route = pathPrefix("user") {
-    signIn ~ signUp ~ getUserDetail ~ updateUserDetail ~ updateAvatar
+    signIn ~ signUp ~ setupWebSocket ~ getUserDetail ~ updateUserDetail ~ updateAvatar
   }
 
 

@@ -54,6 +54,9 @@ object Dependencies {
   val h2Database = "com.h2database" % "h2" % "1.4.197"
   val ant =  "ant" % "ant" % "1.6.5"
   
+  val mysql ="mysql" % "mysql-connector-java" % "5.1.46"
+
+
   val backendDependencies =
     Dependencies.akkaSeq ++
     Dependencies.akkaHttpSeq ++
@@ -73,6 +76,8 @@ object Dependencies {
       Dependencies.mail,
       Dependencies.h2Database,
       Dependencies.ant
+      Dependencies.h2Database,
+      Dependencies.mysql,
     )
 
 

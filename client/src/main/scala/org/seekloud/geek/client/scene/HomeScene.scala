@@ -32,9 +32,9 @@ object HomeScene {
 
   trait HomeSceneListener {
 
-    def liveCheck()
+    def liveCheck()//创建会议
 
-    def gotoRoomPage()
+    def gotoRoomPage()//加入会议
 
     def gotoLoginDialog(
       userName: Option[String] = None,
@@ -43,6 +43,8 @@ object HomeScene {
       isToWatch: Boolean = false)
 
     def gotoRegisterDialog()
+
+    def goToJoinRoomDialog()
 
     def logout()
 

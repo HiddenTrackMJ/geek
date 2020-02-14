@@ -67,6 +67,7 @@ object AppSettings {
 
   /*rtmp settings*/
   val rtmpConfig: Config = appConfig.getConfig("rtmp")
+  val rtmpIsTest: Boolean = rtmpConfig.getBoolean("isTest")
   val rtmpProtocol: String = rtmpConfig.getString("protocol")
   val rtmpIp: String = rtmpConfig.getString("ip")
   val rtmpPort: Int = rtmpConfig.getInt("port")

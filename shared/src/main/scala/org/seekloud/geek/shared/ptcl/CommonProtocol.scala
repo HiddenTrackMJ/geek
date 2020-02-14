@@ -20,7 +20,10 @@ object CommonProtocol {
   case class UserInfo(
     userId: Long,
     userName: String,
-    headImgUrl:String
+    headImgUrl:String,
+    var pushStream:Option[String] = None,//推流的地址
+    var pullStream:Option[String] = None,//拉流的地址
+    var isHost:Option[Boolean] = Some(false) //是否是房主，组员和房主的权限不同
   )
 
   case class UserInfoDetail(
@@ -65,7 +68,7 @@ object CommonProtocol {
     roomInfo: Option[RoomInfo] = None,
     errCode: Int = 0,
     msg: String = "ok"
-  ) extends Response //fixme url，userName
+  ) extends Response
 
   case class Inviter(
                       inviterName:String,
@@ -85,9 +88,15 @@ object CommonProtocol {
     roomDes: String,
     userId: Long,  //房主id
     userName:String,
-    headImgUrl:String,
-    coverImgUrl:String,
+    headImgUrl:String = "",
+    coverImgUrl:String = "",
+    var observerNum:Int,
     var rtmp: Option[String] = None
+  )
+
+  /*同一个房间的组员信息*/
+  case class MemberInfo(
+    users:List[UserInfo] = Nil
   )
 
   /**

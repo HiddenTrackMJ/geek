@@ -1,17 +1,26 @@
 package org.seekloud.geek.core
 
 import akka.actor.Scheduler
+import akka.actor.typed.scaladsl.AskPattern._
 import akka.actor.typed.{ActorRef, Behavior}
-import akka.actor.typed.scaladsl.Behaviors
+import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
+import akka.http.scaladsl.model.ws.{BinaryMessage, Message, TextMessage}
 import akka.http.scaladsl.server.Directives.complete
-import akka.util.Timeout
+import akka.stream.{ActorAttributes, Supervision}
+import akka.stream.scaladsl.Flow
+import akka.util.{ByteString, Timeout}
+import org.seekloud.geek.Boot
 import org.seekloud.geek.models.dao.UserDao
-import org.seekloud.geek.Boot.executor
+import org.seekloud.geek.Boot.{executor, roomManager, scheduler, timeout}
 import org.seekloud.geek.core.RoomManager.{Command, idle}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{SignIn, SignInRsp, SignUp, SignUpRsp, UserInfo}
+import org.seekloud.geek.shared.ptcl.WsProtocol.{Wrap, WsMsgClient}
 import org.slf4j.LoggerFactory
 
+import scala.concurrent.Future
+import scala.concurrent.duration.FiniteDuration
 import scala.language.postfixOps
+import scala.util.{Failure, Success}
 
 /**
  * User: hewro
@@ -22,23 +31,50 @@ import scala.language.postfixOps
 object UserManager {
 
 
-  sealed trait Command
+  trait Command
   private val log = LoggerFactory.getLogger(this.getClass)
 
+  final case class MSignIn(user:SignIn,replyTo:ActorRef[SignInRsp]) extends Command//登录
 
-  case class MSignIn(user:SignIn,replyTo:ActorRef[SignInRsp]) extends Command//登录
-  case class MSignUp(user:SignUp,replyTo:ActorRef[SignUpRsp]) extends Command//注册
+  final case class MSignUp(user:SignUp, replyTo:ActorRef[SignUpRsp]) extends Command//注册
 
-  def create()(implicit timeout: Timeout, scheduler: Scheduler) =
+  private final case object BehaviorChangeKey
+
+  case class TimeOut(msg:String) extends Command
+
+  final case class WebSocketFlowSetup(userId:Long, roomId:Long, replyTo:ActorRef[Option[Flow[Message,Message,Any]]]) extends Command
+
+  final case class Register(code:String, userName:String, password:String, replyTo:ActorRef[SignUpRsp]) extends Command
+
+  final case class SetupWs(uidOpt:Long, roomId:Long,replyTo: ActorRef[Option[Flow[Message, Message, Any]]]) extends Command
+
+  private[this] def switchBehavior(ctx: ActorContext[Command], behaviorName: String,
+    behavior:Behavior[Command], durationOpt: Option[FiniteDuration] = None,
+    timeOut:TimeOut = TimeOut("busy time error"))
+    (implicit stashBuffer: StashBuffer[Command],
+      timer:TimerScheduler[Command]) ={
+    println(s"${ctx.self.path} becomes $behaviorName behavior.")
+    timer.cancel(BehaviorChangeKey)
+    durationOpt.foreach(timer.startSingleTimer(BehaviorChangeKey, timeOut, _))
+    stashBuffer.unstashAll(ctx, behavior)
+  }
+
+
+
+  def create()(implicit timeout: Timeout, scheduler: Scheduler): Behavior[Command] = {
+    log.info("UserManager started.")
     Behaviors.setup[Command] {
       _ =>
-        log.info("UserManager started.")
+        implicit val stashBuffer: StashBuffer[Command] = StashBuffer[Command](Int.MaxValue)
         Behaviors.withTimers[Command] { implicit timer =>
           idle()
         }
     }
+  }
 
-  private def idle():Behavior[Command] =
+
+  private def idle()
+    (implicit stashBuffer: StashBuffer[Command],timer:TimerScheduler[Command]):Behavior[Command] =
     Behaviors.receive[Command] {
       (ctx, msg) =>
         msg match {
@@ -53,6 +89,7 @@ object UserManager {
                 }
             }
             Behaviors.same
+
           case MSignUp(user, replyTo)=>
             UserDao.signUp(user.userName,user.password).map{
               rsp=>
@@ -65,11 +102,151 @@ object UserManager {
                 replyTo ! SignUpRsp(rsp)
             }
             Behaviors.same
+
+          case SetupWs(uid, roomId,replyTo) =>
+            UserDao.searchById(uid).onComplete {
+              case Success(f) =>
+                if (f.isDefined) {
+                  log.debug(s"${ctx.self.path} ws start")
+                  val flowFuture: Future[Option[Flow[Message, Message, Any]]] = ctx.self ? (WebSocketFlowSetup(uid,roomId, _))
+                  flowFuture.map(replyTo ! _)
+                } else {
+                  log.debug(s"${ctx.self.path}setup websocket error: the user doesn't exist")
+                  replyTo ! None
+                }
+              case Failure(e) =>
+                log.error(s"getBindWx future error: $e")
+                replyTo ! None
+            }
+            Behaviors.same
+
+          case WebSocketFlowSetup(userId, roomId, replyTo) =>
+            val existRoom: Future[Boolean] = Boot.roomManager ? (RoomManager.ExistRoom(roomId, _))
+            existRoom.map{exist =>
+              if(exist){
+                log.info(s"${ctx.self.path} websocket will setup for user:$userId")
+                getUserActorOpt(userId, ctx) match{
+                  case Some(actor) =>
+                    log.debug(s"${ctx.self.path} setup websocket error:该账户已经登录userId=$userId")
+                    //TODO 重复登录相关处理
+                    //                    actor ! UserActor.UserLogin(roomId,userId)
+                    //                    replyTo ! Some(setupWebSocketFlow(actor))
+                    replyTo ! None
+
+                  case None =>
+                    val userActor = getUserActor(userId, ctx)
+                    userActor ! UserActor.UserLogin(roomId,userId)
+                    replyTo ! Some(setupWebSocketFlow(userActor))
+                }
+
+
+              }else{
+                log.debug(s"${ctx.self.path} setup websocket error:the room doesn't exist")
+                replyTo ! None
+              }
+            }
+            Behaviors.same
+
+          case UserActor.ChildDead(userId,actor) =>
+            log.debug(s"${ctx.self.path} the child = ${userId}")
+            Behaviors.same
+
           case _=>
-            log.info("收到未知消息create")
+            log.info("recv unknown msg when create")
             Behaviors.unhandled
         }
     }
+
+  private def getUserActor(userId:Long, ctx: ActorContext[Command]) = {
+    val childrenName = s"userActor-$userId"
+    ctx.child(childrenName).getOrElse {
+      val actor = ctx.spawn(UserActor.create(userId), childrenName)
+      ctx.watchWith(actor, UserActor.ChildDead(userId, actor))
+      actor
+    }.unsafeUpcast[UserActor.Command]
+  }
+
+  private def getUserActorOpt(userId:Long, ctx:ActorContext[Command]) = {
+    val childrenName = s"userActor-$userId"
+    ctx.child(childrenName).map(_.unsafeUpcast[UserActor.Command])
+  }
+
+  private def setupWebSocketFlow(userActor:ActorRef[UserActor.Command]):Flow[Message,Message,Any]  = {
+    import org.seekloud.byteobject.ByteObject._
+    import org.seekloud.byteobject.MiddleBufferInJvm
+
+    import scala.language.implicitConversions
+
+    implicit def parseJsonString2WsMsgClient(s: String): Option[WsMsgClient] = {
+      import io.circe.generic.auto._
+      import io.circe.parser._
+
+      try {
+        val wsMsg = decode[WsMsgClient](s).right.get
+        Some(wsMsg)
+      } catch {
+        case e: Exception =>
+          log.warn(s"parse front msg failed when json parse,s=$s,e=$e")
+          None
+      }
+    }
+    Flow[Message]
+      .collect {
+        case TextMessage.Strict(m) =>
+          log.debug(s"接收到ws消息，类型TextMessage.Strict，msg-$m")
+          UserActor.WebSocketMsg(m)
+
+        case BinaryMessage.Strict(m) =>
+          //          log.debug(s"接收到ws消息，类型Binary")
+          val buffer = new MiddleBufferInJvm(m.asByteBuffer)
+          bytesDecode[WsMsgClient](buffer) match {
+            case Right(req) =>
+              UserActor.WebSocketMsg(Some(req))
+
+            case Left(e) =>
+              log.debug(s"websocket decode error:$e")
+              UserActor.WebSocketMsg(None)
+          }
+
+        case x =>
+          log.debug(s"$userActor recv a unsupported msg from websocket:$x")
+          UserActor.WebSocketMsg(None)
+
+      }
+      .via(UserActor.flow(userActor))
+      .map{
+        case t: Wrap =>
+          //          val buffer = new MiddleBufferInJvm(16384)
+          //          val message = bytesDecode[WsMsgRm](buffer) match {
+          //            case Right(rst) => rst
+          //            case Left(e) => DecodeError
+          //          }
+          //
+          //          message match {
+          //            case HeatBeat(ts) =>
+          //              log.debug(s"heartbeat: $ts")
+          //
+          //            case x =>
+          //              log.debug(s"unknown msg:$x")
+          //
+          //          }
+          BinaryMessage.Strict(ByteString(t.ws))
+
+        case x =>
+          log.debug(s"websocket send an unknown msg:$x")
+          TextMessage.apply("")
+
+      }
+
+      .withAttributes(ActorAttributes.supervisionStrategy(decider = decider))
+  }
+
+
+  private val decider:Supervision.Decider = {
+    e:Throwable =>
+      e.printStackTrace()
+      Supervision.Resume
+  }
 
 
 }

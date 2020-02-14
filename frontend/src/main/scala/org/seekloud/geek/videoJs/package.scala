@@ -39,7 +39,7 @@ package object videoJs {
 
   def renderTest(videoContainer: Element): Unit = {
     VideoJSBuilderNew()
-      .sources(VideoSource("video/mp4", "http://vjs.zencdn.net/v/oceans.mp4"))
+      .sources(VideoSource("video/mp4", "http://10.1.29.247:42075/geek/room/getRecord/1001/1053_1.mp4"))
       .controls(true)
       .poster("http://www.webmfiles.org/wp-content/uploads/2010/05/webm-files.jpg")
       .dimensions(640, 360)
@@ -49,6 +49,7 @@ package object videoJs {
       }
       .setting(videoContainer)
   }
+//  http://vjs.zencdn.net/v/oceans.mp4
 
   def renderLive(videoContainer: Element, url: String = "rtmp://10.1.29.245:1935/live/1000"): Unit = {
     VideoJSBuilderNew()

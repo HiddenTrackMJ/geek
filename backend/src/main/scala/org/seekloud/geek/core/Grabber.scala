@@ -47,6 +47,10 @@ object Grabber {
 
   case object GrabLost extends Command
 
+  case class State(image: Boolean, audio: Boolean)
+
+  final case class Shield(image: Boolean, audio: Boolean) extends Command
+
   case object TimerKey4Close
 
   private[this] def switchBehavior(ctx: ActorContext[Command],
@@ -99,7 +103,7 @@ object Grabber {
               log.info(s"exception occurs when creating grabber, error: ${e.getMessage}")
           }
 
-          work(roomId, liveId, grabber, t.rec)
+          work(roomId, liveId, State(image = true, audio = true), grabber, t.rec)
 
         case StopGrabber(reason) =>
           log.info(s"grabber $liveId stopped when init, reason:$reason")
@@ -114,6 +118,7 @@ object Grabber {
 
   def work( roomId: Long,
     liveId: String,
+    state: State,
     grabber: FFmpegFrameGrabber,
     recorder: ActorRef[Recorder.Command]
   )(implicit stashBuffer: StashBuffer[Command],
@@ -135,6 +140,9 @@ object Grabber {
         case t:GetRecorder =>
           Behaviors.same
 
+        case Shield(image, audio) =>
+          work(roomId, liveId, State(image, audio), grabber, recorder)
+
         case GrabFrameFirst =>
           log.info(s"${ctx.self} receive a msg:${msg}")
           val frame = grabber.grab()
@@ -145,7 +153,7 @@ object Grabber {
           recorder ! Recorder.UpdateRecorder(channel, sampleRate, grabber.getFrameRate, width, height, liveId)
 
           if(frame != null){
-            if(frame.image != null){
+            if(frame.image != null && state.image){
               recorder ! Recorder.NewFrame(liveId, frame.clone())
               ctx.self ! GrabFrame
             }else{
@@ -159,11 +167,15 @@ object Grabber {
 
         case GrabFrame =>
           val frame = grabber.grab()
-//          println(s"new frame: ${frame.imageHeight}")
-          if(frame != null) {
+          if(frame.image != null && state.image) {
             recorder ! Recorder.NewFrame(liveId, frame.clone())
             ctx.self ! GrabFrame
-          }else{
+          }
+          else if(frame.samples != null && state.audio) {
+            recorder ! Recorder.NewFrame(liveId, frame.clone())
+            ctx.self ! GrabFrame
+          }
+          else{
             log.info(s"$liveId --- frame is null")
             ctx.self ! StopGrabber(s"$liveId --- frame is null")
           }

@@ -95,7 +95,7 @@ object EncodeActor {
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
         case StartEncodeLoop =>
-          debug(s"frameRate: ${encoder.getFrameRate}, interval: ${1000 / encoder.getFrameRate}")
+          log.info(s"frameRate: ${encoder.getFrameRate}, interval: ${1000 / encoder.getFrameRate}")
 
           val encodeLoopExecutor = new ScheduledThreadPoolExecutor(1)
           val loop = encodeLoopExecutor.scheduleAtFixedRate(
@@ -110,6 +110,7 @@ object EncodeActor {
           working(encodeType, encoder, imageCache, imageConverter, needImage, needSound, Some(loop), Some(encodeLoopExecutor), frameNumber)
 
         case EncodeLoop =>
+          //录制图像
           if (needImage) {
             try {
               val latestImage = imageCache.peek()
@@ -135,6 +136,7 @@ object EncodeActor {
           working(encodeType, encoder, imageCache, imageConverter, needImage, needSound, encodeLoop, encodeExecutor, frameNumber + 1)
 
         case msg: EncodeSamples =>
+          //录制音频
           if (encodeLoop.nonEmpty) {
             try {
               encoder.recordSamples(msg.sampleRate, msg.channel, msg.samples)

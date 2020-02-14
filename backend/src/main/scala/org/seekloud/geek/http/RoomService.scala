@@ -12,7 +12,7 @@ import org.seekloud.geek.Boot.executor
 import akka.actor.typed.scaladsl.AskPattern._
 import io.circe.Error
 import akka.http.scaladsl.server.Route
-import org.seekloud.geek.shared.ptcl.{ComRsp, CommonErrorCode, CommonRsp, SuccessRsp}
+import org.seekloud.geek.shared.ptcl.{ComRsp, CommonErrorCode, CommonRsp, ErrorRsp, SuccessRsp}
 import org.slf4j.LoggerFactory
 import io.circe._
 import io.circe.generic.auto._
@@ -243,17 +243,22 @@ trait RoomService extends BaseService with ServiceUtils {
   }
 
   val getRecord: Route = (path("getRecord" / Segments(3)) & get & pathEndOrSingleSlash & cors(settings)){
-    case roomId :: startTime :: userId :: Nil =>
-      println(s"getRecord req for ${roomId}_$startTime.flv")
+    case userId :: file  :: Nil =>
+      println(s"getRecord req for $file")
 //      dealFutureResult {
-//        val getRoomListRsp: Future[GetUserInfoRsp] = Boot.roomManager ? (RoomManager.GetUserInfo(req, _))
-//        getRoomListRsp.map {
-//          rsp =>
-//            complete(rsp)
+//        VideoDao.getInviteeVideo(userId.toLong,file).map { list =>
+//          if (list == Vector()) {
+//            complete(ErrorRsp(10001, "没有该录像"))
+//          }
+//          else {
+//            val f = new File(s"${AppSettings.videoPath}$file").getAbsoluteFile
+                  val f = new File(s"/home/teamqhx/srs/srs-3.0-a8/trunk/objs/nginx/html/live/1053_1.mp4").getAbsoluteFile
+            getFromFile(f,ContentTypes.`application/octet-stream`)
+//            complete(SuccessRsp())
+//          }
 //        }
 //      }
-      val f = new File(s"${AppSettings.videoPath}${roomId}_$startTime.flv").getAbsoluteFile
-      getFromFile(f,ContentTypes.`application/octet-stream`)
+
 
     case x =>
       log.error(s"errs in getRecord: $x")
