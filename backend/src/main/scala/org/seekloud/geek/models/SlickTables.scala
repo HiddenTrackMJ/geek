@@ -19,13 +19,13 @@ trait SlickTables {
   def ddl = schema
 
   /** Entity class storing rows of table tRoom
-   *  @param id Database column ID SqlType(BIGINT), AutoInc, PrimaryKey
-   *  @param title Database column TITLE SqlType(VARCHAR), Length(200,true)
-   *  @param desc Database column DESC SqlType(VARCHAR), Length(200,true), Default(None)
-   *  @param livecode Database column LIVECODE SqlType(VARCHAR), Length(1000,true)
-   *  @param hostcode Database column HOSTCODE SqlType(VARCHAR), Length(200,true)
-   *  @param serverurl Database column SERVERURL SqlType(VARCHAR), Length(200,true)
-   *  @param hostid Database column HOSTID SqlType(BIGINT) */
+    *  @param id Database column ID SqlType(BIGINT), AutoInc, PrimaryKey
+    *  @param title Database column TITLE SqlType(VARCHAR), Length(200,true)
+    *  @param desc Database column DESC SqlType(VARCHAR), Length(200,true), Default(None)
+    *  @param livecode Database column LIVECODE SqlType(VARCHAR), Length(1000,true)
+    *  @param hostcode Database column HOSTCODE SqlType(VARCHAR), Length(200,true)
+    *  @param serverurl Database column SERVERURL SqlType(VARCHAR), Length(200,true)
+    *  @param hostid Database column HOSTID SqlType(BIGINT) */
   case class rRoom(id: Long, title: String, desc: Option[String] = None, livecode: String, hostcode: String, serverurl: String, hostid: Long)
   /** GetResult implicit for fetching rRoom objects using plain SQL queries */
   implicit def GetResultrRoom(implicit e0: GR[Long], e1: GR[String], e2: GR[Option[String]]): GR[rRoom] = GR{
@@ -57,12 +57,12 @@ trait SlickTables {
   lazy val tRoom = new TableQuery(tag => new tRoom(tag))
 
   /** Entity class storing rows of table tUser
-    *  @param id Database column ID SqlType(BIGINT), PrimaryKey
+    *  @param id Database column ID SqlType(BIGINT), AutoInc, PrimaryKey
     *  @param name Database column NAME SqlType(VARCHAR), Length(100,true)
     *  @param password Database column PASSWORD SqlType(VARCHAR), Length(300,true)
     *  @param avatar Database column AVATAR SqlType(VARCHAR), Length(300,true), Default(None)
-    *  @param gender Database column GENDER SqlType(INTEGER), Default(None)
-    *  @param age Database column AGE SqlType(INTEGER), Default(None)
+    *  @param gender Database column GENDER SqlType(INT), Default(None)
+    *  @param age Database column AGE SqlType(INT), Default(None)
     *  @param address Database column ADDRESS SqlType(VARCHAR), Length(100,true), Default(None) */
   case class rUser(id: Long, name: String, password: String, avatar: Option[String] = None, gender: Option[Int] = None, age: Option[Int] = None, address: Option[String] = None)
   /** GetResult implicit for fetching rUser objects using plain SQL queries */
@@ -70,8 +70,8 @@ trait SlickTables {
     prs => import prs._
       rUser.tupled((<<[Long], <<[String], <<[String], <<?[String], <<?[Int], <<?[Int], <<?[String]))
   }
-  /** Table description of table USER. Objects of this class serve as prototypes for rows in queries. */
-  class tUser(_tableTag: Tag) extends profile.api.Table[rUser](_tableTag, Some("GEEK"), "USER") {
+  /** Table description of table user. Objects of this class serve as prototypes for rows in queries. */
+  class tUser(_tableTag: Tag) extends profile.api.Table[rUser](_tableTag, Some("geek"), "user") {
     def * = (id, name, password, avatar, gender, age, address) <> (rUser.tupled, rUser.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = ((Rep.Some(id), Rep.Some(name), Rep.Some(password), avatar, gender, age, address)).shaped.<>({r=>import r._; _1.map(_=> rUser.tupled((_1.get, _2.get, _3.get, _4, _5, _6, _7)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
@@ -84,9 +84,9 @@ trait SlickTables {
     val password: Rep[String] = column[String]("PASSWORD", O.Length(300,varying=true))
     /** Database column AVATAR SqlType(VARCHAR), Length(300,true), Default(None) */
     val avatar: Rep[Option[String]] = column[Option[String]]("AVATAR", O.Length(300,varying=true), O.Default(None))
-    /** Database column GENDER SqlType(INTEGER), Default(None) */
+    /** Database column GENDER SqlType(INT), Default(None) */
     val gender: Rep[Option[Int]] = column[Option[Int]]("GENDER", O.Default(None))
-    /** Database column AGE SqlType(INTEGER), Default(None) */
+    /** Database column AGE SqlType(INT), Default(None) */
     val age: Rep[Option[Int]] = column[Option[Int]]("AGE", O.Default(None))
     /** Database column ADDRESS SqlType(VARCHAR), Length(100,true), Default(None) */
     val address: Rep[Option[String]] = column[Option[String]]("ADDRESS", O.Length(100,varying=true), O.Default(None))
@@ -95,14 +95,14 @@ trait SlickTables {
   lazy val tUser = new TableQuery(tag => new tUser(tag))
 
   /** Entity class storing rows of table tVideo
-   *  @param id Database column ID SqlType(BIGINT), AutoInc, PrimaryKey
-   *  @param userid Database column USERID SqlType(BIGINT)
-   *  @param roomid Database column ROOMID SqlType(BIGINT)
-   *  @param timestamp Database column TIMESTAMP SqlType(BIGINT)
-   *  @param filename Database column FILENAME SqlType(VARCHAR), Length(300,true)
-   *  @param length Database column LENGTH SqlType(VARCHAR), Length(100,true)
-   *  @param invitation Database column INVITATION SqlType(BIGINT)
-   *  @param comment Database column COMMENT SqlType(VARCHAR), Length(500,true) */
+    *  @param id Database column ID SqlType(BIGINT), AutoInc, PrimaryKey
+    *  @param userid Database column USERID SqlType(BIGINT)
+    *  @param roomid Database column ROOMID SqlType(BIGINT)
+    *  @param timestamp Database column TIMESTAMP SqlType(BIGINT)
+    *  @param filename Database column FILENAME SqlType(VARCHAR), Length(300,true)
+    *  @param length Database column LENGTH SqlType(VARCHAR), Length(100,true)
+    *  @param invitation Database column INVITATION SqlType(BIGINT)
+    *  @param comment Database column COMMENT SqlType(VARCHAR), Length(500,true) */
   case class rVideo(id: Long, userid: Long, roomid: Long, timestamp: Long, filename: String, length: String, invitation: Long, comment: String)
   /** GetResult implicit for fetching rVideo objects using plain SQL queries */
   implicit def GetResultrVideo(implicit e0: GR[Long], e1: GR[String]): GR[rVideo] = GR{

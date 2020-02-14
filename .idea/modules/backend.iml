@@ -14,8 +14,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="shared" exported="" />
     <orderEntry type="library" name="sbt: ant:ant:1.6.5:jar" level="project" />
+    <orderEntry type="module" module-name=".jvm-shared" exported="" />
     <orderEntry type="library" name="sbt: ch.megard:akka-http-cors_2.12:0.4.0:jar" level="project" />
     <orderEntry type="library" name="sbt: ch.qos.logback:logback-classic:1.2.3:jar" level="project" />
     <orderEntry type="library" name="sbt: ch.qos.logback:logback-core:1.2.3:jar" level="project" />
@@ -111,5 +111,6 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="sbt: mysql:mysql-connector-java:5.1.46:jar" level="project" />
   </component>
 </module>

@@ -271,7 +271,7 @@ object UserInfoPagetest extends Page{
         <div class="createCourse-list-1" style="width:40%;margin-left:10%">
           <div class="createCourse-item">
             <div class="test">头像选择：</div>
-            <img style="cursor:pointer;height:30px;width:30px;" src={Route.hestiaPath(user.avatar.getOrElse("cat.jpg"))}></img>
+            <img style="cursor:pointer;height:30px;width:30px;" src={Route.hestiaPath(user.avatar.getOrElse("be8feec67e052403e26ec05559607f10.jpg"))}></img>
             <div class="hiddenIcon">
               <input class="hiddenIcon" type="file" onchange={(e: Event) => println(s"配图==========="); uploadFunc(e.target.asInstanceOf[Input], e.target.asInstanceOf[Input].files, pic, s"img/test")}></input>
             </div>

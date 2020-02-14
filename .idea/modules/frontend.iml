@@ -22,7 +22,6 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name=".js-shared" exported="" />
     <orderEntry type="library" name="sbt: com.chuusai:shapeless_sjs0.6_2.12:2.3.3:jar" level="project" />
     <orderEntry type="library" name="sbt: com.github.karasiq:scalajs-videojs_sjs0.6_2.12:1.0.5:jar" level="project" />
     <orderEntry type="library" name="sbt: com.lihaoyi:scalatags_sjs0.6_2.12:0.6.7:jar" level="project" />
@@ -47,5 +46,6 @@
     <orderEntry type="library" name="sbt: org.typelevel:macro-compat_2.12:1.1.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.typelevel:macro-compat_sjs0.6_2.12:1.1.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.webjars.bower:video-js:5.7.1:jar" level="project" />
+    <orderEntry type="module" module-name="shared" exported="" />
   </component>
 </module>

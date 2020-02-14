@@ -75,7 +75,7 @@ object Dependencies {
       Dependencies.byteobject,
       Dependencies.mail,
       Dependencies.h2Database,
-      Dependencies.ant
+      Dependencies.ant,
       Dependencies.h2Database,
       Dependencies.mysql,
     )

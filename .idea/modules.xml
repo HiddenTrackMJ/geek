@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/.js-shared.iml" filepath="$PROJECT_DIR$/.idea/modules/.js-shared.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/.jvm-shared.iml" filepath="$PROJECT_DIR$/.idea/modules/.jvm-shared.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/backend.iml" filepath="$PROJECT_DIR$/.idea/modules/backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/capture.iml" filepath="$PROJECT_DIR$/.idea/modules/capture.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/client.iml" filepath="$PROJECT_DIR$/.idea/modules/client.iml" />

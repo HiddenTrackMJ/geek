@@ -19,7 +19,10 @@ create table `GEEK`.`USER`
     ID       BIGINT  NOT NULL unique AUTO_INCREMENT primary key,
     `NAME`     VARCHAR(100)                                       not null,
     PASSWORD VARCHAR(300)                                       not null,
-    AVATAR   VARCHAR(300)
+    AVATAR   VARCHAR(300),
+    GENDER   INT,
+    AGE   INT,
+    ADDRESS   VARCHAR(100),
 )ENGINE = InnoDB,auto_increment=1000;
 alter table user AUTO_INCREMENT=1000;
 
