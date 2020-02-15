@@ -23,7 +23,7 @@ object Header extends Component {
   def gotoLive(): Unit = {
 //    if (Main.roomList.nonEmpty) gotoPage(s"room/${Main.roomList.head.roomId}")
 //    else JsFunc.alert("当前没有录像！")
-    if (Main.roomIdData.nonEmpty) gotoPage(s"room/${Main.roomIdData.head.roomId}")
+    if (Main.roomIdData.nonEmpty) gotoPage(s"room/${Main.roomIdData.head.roomId}/${Main.roomIdData.head.fileName}")
     else JsFunc.alert("当前没有录像！")
   }
 

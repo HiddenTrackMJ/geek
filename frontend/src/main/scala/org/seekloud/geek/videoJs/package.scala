@@ -16,7 +16,6 @@ import scala.scalajs.js.JSApp
 import scala.scalajs.js.annotation.JSExport
 import scala.xml.Elem
 
-
 /**
   * User: Jason
   * Date: 2019/5/24
@@ -37,9 +36,10 @@ package object videoJs {
       .build()
   }
 
-  def renderTest(videoContainer: Element): Unit = {
+  def renderTest(videoContainer: Element,roomId:String,videoName:String): Unit = {
     VideoJSBuilderNew()
-      .sources(VideoSource("video/mp4", "http://10.1.29.247:42075/geek/room/getRecord/1001/1053_1.mp4"))
+//      .sources(VideoSource("video/mp4", "http://10.1.29.247:42075/geek/room/getRecord/1001/1053_1.mp4"))
+      .sources(VideoSource("video/mp4", s"http://10.1.29.247:42075/geek/room/getRecord/${roomId.toString}/${videoName.toString}"))
       .controls(true)
       .poster("http://www.webmfiles.org/wp-content/uploads/2010/05/webm-files.jpg")
       .dimensions(640, 360)

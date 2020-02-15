@@ -245,19 +245,19 @@ trait RoomService extends BaseService with ServiceUtils {
   val getRecord: Route = (path("getRecord" / Segments(3)) & get & pathEndOrSingleSlash & cors(settings)){
     case userId :: file  :: Nil =>
       println(s"getRecord req for $file")
-//      dealFutureResult {
-//        VideoDao.getInviteeVideo(userId.toLong,file).map { list =>
-//          if (list == Vector()) {
-//            complete(ErrorRsp(10001, "没有该录像"))
-//          }
-//          else {
-//            val f = new File(s"${AppSettings.videoPath}$file").getAbsoluteFile
-                  val f = new File(s"/home/teamqhx/srs/srs-3.0-a8/trunk/objs/nginx/html/live/1053_1.mp4").getAbsoluteFile
+      dealFutureResult {
+        VideoDao.getInviteeVideo(userId.toLong,file).map { list =>
+          if (list == Vector()) {
+            complete(ErrorRsp(10001, "没有该录像"))
+          }
+          else {
+            val f = new File(s"${AppSettings.videoPath}$file").getAbsoluteFile
+//                  val f = new File(s"/home/teamqhx/srs/srs-3.0-a8/trunk/objs/nginx/html/live/1053_1.mp4").getAbsoluteFile
             getFromFile(f,ContentTypes.`application/octet-stream`)
-//            complete(SuccessRsp())
-//          }
-//        }
-//      }
+            complete(SuccessRsp())
+          }
+        }
+      }
 
 
     case x =>

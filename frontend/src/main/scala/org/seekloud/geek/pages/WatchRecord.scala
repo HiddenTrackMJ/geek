@@ -1,4 +1,4 @@
-package org.seekloud.geek.front.pages
+package org.seekloud.geek.pages
 
 import java.text.SimpleDateFormat
 
@@ -25,14 +25,15 @@ import scala.xml.Elem
   * Time: 1:06
   */
 
-class WatchRecord(roomID: Long) extends Page{
-  override val locationHashString: String = s"#/room/$roomID"
+class WatchRecord(roomID: Long,videoName :String) extends Page{
+  override val locationHashString: String = s"#/room/$roomID/$videoName"
 
   var roomList: List[RoomData] = Main.roomList
 
   private val roomIdData: Var[List[RoomInfoSection]] = Var(Main.roomIdData)
   private val liveRoomInfo = Var(roomList)
-
+  private val roomIdVar = Var(roomID)
+  private val videoNameVar = Var(videoName)
 
   private def roomListRx(r: List[RoomInfoSection]) =
     <div class="col-md-3 col-sm-12 col-xs-12" style="background-color: #F5F5F5; margin-left:-11%;margin-right:1%;margin-top:2px;height:416px">
@@ -72,7 +73,7 @@ class WatchRecord(roomID: Long) extends Page{
   private def getRoomItem(roomList: List[RoomInfoSection], selected: Long) = {
     roomList.map { room =>
       val isSelected = if (room.roomId == selected) "actived playerSelect" else ""
-      <li class={"media event eyesight " + isSelected} style="text-align:left" onclick={() => switchEyesight(room.roomId)}>
+      <li class={"media event eyesight " + isSelected} style="text-align:left" onclick={() => switchEyesight(room.roomId,room.fileName)}>
         <a class="pull-left border-aero profile_thumb">
           <img class="player" src={Route.imgPath("room.png")}></img>
         </a>
@@ -107,9 +108,9 @@ class WatchRecord(roomID: Long) extends Page{
     }
   }
 
-  private def switchEyesight(roomId: Long): Unit ={
-    renderTest(dom.document.getElementById("my-video"))
-    dom.window.location.hash = s"#/room/$roomId"
+  private def switchEyesight(roomId: Long,videoName: String): Unit ={
+    renderTest(dom.document.getElementById("my-video"),roomIdVar.toString().drop(4).dropRight(1),videoNameVar.toString().drop(4).dropRight(1))
+    dom.window.location.hash = s"#/room/$roomId/$videoName"
   }
 
   val container: Elem =

@@ -10,7 +10,7 @@ import io.circe.generic.auto._
 import io.circe.syntax._
 import org.seekloud.geek.common.Route
 import org.seekloud.geek.common.Route
-import org.seekloud.geek.front.pages.WatchRecord
+import org.seekloud.geek.pages.WatchRecord
 import org.seekloud.geek.utils.{Http, JsFunc, PageSwitcher}
 import org.seekloud.geek.utils.{Http, JsFunc, PageSwitcher}
 
@@ -48,7 +48,7 @@ object Main extends PageSwitcher{
       case "home" :: Nil => HomePage.render
       case "userInfo" :: Nil => UserInfoPage.render
       case "inviterManage" :: Nil => InviterManagement.render
-      case "room" :: r :: Nil => new WatchRecord(r.toLong).render
+      case "room" :: r :: v :: Nil => new WatchRecord(r.toLong,v).render
       case "login" :: Nil => Login.render
 //      case "info" :: Nil => LiveHouse.render //fixme delete
       case _ => HomePage.render
