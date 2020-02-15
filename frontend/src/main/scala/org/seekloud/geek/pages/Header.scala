@@ -6,7 +6,7 @@ import org.scalajs.dom
 import org.seekloud.geek.Main
 import org.seekloud.geek.common.Route
 import org.seekloud.geek.pages.HomePage.gotoPage
-
+import org.seekloud.geek.pages.UserInfoPage.userDetail
 import scala.xml.Elem
 
 /**
@@ -61,7 +61,9 @@ object Header extends Component {
           </li>
           <li class="has-dropdown">
             <a href="#/userInfo">
-              <img style="width:25px;height:25px" src={Route.imgPath("cat.jpg")}></img>
+              {userDetail.map{user=>
+              <img style="width:25px;height:25px" src={Route.hestiaPath(user.avatar.getOrElse("be8feec67e052403e26ec05559607f10.jpg"))}></img>
+            }}
             </a>
             <ul class="dropdown">
               <li>

@@ -3,6 +3,7 @@ package org.seekloud.geek.pages
 import mhtml._
 import org.scalajs.dom
 import org.seekloud.geek.Main
+import org.seekloud.geek.pages.UserInfoPage.getUserInfo
 import org.seekloud.geek.utils.Page
 
 import scala.xml.Elem
@@ -51,7 +52,7 @@ object HomePage extends Page {
     } else {
       gotoPage("login")
     }
-
+    getUserInfo
     dom.document.body.style = "background-image: url('/geek/static/img/bg1.png');" +
       "background-attachment: fixed;" +
       "background-size: cover;" +

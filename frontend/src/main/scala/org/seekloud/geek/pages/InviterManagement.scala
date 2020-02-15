@@ -9,6 +9,7 @@ import io.circe.generic.auto._
 import io.circe.syntax._
 import org.scalajs.dom.KeyboardEvent
 import org.seekloud.geek.Main
+import org.seekloud.geek.pages.UserInfoPage.userDetail
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{InvitationReq, InvitationRsp, Inviter, InviterAndInviteeReq}
 import org.seekloud.geek.shared.ptcl.{ComRsp, SuccessRsp}
 
@@ -44,7 +45,9 @@ object InviterManagement extends Page{
   <div class="primaryInfo">
     <div class="row info">
       <div class="col-md-8">
-        <img class="headImg" src={Route.imgPath("cat.jpg")}></img>
+        {userDetail.map{user=>
+        <img style="width:25px;height:25px" src={Route.hestiaPath(user.avatar.getOrElse("be8feec67e052403e26ec05559607f10.jpg"))}></img>
+      }}
         <h2 class="username">
           {dom.window.localStorage.getItem("username")}
         </h2>
@@ -57,7 +60,7 @@ object InviterManagement extends Page{
     case Some(info) => <div class="row">
      {
       val username= dom.window.localStorage.getItem("username")
-      if(info.length<=1) <div class="save">暂无邀请 </div>
+      if(info.length==1 && info.head.inviterName == username) <div class="save">暂无邀请 </div>
       else <div>{info.filter(_.inviterName != username).map{inviter =>
         <a href="#/inviterManage" title={"用户id:"+inviter.inviterId} class="save">{inviter.inviterName} </a>
       }}</div>
@@ -71,7 +74,7 @@ object InviterManagement extends Page{
     case Some(info) => <div class="row">
       {
       val username= dom.window.localStorage.getItem("username")
-      if(info.length<=1) <div class="save">暂无邀请 </div>
+      if(info.length==1 && info.head.inviterName == username) <div class="save">暂无邀请 </div>
       else <div>{info.filter(_.inviterName != username).map{invitee =>
         <div  title="点击删除邀请" class="save" onclick={()=>delInvitee(invitee.inviterId);getInviteeInfo()}>{invitee.inviterName} </div>
       }}</div>
@@ -80,7 +83,7 @@ object InviterManagement extends Page{
   }
 
   val roomIdDetail : Rx[Elem] = roomIdData.map{
-    case Nil => <select id="modifyPeople" class="modify-people">暂无数据</select>
+    case Nil => <select id="modifyPeople" class="modify-people"><option >暂无数据</option></select>
     case info => <select id="modifyPeople" class="modify-people">
       {
       info.map(r=>

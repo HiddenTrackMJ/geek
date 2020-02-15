@@ -21,7 +21,7 @@ object VideoDao {
 
   def getSecVideo2(inviteeId: Long): Future[Seq[tVideo#TableElementType]] = {
     db.run{
-      tVideo.filter(_.invitation === inviteeId).result
+      tVideo.filter(_.userid === inviteeId).result
     }
   }
 

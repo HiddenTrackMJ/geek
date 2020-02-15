@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="abbdf6d4-f740-4aa4-ad61-f6fbb27ea63a" name="Default Changelist" comment="Grabber">
+    <list default="true" id="abbdf6d4-f740-4aa4-ad61-f6fbb27ea63a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPage_old.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/backend.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/client.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/frontend.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/org.seekloud.geek-build.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/org.seekloud.geek-build.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/player.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/player.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/scala_compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/scala_compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/sql/geek.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/sql/geek_h2.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/sql/geek_h2.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/sql/geek_mysql.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/sql/geek_mysql.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/SlickTables.scala" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/SlickTables.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPagetest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPagetest.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/Dependencies.scala" beforeDir="false" afterPath="$PROJECT_DIR$/project/Dependencies.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/streams/$global/update/$global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/$global/update/$global/streams/out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/streams/$global/update/$global/streams/update_cache_2.12/output" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/$global/update/$global/streams/update_cache_2.12/output" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.conf" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/dao/VideoDao.scala" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/dao/VideoDao.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/Main.scala" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/Main.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/common/Route.scala" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/common/Route.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/Header.scala" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/Header.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/HomePage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/HomePage.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/InviterManagement.scala" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/InviterManagement.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPage.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPagetest.scala" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/WatchRecord.scala" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/WatchRecord.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/target/streams/compile/compileIncSetup/$global/streams/inc_compile_2.12.zip" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/compile/compileIncSetup/$global/streams/inc_compile_2.12.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/streams/compile/compileIncremental/$global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/compile/compileIncremental/$global/streams/export" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/target/streams/compile/compileIncremental/$global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/compile/compileIncremental/$global/streams/out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/.js/target/streams/$global/ivyConfiguration/$global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/shared/.js/target/streams/$global/ivyConfiguration/$global/streams/out" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/shared/target/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -120,51 +120,33 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/utils/MySlickCodeGenerator.scala">
+        <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/utils/HestiaClient.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="989">
-              <caret line="46" selection-start-line="46" selection-end-line="46" />
+            <state relative-caret-position="340">
+              <caret line="26" column="78" selection-start-line="26" selection-start-column="78" selection-end-line="26" selection-end-column="78" />
               <folding>
-                <element signature="e#33#73#0" expanded="true" />
+                <element signature="e#33#52#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/target/gencode/genTablesPsql/org/seekloud/geek/models/SlickTables.scala">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/WatchRecord.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="20" column="34" lean-forward="true" selection-end-line="137" />
+            <state relative-caret-position="331">
+              <caret line="160" column="30" lean-forward="true" selection-start-line="160" selection-start-column="30" selection-end-line="160" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/SlickTables.scala">
+        <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/InviterManagement.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="137" selection-start-line="137" selection-end-line="137" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPage.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-161">
-              <caret line="24" column="7" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPagetest.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="273" column="150" lean-forward="true" selection-start-line="273" selection-start-column="150" selection-end-line="273" selection-end-column="150" />
+            <state relative-caret-position="-3450">
+              <caret line="48" column="65" selection-start-line="48" selection-start-column="55" selection-end-line="48" selection-end-column="65" />
               <folding>
                 <element signature="e#32#65#0" expanded="true" />
               </folding>
@@ -173,49 +155,73 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/src/main/resources/sql/geek_h2.sql">
+        <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPage.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="33" selection-start-line="33" selection-end-line="35" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/backend/src/main/resources/sql/geek_mysql.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="20" column="32" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/http/SessionBase.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/http/ServiceUtils.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="33" column="6" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
+            <state relative-caret-position="23">
+              <caret line="26" column="33" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="33" />
               <folding>
-                <element signature="e#32#104#0" expanded="true" />
+                <element signature="e#32#65#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.sbt">
+        <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/HomePage.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="563">
-              <caret line="31" column="21" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
+            <state relative-caret-position="621">
+              <caret line="54" column="15" selection-start-line="54" selection-start-column="15" selection-end-line="54" selection-end-column="15" />
+              <folding>
+                <element signature="e#33#47#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/Header.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
+              <folding>
+                <element signature="e#33#83#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/http/RoomService.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="423">
+              <caret line="212" column="37" selection-start-line="212" selection-start-column="37" selection-end-line="212" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/RoomProtocol.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="134" column="13" selection-start-line="134" selection-start-column="13" selection-end-line="134" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/common/Route.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="193">
+              <caret line="28" column="26" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/Main.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="98" column="20" selection-start-line="98" selection-start-column="6" selection-end-line="98" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -224,7 +230,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>update</find>
       <find>GetUserReq</find>
       <find>GetUserRsp</find>
       <find>request sent complete, but error happen</find>
@@ -254,6 +259,7 @@
       <find>提交</find>
       <find>botton</find>
       <find>getRoomSectionList</find>
+      <find>getRoomIdList&quot;</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -273,17 +279,12 @@
         <option value="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/utils/MySlickCodeGenerator.scala" />
         <option value="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/dao/RoomDao.scala" />
         <option value="$PROJECT_DIR$/backend/src/main/resources/sql/geek.sql" />
-        <option value="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/common/Route.scala" />
         <option value="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/dao/UserDao.scala" />
         <option value="$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/CommonProtocol.scala" />
         <option value="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/utils/Http.scala" />
         <option value="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/http/InvitationService.scala" />
-        <option value="$PROJECT_DIR$/backend/src/main/resources/application.conf" />
         <option value="$PROJECT_DIR$/backend/src/main/resources/css/userInfo.css" />
-        <option value="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/InviterManagement.scala" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
         <option value="$PROJECT_DIR$/backend/src/main/resources/css/live.css" />
-        <option value="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/WatchRecord.scala" />
         <option value="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/Invitation.scala" />
         <option value="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/http/UserService.scala" />
         <option value="$PROJECT_DIR$/project/Dependencies.scala" />
@@ -292,6 +293,15 @@
         <option value="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/http/SessionBase.scala" />
         <option value="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/SlickTables.scala" />
         <option value="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPagetest.scala" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
+        <option value="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/Header.scala" />
+        <option value="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPage.scala" />
+        <option value="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/HomePage.scala" />
+        <option value="$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/dao/VideoDao.scala" />
+        <option value="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/InviterManagement.scala" />
+        <option value="$PROJECT_DIR$/backend/src/main/resources/application.conf" />
+        <option value="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/common/Route.scala" />
+        <option value="$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/WatchRecord.scala" />
       </list>
     </option>
   </component>
@@ -325,6 +335,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -357,24 +369,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geek2" type="462c0819:PsiDirectoryNode" />
-              <item name="backend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geek2" type="462c0819:PsiDirectoryNode" />
-              <item name="backend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="sql" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
@@ -441,12 +435,18 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="scala" type="462c0819:PsiDirectoryNode" />
               <item name="geek" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="dao" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
               <item name="geek2" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+              <item name="geek" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
@@ -495,70 +495,12 @@
             </path>
             <path>
               <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geek2" type="462c0819:PsiDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="scala" type="462c0819:PsiDirectoryNode" />
-              <item name="geek" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geek2" type="462c0819:PsiDirectoryNode" />
-              <item name="project" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geek2" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geek2" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geek2" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geek2" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="scala" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geek2" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="scala" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="org.seekloud.geek" type="b2602c69:ProjectViewProjectNode" />
-              <item name="geek2" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="scala" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
-              <item name="ptcl" type="462c0819:PsiDirectoryNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -571,6 +513,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/backend/src/main/resources/application.conf" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/backend/src/main" />
@@ -685,10 +628,6 @@
           <value>
             <list>
               <ExternalProjectPojo>
-                <option name="name" value="player [file:/D:/Github/geek2/]" />
-                <option name="path" value="$PROJECT_DIR$/player" />
-              </ExternalProjectPojo>
-              <ExternalProjectPojo>
                 <option name="name" value="root [file:/D:/Github/geek2/]" />
                 <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
@@ -697,24 +636,28 @@
                 <option name="path" value="$PROJECT_DIR$/backend" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
-                <option name="name" value="sharedJS [file:/D:/Github/geek2/]" />
-                <option name="path" value="$PROJECT_DIR$/shared/.js" />
+                <option name="name" value="client [file:/D:/Github/geek2/]" />
+                <option name="path" value="$PROJECT_DIR$/client" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
-                <option name="name" value="sharedJVM [file:/D:/Github/geek2/]" />
-                <option name="path" value="$PROJECT_DIR$/shared/.jvm" />
+                <option name="name" value="player [file:/D:/Github/geek2/]" />
+                <option name="path" value="$PROJECT_DIR$/player" />
+              </ExternalProjectPojo>
+              <ExternalProjectPojo>
+                <option name="name" value="sharedJS [file:/D:/Github/geek2/]" />
+                <option name="path" value="$PROJECT_DIR$/shared/.js" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
                 <option name="name" value="frontend [file:/D:/Github/geek2/]" />
                 <option name="path" value="$PROJECT_DIR$/frontend" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
-                <option name="name" value="capture [file:/D:/Github/geek2/]" />
-                <option name="path" value="$PROJECT_DIR$/capture" />
+                <option name="name" value="sharedJVM [file:/D:/Github/geek2/]" />
+                <option name="path" value="$PROJECT_DIR$/shared/.jvm" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
-                <option name="name" value="client [file:/D:/Github/geek2/]" />
-                <option name="path" value="$PROJECT_DIR$/client" />
+                <option name="name" value="capture [file:/D:/Github/geek2/]" />
+                <option name="path" value="$PROJECT_DIR$/capture" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
                 <option name="name" value="geek2-sources" />
@@ -732,7 +675,7 @@
     <option name="modificationStamps">
       <map>
         <entry key="$PROJECT_DIR$/build.sbt" value="1541497579" />
-        <entry key="$PROJECT_DIR$/project/Dependencies.scala" value="1482429053" />
+        <entry key="$PROJECT_DIR$/project/Dependencies.scala" value="3871961795" />
         <entry key="$PROJECT_DIR$/project/Dependencies4Capture.scala" value="574119507" />
         <entry key="$PROJECT_DIR$/project/Dependencies4Client.scala" value="1016043256" />
         <entry key="$PROJECT_DIR$/project/Dependencies4Player.scala" value="2868485778" />
@@ -810,7 +753,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38866000" />
+    <option name="totallyTimeSpent" value="47659000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -823,9 +766,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49886876" visible="true" weight="0.26877683" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49886876" visible="true" weight="0.2725322" />
       <window_info id="Structure" order="1" sideWeight="0.50113124" side_tool="true" weight="0.25375536" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -840,12 +782,12 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32918552" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.28393665" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49946353" visible="true" weight="0.23755656" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49946353" visible="true" weight="0.19909503" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5005365" side_tool="true" weight="0.21153846" />
       <window_info anchor="bottom" id="Statistic" order="11" weight="0.32918552" />
       <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" weight="0.32918552" />
-      <window_info anchor="bottom" id="Version Control" order="13" weight="0.24773756" />
+      <window_info anchor="bottom" id="Version Control" order="13" weight="0.30882353" />
       <window_info anchor="bottom" id="Messages" order="14" weight="0.2183258" />
       <window_info anchor="bottom" id="sbt-shell-toolwindow" order="15" weight="0.32918552" />
       <window_info anchor="bottom" id="Database Console" order="16" weight="0.32918552" />
@@ -856,7 +798,7 @@
       <window_info anchor="right" id="Palette" order="4" />
       <window_info anchor="right" id="sbt" order="5" weight="0.14592275" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
-      <window_info anchor="right" id="Database" order="7" visible="true" weight="0.21512875" />
+      <window_info anchor="right" id="Database" order="7" visible="true" weight="0.18723176" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
       <window_info anchor="right" id="Theme Preview" order="9" />
     </layout>
@@ -929,9 +871,9 @@
     <state x="554" y="134" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" />
     <state x="92" y="92" width="1736" height="896" key="DiffContextDialog" />
     <state x="92" y="92" width="1736" height="896" key="DiffContextDialog/0.0.1920.1080@0.0.1920.1080" />
-    <state width="355" height="622" key="Git.Branch.Popup" />
-    <state width="355" height="622" key="Git.Branch.Popup/1920.1080" />
-    <state width="355" height="622" key="Git.Branch.Popup@1920.1080@120dpi" />
+    <state width="357" height="624" key="Git.Branch.Popup" />
+    <state width="357" height="624" key="Git.Branch.Popup/1920.1080" />
+    <state width="357" height="624" key="Git.Branch.Popup@1920.1080@120dpi" />
     <state x="822" y="420" width="300" height="240" key="Github.ShareDialog" />
     <state x="822" y="420" width="300" height="240" key="Github.ShareDialog/0.0.1920.1080@0.0.1920.1080" />
     <state x="696" y="245" key="Github.UntrackedFilesDialog" />
@@ -956,151 +898,6 @@
     <state x="759" y="257" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1080@0.0.1920.1080" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/RoomActor.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2422">
-          <caret line="24" column="7" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/UserManager.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="56" column="60" lean-forward="true" selection-start-line="56" selection-start-column="60" selection-end-line="56" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/utils/Http.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
-          <caret line="84" column="10" selection-start-line="84" selection-start-column="10" selection-end-line="85" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/http/HttpService.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="48" column="27" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/.history">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/logs/application.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-43697">
-          <caret line="113" column="64" selection-start-line="113" selection-start-column="64" selection-end-line="113" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/FileProtocol.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/CommonInfo.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="7" column="7" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/package.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/dao/RoomDao.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="31" column="101" selection-start-line="31" selection-start-column="94" selection-end-line="31" selection-end-column="101" />
-          <folding>
-            <element signature="e#38#68#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/dao/VideoDao.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="48" column="29" lean-forward="true" selection-start-line="48" selection-start-column="29" selection-end-line="48" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/dao/UserDao.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="47" column="20" lean-forward="true" selection-start-line="47" selection-start-column="20" selection-end-line="47" selection-end-column="20" />
-          <folding>
-            <element signature="e#37#77#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/Main.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="35" column="45" selection-start-line="35" selection-start-column="45" selection-end-line="35" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/Login.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="37" column="69" lean-forward="true" selection-start-line="37" selection-start-column="69" selection-end-line="37" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/Header.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/HomePage.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/resources/css/liveHouse.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3137" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/resources/html/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-276" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/InviterManagement.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="133" column="12" selection-start-line="133" selection-start-column="12" selection-end-line="133" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/resources/css/userInfo.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="223" column="18" selection-start-line="223" selection-start-column="18" selection-end-line="223" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/resources/css/live.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="67" column="16" selection-start-line="67" selection-start-column="16" selection-end-line="67" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/RoomManager.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4514">
@@ -1110,20 +907,6 @@
     </entry>
     <entry file="das://a2d16153-9b8c-4686-aab0-591ece8001a8/database/GEEK/schema/GEEK/table/USER" />
     <entry file="das://a2d16153-9b8c-4686-aab0-591ece8001a8/database/GEEK/schema/GEEK/table/VIDEO" />
-    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/common/Route.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="27" column="61" selection-start-line="27" selection-start-column="43" selection-end-line="27" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/RoomProtocol.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="161" column="22" selection-start-line="161" selection-start-column="15" selection-end-line="161" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/http/InvitationService.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-245">
@@ -1151,59 +934,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/WatchRecord.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="163" column="78" selection-start-line="163" selection-start-column="60" selection-end-line="163" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/http/RoomService.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="197" column="72" lean-forward="true" selection-start-line="197" selection-start-column="72" selection-end-line="197" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/Invitation.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="57" column="76" selection-start-line="57" selection-start-column="76" selection-end-line="57" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/7af2fb78-8f9a-4467-a938-e3f5b488570c/console.sql" />
-    <entry file="file://$PROJECT_DIR$/backend/src/main/resources/application.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="130" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/53db306c-0497-481e-bf0b-578c91559c63/console.sql">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/resources/sql/geek.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="76" selection-start-line="76" selection-end-line="78" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/resources/sql/geek.sql" />
     <entry file="file://$PROJECT_DIR$/project/Dependencies.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="321">
           <caret line="77" column="23" selection-start-line="77" selection-start-column="23" selection-end-line="77" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/utils/HestiaClient.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="15" column="7" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
-          <folding>
-            <element signature="e#33#52#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1262,34 +1001,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPage.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-161">
-          <caret line="24" column="7" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/src/main/resources/img/cat.jpg">
       <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="das://53db306c-0497-481e-bf0b-578c91559c63/schema/geek/table/user">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state projectRestartId="3fe86aa3-368e-4fbf-8103-e05773ea6cbc">
-          <filtering>
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPagetest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="273" column="150" lean-forward="true" selection-start-line="273" selection-start-column="150" selection-end-line="273" selection-end-column="150" />
-          <folding>
-            <element signature="e#32#65#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/src/main/resources/sql/geek_h2.sql">
       <provider selected="true" editor-type-id="text-editor">
@@ -1302,6 +1015,263 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="363">
           <caret line="20" column="32" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../geek/player/src/main/scala/org/seekloud/geek/player/common/Constants.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="4" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../geek/player/src/main/scala/org/seekloud/geek/player/demo/Test2.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="655">
+          <caret line="61" selection-start-line="61" selection-end-line="61" />
+          <folding>
+            <element signature="e#39#73#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../geek/player/src/main/scala/org/seekloud/geek/player/protocol/Messages.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+          <folding>
+            <element signature="e#43#75#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../geek/player/src/main/scala/org/seekloud/geek/player/core/ImageActor.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2300">
+          <caret line="100" column="10" selection-start-line="100" selection-start-column="10" selection-end-line="100" selection-end-column="10" />
+          <folding>
+            <element signature="e#39#99#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../geek/player/src/main/scala/org/seekloud/geek/player/core/PlayerGrabber.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="667">
+          <caret line="29" column="7" selection-start-line="29" selection-start-column="7" selection-end-line="29" selection-end-column="7" />
+          <folding>
+            <element signature="e#39#65#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://53db306c-0497-481e-bf0b-578c91559c63/schema/geek/table/user">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="815226db-f811-4d57-ad48-b17895bd3e3e">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../geek/player/src/main/scala/org/seekloud/geek/player/core/PlayerManager.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5520">
+          <caret line="240" column="115" selection-start-line="240" selection-start-column="115" selection-end-line="240" selection-end-column="115" />
+          <folding>
+            <element signature="e#39#73#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../geek/player/src/main/scala/org/seekloud/geek/player/Boot.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="805">
+          <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../geek/player/src/main/scala/org/seekloud/geek/player/core/RecordActor.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="24" column="7" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
+          <folding>
+            <element signature="e#39#73#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../geek/player/src/main/scala/org/seekloud/geek/player/core/SoundActor.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="15" column="7" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+          <folding>
+            <element signature="e#39#83#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../geek/player/src/main/scala/org/seekloud/geek/player/demo/Test1.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/Login.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="37" column="69" selection-start-line="37" selection-start-column="69" selection-end-line="37" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/utils/Component.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-99">
+          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/dao/UserDao.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-851">
+          <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/Invitation.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="65" column="33" selection-start-line="65" selection-start-column="21" selection-end-line="65" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPage_old.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="112" column="35" selection-start-line="112" selection-start-column="35" selection-end-line="112" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/models/dao/VideoDao.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/core/UserManager.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="30" column="7" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/resources/application.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="90" column="19" selection-start-line="90" selection-start-column="15" selection-end-line="90" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/common/AppSettings.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="119" column="6" selection-start-line="119" selection-start-column="6" selection-end-line="119" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://53db306c-0497-481e-bf0b-578c91559c63/schema/geek/table/video">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="815226db-f811-4d57-ad48-b17895bd3e3e">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/utils/HestiaClient.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="26" column="78" selection-start-line="26" selection-start-column="78" selection-end-line="26" selection-end-column="78" />
+          <folding>
+            <element signature="e#33#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shared/src/main/scala/org/seekloud/geek/shared/ptcl/RoomProtocol.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="134" column="13" selection-start-line="134" selection-start-column="13" selection-end-line="134" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/main/scala/org/seekloud/geek/http/RoomService.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="212" column="37" selection-start-line="212" selection-start-column="37" selection-end-line="212" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/common/Route.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="28" column="26" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/Main.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="98" column="20" selection-start-line="98" selection-start-column="6" selection-end-line="98" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/Header.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
+          <folding>
+            <element signature="e#33#83#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/HomePage.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="54" column="15" selection-start-line="54" selection-start-column="15" selection-end-line="54" selection-end-column="15" />
+          <folding>
+            <element signature="e#33#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/UserInfoPage.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="26" column="33" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="33" />
+          <folding>
+            <element signature="e#32#65#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/InviterManagement.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3450">
+          <caret line="48" column="65" selection-start-line="48" selection-start-column="55" selection-end-line="48" selection-end-column="65" />
+          <folding>
+            <element signature="e#32#65#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/main/scala/org/seekloud/geek/pages/WatchRecord.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="331">
+          <caret line="160" column="30" lean-forward="true" selection-start-line="160" selection-start-column="30" selection-end-line="160" selection-end-column="30" />
         </state>
       </provider>
     </entry>

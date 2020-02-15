@@ -158,9 +158,32 @@ class WatchRecord(roomID: Long) extends Page{
     }
   }
 
+  def getCommentList: Unit = {
+    val url = Route.Room.getRoomList
+    val data = GetRoomListReq().asJson.noSpaces
+    Http.postJsonAndParse[GetRoomListRsp](url, data).map {
+      rsp =>
+        try {
+          if (rsp.errCode == 0) {
+            roomList = rsp.roomList
+            liveRoomInfo := roomList
+            println(s"got it : $rsp")
+          }
+          else {
+            println("error======" + rsp.msg)
+            JsFunc.alert(rsp.msg)
+          }
+        }
+        catch {
+          case e: Exception =>
+            println(e)
+        }
+    }
+  }
+
   def getRoomSecList(): Unit ={
     val userId = dom.window.localStorage.getItem("userId").toLong
-    Http.postJsonAndParse[GetRoomSectionListRsp](Route.Room.getRoomIdList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
+    Http.postJsonAndParse[GetRoomSectionListRsp](Route.Room.getRoomSectionList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
       rsp =>
         if(rsp.errCode == 0) {
           roomIdData := rsp.roomList
