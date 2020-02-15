@@ -73,10 +73,10 @@ object RoomDealer {
     stashBuffer.unstashAll(ctx, behavior)
   }
 
-  def getVideoDuration(fileName: String) ={
+  def getVideoDuration(filePath: String) ={
     val ffprobe = Loader.load(classOf[org.bytedeco.ffmpeg.ffprobe])
     //容器时长（container duration）
-    val pb = new ProcessBuilder(ffprobe,"-v","error","-show_entries","format=duration", "-of","csv=\"p=0\"","-i", s"${AppSettings.videoPath}${fileName}")
+    val pb = new ProcessBuilder(ffprobe,"-v","error","-show_entries","format=duration", "-of","csv=\"p=0\"","-i", s"$filePath")
     val processor = pb.start()
     val br = new BufferedReader(new InputStreamReader(processor.getInputStream))
     val s = br.readLine()
