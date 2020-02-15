@@ -6,6 +6,7 @@ import mhtml.Var
 import org.seekloud.geek.utils.{Http, JsFunc, Page}
 import org.seekloud.geek.videoJs.VideoJSBuilderNew
 import org.scalajs.dom
+import org.scalajs.dom.html.{Button, Input}
 import org.seekloud.geek.Main
 import org.seekloud.geek.common.Route
 import org.seekloud.geek.videoJs._
@@ -37,23 +38,34 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
   private val CommentInfo: Var[Option[List[Comment]]] = Var(None)
   private val roomIdVar = Var(roomID)
   private val videoNameVar = Var(videoName)
+  private val userNameVar = Var("")
+  private val fileNameVar = Var("")
+  private val isinvitedVar = Var(false)
 
   private def roomListRx(r: List[RoomInfoSection]) =
-    <div class="col-md-3 col-sm-12 col-xs-12" style="background-color: #F5F5F5; margin-left:-11%;margin-right:1%;margin-top:2px;height:416px">
+    <div class="col-md-3 col-sm-12 col-xs-12" style="background-color: #F5F5F5; margin-left:-11%;margin-right:1%;margin-top:2px;height:416px;overflow-y: auto;">
       <div class="x_title">
         <h2>录像列表</h2>
       </div>
       <ul class="list-unstyled top_profiles scroll-view">
         {
-        getRoomItem(r, roomID)
+        getRoomItem(r, videoName)
         }
       </ul>
     </div>
 
   private def commentListRx(r: List[RoomInfoSection]) =
-    <div class="col-md-3 col-sm-12 col-xs-12" style="background-color: #F5F5F5; margin-left:1%;margin-top:2px;height:416px">
+    <div class="col-md-3 col-sm-12 col-xs-12" style="background-color: #F5F5F5; margin-left:1%;margin-top:2px;height:377px;overflow-y: auto;">
       <div class="x_title">
         <h2>评论列表</h2>
+      </div>
+      <div class="comment-Video">
+        <div class="commentTitle"></div>
+        <input class="commentInput" placehoder="发个友善的评论" id="commentInput">666</input>
+        {isinvitedVar.map{r=>
+        if(r) <div class="commentSubmit" onclick={() =>addComment(fileNameVar.toString().drop(4).dropRight(1));}>发表评论</div>
+        else <div class="commentNoSubmit">禁止评论</div>
+      }}
       </div>
       <ul class="list-unstyled top_profiles scroll-view">
         {
@@ -62,20 +74,24 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
       </ul>
     </div>
 
-  private def commentRx =
-    <div class="col-md-9" style="background-color: #F5F5F5; margin-left:1%;margin-top:2px;height:40px">
-      <div class="comment-Video">
-        <div class="commentTitle"></div>
-        <input class="commentInput" placehoder="发个友善的评论">666</input>
-        <div class="commentSubmit" onclick={() =>()}>发表评论</div>
-      </div>
-    </div>
+//  private def commentRx =
+//    <div class="col-md-7" style="background-color: #F5F5F5; margin-left:129px;margin-top:2px;height:40px">
+//      <div class="comment-Video">
+//        <div class="commentTitle"></div>
+//        <input class="commentInput" placehoder="发个友善的评论" id="commentInput">666</input>
+//        {isinvitedVar.map{r=>
+//        if(r) <div class="commentSubmit" onclick={() =>addComment(fileNameVar.toString().drop(4).dropRight(1));}>发表评论</div>
+//        else <div class="commentNoSubmit">禁止评论</div>
+//      }}
+//      </div>
+//    </div>
 
 
 
-  private def getRoomItem(roomList: List[RoomInfoSection], selected: Long) = {
+  private def getRoomItem(roomList: List[RoomInfoSection], selected: String) = {
     roomList.map { room =>
-      val isSelected = if (room.roomId == selected) "actived playerSelect" else ""
+      if (room.fileName == selected) {userNameVar:=room.userName;fileNameVar:=room.fileName;isinvitedVar:=room.isInvited}
+      val isSelected = if (room.fileName == selected) "actived playerSelect" else ""
       <li class={"media event eyesight " + isSelected} style="text-align:left" onclick={() => switchEyesight(room.roomId,room.fileName)}>
         <a class="pull-left border-aero profile_thumb">
           <img class="player" src={Route.imgPath("room.png")}></img>
@@ -84,8 +100,12 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
           <a class="title" href="javascript:void(0)">
             {"主讲人"+room.userName}({"会议号"+room.roomId})
           </a>
-          <p>{"录像名："+room.fileName}</p>
-          <p>{"保存录像时间："+room.time}</p>
+          <p style="font-size:5px">{"录像名："+room.fileName}</p>
+          <p style="font-size:5px">{"保存录像时间："+room.time}</p>
+          {
+          if(room.isInvited) <p style="font-size:5px">{"邀请状态：已邀请"}</p>
+          else <p style="font-size:5px;color:red" >{"邀请状态：未邀请"}</p>
+          }
         </div>
       </li>
     }
@@ -94,16 +114,18 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
   private def getCommitItem(videoName:String) = {
 
     CommentInfo.map{comment1=>
-      comment1.getOrElse(List.empty).map{ room=>
-//      val isSelected = if (room. == videoName) "" else ""
-//      <li class={"media event eyesight " + isSelected} style="text-align:left">
+      comment1.getOrElse(List.empty).filter(_.commentContent!="").map{ room=>
+      val isSelected =  ""
+      <li class={"media event eyesight " + isSelected} style="text-align:left">
 
         <div class="media-body">
           {
-          <div><a class="title" href="javascript:void(0)">{"xue1"}({"2020-2-4 23:11:23"})</a><p>{"w t f?"}</p></div>
+          if(userNameVar.toString().drop(4).dropRight(1)==dom.window.localStorage.getItem("username").toString)
+          <div title="删除" onclick={()=>delComment(room.commentId);getCommentList(roomID,videoName)}><a class="title" href="javascript:void(0)">{room.userId}</a><p>{room.commentContent}</p></div>
+          else <div><a class="title" href="javascript:void(0)">{room.invitationName}</a><p>{room.commentContent}</p></div>
           }
         </div>
-//      </li>
+      </li>
     }
   }}
 
@@ -111,6 +133,10 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
     val userId= dom.window.localStorage.getItem("userId").toString
     renderTest(dom.document.getElementById("my-video"),userId,videoNameVar.toString().drop(4).dropRight(1))
     dom.window.location.hash = s"#/room/$roomId/$videoName"
+  }
+
+  private def refresh: Unit ={
+    dom.window.location.hash = s"#/room/$roomID/$videoName"
   }
 
   val container: Elem =
@@ -123,10 +149,10 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
           <div class="x_content" >
             {
             roomIdData.map( l =>
-              if (l.isEmpty) <div>{roomListRx(l)}{container}{commentListRx(l)}{commentRx}</div>
+              if (l.isEmpty) <div>{roomListRx(l)}{container}{commentListRx(l)}</div>
               else {
 //                dom.window.setTimeout(()=>renderLive(dom.document.getElementById("my-video"), l.filter(_.roomId == roomID).head.url), 1000)
-                <div>{roomListRx(l)}{container}{commentListRx(l)}{commentRx}</div>
+                <div>{roomListRx(l)}{container}{commentListRx(l)}</div>
               }
             )
             }
@@ -162,32 +188,38 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
   def getCommentList(roomID:Long,videoName:String): Unit = {
     val url = Route.Room.getCommentList
     val data = GetCommentReq(roomID,videoName).asJson.noSpaces
+    println(s"ssss start : ")
     Http.postJsonAndParse[GetCommentRsp](url, data).map {
       rsp =>
         try {
           if (rsp.errCode == 0) {
             CommentInfo :=rsp.roomId
-            println(s"got it : $rsp")
+            println(s"ssss got it : $rsp")
           }
           else {
-            println("error======" + rsp.msg)
-            JsFunc.alert(rsp.msg)
+            println("ssss error======" + rsp.msg)
           }
-        }
-        catch {
-          case e: Exception =>
-            println(e)
-        }
     }
+    catch {
+      case e: Exception =>
+        println("ssss error======")
+    }
+
+    }
+
   }
-  def addComment(commentID:Long,commentContent:String): Unit = {
+
+  def addComment(fileName:String): Unit = {
     val url = Route.Room.addComment
-    val data = addCommentReq(commentID,commentContent).asJson.noSpaces
+    val userId=dom.window.localStorage.getItem("userId").toLong
+    val commentContent = dom.document.getElementById("commentInput").asInstanceOf[Input].value
+    val data = addCommentReq(fileName,userId,commentContent).asJson.noSpaces
     Http.postJsonAndParse[SuccessRsp](url, data).map {
       rsp =>
         try {
           if (rsp.errCode == 0) {
             JsFunc.alert("评论成功")
+            getCommentList(roomID,videoName)
           }
           else {
             println("error======" + rsp.msg)
@@ -248,6 +280,8 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
 //    getRoomList
     getRoomSecList()
     getCommentList(roomID,videoName)
+    println(s"ssss end : ")
+//    getCommentList(1002,"sss")
     <div >
       {background}
     </div>

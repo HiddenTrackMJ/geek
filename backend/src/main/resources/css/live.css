@@ -52,17 +52,30 @@
 }
 .comment-Video{
     display: flex;
-    align-items:center;
+    align-items: center;
+    position: fixed;
+    margin-top: 375px;
+    margin-left: -10px;
+    background: white;
 }
 .commentSubmit{
-    /*display: flex;*/
-    width:108px;
-    height:32px;
-    background:rgba(49,144,255,1);
-    font-size:14px;
-    color:rgba(255,255,255,1);
+    width: 82px;
+    height: 32px;
+    background: rgba(49,144,255,1);
+    color: rgba(255,255,255,1);
     border-radius: 4px;
     cursor: pointer;
+    text-align: center;
+    line-height: 32px;
+    margin: 5px;
+}
+.commentNoSubmit{
+    /*display: flex;*/
+    width: 82px;
+    height: 32px;
+    background:#999;
+    color: rgba(255,255,255,1);
+    border-radius: 4px;
     text-align: center;
     line-height: 32px;
     margin: 5px;

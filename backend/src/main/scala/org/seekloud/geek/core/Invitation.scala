@@ -13,6 +13,7 @@ import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.seekloud.geek.shared.ptcl.RoomProtocol.{GetRoomIdListRsp, GetRoomSectionListReq, GetRoomSectionListRsp, RoomId, RoomInfoSection}
 import org.seekloud.geek.shared.ptcl.SuccessRsp
 import org.slf4j.LoggerFactory
+import org.seekloud.geek.utils.TimeUtil.timeStamp2yyyyMMdd
 
 import scala.language.postfixOps
 
@@ -57,7 +58,9 @@ object Invitation {
                 if (rsp isEmpty){
                   replyTo ! GetRoomSectionListRsp(List(),-1,"查询为空")
                 }else{
-                  replyTo ! GetRoomSectionListRsp(rsp.map(e=>RoomInfoSection(e._2.roomid,e._2.userid,e._1.name,e._2.filename,e._2.timestamp)).toSet.toList,0,"有该user的录像")
+
+                  replyTo ! GetRoomSectionListRsp(rsp.map{e=>if(e._2.invitation==room.inviteeId) RoomInfoSection(e._2.roomid,e._2.userid,e._1.name,e._2.filename,timeStamp2yyyyMMdd(e._2.timestamp),true)
+                  else RoomInfoSection(e._2.roomid,e._2.userid,e._1.name,e._2.filename,timeStamp2yyyyMMdd(e._2.timestamp),false)}.toSet.toList,0,"有该user的录像")
                 }
             }
             Behaviors.same

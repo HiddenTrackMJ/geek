@@ -36,12 +36,12 @@ package object videoJs {
       .build()
   }
 
-  def renderTest(videoContainer: Element,roomId:String,videoName:String): Unit = {
+  def renderTest(videoContainer: Element,userId:String,videoName:String): Unit = {
     VideoJSBuilderNew()
-//      .sources(VideoSource("video/mp4", "http://10.1.29.247:42075/geek/room/getRecord/1001/1053_1.mp4"))
-      .sources(VideoSource("video/mp4", s"http://10.1.29.247:42075/geek/room/getRecord/${roomId.toString}/${videoName.toString}"))
+      .sources(VideoSource("video/mp4", s"http://127.0.0.1:42075/geek/room/getRecord/${userId.toString}/${videoName.toString}"))
+//      .sources(VideoSource("video/mp4", s"http://10.1.29.247:42075/geek/room/getRecord/${userId.toString}/${videoName.toString}"))
       .controls(true)
-      .poster("http://www.webmfiles.org/wp-content/uploads/2010/05/webm-files.jpg")
+      .poster(Route.imgPath("black.jpg"))
       .dimensions(640, 360)
       .ready { player ⇒
         player.bigPlayButton.el().setAttribute("style", "color: red;")

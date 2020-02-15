@@ -157,6 +157,7 @@ object CommonProtocol {
                     commentId:Long,
                     userId:Long,
                     invitation:Long,
+                    invitationName:String,
                     commentContent:String,
                     )
   case class GetCommentRsp(
@@ -166,7 +167,8 @@ object CommonProtocol {
                           ) extends Request
 
   case class addCommentReq(
-                            commentId:Long,
+                            fileName:String,
+                            userId:Long,
                             commentContent:String,
                           ) extends Request
   case class delCommentReq(

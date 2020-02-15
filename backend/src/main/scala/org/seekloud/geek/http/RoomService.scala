@@ -244,14 +244,14 @@ trait RoomService extends BaseService with ServiceUtils {
 
   val getRecord: Route = (path("getRecord" / Segments(2)) & get & pathEndOrSingleSlash & cors(settings)){
     case userId :: file  :: Nil =>
-      println(s"getRecord req for $file")
+      println(s"user id: $userId getRecord req for $file")
       dealFutureResult {
         VideoDao.getInviteeVideo(userId.toLong,file).map { list =>
           if (list.toList.nonEmpty) {
-            val f = new File(s"${AppSettings.videoPath}${list.toList.head.filename}").getAbsoluteFile
-//                              val f = new File(s"/home/teamqhx/srs/srs-3.0-a8/trunk/objs/nginx/html/live/1053_1.mp4").getAbsoluteFile
+//            val f = new File(s"${AppSettings.videoPath}${list.toList.head.filename}").getAbsoluteFile
+                              val f = new File(s"J:\\暂存\\videos\\录制_2020_02_15_18_54_27_35.mp4").getAbsoluteFile
             getFromFile(f,ContentTypes.`application/octet-stream`)
-            complete(SuccessRsp())
+//            complete(SuccessRsp())
           }
           else {
 
@@ -304,7 +304,7 @@ trait RoomService extends BaseService with ServiceUtils {
       case Right(req) =>
         dealFutureResult{
           VideoDao.getComment(req.roomId,req.filename).map{ v =>
-            val rsp = v.toList.map(i => Comment(i.id, i.userid, i.invitation, i.comment))
+            val rsp = v.toList.map(i => Comment(i._2.id, i._2.userid, i._2.invitation,i._1.name, i._2.comment))
             complete(GetCommentRsp(Some(rsp)))
           }
         }
@@ -314,15 +314,10 @@ trait RoomService extends BaseService with ServiceUtils {
     }
   }
 
-//  commentId:Long,
-//  userId:Long,
-//  invitation:Long,
-//  commentContent:String,
-
   private val addRoomComment = (path("addRoomComment") & post){
     entity(as[Either[Error, addCommentReq]]) {
       case Right(req) =>
-          VideoDao.addComment(req.commentId,req.commentContent)
+          VideoDao.addComment(req.fileName,req.userId,req.commentContent)
           complete(SuccessRsp())
 
       case Left(error) =>
@@ -342,9 +337,9 @@ trait RoomService extends BaseService with ServiceUtils {
 
 
   val roomRoutes: Route = pathPrefix("room") {
-    getRoomInfo ~ createRoom ~ startLive ~ startLive4Client ~ stopLive ~ getRecordList ~ joinRoom ~
+    getRoomInfo ~ getRoomCommentList ~ createRoom ~ startLive ~ startLive4Client ~ stopLive ~ getRecordList ~ joinRoom ~
     stopLive4Client ~ getRecord ~ getRoomList ~ getUserInfo ~ kickOff ~getRoomSectionList ~ getRoomIdList ~
-      getRoomCommentList ~ addRoomComment ~ delComment
+       addRoomComment ~ delComment
 
   }
 

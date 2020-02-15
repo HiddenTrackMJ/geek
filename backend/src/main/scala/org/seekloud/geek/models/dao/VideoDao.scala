@@ -86,14 +86,17 @@ object VideoDao {
   }
 
   def getComment(roomid:Long,filename:String)  = {
-    db.run{
-      tVideo.filter(_.roomid === roomid).filter(_.filename === filename).result
+//    val q=tVideo.filter(_.roomid===roomid).filter(_.filename===filename).result
+    val q = tUser join tVideo.filter(_.roomid===roomid).filter(_.filename===filename) on{
+      (t1,t2)=>
+        List(t1.id === t2.invitation).reduceLeft(_ || _)
     }
+    db.run{q.distinct.sortBy(_._1.id).result}
   }
 
-  def addComment(id:Long,commentContent:String)  = {
+  def addComment(filename:String,userId:Long,commentContent:String)  = {
     val q=for {
-      d<-tVideo.filter(_.id === id).result.head
+      d<-tVideo.filter(_.filename === filename).filter(_.invitation===userId).result.head
       c <-tVideo += rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,d.invitation,commentContent)
     } yield d
     db.run(q)

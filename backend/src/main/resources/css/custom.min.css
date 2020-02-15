@@ -1152,9 +1152,12 @@ h2 {
 }
 
 .x_title {
-    /*border-bottom: 2px solid #E6E9ED;*/
 
-    padding: 1px 5px 6px
+    position: fixed;
+    background-color: rgb(245, 245, 245);
+    display: flex;
+    width: 220px;
+    justify-content: center;
 }
 
 .x_title .filter {
@@ -1169,7 +1172,9 @@ h2 {
 .x_title h2 {
     margin: 5px 0 6px;
     float: left;
-    display: block
+    display: block;
+    color: rgb(26, 187, 156);
+    border-bottom: 2px solid rgb(26, 187, 156);
 }
 
 .x_title h2 small {
@@ -1948,7 +1953,9 @@ a.user-profile {
 
 ul.top_profiles {
     /*height: 330px;*/
-    width: 100%
+    width: 100%;
+    margin-top: 40px;
+
 }
 
 ul.top_profiles li {
