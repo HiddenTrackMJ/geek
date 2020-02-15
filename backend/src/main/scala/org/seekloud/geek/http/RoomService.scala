@@ -4,7 +4,7 @@ package org.seekloud.geek.http
 import java.io.File
 
 import akka.http.scaladsl.server.Directives._
-import org.seekloud.geek.shared.ptcl.CommonProtocol.GetRoomInfoReq
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{Comment, GetCommentReq, GetCommentRsp, GetRoomInfoReq, addCommentReq, delCommentReq}
 import akka.http.scaladsl.marshalling.{ToResponseMarshallable, ToResponseMarshaller}
 
 import scala.language.postfixOps
@@ -242,19 +242,20 @@ trait RoomService extends BaseService with ServiceUtils {
     }
   }
 
-  val getRecord: Route = (path("getRecord" / Segments(3)) & get & pathEndOrSingleSlash & cors(settings)){
+  val getRecord: Route = (path("getRecord" / Segments(2)) & get & pathEndOrSingleSlash & cors(settings)){
     case userId :: file  :: Nil =>
       println(s"getRecord req for $file")
       dealFutureResult {
         VideoDao.getInviteeVideo(userId.toLong,file).map { list =>
-          if (list == Vector()) {
-            complete(ErrorRsp(10001, "没有该录像"))
-          }
-          else {
-            val f = new File(s"${AppSettings.videoPath}$file").getAbsoluteFile
-//                  val f = new File(s"/home/teamqhx/srs/srs-3.0-a8/trunk/objs/nginx/html/live/1053_1.mp4").getAbsoluteFile
+          if (list.toList.nonEmpty) {
+            val f = new File(s"${AppSettings.videoPath}${list.toList.head.filename}").getAbsoluteFile
+//                              val f = new File(s"/home/teamqhx/srs/srs-3.0-a8/trunk/objs/nginx/html/live/1053_1.mp4").getAbsoluteFile
             getFromFile(f,ContentTypes.`application/octet-stream`)
             complete(SuccessRsp())
+          }
+          else {
+
+            complete(ErrorRsp(10001, "没有该录像"))
           }
         }
       }
@@ -298,11 +299,53 @@ trait RoomService extends BaseService with ServiceUtils {
     }
   }
 
+  private val getRoomCommentList = (path("getRoomCommentList") & post){
+    entity(as[Either[Error, GetCommentReq]]) {
+      case Right(req) =>
+        dealFutureResult{
+          VideoDao.getComment(req.roomId,req.filename).map{ v =>
+            val rsp = v.toList.map(i => Comment(i.id, i.userid, i.invitation, i.comment))
+            complete(GetCommentRsp(Some(rsp)))
+          }
+        }
+
+      case Left(error) =>
+        complete(jsonFormatError)
+    }
+  }
+
+//  commentId:Long,
+//  userId:Long,
+//  invitation:Long,
+//  commentContent:String,
+
+  private val addRoomComment = (path("addRoomComment") & post){
+    entity(as[Either[Error, addCommentReq]]) {
+      case Right(req) =>
+          VideoDao.addComment(req.commentId,req.commentContent)
+          complete(SuccessRsp())
+
+      case Left(error) =>
+        complete(jsonFormatError)
+    }
+  }
+  private val delComment = (path("delComment") & post){
+    entity(as[Either[Error, delCommentReq]]) {
+      case Right(req) =>
+        VideoDao.deleteComment(req.roomId)
+        complete(SuccessRsp())
+      case Left(error) =>
+        complete(jsonFormatError)
+    }
+  }
+
 
 
   val roomRoutes: Route = pathPrefix("room") {
     getRoomInfo ~ createRoom ~ startLive ~ startLive4Client ~ stopLive ~ getRecordList ~ joinRoom ~
-    stopLive4Client ~ getRecord ~ getRoomList ~ getUserInfo ~ kickOff ~getRoomSectionList ~ getRoomIdList
+    stopLive4Client ~ getRecord ~ getRoomList ~ getUserInfo ~ kickOff ~getRoomSectionList ~ getRoomIdList ~
+      getRoomCommentList ~ addRoomComment ~ delComment
+
   }
 
 }

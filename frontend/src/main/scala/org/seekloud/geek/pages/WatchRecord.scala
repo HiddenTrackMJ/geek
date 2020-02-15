@@ -10,9 +10,11 @@ import org.seekloud.geek.Main
 import org.seekloud.geek.common.Route
 import org.seekloud.geek.videoJs._
 import org.seekloud.geek.shared.ptcl.RoomProtocol.{GetRoomListReq, GetRoomListRsp, GetRoomSectionListReq, GetRoomSectionListRsp, RoomData, RoomInfoSection}
+import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import io.circe.generic.auto._
 import io.circe.syntax._
 import org.seekloud.geek.pages.HomePage
+import org.seekloud.geek.shared.ptcl.SuccessRsp
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -32,6 +34,7 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
 
   private val roomIdData: Var[List[RoomInfoSection]] = Var(Main.roomIdData)
   private val liveRoomInfo = Var(roomList)
+  private val CommentInfo: Var[Option[List[Comment]]] = Var(None)
   private val roomIdVar = Var(roomID)
   private val videoNameVar = Var(videoName)
 
@@ -54,7 +57,7 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
       </div>
       <ul class="list-unstyled top_profiles scroll-view">
         {
-        getCommitItem(r, roomID)
+        getCommitItem(videoName)
         }
       </ul>
     </div>
@@ -88,28 +91,25 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
     }
   }
 
-  private def getCommitItem(roomList: List[RoomInfoSection], selected: Long) = {
+  private def getCommitItem(videoName:String) = {
 
-    roomList.zipWithIndex.map { room=>
-      val isSelected = if (room._1.roomId == selected) "" else ""
-      <li class={"media event eyesight " + isSelected} style="text-align:left">
+    CommentInfo.map{comment1=>
+      comment1.getOrElse(List.empty).map{ room=>
+//      val isSelected = if (room. == videoName) "" else ""
+//      <li class={"media event eyesight " + isSelected} style="text-align:left">
 
         <div class="media-body">
-          {room._2 match {
-          case 1=> <div><a class="title" href="javascript:void(0)">{"xue1"}({"2020-2-4 23:11:23"})</a><p>{"w t f?"}</p></div>
-          case 2=> <div><a class="title" href="javascript:void(0)">{"xue2"}({"2020-2-5 13:15:03"})</a><p>{"666"}</p></div>
-          case 3=> <div><a class="title" href="javascript:void(0)">{"xue2"}({"2020-2-5 14:32:45"})</a><p>{"666"}</p></div>
-          case 4=> <div><a class="title" href="javascript:void(0)">{"xue3"}({"2020-2-5 14:45:05"})</a><p>{"什么鬼"}</p></div>
-          case _=> <div></div>
-        }}
-
+          {
+          <div><a class="title" href="javascript:void(0)">{"xue1"}({"2020-2-4 23:11:23"})</a><p>{"w t f?"}</p></div>
+          }
         </div>
-      </li>
+//      </li>
     }
-  }
+  }}
 
   private def switchEyesight(roomId: Long,videoName: String): Unit ={
-    renderTest(dom.document.getElementById("my-video"),roomIdVar.toString().drop(4).dropRight(1),videoNameVar.toString().drop(4).dropRight(1))
+    val userId= dom.window.localStorage.getItem("userId").toString
+    renderTest(dom.document.getElementById("my-video"),userId,videoNameVar.toString().drop(4).dropRight(1))
     dom.window.location.hash = s"#/room/$roomId/$videoName"
   }
 
@@ -159,16 +159,55 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
     }
   }
 
-  def getCommentList: Unit = {
-    val url = Route.Room.getRoomList
-    val data = GetRoomListReq().asJson.noSpaces
-    Http.postJsonAndParse[GetRoomListRsp](url, data).map {
+  def getCommentList(roomID:Long,videoName:String): Unit = {
+    val url = Route.Room.getCommentList
+    val data = GetCommentReq(roomID,videoName).asJson.noSpaces
+    Http.postJsonAndParse[GetCommentRsp](url, data).map {
       rsp =>
         try {
           if (rsp.errCode == 0) {
-            roomList = rsp.roomList
-            liveRoomInfo := roomList
+            CommentInfo :=rsp.roomId
             println(s"got it : $rsp")
+          }
+          else {
+            println("error======" + rsp.msg)
+            JsFunc.alert(rsp.msg)
+          }
+        }
+        catch {
+          case e: Exception =>
+            println(e)
+        }
+    }
+  }
+  def addComment(commentID:Long,commentContent:String): Unit = {
+    val url = Route.Room.addComment
+    val data = addCommentReq(commentID,commentContent).asJson.noSpaces
+    Http.postJsonAndParse[SuccessRsp](url, data).map {
+      rsp =>
+        try {
+          if (rsp.errCode == 0) {
+            JsFunc.alert("评论成功")
+          }
+          else {
+            println("error======" + rsp.msg)
+            JsFunc.alert(rsp.msg)
+          }
+        }
+        catch {
+          case e: Exception =>
+            println(e)
+        }
+    }
+  }
+  def delComment(commentID:Long): Unit = {
+    val url = Route.Room.delComment
+    val data = delCommentReq(commentID).asJson.noSpaces
+    Http.postJsonAndParse[SuccessRsp](url, data).map {
+      rsp =>
+        try {
+          if (rsp.errCode == 0) {
+            JsFunc.alert("删除评论成功")
           }
           else {
             println("error======" + rsp.msg)
@@ -208,6 +247,7 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
     init()
 //    getRoomList
     getRoomSecList()
+    getCommentList(roomID,videoName)
     <div >
       {background}
     </div>

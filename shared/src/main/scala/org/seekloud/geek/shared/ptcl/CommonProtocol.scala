@@ -145,4 +145,31 @@ object CommonProtocol {
                          Avatar: String
                        ) extends Request
 
+  /**
+    * 用户评论接口
+    **/
+  case class GetCommentReq(
+                          roomId:Long,
+                         filename: String,
+                       ) extends Request
+
+  case class Comment(
+                    commentId:Long,
+                    userId:Long,
+                    invitation:Long,
+                    commentContent:String,
+                    )
+  case class GetCommentRsp(
+                            roomId:Option[List[Comment]],
+                            errCode: Int = 0,
+                            msg: String = "Ok"
+                          ) extends Request
+
+  case class addCommentReq(
+                            commentId:Long,
+                            commentContent:String,
+                          ) extends Request
+  case class delCommentReq(
+                            roomId:Long,
+                          ) extends Request
 }

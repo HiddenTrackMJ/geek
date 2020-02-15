@@ -26,7 +26,7 @@ object VideoDao {
   }
 
   def getSecVideo(inviteeId: Long) = {
-    val q = tUser join tVideo.filter(_.invitation === inviteeId) on{
+    val q = tUser join tVideo/*.filter(_.invitation === inviteeId)*/ on{
       (t1,t2)=>
         List(t1.id === t2.userid).reduceLeft(_ || _)
     }
@@ -84,6 +84,25 @@ object VideoDao {
     } yield (inviteeName,inviteeId)
     db.run(innerJoin.distinct.sortBy(_._1.id).result)
   }
+
+  def getComment(roomid:Long,filename:String)  = {
+    db.run{
+      tVideo.filter(_.roomid === roomid).filter(_.filename === filename).result
+    }
+  }
+
+  def addComment(id:Long,commentContent:String)  = {
+    val q=for {
+      d<-tVideo.filter(_.id === id).result.head
+      c <-tVideo += rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,d.invitation,commentContent)
+    } yield d
+    db.run(q)
+  }
+
+  def deleteComment(id: Long): Future[Int] =
+    db.run{
+      tVideo.filter(_.id === id).delete
+    }
 
 
 //  def getInvitee(id: Long) =
