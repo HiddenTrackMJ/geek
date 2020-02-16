@@ -3,6 +3,7 @@ package org.seekloud.geek.client.component
 import com.jfoenix.controls.JFXSpinner
 import javafx.scene.layout.Pane
 import org.seekloud.geek.client.Boot
+import org.slf4j.LoggerFactory
 
 /**
   * User: hewro
@@ -13,19 +14,26 @@ import org.seekloud.geek.client.Boot
 case class Loading(
   root:Pane
 ){
+  private val log = LoggerFactory.getLogger(this.getClass)
 
   var hasWaitingGif = false
-  val rootPane: Pane = root
-  val waitingGif = new JFXSpinner()
-  waitingGif.setPrefWidth(50)
-  waitingGif.setPrefHeight(50)
+  var waitingGif:JFXSpinner = _
+
+  def build() = {
+    log.info("dialog:build")
+    waitingGif= new JFXSpinner()
+    waitingGif.setPrefWidth(50)
+    waitingGif.setPrefHeight(50)
+    this
+  }
 
   def showLoading() = {
+    log.info("showLoading")
     Boot.addToPlatform {
       if (!hasWaitingGif) {
-        waitingGif.setLayoutX(rootPane.getWidth / 2 - 25)
-        waitingGif.setLayoutY(rootPane.getHeight / 2 - 25)
-        rootPane.getChildren.addAll(waitingGif)
+        waitingGif.setLayoutX(root.getWidth / 2 - 25)
+        waitingGif.setLayoutY(root.getHeight / 2 - 25)
+        root.getChildren.addAll(waitingGif)
         hasWaitingGif = true
       }
     }
@@ -34,7 +42,7 @@ case class Loading(
   def removeLoading(): Unit = {
     Boot.addToPlatform {
       if (hasWaitingGif) {
-        rootPane.getChildren.remove(waitingGif)
+        root.getChildren.remove(waitingGif)
         hasWaitingGif = false
       }
     }

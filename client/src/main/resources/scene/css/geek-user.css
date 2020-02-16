@@ -29,3 +29,12 @@
 .icons-rippler:hover {
     -fx-cursor: hand;
 }
+
+.jfx-snackbar-content {
+    -fx-background-color: #323232;
+}
+
+.jfx-snackbar-toast {
+    -fx-text-fill: WHITE;
+    -fx-font-size: 12;
+}

@@ -32,7 +32,7 @@
             <Label prefHeight="20.0" prefWidth="116.0" text="geek 云会议" textFill="#5e5d5d" BorderPane.alignment="CENTER" />
          </center>
       </JFXToolbar>
-      <AnchorPane fx:id="" prefHeight="678.0" prefWidth="408.0" style="-fx-background-color: #ffffff;">
+      <AnchorPane fx:id="rootPane" prefHeight="678.0" prefWidth="408.0" style="-fx-background-color: #ffffff;">
          <children>
             <BorderPane prefHeight="162.0" prefWidth="408.0">
                <center>
@@ -59,8 +59,8 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXButton fx:id="createRoom" alignment="CENTER" prefHeight="38.0" prefWidth="125.0" styleClass="click-button1" text="发起会议" />
-                              <JFXButton fx:id="joinRoom" alignment="CENTER" prefHeight="38.0" prefWidth="125.0" styleClass="click-button2" text="加入会议" GridPane.columnIndex="1" />
+                              <JFXButton fx:id="createRoom" alignment="CENTER" onAction="#createRoom" prefHeight="38.0" prefWidth="125.0" styleClass="click-button1" text="发起会议" />
+                              <JFXButton fx:id="joinRoom" alignment="CENTER" onAction="#joinRoom" prefHeight="38.0" prefWidth="125.0" styleClass="click-button2" text="加入会议" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
                         <Line endX="376.0" endY="155.0" layoutY="-76.0" startX="32.0" startY="155.0" stroke="#e1dede" />

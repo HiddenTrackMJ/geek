@@ -22,7 +22,7 @@ object SceneManager {
 
   def showUserScene(context: StageContext,rmManager:ActorRef[RmManager.RmCommand]): Unit = {
     Boot.addToPlatform{
-      val controller = new GeekUserController(rmManager)
+      val controller = new GeekUserController(rmManager,context)
       context.switchScene(context,controller,"scene/geek-user.fxml")
     }
   }

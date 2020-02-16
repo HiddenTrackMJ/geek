@@ -41,14 +41,14 @@ class GeekLoginController(
   var loading:Loading = _
 
   def initialize(): Unit = {
-    loading = Loading(rootPane)
+    loading = Loading(rootPane).build()
   }
 
 
   def loginBySelf() = {
     if (checkInfo){//信息不完整
       //弹框
-      SnackBar.show(rootPane,"你看看是不是忘了填写完整信息了")
+      SnackBar.show(rootPane,"信息不完整，粗心！")
 
     }else{//
       loading.showLoading()
@@ -75,7 +75,7 @@ class GeekLoginController(
           log.error(s"sign in server error: $e")
           Boot.addToPlatform {
             loading.removeLoading()
-            WarningDialog.initWarningDialog(s"服务器错误: $e")
+            SnackBar.show(rootPane,s"服务器错误: $e")
           }
       }
     }

@@ -104,8 +104,12 @@ object RmManager {
             val hostScene = new HostScene(stageCtx.getStage)
             val hostController = new HostController(stageCtx, hostScene, ctx.self)
             def callBack(): Unit = Boot.addToPlatform(hostScene.changeToggleAction())
+
+
+
             liveManager ! LiveManager.DevicesOn(hostScene.gc, callBackFunc = Some(callBack))
             //todo: 建立ws连接
+
             ctx.self ! HostWsEstablish
             Boot.addToPlatform {
               if (homeController != null) {
