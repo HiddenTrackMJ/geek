@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRippler?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+
+<VBox prefHeight="710.0" prefWidth="408.0" stylesheets="@css/geek-user.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXToolbar prefHeight="37.0" prefWidth="610.0" style="-fx-opacity: 1; -fx-background-color: #ffffff;">
+         <left>
+            <JFXRippler maskType="CIRCLE" prefHeight="46.0" prefWidth="47.0" ripplerFill="WHITE" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="18.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/close.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </JFXRippler>
+         </left>
+         <center>
+            <Label prefHeight="20.0" prefWidth="116.0" text="geek 云会议" textFill="#5e5d5d" BorderPane.alignment="CENTER" />
+         </center>
+      </JFXToolbar>
+      <AnchorPane prefHeight="678.0" prefWidth="408.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <BorderPane prefHeight="162.0" prefWidth="408.0">
+               <center>
+                  <AnchorPane prefHeight="161.0" prefWidth="127.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <ImageView fitHeight="60.0" fitWidth="58.0" layoutX="54.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" styleClass="avatar-image">
+                           <image>
+                              <Image url="@img/avatar.jpg" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="136.0" layoutY="27.0" prefHeight="27.0" prefWidth="68.0" text="hewro" />
+                     </children>
+                  </AnchorPane>
+               </center>
+               <bottom>
+                  <AnchorPane prefHeight="93.0" prefWidth="395.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <GridPane alignment="CENTER" layoutY="5.0" prefHeight="69.0" prefWidth="408.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="259.0" minWidth="10.0" prefWidth="193.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="192.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <JFXButton alignment="CENTER" prefHeight="38.0" prefWidth="125.0" styleClass="click-button1" text="发起会议" />
+                              <JFXButton alignment="CENTER" prefHeight="38.0" prefWidth="125.0" styleClass="click-button2" text="加入会议" GridPane.columnIndex="1" />
+                           </children>
+                        </GridPane>
+                        <Line endX="376.0" endY="155.0" layoutY="-76.0" startX="32.0" startY="155.0" stroke="#e1dede" />
+                     </children>
+                  </AnchorPane>
+               </bottom>
+            </BorderPane>
+            <AnchorPane layoutY="161.0" prefHeight="515.0" prefWidth="412.0">
+               <children>
+                  <ImageView fitHeight="210.0" fitWidth="225.0" layoutX="113.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/empty.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children></AnchorPane>
+   </children>
+</VBox>

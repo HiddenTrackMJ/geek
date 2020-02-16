@@ -54,7 +54,6 @@ class Boot extends javafx.application.Application {
 
 
   override def start(primaryStage: Stage): Unit = {
-    val emojionemozilla = Font.loadFont(getClass.getResourceAsStream("/img/seguiemj.ttf"), 12) //表情浏览器？
     val context = new StageContext(primaryStage)
     val rmManager = system.spawn(RmManager.create(context), "rmManager")
 
@@ -65,10 +64,6 @@ class Boot extends javafx.application.Application {
 
     rmManager ! RmManager.GetHomeItems(homeScene, homeSceneController)
     homeSceneController.showScene()
-
-//    addToPlatform {
-//      homeSceneController.loginByTemp()
-//    }
 
 
 

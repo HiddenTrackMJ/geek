@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRippler?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<!--<?import org.kordamp.ikonli.javafx.FontIcon?>-->
+
+<?import javafx.scene.layout.StackPane?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<VBox id="root" prefHeight="414.0" prefWidth="626.0" stylesheets="@css/geek_home.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<children>
+      <AnchorPane prefHeight="407.0" prefWidth="626.0">
+         <children>
+            <AnchorPane opacity="0.3" prefHeight="414.0" prefWidth="626.0" style="-fx-background-color: #ffffff;" />
+            <VBox prefHeight="407.0" prefWidth="626.0">
+               <children>
+                  <JFXToolbar prefHeight="36.0" prefWidth="626.0">
+                     <left>
+                        <JFXRippler maskType="CIRCLE" prefHeight="46.0" prefWidth="47.0" ripplerFill="WHITE" BorderPane.alignment="CENTER">
+                           <children>
+                              <ImageView fitHeight="18.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@img/close.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </JFXRippler>
+                     </left>
+                  </JFXToolbar>
+                  <AnchorPane prefHeight="372.0" prefWidth="626.0">
+                     <children>
+                        <JFXButton layoutX="242.0" layoutY="284.0" prefHeight="32.0" prefWidth="143.0" ripplerFill="#173672" styleClass="loginButton" text="登录" textAlignment="CENTER" textFill="WHITE" />
+                        <JFXTextField layoutX="183.0" layoutY="128.0" prefHeight="32.0" prefWidth="260.0" promptText="输入用户名" styleClass="text_label" unFocusColor="#7ca1ff" />
+                        <JFXTextField layoutX="185.0" layoutY="187.0" prefHeight="32.0" prefWidth="260.0" promptText="输入密码" styleClass="text_label" unFocusColor="#7ca1ff" />
+                        <Label layoutX="232.0" layoutY="245.0" style="-fx-font-size: 11;" text="未注册的用户点击登录将直接注册" textFill="#4e6c8d" underline="true" />
+                         <JFXRippler layoutX="142.0" layoutY="230.0" maskType="CIRCLE" prefHeight="46.0" prefWidth="83.0" style="-fx-ripple-color: #000000;" styleClass="icons-rippler">
+                             <VBox style="-fx-padding: 10;">
+                                 <FontIcon iconLiteral="fas-star" iconSize="24"
+                                           styleClass="icon"/>
+                             </VBox>
+                         </JFXRippler>
+                        <Label layoutX="234.0" layoutY="45.0" prefHeight="62.0" prefWidth="159.0" style="-fx-font-size: 26;" text="GEEK云会议" textAlignment="CENTER" textFill="#2d68cd" />
+
+                     </children>
+                  </AnchorPane>
+               </children></VBox>
+         </children>
+      </AnchorPane>
+</children>
+</VBox>

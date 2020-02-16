@@ -1,0 +1,31 @@
+.avatar-image{
+    -fx-background-radius: 6;
+    -fx-background-color: #5da2ff;
+    -fx-border-color: #333f50;
+    -fx-border-radius: 6;
+    -fx-border-width: 2;
+    -fx-font: 15 arial;
+    -fx-text-fill: #333f50;
+    -fx-cursor: hand;
+}
+
+.click-button1{
+    -jfx-button-type: FLAT;
+    -fx-background-color: #4c84ff;
+    -fx-text-fill: #ffffff;
+}
+
+.click-button2{
+    -jfx-button-type: FLAT;
+    -fx-background-color: #666666;
+    -fx-text-fill: #ffffff;
+}
+
+.icons-rippler {
+    -jfx-rippler-fill: BLUE;
+    -jfx-mask-type: CIRCLE;
+}
+
+.icons-rippler:hover {
+    -fx-cursor: hand;
+}

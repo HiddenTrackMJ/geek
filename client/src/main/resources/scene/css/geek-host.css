@@ -1,0 +1,12 @@
+.icons-rippler {
+    -jfx-rippler-fill: black;
+    -jfx-mask-type: CIRCLE;
+}
+
+.icons-rippler:hover {
+    -fx-cursor: hand;
+}
+
+.icon-click{
+    -fx-padding:5;
+}

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXRippler?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox prefHeight="728.0" prefWidth="1078.0" stylesheets="@css/geek-host.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+      <JFXToolbar prefHeight="25.0" prefWidth="1078.0" style="-fx-background-color: #3d3d42;">
+         <left>
+            <JFXRippler maskType="CIRCLE" prefHeight="46.0" prefWidth="47.0" ripplerFill="WHITE" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="18.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/close.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </JFXRippler>
+         </left>
+         <center>
+            <Label prefHeight="20.0" prefWidth="116.0" text="geek 云会议" textFill="#babbbf" BorderPane.alignment="CENTER" />
+         </center>
+      </JFXToolbar>
+      <BorderPane prefHeight="647.0" prefWidth="1078.0" style="-fx-background-color: #000000;">
+         <left>
+            <AnchorPane prefHeight="647.0" prefWidth="215.0" style="-fx-background-color: #2a2e32;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="82.0" layoutY="22.0" text="房间成员" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+         </left>
+         <right>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #2a2e32;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="81.0" layoutY="23.0" text="聊天室" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+         </right>
+      </BorderPane>
+      <BorderPane prefHeight="57.0" prefWidth="1078.0" style="-fx-background-color: #32363c;">
+         <center>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click">
+                     <children>
+                        <JFXRippler prefHeight="57.0" prefWidth="144.0" styleClass="icons-rippler">
+                            <StackPane prefHeight="150.0" prefWidth="200.0">
+                                <FontIcon iconColor="WHITE" iconLiteral="fas-microphone-alt" iconSize="20" />
+                            </StackPane>
+                        </JFXRippler>
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="静音" textAlignment="CENTER" textFill="WHITE" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click" GridPane.columnIndex="1">
+                     <children>
+                        <JFXRippler prefHeight="57.0" prefWidth="144.0" styleClass="icons-rippler">
+                           <control>
+                              <StackPane prefHeight="150.0" prefWidth="200.0">
+                                 <children>
+                                    <FontIcon iconColor="WHITE" iconLiteral="fas-video" iconSize="20" />
+                                 </children>
+                              </StackPane>
+                           </control>
+                        </JFXRippler>
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="摄像头" textAlignment="CENTER" textFill="WHITE" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click" GridPane.columnIndex="2">
+                     <children>
+                        <JFXRippler prefHeight="57.0" prefWidth="144.0" styleClass="icons-rippler">
+                           <control>
+                              <StackPane prefHeight="150.0" prefWidth="200.0">
+                                 <children>
+                                    <FontIcon iconColor="#e11515" iconLiteral="fas-phone-slash" iconSize="20" />
+                                 </children>
+                              </StackPane>
+                           </control>
+                        </JFXRippler>
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="结束会议" textAlignment="CENTER" textFill="WHITE" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click" GridPane.columnIndex="3">
+                     <children>
+                        <JFXRippler prefHeight="57.0" prefWidth="144.0" styleClass="icons-rippler">
+                           <control>
+                              <StackPane prefHeight="150.0" prefWidth="200.0">
+                                 <children>
+                                    <FontIcon iconColor="WHITE" iconLiteral="fas-user-plus" iconSize="20" />
+                                 </children>
+                              </StackPane>
+                           </control>
+                        </JFXRippler>
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="邀请" textAlignment="CENTER" textFill="WHITE" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click" GridPane.columnIndex="4">
+                     <children>
+                        <JFXRippler prefHeight="57.0" prefWidth="144.0" styleClass="icons-rippler">
+                           <control>
+                              <StackPane prefHeight="150.0" prefWidth="200.0">
+                                 <children>
+                                    <FontIcon iconColor="WHITE" iconLiteral="fas-compact-disc" iconSize="20" />
+                                 </children>
+                              </StackPane>
+                           </control>
+                        </JFXRippler>
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="录制" textAlignment="CENTER" textFill="WHITE" />
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
+         </center></BorderPane>
+  </children>
+</VBox>

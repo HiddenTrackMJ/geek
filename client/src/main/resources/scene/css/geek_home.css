@@ -1,0 +1,28 @@
+/*root类选择器给所有的元素设置样式*/
+.root {
+    -fx-font-family: "微软雅黑";
+    -fx-font-size: 16px;
+    -fx-background-image: url(../img/1.png);
+    -fx-background-size: stretch stretch;
+    -fx-background-position: center center;
+}
+
+.loginButton{
+    -jfx-button-type: FLAT;
+    -fx-background-color: #4c84ff;
+
+}
+.text_label{
+    -fx-text-fill: #999999;
+    -fx-font-size: 10pt;
+    -fx-prompt-text-fill: #ffffff;
+}
+
+.icons-rippler {
+    -jfx-rippler-fill: BLUE;
+    -jfx-mask-type: CIRCLE;
+}
+
+.icons-rippler:hover {
+    -fx-cursor: hand;
+}
