@@ -123,7 +123,7 @@ class HomeController(
 
   def showScene(): Unit = {
     Boot.addToPlatform(
-      context.switchScene(homeScene.getScene, title = "geek云会议")
+//      context.switchScene(homeScene.getScene, title = "geek云会议")
     )
   }
 

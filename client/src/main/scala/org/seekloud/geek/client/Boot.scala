@@ -7,10 +7,12 @@ import akka.dispatch.MessageDispatcher
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import javafx.application.Platform
+import javafx.fxml.FXMLLoader
+import javafx.scene.{Parent, Scene}
 import javafx.scene.text.Font
 import javafx.stage.Stage
 import org.seekloud.geek.client.common.StageContext
-import org.seekloud.geek.client.controller.{HomeController, LoginController}
+import org.seekloud.geek.client.controller.{GeekLoginController, HomeController, LoginController}
 import org.seekloud.geek.client.core.{NetImageProcessor, RmManager}
 import org.seekloud.geek.client.scene.HomeScene
 import org.slf4j.LoggerFactory
@@ -53,25 +55,38 @@ class Boot extends javafx.application.Application {
 
 
 
+//  override def start(primaryStage: Stage): Unit = {
+//    val context = new StageContext(primaryStage)
+//    val rmManager = system.spawn(RmManager.create(context), "rmManager")
+//
+//    val loginController = new LoginController(context, rmManager)
+//
+//    val homeScene = new HomeScene()
+//    val homeSceneController = new HomeController(context, homeScene, loginController, null, rmManager)
+//
+//    rmManager ! RmManager.GetHomeItems(homeScene, homeSceneController)
+//    homeSceneController.showScene()
+//
+//
+//
+//    primaryStage.setOnCloseRequest(event => {
+//      println("OnCloseRequest...")
+//      System.exit(0)
+//    })
+//
+//  }
+
   override def start(primaryStage: Stage): Unit = {
+
     val context = new StageContext(primaryStage)
     val rmManager = system.spawn(RmManager.create(context), "rmManager")
 
-    val loginController = new LoginController(context, rmManager)
-
-    val homeScene = new HomeScene()
-    val homeSceneController = new HomeController(context, homeScene, loginController, null, rmManager)
-
-    rmManager ! RmManager.GetHomeItems(homeScene, homeSceneController)
-    homeSceneController.showScene()
-
-
-
-    primaryStage.setOnCloseRequest(event => {
-      println("OnCloseRequest...")
-      System.exit(0)
-    })
-
+    val fxmlLoader = new FXMLLoader(this.getClass.getClassLoader.getResource("scene/geek-login.fxml"))
+    fxmlLoader.setController(new GeekLoginController(rmManager,context))
+    val mainViewRoot: Parent = fxmlLoader.load()
+    val scene = new Scene(mainViewRoot)
+    primaryStage.setScene(scene)
+    primaryStage.show()
   }
 
 }

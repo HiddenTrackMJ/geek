@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<VBox prefHeight="710.0" prefWidth="408.0" stylesheets="@css/geek-user.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="710.0" prefWidth="408.0" stylesheets="@css/geek-user.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <JFXToolbar prefHeight="37.0" prefWidth="610.0" style="-fx-opacity: 1; -fx-background-color: #ffffff;">
          <left>
@@ -43,7 +43,7 @@
                               <Image url="@img/avatar.jpg" />
                            </image>
                         </ImageView>
-                        <Label layoutX="136.0" layoutY="27.0" prefHeight="27.0" prefWidth="68.0" text="hewro" />
+                        <Label fx:id="username" layoutX="136.0" layoutY="27.0" prefHeight="27.0" prefWidth="68.0" text="hewro" />
                      </children>
                   </AnchorPane>
                </center>
@@ -59,8 +59,8 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXButton alignment="CENTER" prefHeight="38.0" prefWidth="125.0" styleClass="click-button1" text="发起会议" />
-                              <JFXButton alignment="CENTER" prefHeight="38.0" prefWidth="125.0" styleClass="click-button2" text="加入会议" GridPane.columnIndex="1" />
+                              <JFXButton fx:id="createRoom" alignment="CENTER" prefHeight="38.0" prefWidth="125.0" styleClass="click-button1" text="发起会议" />
+                              <JFXButton fx:id="joinRoom" alignment="CENTER" prefHeight="38.0" prefWidth="125.0" styleClass="click-button2" text="加入会议" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
                         <Line endX="376.0" endY="155.0" layoutY="-76.0" startX="32.0" startY="155.0" stroke="#e1dede" />
