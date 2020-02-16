@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXRippler?>
 <?import com.jfoenix.controls.JFXToolbar?>
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -47,6 +48,13 @@
                </children>
             </AnchorPane>
          </right>
+         <center>
+            <AnchorPane fx:id="centerPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Canvas fx:id="canvas" height="596.0" layoutX="5.0" layoutY="26.0" width="654.0" />
+               </children>
+            </AnchorPane>
+         </center>
       </BorderPane>
       <BorderPane prefHeight="57.0" prefWidth="1078.0" style="-fx-background-color: #32363c;">
          <center>
@@ -66,10 +74,10 @@
                      <children>
                         <JFXRippler maskType="FIT" prefHeight="57.0" prefWidth="144.0" styleClass="icons-rippler">
                             <StackPane prefHeight="150.0" prefWidth="200.0">
-                                <FontIcon iconColor="WHITE" iconLiteral="fas-microphone-alt" iconSize="20" />
+                                <FontIcon fx:id="mic" iconColor="WHITE" iconLiteral="fas-mic" iconSize="20" />
                             </StackPane>
                         </JFXRippler>
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="静音" textAlignment="CENTER" textFill="WHITE" />
+                        <Label fx:id="mic_label" alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="静音" textAlignment="CENTER" textFill="WHITE" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click" GridPane.columnIndex="1">
@@ -78,12 +86,12 @@
                            <control>
                               <StackPane prefHeight="150.0" prefWidth="200.0">
                                  <children>
-                                    <FontIcon iconColor="WHITE" iconLiteral="fas-video" iconSize="20" />
+                                    <FontIcon fx:id="video" iconColor="WHITE" iconLiteral="fas-video" iconSize="20" />
                                  </children>
                               </StackPane>
                            </control>
                         </JFXRippler>
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="摄像头" textAlignment="CENTER" textFill="WHITE" />
+                        <Label fx:id="video_label" alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="摄像头" textAlignment="CENTER" textFill="WHITE" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click" GridPane.columnIndex="2">
@@ -92,12 +100,12 @@
                            <control>
                               <StackPane prefHeight="150.0" prefWidth="200.0">
                                  <children>
-                                    <FontIcon iconColor="#e11515" iconLiteral="fas-phone-slash" iconSize="20" />
+                                    <FontIcon fx:id="off" iconColor="#e11515" iconLiteral="fas-phone-slash" iconSize="20" />
                                  </children>
                               </StackPane>
                            </control>
                         </JFXRippler>
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="结束会议" textAlignment="CENTER" textFill="WHITE" />
+                        <Label fx:id="off_label" alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="结束会议" textAlignment="CENTER" textFill="WHITE" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click" GridPane.columnIndex="3">
@@ -106,12 +114,12 @@
                            <control>
                               <StackPane prefHeight="150.0" prefWidth="200.0">
                                  <children>
-                                    <FontIcon iconColor="WHITE" iconLiteral="fas-user-plus" iconSize="20" />
+                                    <FontIcon fx:id="invite" iconColor="WHITE" iconLiteral="fas-user-plus" iconSize="20" />
                                  </children>
                               </StackPane>
                            </control>
                         </JFXRippler>
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="邀请" textAlignment="CENTER" textFill="WHITE" />
+                        <Label fx:id="invite_label" alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="邀请" textAlignment="CENTER" textFill="WHITE" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click" GridPane.columnIndex="4">
@@ -120,12 +128,12 @@
                            <control>
                               <StackPane prefHeight="150.0" prefWidth="200.0">
                                  <children>
-                                    <FontIcon iconColor="WHITE" iconLiteral="fas-compact-disc" iconSize="20" />
+                                    <FontIcon fx:id="record" iconColor="WHITE" iconLiteral="fas-compact-disc" iconSize="20" />
                                  </children>
                               </StackPane>
                            </control>
                         </JFXRippler>
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="录制" textAlignment="CENTER" textFill="WHITE" />
+                        <Label fx:id="record_label" alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="录制" textAlignment="CENTER" textFill="WHITE" />
                      </children>
                   </VBox>
                </children>

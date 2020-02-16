@@ -57,13 +57,14 @@ class GeekUserController(
       RoomClient.createRoom(userId,RoomUserInfo(userId,roomName,roomDesc)).map{
         case Right(rsp) =>
           RmManager.roomInfo = Some(RoomInfo(rsp.roomId,roomName,roomDesc,userId,RmManager.userInfo.get.userName,"",observerNum=0))
+
           //当前用户是房主
           loading.removeLoading()
           RmManager.userInfo.get.isHost = Some(true)
           RmManager.userInfo.get.pushStream = Some(RMClient.getPushStream(rsp.liveCode))
           rmManager ! RmManager.GoToCreateAndJoinRoom
 
-        case Left(error: Error) =>
+        case Left(error) =>
           log.error(s"创建房间错误$error")
           loading.removeLoading()
           WarningDialog.initWarningDialog(s"网络请求错误")

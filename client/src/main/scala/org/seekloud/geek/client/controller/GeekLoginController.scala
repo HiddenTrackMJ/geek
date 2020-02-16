@@ -2,24 +2,17 @@ package org.seekloud.geek.client.controller
 
 
 import akka.actor.typed.ActorRef
-import com.jfoenix.controls.JFXSnackbar.SnackbarEvent
-import com.jfoenix.controls.{JFXSnackbar, JFXSnackbarLayout, JFXSpinner, JFXTextField}
+import com.jfoenix.controls.JFXTextField
 import javafx.fxml.FXML
-import javafx.scene.Scene
 import javafx.scene.control.Label
-import javafx.scene.image.ImageView
-import javafx.scene.layout.{AnchorPane, VBox}
-import javafx.util.Duration
+import javafx.scene.layout.AnchorPane
 import org.seekloud.geek.client.Boot
-import org.seekloud.geek.client.component.{Loading, SnackBar, WarningDialog}
-import org.seekloud.geek.client.core.{RmManager, SceneManager}
-import org.seekloud.geek.client.utils.RMClient
 import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.common.StageContext
-import org.seekloud.geek.client.scene.HomeScene
+import org.seekloud.geek.client.component.{Loading, SnackBar}
+import org.seekloud.geek.client.core.{RmManager, SceneManager}
+import org.seekloud.geek.client.utils.RMClient
 import org.slf4j.LoggerFactory
-
-import scala.concurrent.Future
 /**
   * User: hewro
   * Date: 2020/2/16
