@@ -28,7 +28,7 @@ class StageContext(stage: Stage) {
   def switchScene(context: StageContext,controller: Any = null,scenefxml:String, title: String = "geek", resize: Boolean = false, fullScreen: Boolean = false, isSetOffX: Boolean = false): Unit = {
 
     //通过fxml创建scene
-    val fxmlLoader = new FXMLLoader(this.getClass.getClassLoader.getResource("scene/geek-login.fxml"))
+    val fxmlLoader = new FXMLLoader(this.getClass.getClassLoader.getResource(scenefxml))
     fxmlLoader.setController(controller)
     val mainViewRoot: Parent = fxmlLoader.load()
     val scene = new Scene(mainViewRoot)

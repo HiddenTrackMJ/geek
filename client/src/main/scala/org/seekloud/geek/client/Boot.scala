@@ -13,7 +13,7 @@ import javafx.scene.text.Font
 import javafx.stage.Stage
 import org.seekloud.geek.client.common.StageContext
 import org.seekloud.geek.client.controller.{GeekLoginController, HomeController, LoginController}
-import org.seekloud.geek.client.core.{NetImageProcessor, RmManager}
+import org.seekloud.geek.client.core.{NetImageProcessor, RmManager, SceneManager}
 import org.seekloud.geek.client.scene.HomeScene
 import org.slf4j.LoggerFactory
 
@@ -81,13 +81,7 @@ class Boot extends javafx.application.Application {
     primaryStage.initStyle(StageStyle.TRANSPARENT)
     val context = new StageContext(primaryStage)
     val rmManager = system.spawn(RmManager.create(context), "rmManager")
-
-    val fxmlLoader = new FXMLLoader(this.getClass.getClassLoader.getResource("scene/geek-login.fxml"))
-    fxmlLoader.setController(new GeekLoginController(rmManager,context))
-    val mainViewRoot: Parent = fxmlLoader.load()
-    val scene = new Scene(mainViewRoot)
-    primaryStage.setScene(scene)
-    primaryStage.show()
+    SceneManager.showLoginScene(context,rmManager)
   }
 
 }

@@ -65,9 +65,14 @@ class GeekUserController(
           WarningDialog.initWarningDialog(s"网络请求错误")
       }
 
-    } else {
-      gotoLoginDialog(isToLive = true)
+    } else {//跳转到登录界面
+
+//      gotoLoginDialog(isToLive = true)
     }
+  }
+
+  def showLoginScene() = {
+
   }
 
 }

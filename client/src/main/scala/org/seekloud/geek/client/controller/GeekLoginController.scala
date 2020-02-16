@@ -12,7 +12,7 @@ import javafx.scene.layout.{AnchorPane, VBox}
 import javafx.util.Duration
 import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.component.{Loading, SnackBar, WarningDialog}
-import org.seekloud.geek.client.core.RmManager
+import org.seekloud.geek.client.core.{RmManager, SceneManager}
 import org.seekloud.geek.client.utils.RMClient
 import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.common.StageContext
@@ -62,7 +62,7 @@ class GeekLoginController(
             Boot.addToPlatform {
               loading.removeLoading()
               //显示登录后的用户界面
-              showScene()
+              SceneManager.showUserScene(context,rmManager)
             }
           } else {//用户名或者密码错误
             log.error(s"sign in error: ${rsp.msg}")
@@ -82,13 +82,7 @@ class GeekLoginController(
 
   }
 
-  def showScene(): Unit = {
-    Boot.addToPlatform(
-      //todo:跳转到用户界面
 
-//      context.switchScene(context,"")
-    )
-  }
 
 
   /**
