@@ -5,10 +5,11 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToolbar?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
@@ -21,17 +22,31 @@
             <AnchorPane opacity="0.3" prefHeight="414.0" prefWidth="626.0" style="-fx-background-color: #ffffff;" />
             <VBox prefHeight="407.0" prefWidth="626.0">
                <children>
-                  <JFXToolbar prefHeight="36.0" prefWidth="626.0">
+                  <JFXToolbar prefHeight="36.0" prefWidth="626.0" style="-fx-padding: 0 0  0 10;">
                      <left>
-                        <JFXRippler maskType="CIRCLE" prefHeight="46.0" prefWidth="47.0" ripplerFill="WHITE" BorderPane.alignment="CENTER">
+                        
+                     </left>
+                     <left>
+                        <GridPane prefHeight="36.0" prefWidth="51.0" BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
-                              <ImageView fitHeight="18.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@img/close.png" />
-                                 </image>
-                              </ImageView>
+                               <JFXRippler maskType="CIRCLE" prefHeight="46.0" prefWidth="47.0" ripplerFill="WHITE" style="-fx-ripple-color: #000000;" styleClass="icons-rippler" BorderPane.alignment="CENTER">
+                                   <FontIcon iconColor="#ff6258" iconLiteral="fas-times-circle" iconSize="15" />
+                                   <FontIcon iconColor="#7a0d07" iconLiteral="fas-circle" iconSize="15" />
+                               </JFXRippler>
+                               <JFXRippler maskType="CIRCLE" prefHeight="46.0" prefWidth="47.0" ripplerFill="WHITE" style="-fx-ripple-color: #000000;" styleClass="icons-rippler" BorderPane.alignment="CENTER" GridPane.columnIndex="1">
+                                   <FontIcon iconColor="#ffbe2d" iconLiteral="fas-minus-circle" iconSize="15" />
+                                   <FontIcon iconColor="#985c00" iconLiteral="fas-circle" iconSize="15" />
+                               </JFXRippler>
+
                            </children>
-                        </JFXRippler>
+                        </GridPane>
                      </left>
                   </JFXToolbar>
                   <AnchorPane prefHeight="372.0" prefWidth="626.0">

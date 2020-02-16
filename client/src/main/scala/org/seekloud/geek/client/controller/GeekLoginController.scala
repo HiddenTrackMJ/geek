@@ -11,14 +11,13 @@ import javafx.scene.image.ImageView
 import javafx.scene.layout.{AnchorPane, VBox}
 import javafx.util.Duration
 import org.seekloud.geek.client.Boot
-import org.seekloud.geek.client.component.WarningDialog
+import org.seekloud.geek.client.component.{Loading, SnackBar, WarningDialog}
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.utils.RMClient
 import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.common.StageContext
 import org.seekloud.geek.client.scene.HomeScene
 import org.slf4j.LoggerFactory
-import org.seekloud.geek.client.component.SnackBar
 
 import scala.concurrent.Future
 /**
@@ -39,11 +38,10 @@ class GeekLoginController(
 
   private val log = LoggerFactory.getLogger(this.getClass)
 
-  val waitingGif = new JFXSpinner()
-  waitingGif.setPrefWidth(50)
-  waitingGif.setPrefHeight(50)
+  var loading:Loading = _
 
   def initialize(): Unit = {
+    loading = Loading(rootPane)
   }
 
 
@@ -53,7 +51,7 @@ class GeekLoginController(
       SnackBar.show(rootPane,"你看看是不是忘了填写完整信息了")
 
     }else{//
-      showLoading()
+      loading.showLoading()
       val r = RMClient.signIn(username.getText, password.getText) //用户名登录
       r.map {
         case Right(rsp) =>
@@ -62,21 +60,21 @@ class GeekLoginController(
             RmManager.userInfo = rsp.userInfo
 
             Boot.addToPlatform {
-              removeLoading()
+              loading.removeLoading()
               //显示登录后的用户界面
               showScene()
             }
           } else {//用户名或者密码错误
             log.error(s"sign in error: ${rsp.msg}")
             Boot.addToPlatform {
-              removeLoading()
+              loading.removeLoading()
               SnackBar.show(rootPane,s"${rsp.msg}")
             }
           }
         case Left(e) =>
           log.error(s"sign in server error: $e")
           Boot.addToPlatform {
-            removeLoading()
+            loading.removeLoading()
             WarningDialog.initWarningDialog(s"服务器错误: $e")
           }
       }
@@ -87,7 +85,8 @@ class GeekLoginController(
   def showScene(): Unit = {
     Boot.addToPlatform(
       //todo:跳转到用户界面
-      context.switchScene(context,"")
+
+//      context.switchScene(context,"")
     )
   }
 
@@ -102,25 +101,6 @@ class GeekLoginController(
 
   var hasWaitingGif = false
 
-  def showLoading() = {
-    Boot.addToPlatform {
-      if (!hasWaitingGif) {
-        waitingGif.setLayoutX(rootPane.getWidth / 2 - 25)
-        waitingGif.setLayoutY(rootPane.getHeight / 2 - 25)
-        rootPane.getChildren.addAll(waitingGif)
-        hasWaitingGif = true
-      }
-    }
-  }
-
-  def removeLoading(): Unit = {
-    Boot.addToPlatform {
-      if (hasWaitingGif) {
-        rootPane.getChildren.remove(waitingGif)
-        hasWaitingGif = false
-      }
-    }
-  }
 
 
 }

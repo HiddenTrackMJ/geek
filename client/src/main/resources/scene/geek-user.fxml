@@ -32,7 +32,7 @@
             <Label prefHeight="20.0" prefWidth="116.0" text="geek 云会议" textFill="#5e5d5d" BorderPane.alignment="CENTER" />
          </center>
       </JFXToolbar>
-      <AnchorPane prefHeight="678.0" prefWidth="408.0" style="-fx-background-color: #ffffff;">
+      <AnchorPane fx:id="" prefHeight="678.0" prefWidth="408.0" style="-fx-background-color: #ffffff;">
          <children>
             <BorderPane prefHeight="162.0" prefWidth="408.0">
                <center>

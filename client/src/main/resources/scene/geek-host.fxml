@@ -64,7 +64,7 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click">
                      <children>
-                        <JFXRippler prefHeight="57.0" prefWidth="144.0" styleClass="icons-rippler">
+                        <JFXRippler maskType="FIT" prefHeight="57.0" prefWidth="144.0" styleClass="icons-rippler">
                             <StackPane prefHeight="150.0" prefWidth="200.0">
                                 <FontIcon iconColor="WHITE" iconLiteral="fas-microphone-alt" iconSize="20" />
                             </StackPane>

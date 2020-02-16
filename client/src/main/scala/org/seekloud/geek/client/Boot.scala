@@ -52,6 +52,7 @@ class Boot extends javafx.application.Application {
   import Boot._
 
   private[this] val log = LoggerFactory.getLogger(this.getClass)
+  import javafx.stage.StageStyle
 
 
 
@@ -77,7 +78,7 @@ class Boot extends javafx.application.Application {
 //  }
 
   override def start(primaryStage: Stage): Unit = {
-
+    primaryStage.initStyle(StageStyle.TRANSPARENT)
     val context = new StageContext(primaryStage)
     val rmManager = system.spawn(RmManager.create(context), "rmManager")
 
