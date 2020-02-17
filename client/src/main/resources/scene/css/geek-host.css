@@ -10,3 +10,14 @@
 .icon-click{
     -fx-padding:5;
 }
+
+.avatar-image{
+    -fx-background-radius: 6;
+    -fx-background-color: #5da2ff;
+    -fx-border-color: #333f50;
+    -fx-border-radius: 6;
+    -fx-border-width: 2;
+    -fx-font: 15 arial;
+    -fx-text-fill: #333f50;
+    -fx-cursor: hand;
+}
