@@ -30,6 +30,7 @@ object RmManager {
   //
   var userInfo: Option[UserInfo] = None
   var roomInfo: Option[RoomInfo] = None
+  var meetingListInfo:List[MeetingInfo] = Nil //存储用户登录当前会话中参加和发起的会议信息
 
 
   private[this] def switchBehavior(ctx: ActorContext[RmCommand],

@@ -39,6 +39,7 @@ object Dependencies4Client {
   val ui = "com.jfoenix" % "jfoenix" % "8.0.8"
   val iconFx = "org.kordamp.ikonli" % "ikonli-javafx" % "2.4.0"
   val iconFont = "org.kordamp.ikonli" % "ikonli-fontawesome5-pack" % "2.4.0"
+//  val iconFont = "org.kordamp.ikonli" % "ikonli-fontawesome5-pack" % "11.3.5"
 
   val clientDependencies: Seq[ModuleID] =
     akkaSeq ++ akkaHttpSeq ++ circeSeq ++

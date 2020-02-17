@@ -84,6 +84,12 @@ object CommonProtocol {
     var rtmp: Option[String] = None
   )
 
+  case class MeetingInfo(
+    name:String,
+    id:String, //会议号
+    time:Long
+  )
+
   /*同一个房间的组员信息*/
   case class MemberInfo(
     users:List[UserInfo] = Nil

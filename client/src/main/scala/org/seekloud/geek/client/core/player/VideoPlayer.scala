@@ -7,7 +7,6 @@ import org.seekloud.geek.player.protocol.Messages
 import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{Behaviors, StashBuffer, TimerScheduler}
 import javafx.scene.canvas.GraphicsContext
-import org.seekloud.geek.client.scene.HostScene
 import org.seekloud.geek.player.core.PlayerGrabber
 import org.seekloud.geek.player.protocol.Messages
 import org.seekloud.geek.player.protocol.Messages._

@@ -74,7 +74,7 @@
                      <children>
                         <JFXRippler maskType="FIT" prefHeight="57.0" prefWidth="144.0" styleClass="icons-rippler">
                             <StackPane prefHeight="150.0" prefWidth="200.0">
-                                <FontIcon fx:id="mic" iconColor="WHITE" iconLiteral="fas-mic" iconSize="20" />
+                                <FontIcon fx:id="mic" iconColor="WHITE" iconLiteral="fas-microphone" iconSize="20" />
                             </StackPane>
                         </JFXRippler>
                         <Label fx:id="mic_label" alignment="CENTER" prefHeight="17.0" prefWidth="215.0" text="静音" textAlignment="CENTER" textFill="WHITE" />
@@ -100,7 +100,7 @@
                            <control>
                               <StackPane prefHeight="150.0" prefWidth="200.0">
                                  <children>
-                                    <FontIcon fx:id="off" iconColor="#e11515" iconLiteral="fas-phone-slash" iconSize="20" />
+                                    <FontIcon fx:id="off" iconColor="#e11515" iconLiteral="fas-phone" iconSize="20" />
                                  </children>
                               </StackPane>
                            </control>
@@ -114,7 +114,7 @@
                            <control>
                               <StackPane prefHeight="150.0" prefWidth="200.0">
                                  <children>
-                                    <FontIcon fx:id="invite" iconColor="WHITE" iconLiteral="fas-user-plus" iconSize="20" />
+                                    <FontIcon fx:id="invite" iconColor="WHITE" iconLiteral="fas-plus-square" iconSize="20" />
                                  </children>
                               </StackPane>
                            </control>
@@ -128,7 +128,7 @@
                            <control>
                               <StackPane prefHeight="150.0" prefWidth="200.0">
                                  <children>
-                                    <FontIcon fx:id="record" iconColor="WHITE" iconLiteral="fas-compact-disc" iconSize="20" />
+                                    <FontIcon fx:id="record" iconColor="WHITE" iconLiteral="fas-stop-circle" iconSize="20" />
                                  </children>
                               </StackPane>
                            </control>

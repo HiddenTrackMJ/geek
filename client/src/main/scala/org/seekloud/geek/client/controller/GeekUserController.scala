@@ -4,14 +4,17 @@ import javafx.fxml.FXML
 import javafx.scene.control.Label
 import org.seekloud.geek.client.component.{InputDialog, Loading, SnackBar, WarningDialog}
 import org.seekloud.geek.client.core.RmManager
-import org.seekloud.geek.client.utils.{RMClient, RoomClient}
-import org.seekloud.geek.shared.ptcl.CommonProtocol.RoomInfo
+import org.seekloud.geek.client.utils.{RMClient, RoomClient, TimeUtil}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{MeetingInfo, RoomInfo}
 import org.seekloud.geek.shared.ptcl.RoomProtocol.RoomUserInfo
 import org.slf4j.LoggerFactory
 import akka.actor.typed.ActorRef
-import javafx.scene.layout.AnchorPane
+import javafx.scene.image.ImageView
+import javafx.scene.layout.{AnchorPane, VBox}
 import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.common.StageContext
+import com.jfoenix.controls.JFXListView
+import javafx.geometry.Insets
 
 
 /**
@@ -28,12 +31,18 @@ class GeekUserController(
 
   @FXML private var username: Label = _
   @FXML private var rootPane: AnchorPane = _
+  @FXML private var contentPane: AnchorPane = _
+  @FXML private var empty: ImageView = _
 
   var loading:Loading = _
 
 
   def initialize(): Unit = {
     loading = Loading(rootPane).build()
+
+    //根据内存的信息显示会议列表
+    showMeetingList()
+
     //显示用户信息
     if (RmManager.userInfo.isEmpty){
       //取消所有的点击事件
@@ -41,6 +50,39 @@ class GeekUserController(
     }else{
       username.setText(RmManager.userInfo.get.userName)
     }
+  }
+
+  def showMeetingList() = {
+
+    val list = RmManager.meetingListInfo
+//    val list = List(
+//      MeetingInfo("会议1","1003",1581920012628L),
+//      MeetingInfo("会议2","1004",1581920012628L)
+//    )
+
+    if (list nonEmpty) {
+      //空layout不显示
+      empty.setVisible(false)
+      empty.setManaged(false)
+
+      val jList = new JFXListView[VBox]
+      list.foreach{
+        t=>
+          //创建一个AnchorPane
+          val pane = new VBox()
+          pane.getChildren.addAll(new Label(s"名称: ${t.name}"),new Label(s"参与时间: ${TimeUtil.timeStamp2DetailDate(t.time)}"))
+          pane.setPadding(new Insets(10,10,10,10))
+          jList.getItems.add(pane)
+      }
+      jList.getStyleClass.add("mylistview")
+      jList.setPrefWidth(contentPane.getPrefWidth)
+      jList.setPrefHeight(contentPane.getPrefHeight)
+      contentPane.getChildren.add(jList)
+    }else{
+      empty.setVisible(true)
+      empty.setManaged(true)
+    }
+
   }
 
   /**
@@ -62,7 +104,11 @@ class GeekUserController(
           loading.removeLoading()
           RmManager.userInfo.get.isHost = Some(true)
           RmManager.userInfo.get.pushStream = Some(RMClient.getPushStream(rsp.liveCode))
+
           rmManager ! RmManager.GoToCreateAndJoinRoom
+          //添加到历史记录列表
+          RmManager.meetingListInfo :+ MeetingInfo(roomName,rsp.roomId.toString,System.currentTimeMillis())
+
 
         case Left(error) =>
           log.error(s"创建房间错误$error")
@@ -95,6 +141,11 @@ class GeekUserController(
               RmManager.userInfo.get.isHost = Some(false)
               //跳转到视频页面
               rmManager ! RmManager.GoToCreateAndJoinRoom
+
+              //添加到历史记录列表
+              RmManager.meetingListInfo :+ MeetingInfo(roomUser.roomName,roomId.get,System.currentTimeMillis())
+
+
             }else{
               WarningDialog.initWarningDialog(s"没有该房间号")
             }

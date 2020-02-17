@@ -9,11 +9,9 @@ import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.common.AppSettings
 import org.seekloud.geek.client.controller.GeekHostController
 import org.seekloud.geek.client.core.RmManager
-import org.seekloud.geek.client.core.RmManager.roomInfo
 import org.seekloud.geek.client.core.collector.ClientCaptureActor
 import org.seekloud.geek.client.core.collector.ClientCaptureActor.{StartEncode, StopEncode}
 import org.seekloud.geek.client.core.player.VideoPlayer
-import org.seekloud.geek.client.scene.HostScene
 import org.seekloud.geek.client.utils.GetAllPixel
 import org.seekloud.geek.player.protocol.Messages.AddPicture
 import org.seekloud.geek.player.sdk.MediaPlayer

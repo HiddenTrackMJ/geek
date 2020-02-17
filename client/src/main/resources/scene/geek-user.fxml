@@ -68,9 +68,9 @@
                   </AnchorPane>
                </bottom>
             </BorderPane>
-            <AnchorPane layoutY="161.0" prefHeight="515.0" prefWidth="412.0">
+            <AnchorPane fx:id="contentPane" layoutY="161.0" prefHeight="515.0" prefWidth="412.0">
                <children>
-                  <ImageView fitHeight="210.0" fitWidth="225.0" layoutX="113.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="empty" fitHeight="210.0" fitWidth="225.0" layoutX="113.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@img/empty.jpg" />
                      </image>
