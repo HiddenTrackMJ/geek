@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
 /**
- * 发消息用的气泡：示例代码↓
+ * 发消息用的气泡 = 头像+消息内容（暂没有用户名的显示）：示例代码↓
  * BubbledLabel bl6 = new BubbledLabel();
  * bl6.setText(msg.getName() + ": " + msg.getMsg());//设置气泡的文字
  * bl6.setBackground(new Background(new BackgroundFill(Color.WHITE,null, null)));//设置气泡的背景

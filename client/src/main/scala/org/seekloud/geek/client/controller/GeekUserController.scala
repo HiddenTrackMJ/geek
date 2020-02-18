@@ -54,11 +54,11 @@ class GeekUserController(
 
   def showMeetingList() = {
 
-    val list = RmManager.meetingListInfo
-//    val list = List(
-//      MeetingInfo("会议1","1003",1581920012628L),
-//      MeetingInfo("会议2","1004",1581920012628L)
-//    )
+//    val list = RmManager.meetingListInfo
+    val list = List(
+      MeetingInfo("会议1","1003",1581920012628L),
+      MeetingInfo("会议2","1004",1581920012628L)
+    )
 
     if (list nonEmpty) {
       //空layout不显示

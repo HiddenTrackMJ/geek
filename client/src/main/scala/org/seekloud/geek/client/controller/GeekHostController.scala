@@ -1,17 +1,23 @@
 package org.seekloud.geek.client.controller
 
+import java.awt.TrayIcon.MessageType
+
 import akka.actor.typed.ActorRef
+import com.jfoenix.controls.JFXListView
 import javafx.fxml.FXML
-import javafx.scene.control.Label
 import javafx.scene.canvas.{Canvas, GraphicsContext}
-import javafx.scene.layout.AnchorPane
-import org.seekloud.geek.client.component.{Loading, WarningDialog}
+import javafx.scene.control.Label
+import javafx.scene.layout.{AnchorPane, Background, BackgroundFill, GridPane}
+import javafx.scene.paint.Color
 import org.kordamp.ikonli.javafx.FontIcon
 import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.common.StageContext
+import org.seekloud.geek.client.component.bubble.BubbledLabel
+import org.seekloud.geek.client.component.{AvatarColumn, Loading, WarningDialog}
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.core.RmManager.{StartLive, StopLiveFailed, StopLiveSuccess}
-import org.seekloud.geek.shared.ptcl.WsProtocol.{HeatBeat, StartLive4ClientRsp, StartLiveRsp, StopLive4ClientRsp, StopLiveRsp, WsMsgRm}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, UserInfo}
+import org.seekloud.geek.shared.ptcl.WsProtocol._
 import org.slf4j.LoggerFactory
 /**
   * User: hewro
@@ -44,6 +50,10 @@ class GeekHostController(
   @FXML private var off_label: Label = _
   @FXML private var invite_label: Label = _
   @FXML private var record_label: Label = _
+  @FXML private var userListPane: AnchorPane = _
+  @FXML private var commentPane: AnchorPane = _
+
+
 
 
   var loading:Loading = _
@@ -68,7 +78,57 @@ class GeekHostController(
     }
 
     //todo 根据用户类型锁定一些内容/按钮的事件修改
+    initUserList()
+    initCommentList()
   }
+
+
+  //更新界面
+  def initUserList() = {
+    //后续从服务器端的ws链接中获取和更新
+    val userList = List(
+      UserInfo(1L, "何为", ""),
+      UserInfo(2L, "秋林会", ""),
+      UserInfo(3L, "薛甘愿", ""),
+    )
+
+    val jList = new JFXListView[GridPane]
+    userList.foreach{
+      t=>
+        //创建一个AnchorPane
+        val pane = AvatarColumn(t,userListPane.getPrefWidth - 30)()
+        pane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
+        jList.getItems.add(pane)
+    }
+    jList.setPrefWidth(userListPane.getPrefWidth)
+    jList.setPrefHeight(userListPane.getPrefHeight)
+    jList.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
+    userListPane.getChildren.add(jList)
+
+  }
+
+  def initCommentList() = {
+    //后续从服务器端的ws链接中获取和更新
+    val commentList = List(
+      CommentInfo(1L,"何为","","大家新年好",1232132L)
+    )
+
+    val jList = new JFXListView[BubbledLabel]
+    commentList.foreach{
+      t=>
+        //创建一个AnchorPane
+        val bl6 = new BubbledLabel
+        bl6.setText(t.userName + ": " + t.content)
+        bl6.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)))
+        bl6.getStyleClass.add("commentBubble")
+        jList.getItems.add(bl6)
+    }
+    jList.setPrefWidth(commentPane.getPrefWidth)
+    jList.setPrefHeight(commentPane.getPrefHeight)
+    jList.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
+    commentPane.getChildren.add(jList)
+  }
+
 
 
 
@@ -76,6 +136,11 @@ class GeekHostController(
   def gotoHomeScene(): Unit = {
     //回到首页
     rmManager ! RmManager.BackToHome
+  }
+
+  //发表评论
+  def commentSubmit() = {
+
   }
 
 

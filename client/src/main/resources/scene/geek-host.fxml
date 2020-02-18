@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXRippler?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXToolbar?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -15,7 +15,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
@@ -43,40 +42,7 @@
                <children>
                   <Label layoutX="82.0" layoutY="22.0" text="房间成员" textFill="WHITE" />
                   <Line endX="107.0" layoutX="108.0" layoutY="50.0" startX="-108.0" />
-                  <GridPane layoutX="8.0" layoutY="50.0" prefHeight="57.0" prefWidth="200.0" style="-fx-padding: 10;">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="10.0" prefWidth="41.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="102.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="43.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="avatar-image" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@img/avatar.jpg" />
-                           </image>
-                            <clip>
-                                <Circle fx:id="circle" centerX="15" centerY="15" fill="aqua">
-                                    <radius>15</radius>
-                                </Circle>
-                            </clip>
-                        </ImageView>
-                        <VBox prefHeight="37.0" prefWidth="108.0" GridPane.columnIndex="1" GridPane.halignment="LEFT">
-                           <children>
-                              <Label text="何炜" textFill="WHITE" />
-                              <Label text="主持人" textFill="#a4a3a3" />
-                           </children>
-                           <padding>
-                              <Insets left="10.0" top="3.0" />
-                           </padding>
-                        </VBox>
-                        <JFXRippler GridPane.columnIndex="2">
-                            <FontIcon iconColor="WHITE" iconLiteral="fas-chevron-circle-down" text="" wrappingWidth="18.0" />
-                        </JFXRippler>
-                     </children>
-                  </GridPane>
+                  <AnchorPane fx:id="userListPane" layoutX="8.0" layoutY="62.0" prefHeight="580.0" prefWidth="200.0" />
                </children>
             </AnchorPane>
          </left>
@@ -87,8 +53,9 @@
                   <Line endX="182.0" layoutX="101.0" layoutY="57.0" startX="-100.0" />
                   <AnchorPane layoutX="1.0" layoutY="450.0" prefHeight="137.0" prefWidth="283.0">
                      <children>
-                        <JFXTextArea focusColor="WHITE" layoutX="10.0" layoutY="66.0" prefHeight="115.0" prefWidth="263.0" promptText="请输入消息,回车发送" unFocusColor="#c3c0c0" />
+                        <JFXTextArea fx:id="commentInput" focusColor="WHITE" layoutX="10.0" layoutY="66.0" prefHeight="115.0" prefWidth="263.0" promptText="请输入消息,遵守国家有关规定" styleClass="commentInput" unFocusColor="#c3c0c0" />
                         <Line endX="157.0" layoutX="110.0" layoutY="44.0" startX="-100.0" stroke="#514f4f" />
+                        <JFXButton fx:id="commentSubmit" layoutX="213.0" layoutY="140.0" onAction="#commentSubmit" style="-fx-background-color: #555;" text="发送" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="commentPane" layoutX="7.0" layoutY="67.0" prefHeight="409.0" prefWidth="266.0" />
@@ -98,7 +65,7 @@
          <center>
             <AnchorPane fx:id="centerPane" prefHeight="647.0" prefWidth="388.0" BorderPane.alignment="CENTER">
                <children>
-                  <Canvas fx:id="canvas" height="531.0" layoutX="39.0" layoutY="58.0" width="654.0" />
+                  <Canvas fx:id="canvas" height="531.0" layoutX="20.0" layoutY="58.0" width="654.0" />
                </children>
             </AnchorPane>
          </center>

@@ -21,3 +21,38 @@
     -fx-text-fill: #333f50;
     -fx-cursor: hand;
 }
+
+.commentInput{
+    -fx-text-fill: #ffffff;
+    /*-fx-prompt-text-fill: #ffffff;*/
+}
+
+.username,.jfx-list-cell:selected .username{
+    -fx-text-fill: #ffffff;
+}
+
+.userLevel,.jfx-list-cell:selected .userLevel{
+    -fx-text-fill: #a4a3a3;
+}
+
+
+.jfx-list-cell:selected > .jfx-rippler > StackPane {
+    -fx-background-color: rgba(0, 0, 0, 0);
+}
+
+.jfx-list-cell:selected{
+    -fx-background-color: rgba(0, 0, 0, 0);
+}
+
+.jfx-list-cell:selected .commentBubble{
+    -fx-text-fill: rgb(43, 42, 42);
+}
+
+.jfx-list-cell {
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-background-insets: 0.0;
+}
+
+.jfx-list-cell:odd:selected > .jfx-rippler > StackPane, .jfx-list-cell:even:selected > .jfx-rippler > StackPane {
+    -fx-background-color: rgba(0, 0, 0, 0);
+}

@@ -16,7 +16,13 @@ import javafx.scene.shape.Circle
 case class Avatar(size:Int,src:String){
 
   def apply(): ImageView = {
-    val image = new Image(src)
+
+    val image =
+      if(src == ""){
+        new Image("scene/img/avatar.jpg")
+      }else{
+        new Image(src)
+      }
     val imageView = new ImageView(image)
     imageView.setFitWidth(size)
     imageView.setFitHeight(size)

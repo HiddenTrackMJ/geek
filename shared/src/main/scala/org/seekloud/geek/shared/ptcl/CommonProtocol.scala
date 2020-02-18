@@ -27,6 +27,13 @@ object CommonProtocol {
     var isVoice:Option[Boolean] = Some(false) //当前用户是否开了声音
   )
 
+  case class CommentInfo(
+    userId:Long,
+    userName:String,
+    headImgUrl:String,
+    content:String,
+    time:Long
+  )
   case class SignIn(
     userName: String,
     password: String
