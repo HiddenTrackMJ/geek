@@ -43,7 +43,6 @@ object RmManager {
 
 
   //拿到homeController 和 homeScreen
-  final case class GetHomeItems(homeScene: Scene, homeController: GeekUserController) extends RmCommand
   final case class SignInSuccess(userInfo: Option[UserInfo] = None, roomInfo: Option[RoomInfo] = None) extends RmCommand
   final case object Logout extends RmCommand
   final case object GoToCreateAndJoinRoom extends RmCommand //进去创建会议的页面
@@ -52,7 +51,7 @@ object RmManager {
   final case object HostWsEstablish extends RmCommand
   final case object BackToHome extends RmCommand
   final case object HostLiveReq extends RmCommand //请求开启会议
-  final case class StartLive(pull:String, push:String) extends RmCommand
+  final case class StartLiveSuccess(pull:String, push:String) extends RmCommand
   final case object StopLive extends RmCommand
   final case object StopLiveSuccess extends RmCommand
   final case object StopLiveFailed extends RmCommand
@@ -81,7 +80,6 @@ object RmManager {
     stageCtx: StageContext,
     liveManager: ActorRef[LiveManager.LiveCommand],
     mediaPlayer: MediaPlayer,
-    homeController: Option[GeekUserController] = None
   )(
     implicit stashBuffer: StashBuffer[RmCommand],
     timer: TimerScheduler[RmCommand]
@@ -89,9 +87,6 @@ object RmManager {
     Behaviors.receive[RmCommand]{
       (ctx, msg) =>
         msg match {
-
-          case GetHomeItems(homeScene, homeController) =>
-            idle(stageCtx,liveManager,mediaPlayer,Some(homeController))
 
           case GoToCreateAndJoinRoom =>
             val hostController = new GeekHostController(ctx.self,stageCtx,Some((gc,callBack)=>{
@@ -105,7 +100,7 @@ object RmManager {
               //显示会议厅页面
               stageCtx.showScene(scene = hostScene)
             }
-            switchBehavior(ctx, "hostBehavior", hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer))
+            switchBehavior(ctx, "hostBehavior", hostBehavior(stageCtx, hostScene, hostController, liveManager, mediaPlayer))
 
           case SignInSuccess(userInfo, roomInfo)=>
             //todo 可以进行登录后的一些处理，比如创建临时文件等，这部分属于优化项
@@ -131,7 +126,6 @@ object RmManager {
   //已经进行会议的场景
   private def hostBehavior(
     stageCtx: StageContext,
-    homeController: Option[GeekUserController] = None,
     hostScene: Scene,
     hostController: GeekHostController,
     liveManager: ActorRef[LiveManager.LiveCommand],
@@ -173,9 +167,7 @@ object RmManager {
           //添加给后端发消息的对象sender
           log.info("获取到后端消息对象")
 //          msg.sender ! WsProtocol.Test("I'm telling you")
-//          switchBehavior(ctx, "hostBehavior", hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer,hostStatus=HostStatus.CONNECT))
-
-          hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer, Some(msg.sender), hostStatus)
+          hostBehavior(stageCtx, hostScene, hostController, liveManager, mediaPlayer, Some(msg.sender), hostStatus)
 
 
         case HostLiveReq =>
@@ -197,7 +189,10 @@ object RmManager {
           Behaviors.same
 
 
-        case StartLive(pull, push)=>
+        case StartLiveSuccess(pull, push)=>
+
+          //更新会议室的状态
+          hostController.toggleLive()
 
           //1.开始推流
           log.info(s"开始会议")
@@ -206,10 +201,8 @@ object RmManager {
           //2.开始拉流：
           RmManager.userInfo.get.pullStream = Some(pull)
           liveManager ! LiveManager.PullStream(RmManager.userInfo.get.pullStream.get,mediaPlayer,hostController,liveManager)
-
           Behaviors.same
 
-//                  switchBehavior(ctx, "hostBehavior", hostBehavior(stageCtx, homeController, hostScene, hostController, liveManager, mediaPlayer,hostStatus=HostStatus.CONNECT))
 
         case GetPackageLoss =>
           liveManager ! LiveManager.GetPackageLoss
@@ -236,7 +229,7 @@ object RmManager {
         case StopLiveSuccess =>
           //房主/普通组员均一样
           /*背景改变*/
-          hostController.resetBack()
+          hostController.toggleLive()
           /*媒体画面模式更改*/
           liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostController.resetBack)
 
@@ -249,8 +242,8 @@ object RmManager {
           Boot.addToPlatform {
             WarningDialog.initWarningDialog("停止会议成功！")
           }
-          Behaviors.same
-
+          //当前的链接状态改为未连接
+          hostBehavior(stageCtx,hostScene,hostController,liveManager,mediaPlayer,sender,hostStatus=HostStatus.NOTCONNECT,joinAudience)
 
         case StopLiveFailed =>
 
@@ -262,13 +255,12 @@ object RmManager {
 
 
         case BackToHome =>
-//          timer.cancel(HeartBeat)
-//          timer.cancel(PingTimeOut)
+
           sender.foreach(_ ! CompleteMsgClient)//断开ws连接
           if (hostStatus == HostStatus.CONNECT) {//开启会议情况下
-            //todo: 需要关闭player的显示
-            val playId = RmManager.roomInfo.get.roomId.toString
+            //需要关闭player的显示
             //停止服务器拉流显示到player上
+            val playId = RmManager.roomInfo.get.roomId.toString
             mediaPlayer.stop(playId, hostController.resetBack)
             liveManager ! LiveManager.StopPull
           }
@@ -276,11 +268,11 @@ object RmManager {
           liveManager ! LiveManager.DeviceOff
 
           Boot.addToPlatform {
-            //todo 返回user界面
-//            homeController.foreach(_.showScene())
+            //返回user界面
+            SceneManager.showUserScene(stageCtx,ctx.self)
           }
           System.gc()
-          switchBehavior(ctx, "idle", idle(stageCtx, liveManager, mediaPlayer, homeController))
+          switchBehavior(ctx, "idle", idle(stageCtx, liveManager, mediaPlayer))
 
 
         case PullerStopped =>

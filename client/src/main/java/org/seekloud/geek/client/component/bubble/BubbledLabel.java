@@ -8,6 +8,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
@@ -43,6 +45,8 @@ public class BubbledLabel extends Label {
         super();
         init();
     }
+
+
 
     public BubbledLabel(String arg0, Node arg1) {
         super(arg0, arg1);

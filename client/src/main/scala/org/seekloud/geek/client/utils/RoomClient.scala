@@ -24,20 +24,6 @@ object RoomClient extends HttpUtil {
 
   private val log = LoggerFactory.getLogger(this.getClass)
 
-  def getRoomInfo(userId: Long, token: String): Future[Either[Throwable, RoomInfoRsp]] = {
-
-    val methodName = "getRoomInfo"
-    val url = Routes.getRoomInfo
-
-    val data = GetRoomInfoReq(userId, token).asJson.noSpaces
-    postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
-      case Right(jsonStr) =>
-        decode[RoomInfoRsp](jsonStr)
-      case Left(error) =>
-        log.error(s"user-$userId getRoomInfo error: $error")
-        Left(error)
-    }
-  }
 
   def createRoom(userId: Long, info: RoomUserInfo): Future[Either[Throwable, CreateRoomRsp]] = {
 
@@ -51,67 +37,6 @@ object RoomClient extends HttpUtil {
         decode[CreateRoomRsp](jsonStr)
       case Left(error) =>
         log.error(s"user-$userId createRoom error: $error")
-        Left(error)
-    }
-  }
-
-  def startLive(roomId: Long): Future[Either[Throwable, StartLiveRsp]] = {
-
-    val methodName = "startLive"
-    val url = Routes.startLive
-
-    val data = StartLiveReq(roomId).asJson.noSpaces
-    postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
-      case Right(jsonStr) =>
-        log.info(s"开始会议:$jsonStr")
-        decode[StartLiveRsp](jsonStr)
-      case Left(error) =>
-        log.error(s"room-$roomId startLive error: $error")
-        Left(error)
-    }
-  }
-
-  def startLive4Client(userId: Long, roomId: Long): Future[Either[Throwable, StartLive4ClientRsp]] = {
-
-    val methodName = "startLive4Client"
-    val url = Routes.startLive4Client
-
-    val data = StartLive4ClientReq(roomId, userId).asJson.noSpaces
-    postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
-      case Right(jsonStr) =>
-        decode[StartLive4ClientRsp](jsonStr)
-      case Left(error) =>
-        log.error(s"user-$userId startLive4Client error: $error")
-        Left(error)
-    }
-  }
-
-  def stopLive(roomId: Long): Future[Either[Throwable, SuccessRsp]] = {
-
-    val methodName = "stopLive"
-    val url = Routes.stopLive
-
-    val data = StopLiveReq(roomId).asJson.noSpaces
-    postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
-      case Right(jsonStr) =>
-        decode[SuccessRsp](jsonStr)
-      case Left(error) =>
-        log.error(s"room-$roomId stopLive error: $error")
-        Left(error)
-    }
-  }
-
-  def stopLive4Client(roomId: Long, userId: Long): Future[Either[Throwable, SuccessRsp]] = {
-
-    val methodName = "stopLive4Client"
-    val url = Routes.stopLive4Client
-
-    val data = StopLive4ClientReq(roomId, userId).asJson.noSpaces
-    postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
-      case Right(jsonStr) =>
-        decode[SuccessRsp](jsonStr)
-      case Left(error) =>
-        log.error(s"room-$roomId stopLive4Client userId-$userId error: $error")
         Left(error)
     }
   }
@@ -131,18 +56,5 @@ object RoomClient extends HttpUtil {
     }
   }
 
-  def getRoomList: Future[Either[Throwable, GetRoomListRsp]] = {
-    val methodName = "getRoomList"
-    val url = Routes.getRoomList
-
-    val data =  GetRoomListReq().asJson.noSpaces
-    postJsonRequestSend(methodName, url, Nil, data, needLogRsp = false).map {
-      case Right(jsonStr) =>
-        decode[GetRoomListRsp](jsonStr)
-      case Left(error) =>
-        log.error(s"get room list error: $error")
-        Left(error)
-    }
-  }
 
 }

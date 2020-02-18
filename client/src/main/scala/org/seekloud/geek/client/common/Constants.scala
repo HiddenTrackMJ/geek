@@ -59,8 +59,11 @@ object Constants {
 
   object HostStatus {
     val NOTCONNECT = 0
-    val CONNECT = 1
+    val LOADING = 1
+    val CONNECT = 2
   }
+
+
 
   object AudienceStatus {
     val LIVE = 0

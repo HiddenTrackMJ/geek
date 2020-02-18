@@ -49,7 +49,7 @@
                         </GridPane>
                      </left>
                   </JFXToolbar>
-                  <AnchorPane prefHeight="372.0" prefWidth="626.0">
+                  <AnchorPane  prefHeight="372.0" prefWidth="626.0">
                      <children>
                         <JFXButton layoutX="242.0" layoutY="284.0" onAction="#loginBySelf" prefHeight="32.0" prefWidth="143.0" ripplerFill="#173672" styleClass="loginButton" text="登录" textAlignment="CENTER" textFill="WHITE" />
                         <JFXTextField fx:id="username" layoutX="183.0" layoutY="128.0" prefHeight="32.0" prefWidth="260.0" promptText="输入用户名" styleClass="text_label" unFocusColor="#7ca1ff" />
