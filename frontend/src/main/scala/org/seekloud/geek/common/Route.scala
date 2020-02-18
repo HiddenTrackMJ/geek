@@ -48,6 +48,7 @@ object Route {
     val getInviteeList: String = base + "/getInviteeList"
     val delInvitee: String = base + "/delInvitee"
     val signIn: String = base + "/signIn"
+    val addInvitee:String = base + "/addInvitee"
   }
 
   object Test {

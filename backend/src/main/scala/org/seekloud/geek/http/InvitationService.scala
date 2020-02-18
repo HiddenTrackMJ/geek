@@ -10,8 +10,8 @@ import org.seekloud.geek.Boot.{executor, invitation, roomManager, scheduler, use
 import akka.actor.typed.scaladsl.AskPattern._
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.ws.Message
-import org.seekloud.geek.models.dao.UserDao
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{GetRoomInfoReq, InvitationReq, InvitationRsp, Inviter, InviterAndInviteeReq, SignIn, SignInRsp, SignUp, SignUpRsp}
+import org.seekloud.geek.models.dao.{UserDao, VideoDao}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{GetRoomInfoReq, InvitationReq, InvitationRsp, Inviter, InviterAndInviteeReq, SignIn, SignInRsp, SignUp, SignUpRsp, addInviteeReq}
 import org.seekloud.geek.utils.SecureUtil
 import org.seekloud.geek.shared.ptcl.CommonErrorCode._
 import org.slf4j.LoggerFactory
@@ -24,7 +24,7 @@ import ch.megard.akka.http.cors.scaladsl.model.HttpOriginMatcher
 import ch.megard.akka.http.cors.scaladsl.settings.CorsSettings
 import org.seekloud.geek.core.Invitation.{DelInvitee, GetInviteeList, GetInviterList}
 import org.seekloud.geek.core.UserManager.{MSignIn, MSignUp}
-import org.seekloud.geek.shared.ptcl.SuccessRsp
+import org.seekloud.geek.shared.ptcl.{ErrorRsp, SuccessRsp}
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.Future
@@ -125,8 +125,34 @@ trait InvitationService extends BaseService{
     }
   }
 
+
+
+  private def addInvitee = (path("addInvitee") & post){
+    //搜索被邀请人是否存在，不存在返回空表；其次搜索邀请人在目标房间是否邀请被邀请人，不存在则存入，存在则返回错误
+    entity(as[Either[Error, addInviteeReq]]) {
+      case Right(req) =>
+        dealFutureResult(
+          VideoDao.searchInvitee(req.inviteeName).map { rsp1 =>
+
+            if(rsp1.nonEmpty) {
+              dealFutureResult(
+              VideoDao.searchInvitee2(rsp1.head.id,req.roomId).map{rsp2 =>
+                if(rsp2.isEmpty){println("可存入");VideoDao.addInvitee(req.inviterId,req.roomId,rsp1.head.id);complete(SuccessRsp)}
+                else {println(rsp2.head.id);complete(ErrorRsp(msg = "该用户已添加", errCode = 1000005))}
+              }
+              )
+            }
+            else {complete(ErrorRsp(msg = "该用户不存在", errCode = 1000005))}
+          }
+        )
+      case Left(error) =>
+        log.warn(s"error in updateAvatar: $error")
+        complete(ErrorRsp(msg = "json parse error.1", errCode = 1000005))
+    }
+  }
+
   val invitationRoutes: Route = pathPrefix("invitation") {
-    getInviterList ~ getInviteeList ~ delInvitee
+    getInviterList ~ getInviteeList ~ delInvitee  ~ addInvitee
   }
 
 }

@@ -57,6 +57,12 @@ object CommonProtocol {
                             inviteeId: Long,
                           ) extends Request
 
+  case class addInviteeReq(
+                                   inviterId: Long,
+                                   roomId:Long,
+                                   inviteeName: String,
+                                 ) extends Request
+
   case class SignUpRsp(
     //    code:String,
     errCode: Int = 0,

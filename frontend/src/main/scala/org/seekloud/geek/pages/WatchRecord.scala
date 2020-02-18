@@ -103,8 +103,8 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
           <p style="font-size:5px">{"录像名："+room.fileName}</p>
           <p style="font-size:5px">{"保存录像时间："+room.time}</p>
           {
-          if(room.isInvited) <p style="font-size:5px">{"邀请状态：已邀请"}</p>
-          else <p style="font-size:5px;color:red" >{"邀请状态：未邀请"}</p>
+          if(room.isInvited) <p style="font-size:5px"></p>
+          else <p style="font-size:5px;color:red" ></p>
           }
         </div>
       </li>

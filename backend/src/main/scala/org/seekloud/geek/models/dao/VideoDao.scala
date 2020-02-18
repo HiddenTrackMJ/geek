@@ -26,14 +26,27 @@ object VideoDao {
   }
 
   def getSecVideo(inviteeId: Long) = {
-    val q = tUser join tVideo/*.filter(_.invitation === inviteeId)*/ on{
+
+    val q = tUser join tVideo.sortBy(_.userid).distinctOn(_.filename) on{
       (t1,t2)=>
         List(t1.id === t2.userid).reduceLeft(_ || _)
     }
+
+//    val q = tUser join tVideo.filter(_.invitation === inviteeId) on{
+//      (t1,t2)=>
+//        List(t1.id === t2.userid).reduceLeft(_ || _)
+//    }
+
+//    val q=for {
+//      a<-tVideo.filter(_.invitation===inviteeId).result.head
+//      c <-tUser.filter(_.id===a.invitation).result
+//    } yield (a,c)
 //    val innerJoin = for {
 //      (inviterName, inviterId) <- q
 //    } yield (inviterName,inviterId)
-    db.run(q.distinct.sortBy(_._1.id).sortBy(_._2.roomid).result)
+    db.run(q.distinct.sortBy(_._1.id).result)
+
+
   }
 
   def getInviteeVideo(inviteeId: Long,filename: String): Future[Seq[tVideo#TableElementType]] = {
@@ -54,14 +67,6 @@ object VideoDao {
     }
 
   //邀请相关
-//  def getInviter(id: Long) ={
-//      val action = for{
-//      inviteeName <- tVideo.filter(_.invitation === id).map(_.userid).result
-//      inviteeId <- tUser.filter(_.invitation === id).map(_.userid).result
-//      }
-//        yield (inviteeName,inviteeId)
-//    db.run{action.transactionally}
-//  }
 
   def getInviter(id:Long) = {
     val q = tUser join tVideo.filter(_.invitation === id) on{
@@ -83,6 +88,23 @@ object VideoDao {
       (inviteeName, inviteeId) <- q
     } yield (inviteeName,inviteeId)
     db.run(innerJoin.distinct.sortBy(_._1.id).result)
+  }
+
+  def searchInvitee(inviteeName: String) = {
+    val q = tUser.filter(_.name ===inviteeName ).result
+    db.run(q)
+  }
+  def searchInvitee2(inviteeId:Long,roomId:Long) = {
+    val q = tVideo.filter(_.invitation ===inviteeId ).filter(_.roomid === roomId).result
+    db.run(q)
+  }
+  def addInvitee(inviterId: Long,roomId:Long,inviteeId: Long) = {
+    //在roomid相应的所有的不同filename，都复制一行
+    val q=for {
+      a<-tVideo.filter(_.roomid ===roomId ).filter(_.invitation===inviterId).filter(_.comment==="").result
+      c <-tVideo ++= a.map(d=>rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,inviteeId,""))
+    } yield a
+    db.run(q)
   }
 
   def getComment(roomid:Long,filename:String)  = {

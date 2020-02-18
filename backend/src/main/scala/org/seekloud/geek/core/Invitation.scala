@@ -53,14 +53,18 @@ object Invitation {
       (ctx, msg) =>
         msg match {
           case GetRoomSectionList(room, replyTo)=>
+            //问题是有录像邀请你，有录像邀请别人，获取全部录像时你可能看到多个实际已邀请自己但邀请别人未邀请自己的录像
+            //如果邀请人和被邀请人一致，保持获取；邀请人和被邀请人不一致，保持获取；则会造成冗余，同时邀请人有邀请人和被邀请人录像
+            //如果邀请人和被邀请人一致，不获取；邀请人和被邀请人不一致，保持获取；则会造成缺失，邀请人不邀请别人时看不到自己的录像
+            //解决方法：全部录像只获取一遍，再判断是否被邀请(不判断)
             VideoDao.getSecVideo(room.inviteeId).map{
               rsp=>
                 if (rsp isEmpty){
                   replyTo ! GetRoomSectionListRsp(List(),-1,"查询为空")
                 }else{
 
-                  replyTo ! GetRoomSectionListRsp(rsp.map{e=>if(e._2.invitation==room.inviteeId) RoomInfoSection(e._2.roomid,e._2.userid,e._1.name,e._2.filename,timeStamp2yyyyMMdd(e._2.timestamp),true)
-                  else RoomInfoSection(e._2.roomid,e._2.userid,e._1.name,e._2.filename,timeStamp2yyyyMMdd(e._2.timestamp),false)}.toSet.toList,0,"有该user的录像")
+                  replyTo ! GetRoomSectionListRsp(rsp.map{e=> RoomInfoSection(e._2.roomid,e._2.userid,e._1.name,e._2.filename,timeStamp2yyyyMMdd(e._2.timestamp),true)
+                  }.toSet.toList,0,"有该user的录像")
                 }
             }
             Behaviors.same
