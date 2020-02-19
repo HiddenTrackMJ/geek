@@ -28,6 +28,7 @@ class StageContext(stage: Stage) {
   def switchScene(context: StageContext,controller: Any = null,scenefxml:String, title: String = "geek", resize: Boolean = false, fullScreen: Boolean = false, isSetOffX: Boolean = false): Unit = {
     //通过fxml创建scene
     val scene = createSceneByFxml(controller,scenefxml)
+
     showScene(scene,title,resize,fullScreen,isSetOffX)
 
   }

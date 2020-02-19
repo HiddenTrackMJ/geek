@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXRippler?>
-<?import com.jfoenix.controls.JFXToolbar?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -16,23 +15,7 @@
 
 <VBox prefHeight="710.0" prefWidth="408.0" stylesheets="@css/geek-user.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <JFXToolbar prefHeight="37.0" prefWidth="610.0" style="-fx-opacity: 1; -fx-background-color: #ffffff;">
-         <left>
-            <JFXRippler maskType="CIRCLE" prefHeight="46.0" prefWidth="47.0" ripplerFill="WHITE" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="18.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@img/close.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </JFXRippler>
-         </left>
-         <center>
-            <Label prefHeight="20.0" prefWidth="116.0" text="geek 云会议" textFill="#5e5d5d" BorderPane.alignment="CENTER" />
-         </center>
-      </JFXToolbar>
-      <AnchorPane fx:id="rootPane" prefHeight="678.0" prefWidth="408.0" style="-fx-background-color: #ffffff;">
+      <AnchorPane fx:id="rootPane" prefHeight="641.0" prefWidth="412.0" style="-fx-background-color: #ffffff;">
          <children>
             <BorderPane prefHeight="162.0" prefWidth="408.0">
                <center>
@@ -67,8 +50,11 @@
                      </children>
                   </AnchorPane>
                </bottom>
+               <padding>
+                  <Insets top="30.0" />
+               </padding>
             </BorderPane>
-            <AnchorPane fx:id="contentPane" layoutY="161.0" prefHeight="515.0" prefWidth="412.0">
+            <AnchorPane fx:id="contentPane" layoutY="161.0" prefHeight="549.0" prefWidth="412.0">
                <children>
                   <ImageView fx:id="empty" fitHeight="210.0" fitWidth="225.0" layoutX="113.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
                      <image>

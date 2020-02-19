@@ -131,7 +131,7 @@ object RmManager {
     liveManager: ActorRef[LiveManager.LiveCommand],
     mediaPlayer: MediaPlayer,
     sender: Option[ActorRef[WsMsgFront]] = None,
-    hostStatus: Int = HostStatus.NOTCONNECT, //0-直播，1-连线
+    hostStatus: Int = HostStatus.NOT_CONNECT, //0-直播，1-连线
     joinAudience: Option[MemberInfo] = None //组员
   )(
     implicit stashBuffer: StashBuffer[RmCommand],
@@ -192,7 +192,8 @@ object RmManager {
         case StartLiveSuccess(pull, push)=>
 
           //更新会议室的状态
-          hostController.toggleLive()
+          hostController.hostStatus = HostStatus.CONNECT
+          hostController.updateOffUI()
 
           //1.开始推流
           log.info(s"开始会议")
@@ -229,7 +230,8 @@ object RmManager {
         case StopLiveSuccess =>
           //房主/普通组员均一样
           /*背景改变*/
-          hostController.toggleLive()
+          hostController.hostStatus = HostStatus.NOT_CONNECT
+          hostController.updateOffUI()
           /*媒体画面模式更改*/
           liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostController.resetBack)
 
@@ -244,7 +246,7 @@ object RmManager {
             WarningDialog.initWarningDialog("停止会议成功！")
           }
           //当前的链接状态改为未连接
-          hostBehavior(stageCtx,hostScene,hostController,liveManager,mediaPlayer,sender,hostStatus=HostStatus.NOTCONNECT,joinAudience)
+          hostBehavior(stageCtx,hostScene,hostController,liveManager,mediaPlayer,sender,hostStatus=HostStatus.NOT_CONNECT,joinAudience)
 
         case StopLiveFailed =>
 

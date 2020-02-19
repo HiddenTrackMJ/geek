@@ -6,10 +6,11 @@ import com.jfoenix.controls.JFXTextField
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.layout.AnchorPane
+import javafx.scene.paint.Color
 import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.common.StageContext
-import org.seekloud.geek.client.component.{Loading, SnackBar}
+import org.seekloud.geek.client.component.{Loading, SnackBar, TopBar}
 import org.seekloud.geek.client.core.{RmManager, SceneManager}
 import org.seekloud.geek.client.utils.RMClient
 import org.slf4j.LoggerFactory
@@ -22,7 +23,7 @@ import org.slf4j.LoggerFactory
 class GeekLoginController(
   rmManager: ActorRef[RmManager.RmCommand],
   context: StageContext,
-) {
+) extends CommonController {
 
   @FXML private var testLabel: Label = _
   @FXML private var username:JFXTextField = _
@@ -35,8 +36,15 @@ class GeekLoginController(
 
   def initialize(): Unit = {
     loading = Loading(rootPane).build()
+
+    initToolbar()
   }
 
+
+  def initToolbar() = {
+    val toolbar = TopBar("", Color.TRANSPARENT, rootPane.getPrefWidth, 30, "login", context, rmManager)()
+    rootPane.getChildren.add(toolbar)
+  }
 
   def loginBySelf() = {
     if (checkInfo){//信息不完整

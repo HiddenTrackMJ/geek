@@ -1,5 +1,6 @@
 package org.seekloud.geek.client.controller
 
+import java.awt
 import java.awt.TrayIcon.MessageType
 
 import akka.actor.typed.ActorRef
@@ -11,10 +12,10 @@ import javafx.scene.layout.{AnchorPane, Background, BackgroundFill, GridPane}
 import javafx.scene.paint.Color
 import org.kordamp.ikonli.javafx.FontIcon
 import org.seekloud.geek.client.Boot
-import org.seekloud.geek.client.common.Constants.HostStatus
+import org.seekloud.geek.client.common.Constants.{DeviceStatus, HostStatus}
 import org.seekloud.geek.client.common.StageContext
 import org.seekloud.geek.client.component.bubble.{BubbleSpec, BubbledLabel}
-import org.seekloud.geek.client.component.{AvatarColumn, CommentColumn, Loading, SnackBar, WarningDialog}
+import org.seekloud.geek.client.component.{AvatarColumn, CommentColumn, Loading, SnackBar, TopBar, WarningDialog}
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.core.RmManager.{HostLiveReq, StartLiveSuccess, StopLive, StopLiveFailed, StopLiveSuccess}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, UserInfo}
@@ -30,7 +31,7 @@ class GeekHostController(
   rmManager: ActorRef[RmManager.RmCommand],
   context: StageContext,
   initSuccess:Option[(GraphicsContext,Option[() => Unit]) => Unit] = None
-) {
+) extends CommonController{
 
 
 
@@ -54,6 +55,7 @@ class GeekHostController(
   @FXML private var userListPane: AnchorPane = _
   @FXML private var commentPane: AnchorPane = _
   @FXML private var commentInput: JFXTextArea = _
+  @FXML private var rootPane: AnchorPane = _
 
 
   val commentList = List(
@@ -62,9 +64,9 @@ class GeekHostController(
 
   var commentJList = new JFXListView[GridPane]
 
-  var hostStatus = HostStatus.NOTCONNECT
-  var voiceStatus = true //音频状态，false未开启
-  var videoStatus = true //视频状态，false未开启摄像头
+  var hostStatus: Int = HostStatus.NOT_CONNECT
+  var micStatus: Int = DeviceStatus.NOT_READY //音频状态，false未开启
+  var videoStatus: Int = DeviceStatus.NOT_READY //视频状态，false未开启摄像头
 
   var loading:Loading = _
   var gc: GraphicsContext = _
@@ -73,13 +75,63 @@ class GeekHostController(
   //改变底部工具栏的图标和文字,
   //CaptureStartSuccess 摄像头启动成功的时候会执行这个
   def changeToggleAction(): Unit = {
-    Boot.addToPlatform{
-      log.info("设备准备好了")
-      mic_label.setText("关闭音频")
-      mic.setIconColor(Color.WHITE)
 
-      video_label.setText("关闭摄像头")
-      video.setIconColor(Color.WHITE)
+    micStatus = DeviceStatus.ON
+    videoStatus = DeviceStatus.ON
+
+    updateVideoUI()
+    updateMicUI()
+  }
+
+  def updateVideoUI() = {
+
+    Boot.addToPlatform {
+      videoStatus match {
+        case DeviceStatus.NOT_READY =>
+          video.setIconLiteral("fas-video")
+          video.setIconColor(Color.GRAY)
+          video_label.setText("摄像头准备中")
+
+
+        case DeviceStatus.ON =>
+          log.info("摄像头准备好了")
+          video_label.setText("关闭摄像头")
+          video.setIconLiteral("fas-video")
+          video.setIconColor(Color.WHITE)
+
+
+        case DeviceStatus.OFF =>
+          video_label.setText("开启摄像头")
+          video.setIconLiteral("fas-eye-slash")
+          video.setIconColor(Color.WHITE)
+      }
+    }
+
+  }
+
+  def updateMicUI() = {
+
+    Boot.addToPlatform{
+      micStatus match {
+        case DeviceStatus.NOT_READY =>
+          mic.setIconLiteral("fas-microphone")
+          mic.setIconColor(Color.GRAY)
+          mic_label.setText("音频准备中")
+
+
+
+        case DeviceStatus.ON =>
+          log.info("设备准备好了")
+          mic_label.setText("关闭音频")
+          mic.setIconLiteral("fas-microphone")
+          mic.setIconColor(Color.WHITE)
+
+
+        case DeviceStatus.OFF =>
+          mic_label.setText("开启音频")
+          mic.setIconLiteral("fas-microphone-slash")
+          mic.setIconColor(Color.WHITE)
+      }
     }
   }
 
@@ -97,8 +149,15 @@ class GeekHostController(
     //todo 根据用户类型锁定一些内容/按钮的事件修改
     initUserList()
     initCommentList()
+
+    initToolbar()
   }
 
+
+  def initToolbar() = {
+    val toolbar = TopBar(s"会议厅（会议号：${RmManager.roomInfo.get.roomId}）", Color.BLACK, rootPane.getPrefWidth-10, 25, "login", context, rmManager)()
+    rootPane.getChildren.add(toolbar)
+  }
 
   //更新界面
   def initUserList() = {
@@ -158,6 +217,7 @@ class GeekHostController(
     }else{
       val t = CommentInfo(RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,RmManager.userInfo.get.headImgUrl,content,System.currentTimeMillis())
       addComment(t)
+      commentInput.setText("")//清空输入框
     }
   }
 
@@ -229,13 +289,71 @@ class GeekHostController(
 
   }
 
+  //点击音频按钮：根据设备的状态
+  def toggleMic() = {
+    micStatus match {
+      case DeviceStatus.ON =>
+        //todo 关闭音频
+        micStatus = DeviceStatus.OFF
 
-  //根据会议的当前状态判断点击后执行的操作
+
+      case DeviceStatus.OFF =>
+        //todo 开启音频
+        micStatus = DeviceStatus.ON
+
+
+    }
+    updateMicUI()
+
+  }
+
+  //点击视频按钮：根据设备的状态
+  def toggleVideo() = {
+    videoStatus match {
+      case DeviceStatus.ON =>
+      //todo 关闭摄像头
+        videoStatus = DeviceStatus.OFF
+
+      case DeviceStatus.OFF =>
+      // todo开启摄像头
+        videoStatus = DeviceStatus.ON
+    }
+
+    updateVideoUI()
+
+  }
+
+
+  //点击会议开始按钮：根据会议的当前状态判断点击后执行的操作
   def toggleLive() = {
     hostStatus match {
-      case HostStatus.NOTCONNECT =>
+      case HostStatus.NOT_CONNECT =>
         //开始会议
         rmManager ! HostLiveReq
+        hostStatus = HostStatus.LOADING
+
+//      case HostStatus.LOADING =>
+
+      case HostStatus.CONNECT =>
+        //结束会议
+        rmManager ! StopLive
+        hostStatus = HostStatus.NOT_CONNECT
+    }
+    updateOffUI()
+  }
+
+  def updateOffUI()={
+    hostStatus match {
+      case HostStatus.NOT_CONNECT =>
+
+        Boot.addToPlatform{
+          off_label.setText("开始会议")
+          off.setIconColor(Color.GREEN)
+          hostStatus = HostStatus.NOT_CONNECT
+        }
+
+
+      case HostStatus.LOADING =>
 
         Boot.addToPlatform{
           off_label.setText("连接中……")
@@ -243,8 +361,8 @@ class GeekHostController(
           hostStatus = HostStatus.LOADING
         }
 
-      case HostStatus.LOADING =>
-
+      case HostStatus.CONNECT =>
+        //结束会议
         Boot.addToPlatform{
           //修改界面
           off_label.setText("结束会议")
@@ -252,20 +370,23 @@ class GeekHostController(
           hostStatus = HostStatus.CONNECT
         }
 
-
-      case HostStatus.CONNECT =>
-        //结束会议
-        rmManager ! StopLive
-        Boot.addToPlatform{
-          off_label.setText("开始会议")
-          off.setIconColor(Color.GREEN)
-          hostStatus = HostStatus.NOTCONNECT
-        }
     }
   }
 
   //开始会议后，界面可以做的一些修改，结束会议，界面需要做的一些修改
   def resetBack() = {
+
+  }
+
+  //禁音某人，只有支持人才可以进行该操作
+  def muteOne()={
+
+
+  }
+
+
+  //转让主持人身份给某个人
+  def transferLeader() = {
 
   }
 

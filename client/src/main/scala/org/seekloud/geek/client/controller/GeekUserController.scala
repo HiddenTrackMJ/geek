@@ -2,7 +2,7 @@ package org.seekloud.geek.client.controller
 
 import javafx.fxml.FXML
 import javafx.scene.control.Label
-import org.seekloud.geek.client.component.{InputDialog, Loading, SnackBar, WarningDialog}
+import org.seekloud.geek.client.component.{InputDialog, Loading, SnackBar, TopBar, WarningDialog}
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.utils.{RMClient, RoomClient, TimeUtil}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{MeetingInfo, RoomInfo}
@@ -15,6 +15,7 @@ import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.common.StageContext
 import com.jfoenix.controls.JFXListView
 import javafx.geometry.Insets
+import javafx.scene.paint.Color
 
 
 /**
@@ -26,7 +27,7 @@ import javafx.geometry.Insets
 class GeekUserController(
   rmManager: ActorRef[RmManager.RmCommand],
   context: StageContext,
-) {
+) extends CommonController {
   private val log = LoggerFactory.getLogger(this.getClass)
 
   @FXML private var username: Label = _
@@ -50,7 +51,14 @@ class GeekUserController(
     }else{
       username.setText(RmManager.userInfo.get.userName)
     }
+    initToolbar()
   }
+
+  def initToolbar() = {
+    val toolbar = TopBar("geek云会议", Color.TRANSPARENT, rootPane.getPrefWidth, 30, "user", context, rmManager)()
+    rootPane.getChildren.add(toolbar)
+  }
+
 
   def showMeetingList() = {
 

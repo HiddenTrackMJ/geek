@@ -52,7 +52,7 @@ case class AvatarColumn(
 
     //用户操作按钮
     //根据声音开启状态显示不同图标
-    val icon = RippleIcon("fas-microphone:16:white")()
+    val icon = RippleIcon(List("fas-microphone:16:white"))()._1
 
     icon.setOnMouseClicked(_ =>{
       //todo 给当前用户静音

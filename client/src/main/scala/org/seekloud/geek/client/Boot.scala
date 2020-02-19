@@ -7,7 +7,7 @@ import akka.dispatch.MessageDispatcher
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import javafx.application.Platform
-import javafx.stage.Stage
+import javafx.stage.{Stage, StageStyle}
 import org.seekloud.geek.client.common.StageContext
 import org.seekloud.geek.client.core.{NetImageProcessor, RmManager, SceneManager}
 import org.slf4j.LoggerFactory
@@ -52,7 +52,7 @@ class Boot extends javafx.application.Application {
 
   override def start(primaryStage: Stage): Unit = {
     //隐藏默认的标题栏
-//    primaryStage.initStyle(StageStyle.TRANSPARENT)
+    primaryStage.initStyle(StageStyle.TRANSPARENT)
     val context = new StageContext(primaryStage)
     val rmManager = system.spawn(RmManager.create(context), "rmManager")
     SceneManager.showLoginScene(context,rmManager)
