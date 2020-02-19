@@ -6,7 +6,7 @@ import javafx.scene.Scene
 import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.common.Constants.HostStatus
 import org.seekloud.geek.client.common.{AppSettings, Routes, StageContext}
-import org.seekloud.geek.client.component.WarningDialog
+import org.seekloud.geek.client.component.{SnackBar, WarningDialog}
 import org.seekloud.geek.client.controller.{GeekHostController, GeekUserController}
 import org.seekloud.geek.client.core.stream.LiveManager
 import org.seekloud.geek.client.utils.WsUtil
@@ -144,8 +144,8 @@ object RmManager {
           assert(userInfo.nonEmpty && roomInfo.nonEmpty)
 
           def successFunc(): Unit = {
-            Boot.addToPlatform {
-              WarningDialog.initWarningDialog("连接成功！")
+            Boot.addToPlatform{
+              SnackBar.show(hostController.centerPane,"连接成功")
             }
             //            hostScene.allowConnect()
             //            Boot.addToPlatform {
@@ -156,7 +156,7 @@ object RmManager {
           def failureFunc(): Unit = {
             //            liveManager ! LiveManager.DeviceOff
             Boot.addToPlatform {
-              WarningDialog.initWarningDialog("连接失败！")
+              SnackBar.show(hostController.centerPane,"连接失败")
             }
           }
           val url = Routes.linkRoomManager(userInfo.get.userId, roomInfo.map(_.roomId).get)
@@ -240,6 +240,7 @@ object RmManager {
             liveManager ! LiveManager.StopPull
           }
           Boot.addToPlatform {
+            SnackBar.show(hostController.centerPane,"停止会议成功!")
             WarningDialog.initWarningDialog("停止会议成功！")
           }
           //当前的链接状态改为未连接

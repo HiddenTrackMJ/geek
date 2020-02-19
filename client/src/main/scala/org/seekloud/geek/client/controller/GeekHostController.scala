@@ -3,10 +3,10 @@ package org.seekloud.geek.client.controller
 import java.awt.TrayIcon.MessageType
 
 import akka.actor.typed.ActorRef
-import com.jfoenix.controls.JFXListView
+import com.jfoenix.controls.{JFXListView, JFXTextArea}
 import javafx.fxml.FXML
 import javafx.scene.canvas.{Canvas, GraphicsContext}
-import javafx.scene.control.Label
+import javafx.scene.control.{ContentDisplay, Label}
 import javafx.scene.layout.{AnchorPane, Background, BackgroundFill, GridPane}
 import javafx.scene.paint.Color
 import org.kordamp.ikonli.javafx.FontIcon
@@ -14,7 +14,7 @@ import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.common.Constants.HostStatus
 import org.seekloud.geek.client.common.StageContext
 import org.seekloud.geek.client.component.bubble.{BubbleSpec, BubbledLabel}
-import org.seekloud.geek.client.component.{AvatarColumn, Loading, WarningDialog}
+import org.seekloud.geek.client.component.{AvatarColumn, CommentColumn, Loading, SnackBar, WarningDialog}
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.core.RmManager.{HostLiveReq, StartLiveSuccess, StopLive, StopLiveFailed, StopLiveSuccess}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, UserInfo}
@@ -38,7 +38,7 @@ class GeekHostController(
 
 
   @FXML var canvas: Canvas = _
-  @FXML private var centerPane: AnchorPane = _
+  @FXML var centerPane: AnchorPane = _
 
   @FXML private var mic: FontIcon = _
   @FXML private var video: FontIcon = _
@@ -53,15 +53,18 @@ class GeekHostController(
   @FXML private var record_label: Label = _
   @FXML private var userListPane: AnchorPane = _
   @FXML private var commentPane: AnchorPane = _
+  @FXML private var commentInput: JFXTextArea = _
 
 
   val commentList = List(
-    CommentInfo(2,"何为","","大家新年好",1232132L)
+    CommentInfo(1,"何为","","大家新年好",1232132L)
   )
 
-  val commentJList = new JFXListView[BubbledLabel]
+  var commentJList = new JFXListView[GridPane]
 
   var hostStatus = HostStatus.NOTCONNECT
+  var voiceStatus = true //音频状态，false未开启
+  var videoStatus = true //视频状态，false未开启摄像头
 
   var loading:Loading = _
   var gc: GraphicsContext = _
@@ -70,11 +73,14 @@ class GeekHostController(
   //改变底部工具栏的图标和文字,
   //CaptureStartSuccess 摄像头启动成功的时候会执行这个
   def changeToggleAction(): Unit = {
-    mic_label.setText("关闭音频")
-    mic.setIconColor(Color.WHITE)
+    Boot.addToPlatform{
+      log.info("设备准备好了")
+      mic_label.setText("关闭音频")
+      mic.setIconColor(Color.WHITE)
 
-    video_label.setText("关闭摄像头")
-    video.setIconColor(Color.WHITE)
+      video_label.setText("关闭摄像头")
+      video.setIconColor(Color.WHITE)
+    }
   }
 
 
@@ -124,28 +130,15 @@ class GeekHostController(
     commentList.foreach{
       t=>
         //创建一个AnchorPane
-        val bl6 = new BubbledLabel
-        bl6.setText(t.userName + ": " + t.content)
-        if (t.userId == RmManager.userInfo.get.userId){
-          bl6.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)))//自己消息是绿色的
-          bl6.setBubbleSpec(BubbleSpec.FACE_RIGHT_CENTER);//自己消息在右侧
-        }else{
-          bl6.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)))
-          bl6.setBubbleSpec(BubbleSpec.FACE_LEFT_BOTTOM);//别人的消息在左侧
-        }
-        bl6.getStyleClass.add("commentBubble")
+        log.info("宽度：" + commentPane.getPrefWidth)
+        commentJList.getItems.add(CommentColumn(commentPane.getPrefWidth - 30 ,t)())
     }
     commentJList.setPrefWidth(commentPane.getPrefWidth)
+//    commentJList.
     commentJList.setPrefHeight(commentPane.getPrefHeight)
     commentJList.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
     commentPane.getChildren.add(commentJList)
   }
-
-
-  def createCommentBubble = {
-
-  }
-
 
 
 
@@ -157,18 +150,30 @@ class GeekHostController(
 
   //发表评论
   def commentSubmit() = {
+    //获得当前的评论消息，添加一个新的comment结构加入到jList中
+    val content = commentInput.getText
+    if (content.trim.replaceAll(" ","").replaceAll("\n","") ==""){
+      //提示内容为空
 
-
-
+    }else{
+      val t = CommentInfo(RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,RmManager.userInfo.get.headImgUrl,content,System.currentTimeMillis())
+      addComment(t)
+    }
   }
 
+
+  def addComment(t:CommentInfo) = {
+    Boot.addToPlatform{
+        commentJList.getItems.add(CommentColumn(commentPane.getPrefWidth - 30,t)())
+    }
+  }
 
 
   //接收处理与【后端发过来】的消息
   def wsMessageHandle(data: WsMsgRm): Unit = {
     data match {
 
-      case msg: HeatBeat =>
+      case _: HeatBeat =>
       //        log.debug(s"heartbeat: ${msg.ts}")
       //        rmManager ! HeartBeat
 
@@ -199,7 +204,7 @@ class GeekHostController(
       case msg: StopLiveRsp =>
         if (msg.errCode == 0){
           Boot.addToPlatform {
-            WarningDialog.initWarningDialog("停止会议成功！")
+            SnackBar.show(centerPane,"停止会议成功")
           }
           log.info(s"普通用户停止推流成功")
           rmManager ! StopLiveSuccess
@@ -232,27 +237,31 @@ class GeekHostController(
         //开始会议
         rmManager ! HostLiveReq
 
-        off_label.setText("连接中……")
-        off.setIconColor(Color.GRAY)
-        hostStatus = HostStatus.LOADING
+        Boot.addToPlatform{
+          off_label.setText("连接中……")
+          off.setIconColor(Color.GRAY)
+          hostStatus = HostStatus.LOADING
+        }
 
       case HostStatus.LOADING =>
 
-        //修改界面
-        off_label.setText("结束会议")
-        off.setIconColor(Color.RED)
-        hostStatus = HostStatus.CONNECT
+        Boot.addToPlatform{
+          //修改界面
+          off_label.setText("结束会议")
+          off.setIconColor(Color.RED)
+          hostStatus = HostStatus.CONNECT
+        }
 
 
       case HostStatus.CONNECT =>
         //结束会议
         rmManager ! StopLive
-        off_label.setText("开始会议")
-        off.setIconColor(Color.GREEN)
-        hostStatus = HostStatus.NOTCONNECT
-
+        Boot.addToPlatform{
+          off_label.setText("开始会议")
+          off.setIconColor(Color.GREEN)
+          hostStatus = HostStatus.NOTCONNECT
+        }
     }
-
   }
 
   //开始会议后，界面可以做的一些修改，结束会议，界面需要做的一些修改
