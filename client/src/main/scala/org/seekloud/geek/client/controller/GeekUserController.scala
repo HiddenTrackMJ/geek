@@ -41,6 +41,7 @@ class GeekUserController(
   def initialize(): Unit = {
     loading = Loading(rootPane).build()
 
+    log.info("initialize GeekUserController")
     //根据内存的信息显示会议列表
     showMeetingList()
 
@@ -62,11 +63,11 @@ class GeekUserController(
 
   def showMeetingList() = {
 
-//    val list = RmManager.meetingListInfo
-    val list = List(
-      MeetingInfo("会议1","1003",1581920012628L),
-      MeetingInfo("会议2","1004",1581920012628L)
-    )
+    val list = RmManager.meetingListInfo
+//    val list = List(
+//      MeetingInfo("会议1","1003",1581920012628L),
+//      MeetingInfo("会议2","1004",1581920012628L)
+//    )
 
     if (list nonEmpty) {
       //空layout不显示
@@ -115,7 +116,7 @@ class GeekUserController(
 
           rmManager ! RmManager.GoToCreateAndJoinRoom
           //添加到历史记录列表
-          RmManager.meetingListInfo :+ MeetingInfo(roomName,rsp.roomId.toString,System.currentTimeMillis())
+          RmManager.meetingListInfo = RmManager.meetingListInfo :+ MeetingInfo(roomName,rsp.roomId.toString,System.currentTimeMillis())
 
 
         case Left(error) =>
@@ -135,7 +136,7 @@ class GeekUserController(
       //创建房间
       log.info("加入房间")
       val roomId = InputDialog(stage = context.getStage).build()
-      if (roomId.nonEmpty){
+      if (roomId.nonEmpty && roomId.get.trim.replaceAll(" ","").replaceAll("\n","") !=""){
         //跳转到会议室的界面
         loading.showLoading()
 
@@ -152,7 +153,7 @@ class GeekUserController(
               rmManager ! RmManager.GoToCreateAndJoinRoom
 
               //添加到历史记录列表
-              RmManager.meetingListInfo :+ MeetingInfo(roomUser.roomName,roomId.get,System.currentTimeMillis())
+              RmManager.meetingListInfo = RmManager.meetingListInfo :+ MeetingInfo(roomUser.roomName,roomId.get,System.currentTimeMillis())
 
 
             }else{
@@ -167,8 +168,7 @@ class GeekUserController(
         }
       }else{
         //出现了错误
-//        SnackBar.show(rootPane,"程序出了一点问题，请重新输入一遍")
-
+        SnackBar.show(rootPane,"")
       }
     }else{
       SnackBar.show(rootPane,"你还没有登录")

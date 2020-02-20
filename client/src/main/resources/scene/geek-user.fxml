@@ -54,7 +54,7 @@
                   <Insets top="30.0" />
                </padding>
             </BorderPane>
-            <AnchorPane fx:id="contentPane" layoutY="161.0" prefHeight="549.0" prefWidth="412.0">
+            <AnchorPane fx:id="contentPane" layoutY="217.0" prefHeight="493.0" prefWidth="412.0">
                <children>
                   <ImageView fx:id="empty" fitHeight="210.0" fitWidth="225.0" layoutX="113.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
                      <image>
