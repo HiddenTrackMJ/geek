@@ -24,6 +24,6 @@ case class RippleIcon(IconLiterals:List[String]){
 
     val j = new JFXRippler(s)
     j.setMaskType(RipplerMask.CIRCLE)
-    (j,s)
+    (j,s,f)
   }
 }

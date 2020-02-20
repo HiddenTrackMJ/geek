@@ -28,7 +28,6 @@ case class TopBar(
   rmManager:ActorRef[RmManager.RmCommand]
 ){
 
-  //todo 需要给整个窗体一个边框阴影
 
   private val log = LoggerFactory.getLogger(this.getClass)
 
@@ -51,7 +50,7 @@ case class TopBar(
     }
 
 
-    val close = RippleIcon(List("fas-circle:15:#7a0d07"))()._1
+    val close = RippleIcon(List("fas-circle:15:#7a0d07"))()._2
     close.setOnMouseClicked{
       _=>
         //关闭当前窗口
@@ -73,7 +72,7 @@ case class TopBar(
 
     pane.add(close,0,0)
 
-    val min = RippleIcon(List("fas-minus-circle:15:#ffbe2d", "fas-circle:15:#985c00"))()._1
+    val min = RippleIcon(List("fas-minus-circle:15:#ffbe2d", "fas-circle:15:#985c00"))()._2
     min.setOnMouseClicked{
       _=>
         //最小化当前窗口
@@ -106,24 +105,24 @@ case class TopBar(
     def mouseEnter ={
       log.info("mouseEnter")
       close.getChildren.removeAll()
-      val m = RippleIcon(List("fas-circle:15:#7a0d07","fas-times-circle:15:#ff6258"))()._2
-      close.getChildren.add(m)
+      val m = RippleIcon(List("fas-circle:15:#7a0d07","fas-times-circle:15:#ff6258"))()._3
+      close.getChildren.addAll(m:_*)
 
       min.getChildren.removeAll()
-      val n = RippleIcon(List("fas-circle:15:#985c00","fas-minus-circle:15:#ffbe2d"))()._2
-      min.getChildren.add(n)
+      val n = RippleIcon(List("fas-circle:15:#985c00","fas-minus-circle:15:#ffbe2d"))()._3
+      min.getChildren.addAll(n:_*)
 
     }
 
     def mouseExit = {
       log.info("setOnMouseExited")
       close.getChildren.removeAll()
-      val m = RippleIcon(List("fas-circle:15:#7a0d07"))()._2
-      close.getChildren.add(m)
+      val m = RippleIcon(List("fas-circle:15:#7a0d07"))()._3
+      close.getChildren.addAll(m:_*)
 
       min.getChildren.removeAll()
-      val n = RippleIcon(List("fas-circle:15:#985c00"))()._2
-      min.getChildren.add(n)
+      val n = RippleIcon(List("fas-circle:15:#985c00"))()._3
+      min.getChildren.addAll(n:_*)
     }
 
 

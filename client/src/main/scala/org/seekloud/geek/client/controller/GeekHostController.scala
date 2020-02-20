@@ -176,7 +176,7 @@ class GeekHostController(
     userList.foreach{
       t=>
         //创建一个AnchorPane
-        val pane = AvatarColumn(t,userListPane.getPrefWidth - 30)()
+        val pane = AvatarColumn(t,userListPane.getPrefWidth - 30,centerPane)()
         pane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
         jList.getItems.add(pane)
     }

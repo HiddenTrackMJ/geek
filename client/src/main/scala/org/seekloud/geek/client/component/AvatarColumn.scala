@@ -1,13 +1,9 @@
 package org.seekloud.geek.client.component
 
-import com.jfoenix.controls.JFXPopup.{PopupHPosition, PopupVPosition}
 import javafx.geometry.Insets
-import javafx.scene.Node
 import javafx.scene.control.Label
-import javafx.scene.layout.{GridPane, Pane, VBox}
-import org.seekloud.geek.client.component.Avatar
+import javafx.scene.layout.{ColumnConstraints, GridPane, Pane, VBox}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.UserInfo
-import javafx.scene.layout.ColumnConstraints
 
 /**
   * User: hewro
@@ -17,7 +13,8 @@ import javafx.scene.layout.ColumnConstraints
   */
 case class AvatarColumn(
   userInfo: UserInfo,
-  width:Double
+  width:Double,
+  rootPane:Pane
 ){
 
 
@@ -52,12 +49,20 @@ case class AvatarColumn(
 
     //用户操作按钮
     //根据声音开启状态显示不同图标
-    val icon = RippleIcon(List("fas-microphone:16:white"))()._1
+    val r = RippleIcon(List("fas-microphone:16:white"))()
+    val icon = r._1
 
+    val iconSpan = r._2
     icon.setOnMouseClicked(_ =>{
-      //todo 给当前用户静音
+      //todo 发ws消息
+      SnackBar.show(rootPane,"点击了" + userInfo.userName)
+
+      //修改内存中该用户的静音状态
 
 
+      //修改界面
+      iconSpan.getChildren.removeAll()
+      iconSpan.getChildren.addAll(RippleIcon(List("fas-microphone-slash:16:white"))()._3:_*)
 
     })
     gridPane.add(icon, 2, 0)

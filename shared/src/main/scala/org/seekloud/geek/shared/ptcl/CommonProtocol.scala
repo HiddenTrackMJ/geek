@@ -105,7 +105,8 @@ object CommonProtocol {
     headImgUrl:String = "",
     coverImgUrl:String = "",
     var observerNum:Int,
-    var rtmp: Option[String] = None
+    var rtmp: Option[String] = None,
+    var userList:List[UserInfo] = Nil //房间里面的所有人信息
   )
 
   case class MeetingInfo(
@@ -114,7 +115,7 @@ object CommonProtocol {
     time:Long
   )
 
-  /*同一个房间的组员信息*/
+  /*同一个房间的组员信息，不要使用这个*/
   case class MemberInfo(
     users:List[UserInfo] = Nil
   )
