@@ -1,6 +1,5 @@
 package org.seekloud.geek.client.core.collector
 
-import java.io.{File, OutputStream}
 import java.util.concurrent.{ScheduledFuture, ScheduledThreadPoolExecutor, TimeUnit}
 
 import akka.actor.typed.scaladsl.{Behaviors, TimerScheduler}
@@ -201,6 +200,8 @@ object ClientCaptureActor {
         case msg: DrawImage =>
           val sWidth = gc.getCanvas.getWidth
           val sHeight = gc.getCanvas.getHeight
+
+//          log.info("imgage宽度" + sWidth + "高度" + sHeight)
           if (needImage) {
             if (!isJoin) {
               Boot.addToPlatform {

@@ -168,7 +168,7 @@ class GeekUserController(
         }
       }else{
         //出现了错误
-        SnackBar.show(rootPane,"")
+//        SnackBar.show(rootPane,"")
       }
     }else{
       SnackBar.show(rootPane,"你还没有登录")
