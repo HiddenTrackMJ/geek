@@ -1,18 +1,15 @@
 package org.seekloud.geek.client
 
-import akka.actor.typed.{ActorRef, DispatcherSelector}
 import akka.actor.typed.scaladsl.adapter._
+import akka.actor.typed.{ActorRef, DispatcherSelector}
 import akka.actor.{ActorSystem, Scheduler}
 import akka.dispatch.MessageDispatcher
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import javafx.application.Platform
-import javafx.scene.text.Font
-import javafx.stage.Stage
+import javafx.stage.{Stage, StageStyle}
 import org.seekloud.geek.client.common.StageContext
-import org.seekloud.geek.client.controller.{HomeController, LoginController}
-import org.seekloud.geek.client.core.{NetImageProcessor, RmManager}
-import org.seekloud.geek.client.scene.HomeScene
+import org.seekloud.geek.client.core.{NetImageProcessor, RmManager, SceneManager}
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration._
@@ -54,23 +51,11 @@ class Boot extends javafx.application.Application {
 
 
   override def start(primaryStage: Stage): Unit = {
-    val emojionemozilla = Font.loadFont(getClass.getResourceAsStream("/img/seguiemj.ttf"), 12) //表情浏览器？
+    //隐藏默认的标题栏
+    primaryStage.initStyle(StageStyle.UNDECORATED)
     val context = new StageContext(primaryStage)
     val rmManager = system.spawn(RmManager.create(context), "rmManager")
-
-    val loginController = new LoginController(context, rmManager)
-
-    val homeScene = new HomeScene()
-    val homeSceneController = new HomeController(context, homeScene, loginController, null, rmManager)
-
-    rmManager ! RmManager.GetHomeItems(homeScene, homeSceneController)
-    homeSceneController.showScene()
-
-//    addToPlatform {
-//      homeSceneController.loginByTemp()
-//    }
-
-
+    SceneManager.showLoginScene(context,rmManager)
 
     primaryStage.setOnCloseRequest(event => {
       println("OnCloseRequest...")

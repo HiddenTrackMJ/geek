@@ -23,6 +23,15 @@ object UserDao {
         ex.printStackTrace()
         log.error(s"登录查询数据库失败")
     }
+
+  }
+
+  def test(filename:String,userId:Long,commentContent:String) = {
+    val q=for {
+      a<-tVideo.filter(_.filename === filename).filter(_.invitation===userId).result
+      c <-tVideo ++= a.map(d=>rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,d.invitation,commentContent))
+    } yield a
+    db.run(q)
   }
 
   //注册，暂时不存储头像，随机显示一个头像完事

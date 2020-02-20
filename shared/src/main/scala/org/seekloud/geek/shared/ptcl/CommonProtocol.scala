@@ -23,9 +23,17 @@ object CommonProtocol {
     headImgUrl:String,
     var pushStream:Option[String] = None,//推流的地址
     var pullStream:Option[String] = None,//拉流的地址
-    var isHost:Option[Boolean] = Some(false) //是否是房主，组员和房主的权限不同
+    var isHost:Option[Boolean] = Some(false), //是否是房主，组员和房主的权限不同
+    var isVoice:Option[Boolean] = Some(false) //当前用户是否开了声音
   )
 
+  case class CommentInfo(
+    userId:Long,
+    userName:String,
+    headImgUrl:String,
+    content:String,
+    time:Long
+  )
   case class UserInfoDetail(
                        userId: Long,
                        userName: String,
@@ -98,6 +106,12 @@ object CommonProtocol {
     coverImgUrl:String = "",
     var observerNum:Int,
     var rtmp: Option[String] = None
+  )
+
+  case class MeetingInfo(
+    name:String,
+    id:String, //会议号
+    time:Long
   )
 
   /*同一个房间的组员信息*/

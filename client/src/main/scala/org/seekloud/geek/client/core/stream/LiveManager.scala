@@ -7,12 +7,11 @@ import org.seekloud.geek.capture.protocol.Messages.EncoderType
 import org.seekloud.geek.capture.sdk.{DeviceUtil, MediaCapture}
 import org.seekloud.geek.client.Boot.executor
 import org.seekloud.geek.client.common.AppSettings
+import org.seekloud.geek.client.controller.GeekHostController
 import org.seekloud.geek.client.core.RmManager
-import org.seekloud.geek.client.core.RmManager.roomInfo
 import org.seekloud.geek.client.core.collector.ClientCaptureActor
 import org.seekloud.geek.client.core.collector.ClientCaptureActor.{StartEncode, StopEncode}
 import org.seekloud.geek.client.core.player.VideoPlayer
-import org.seekloud.geek.client.scene.HostScene
 import org.seekloud.geek.client.utils.GetAllPixel
 import org.seekloud.geek.player.protocol.Messages.AddPicture
 import org.seekloud.geek.player.sdk.MediaPlayer
@@ -64,7 +63,7 @@ object LiveManager {
 
   final case class Ask4State(reply: ActorRef[Boolean]) extends LiveCommand
 
-  final case class PullStream(stream: String,mediaPlayer: MediaPlayer,hostScene: HostScene,liveManager: ActorRef[LiveManager.LiveCommand]) extends LiveCommand
+  final case class PullStream(stream: String,mediaPlayer: MediaPlayer,hostController:GeekHostController,liveManager: ActorRef[LiveManager.LiveCommand]) extends LiveCommand
 
   final case object StopPull extends LiveCommand
 
@@ -147,10 +146,10 @@ object LiveManager {
 
           log.info(s"拉流地址：${msg.stream}")
           /*背景改变*/
-          msg.hostScene.resetBack()
+//          msg.hostScene.reset Back()
 
           /*媒体画面模式更改*/
-          msg.liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = msg.hostScene.resetBack)
+          msg.liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = msg.hostController.resetBack)
 
           /*拉取观众的rtp流并播放*/
 
@@ -160,9 +159,9 @@ object LiveManager {
 
           //直接启动播放器，拉流并播放到画布上
           val playId = RmManager.roomInfo.get.roomId.toString
-          val videoPlayer = ctx.spawn(VideoPlayer.create(playId,None,Some(imageQueue), Some(samplesQueue)), s"videoPlayer$playId")
+          val videoPlayer = ctx.spawn(VideoPlayer.create(playId,Some(imageQueue),Some(samplesQueue)), s"videoPlayer$playId")
 
-          mediaPlayer.start(playId,videoPlayer,Left(msg.stream),Some(msg.hostScene.gc),None)
+          mediaPlayer.start(playId,videoPlayer,Left(msg.stream),Some(msg.hostController.gc),None)
 
           Behaviors.same
 

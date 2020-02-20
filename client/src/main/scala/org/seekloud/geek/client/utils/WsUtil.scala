@@ -12,7 +12,7 @@ import akka.stream.typed.scaladsl.ActorSource
 import akka.util.{ByteString, ByteStringBuilder}
 import org.seekloud.byteobject.ByteObject.bytesDecode
 import org.seekloud.byteobject.MiddleBufferInJvm
-import org.seekloud.geek.client.controller.HostController
+import org.seekloud.geek.client.controller.GeekHostController
 import org.seekloud.geek.client.core.RmManager.{GetSender, RmCommand}
 import org.slf4j.LoggerFactory
 import org.seekloud.geek.client.Boot.{executor, materializer, scheduler, system, timeout}
@@ -36,7 +36,7 @@ object WsUtil {
   def buildWebSocket(
     ctx: ActorContext[RmCommand],
     url: String,
-    controller: HostController,
+    controller: GeekHostController,
     successFunc: => Unit,
     failureFunc: => Unit)(
     implicit timer: TimerScheduler[RmCommand]
@@ -91,7 +91,7 @@ object WsUtil {
     }
 
   def getRMSink(
-    hController: HostController,
+    hController: GeekHostController,
   )(
     implicit timer: TimerScheduler[RmCommand]
   ): Sink[Message, Future[Done]] = {

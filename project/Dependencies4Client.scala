@@ -36,7 +36,10 @@ object Dependencies4Client {
   val byteobject = "org.seekloud" %% "byteobject" % "0.1.1"
   //  val sigar =  "org.fusesource" % "sigar" % "1.6.4"
   val oshi = "com.github.oshi" % "oshi-core" % "4.0.0"
-//  val ui = "com.github.Xerosigma" % "jfoenix" % "1.0.0"
+  val ui = "com.jfoenix" % "jfoenix" % "8.0.8"
+  val iconFx = "org.kordamp.ikonli" % "ikonli-javafx" % "2.4.0"
+  val iconFont = "org.kordamp.ikonli" % "ikonli-fontawesome5-pack" % "2.4.0"
+//  val iconFont = "org.kordamp.ikonli" % "ikonli-fontawesome5-pack" % "11.3.5"
 
   val clientDependencies: Seq[ModuleID] =
     akkaSeq ++ akkaHttpSeq ++ circeSeq ++
@@ -46,7 +49,9 @@ object Dependencies4Client {
       byteobject,
       //      sigar,
       oshi,
-//      ui
+      ui,
+      iconFx,
+      iconFont
     )
 
 
