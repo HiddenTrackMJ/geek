@@ -4,9 +4,7 @@
 <?import com.jfoenix.controls.JFXRippler?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -47,17 +45,16 @@
                      </children>
                   </AnchorPane>
                </right>
-               <center>
-                  <AnchorPane fx:id="centerPane" prefHeight="647.0" prefWidth="388.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Canvas fx:id="canvas" height="539.0" layoutX="53.0" layoutY="54.0" width="497.0" />
-                        <ImageView fx:id="noDevice" fitHeight="150.0" fitWidth="200.0" layoutX="202.0" layoutY="249.0" pickOnBounds="true" preserveRatio="true" />
-                     </children>
-                  </AnchorPane>
-               </center>
                <padding>
                   <Insets top="30.0" />
                </padding>
+               <center>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <BorderPane fx:id="centerPane" prefHeight="643.0" prefWidth="605.0" />
+                     </children>
+                  </AnchorPane>
+               </center>
             </BorderPane>
             <BorderPane layoutY="671.0" prefHeight="57.0" prefWidth="1149.0" style="-fx-background-color: #32363c;">
                <center>

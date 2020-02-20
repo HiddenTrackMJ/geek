@@ -1,15 +1,12 @@
 package org.seekloud.geek.client.component
 
 import akka.actor.typed.ActorRef
-import com.jfoenix.controls.{JFXDecorator, JFXToolbar}
-import javafx.application.Platform
-import javafx.event.{ActionEvent, EventHandler}
+import com.jfoenix.controls.JFXToolbar
 import javafx.geometry.Insets
 import javafx.scene.control.Label
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.{Background, BackgroundFill, ColumnConstraints, GridPane}
 import javafx.scene.paint.Color
-import javafx.stage.Stage
 import org.seekloud.geek.client.common.StageContext
 import org.seekloud.geek.client.core.RmManager.BackToHome
 import org.seekloud.geek.client.core.{RmManager, SceneManager}
@@ -69,7 +66,8 @@ case class TopBar(
             SceneManager.showLoginScene(context,rmManager)
           case "login" =>
             // 关闭窗口
-            Platform.exit()
+            primaryStage.close()
+            System.exit(0)
         }
     }
 

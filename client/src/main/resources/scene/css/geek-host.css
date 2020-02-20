@@ -56,3 +56,12 @@
 .jfx-list-cell:odd:selected > .jfx-rippler > StackPane, .jfx-list-cell:even:selected > .jfx-rippler > StackPane {
     -fx-background-color: rgba(0, 0, 0, 0);
 }
+
+.jfx-snackbar-content {
+    -fx-background-color: WHITE;
+}
+
+.jfx-snackbar-toast {
+    -fx-text-fill: #323232;
+    -fx-font-size: 12;
+}

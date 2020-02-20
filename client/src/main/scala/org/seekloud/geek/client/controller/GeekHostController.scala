@@ -1,23 +1,19 @@
 package org.seekloud.geek.client.controller
 
-import java.awt
-import java.awt.TrayIcon.MessageType
-
 import akka.actor.typed.ActorRef
 import com.jfoenix.controls.{JFXListView, JFXTextArea}
 import javafx.fxml.FXML
 import javafx.scene.canvas.{Canvas, GraphicsContext}
-import javafx.scene.control.{ContentDisplay, Label}
-import javafx.scene.layout.{AnchorPane, Background, BackgroundFill, GridPane}
+import javafx.scene.control.Label
+import javafx.scene.layout.{AnchorPane, Background, BackgroundFill, BorderPane, GridPane}
 import javafx.scene.paint.Color
 import org.kordamp.ikonli.javafx.FontIcon
 import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.common.Constants.{DeviceStatus, HostStatus}
-import org.seekloud.geek.client.common.StageContext
-import org.seekloud.geek.client.component.bubble.{BubbleSpec, BubbledLabel}
-import org.seekloud.geek.client.component.{AvatarColumn, CommentColumn, Loading, SnackBar, TopBar, WarningDialog}
+import org.seekloud.geek.client.common.{Constants, StageContext}
+import org.seekloud.geek.client.component._
 import org.seekloud.geek.client.core.RmManager
-import org.seekloud.geek.client.core.RmManager.{HostLiveReq, StartLiveSuccess, StopLive, StopLiveFailed, StopLiveSuccess}
+import org.seekloud.geek.client.core.RmManager._
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, UserInfo}
 import org.seekloud.geek.shared.ptcl.WsProtocol._
 import org.slf4j.LoggerFactory
@@ -38,8 +34,9 @@ class GeekHostController(
   private val log = LoggerFactory.getLogger(this.getClass)
 
 
-  @FXML var canvas: Canvas = _
-  @FXML var centerPane: AnchorPane = _
+
+  var canvas: Canvas = _
+  @FXML var centerPane: BorderPane = _
 
   @FXML private var mic: FontIcon = _
   @FXML private var video: FontIcon = _
@@ -137,6 +134,13 @@ class GeekHostController(
 
 
   def initialize(): Unit = {
+    //按照比例设置高度
+    val width = centerPane.getPrefWidth
+    val height = width * Constants.DefaultPlayer.height / Constants.DefaultPlayer.width
+    log.info("宽度" + width + "高度" + height )
+    canvas = new Canvas(width,height)
+    centerPane.setCenter(canvas)
+
     gc = canvas.getGraphicsContext2D
     loading = Loading(centerPane).build()
 
@@ -301,6 +305,7 @@ class GeekHostController(
         //todo 开启音频
         micStatus = DeviceStatus.ON
 
+      case _=>
 
     }
     updateMicUI()
@@ -317,6 +322,9 @@ class GeekHostController(
       case DeviceStatus.OFF =>
       // todo开启摄像头
         videoStatus = DeviceStatus.ON
+
+      case _=>
+
     }
 
     updateVideoUI()
@@ -338,6 +346,9 @@ class GeekHostController(
         //结束会议
         rmManager ! StopLive
         hostStatus = HostStatus.NOT_CONNECT
+
+      case _=>
+
     }
     updateOffUI()
   }

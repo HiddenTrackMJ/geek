@@ -121,7 +121,8 @@ class GeekUserController(
         case Left(error) =>
           log.error(s"创建房间错误$error")
           loading.removeLoading()
-          WarningDialog.initWarningDialog(s"网络请求错误")
+          SnackBar.show(rootPane,"网络请求错误")
+//          WarningDialog.initWarningDialog(s"网络请求错误")
       }
 
     } else {//跳转到登录界面
