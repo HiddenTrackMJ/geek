@@ -166,7 +166,7 @@ class GeekUserController(
         }
       }else{
         //出现了错误
-        SnackBar.show(rootPane,"程序出了一点问题，请重新输入一遍")
+//        SnackBar.show(rootPane,"程序出了一点问题，请重新输入一遍")
 
       }
     }else{

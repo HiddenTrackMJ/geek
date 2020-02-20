@@ -1,5 +1,6 @@
 package org.seekloud.geek.client.component
 
+import javafx.geometry.HPos
 import javafx.scene.control.ContentDisplay
 import javafx.scene.layout.{Background, BackgroundFill, ColumnConstraints, GridPane}
 import javafx.scene.paint.Color
@@ -40,6 +41,7 @@ case class CommentColumn(
       bl6.setText(t.content +": " + t.userName)
       bl6.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)))//自己消息是绿色的
       bl6.setBubbleSpec(BubbleSpec.FACE_RIGHT_CENTER);//自己消息在右侧
+      GridPane.setHalignment(bl6,HPos.RIGHT)
     }else{
       bl6.setText(t.userName + " :" + t.content)
       bl6.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)))

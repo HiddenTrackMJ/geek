@@ -11,6 +11,7 @@ import javafx.scene.layout.{Background, BackgroundFill, ColumnConstraints, GridP
 import javafx.scene.paint.Color
 import javafx.stage.Stage
 import org.seekloud.geek.client.common.StageContext
+import org.seekloud.geek.client.core.RmManager.BackToHome
 import org.seekloud.geek.client.core.{RmManager, SceneManager}
 import org.slf4j.LoggerFactory
 
@@ -60,7 +61,8 @@ case class TopBar(
         name match {
           case "host" =>
             //跳转到user窗口
-            SceneManager.showUserScene(context,rmManager)
+            rmManager ! BackToHome
+//            SceneManager.showUserScene(context,rmManager)
 
           case "user" =>
             //跳转到login窗口

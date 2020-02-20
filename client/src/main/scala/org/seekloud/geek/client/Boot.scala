@@ -52,7 +52,7 @@ class Boot extends javafx.application.Application {
 
   override def start(primaryStage: Stage): Unit = {
     //隐藏默认的标题栏
-    primaryStage.initStyle(StageStyle.TRANSPARENT)
+    primaryStage.initStyle(StageStyle.UNDECORATED)
     val context = new StageContext(primaryStage)
     val rmManager = system.spawn(RmManager.create(context), "rmManager")
     SceneManager.showLoginScene(context,rmManager)
