@@ -327,7 +327,8 @@ object Recorder {
             var d = ""
             val file = new File(s"${AppSettings.videoPath}${video.filename}")
             if(file.exists()){
-              d = getVideoDuration(s"${AppSettings.videoPath}${video.filename}")
+              d = getVideoDuration(s"${file.getPath}")
+              log.info(s"get durationpath:${file.getPath}")
               log.info(s"duration:$d")
               val videoNew = video.copy(length = d)
               VideoDao.addVideo(videoNew)
