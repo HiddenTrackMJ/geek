@@ -522,7 +522,6 @@ object Recorder {
                 case e: Exception =>
                   log.info(s"record sample2 error: ${e.getMessage}")
               }
-              //              log.debug(s"record sample...")
             }
           }
           sampleRecord(roomId, lastTime, clientFrame, recorder4ts, ffFilter, newFilterInUse)
