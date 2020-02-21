@@ -191,6 +191,7 @@ object RoomDealer {
           log.info(s"RoomDealer-${wholeRoomInfo.roomId} is stopping...")
           grabManager ! GrabberManager.StopLive(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo)
           dispatch(subscribe)( WsProtocol.StopLiveRsp(wholeRoomInfo.roomId))
+          ctx.self ! RoomProtocol.HostCloseRoom(wholeRoomInfo.roomId)
           idle( roomDetailInfo.copy(rtmpInfo = msg.rtmpInfo), wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
 
@@ -220,7 +221,7 @@ object RoomDealer {
               log.info(s"no record for roomId:${wholeRoomInfo.roomId} and startTime:${msg.video.timestamp}")
             }
           }
-          scheduler.scheduleOnce(2.seconds)(() => fun())
+          scheduler.scheduleOnce(0.seconds)(() => fun())
           Behaviors.stopped
 
         case UpdateRTMP(rtmp) =>
@@ -292,8 +293,6 @@ object RoomDealer {
           }
           if (startTime != -1l) {
             log.debug(s"${ctx.self.path} 主播向distributor发送finishPull请求")
-//            DistributorClient.finishPull(liveInfoMap(Role.host)(wholeRoomInfo.userId).liveId) //Todo  start stop
-//            roomManager ! RoomManager.DelaySeekRecord(wholeRoomInfo, totalView, roomId, startTime, liveInfoMap(Role.host)(wholeRoomInfo.userId).liveId)
           }
           dispatchTo(subscribe)(subscribe.filter(r => r._1 != wholeRoomInfo.userId).keys.toList, HostCloseRoom())
           Behaviors.stopped
