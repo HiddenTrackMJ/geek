@@ -228,7 +228,8 @@ object Recorder {
 //            timer.startPeriodicTimer(TimerKey4ImageRec, RecordImage, 10.millis)
             idle(roomId, hostId, stream, pullLiveId, roomDealer, onlineNew, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, shieldMap, filterInUse)
           }
-          else Behaviors.same
+          else  idle(roomId, hostId, stream, pullLiveId, roomDealer, onlineNew, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, shieldMap, filterInUse)
+
 
         case RecordImage =>
           drawer ! RecordImage
@@ -255,8 +256,13 @@ object Recorder {
 //              println(1,"index: " + index)
               if (online.size == 1 || shieldMap.count(_._2.audio) == 1) {
 //                println(2, ffFilter)
-                recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
-//                log.debug(s"record sample...")
+                try {
+                  recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
+                }
+                catch {
+                  case e: Exception =>
+                    log.info(s"record solo sample error: ${e.getMessage}")
+                }
               } else {
                 val fil = ffFilter(shieldMap.count(_._2.audio))
 //                println(3, peopleOnline, fil)
