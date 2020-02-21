@@ -114,7 +114,7 @@
                                  <control>
                                     <StackPane prefHeight="150.0" prefWidth="200.0">
                                        <children>
-                                          <FontIcon fx:id="invite" iconColor="WHITE" iconLiteral="fas-plus-square" iconSize="20" />
+                                          <FontIcon fx:id="invite" iconColor="WHITE" iconLiteral="fas-plus-square" iconSize="20" onMouseClicked="#inviteOne" />
                                        </children>
                                     </StackPane>
                                  </control>
@@ -128,7 +128,7 @@
                                  <control>
                                     <StackPane prefHeight="150.0" prefWidth="200.0">
                                        <children>
-                                          <FontIcon fx:id="record" iconColor="WHITE" iconLiteral="fas-stop-circle" iconSize="20" />
+                                          <FontIcon fx:id="record" iconColor="WHITE" iconLiteral="fas-stop-circle" iconSize="20" onMouseClicked="#toggleRecord" />
                                        </children>
                                     </StackPane>
                                  </control>

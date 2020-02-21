@@ -3,7 +3,9 @@ package org.seekloud.geek.client.component
 import javafx.geometry.Insets
 import javafx.scene.control.Label
 import javafx.scene.layout.{ColumnConstraints, GridPane, Pane, VBox}
+import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.shared.ptcl.CommonProtocol.UserInfo
+import org.slf4j.LoggerFactory
 
 /**
   * User: hewro
@@ -14,9 +16,11 @@ import org.seekloud.geek.shared.ptcl.CommonProtocol.UserInfo
 case class AvatarColumn(
   userInfo: UserInfo,
   width:Double,
-  rootPane:Pane
+  rootPane:Pane,
+  updateFunc: ()=>Unit
 ){
 
+  private val log = LoggerFactory.getLogger(this.getClass)
 
   def apply(): GridPane = {
     val gridPane = new GridPane()
@@ -26,13 +30,15 @@ case class AvatarColumn(
     gridPane.add(Avatar(30, userInfo.headImgUrl)(), 0, 0); // column=1 row=0
 
 //    val width = gridPane.getPrefWidth
-    (0 to 2).foreach{
+    (0 to 3).foreach{
       i=>
-        println("当前序号" + i)
+        println("1当前序号" + i)
         val column = if (i == 1) {
-          new ColumnConstraints(width/5 * 3)
-        }else {
-          new ColumnConstraints(width/5)
+          new ColumnConstraints(width/7 * 4)
+        }else if (i==0){
+          new ColumnConstraints(width/7 + 5)
+        }else{
+          new ColumnConstraints(width/7 - 10)
         }
         gridPane.getColumnConstraints.add(column)
     }
@@ -49,24 +55,57 @@ case class AvatarColumn(
 
     //用户操作按钮
     //根据声音开启状态显示不同图标
-    val r = RippleIcon(List("fas-microphone:16:white"))()
+    val r = if(userInfo.isVoice.get) RippleIcon(List("fas-microphone:16:white"))()else RippleIcon(List("fas-microphone-slash:16:white"))()
     val icon = r._1
-
     val iconSpan = r._2
+
+
     icon.setOnMouseClicked(_ =>{
       //todo 发ws消息
-      SnackBar.show(rootPane,"点击了" + userInfo.userName)
+      if (userInfo.isVoice.get){
+        SnackBar.show(rootPane,"静音" + userInfo.userName)
+      }else{
+        SnackBar.show(rootPane,"取消静音" + userInfo.userName)
+      }
 
       //修改内存中该用户的静音状态
-
+      userInfo.isVoice = Some(!userInfo.isVoice.get)
 
       //修改界面
-      iconSpan.getChildren.removeAll()
-      iconSpan.getChildren.addAll(RippleIcon(List("fas-microphone-slash:16:white"))()._3:_*)
+      updateFunc()
 
     })
+
+
     gridPane.add(icon, 2, 0)
+
+    //根据用户身份显示不同的图标，普通用户 user-o
+    val r2 =
+      if(userInfo.isHost.get) RippleIcon(List("fas-user-circle:16:#fab726"))()
+      else  RippleIcon(List("fas-user:16:white"))()
+    val user = r2._1
+    val userSpan = r2._2
+
+    userSpan.setOnMouseClicked(_=>{
+      //修改用户的身份信息
+      //把当前用户设置为主持人，其他用户设置为非主持人
+      val origHost = RmManager.roomInfo.get.userList.find(_.isHost.get == true)
+      if (origHost nonEmpty){
+        origHost.get.isHost = Some(false)
+        userInfo.isHost = Some(true)
+        //修改整个Jlist的界面，回调controller里面的方法
+        updateFunc()
+      }else{
+        //
+        log.info("当前数据有误，成员列表中没有房主")
+
+      }
+    })
+
+    gridPane.add(user, 4, 0)
+
     gridPane
+
 
   }
 
