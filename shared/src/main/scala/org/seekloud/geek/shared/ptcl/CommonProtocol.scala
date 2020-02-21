@@ -182,7 +182,7 @@ object CommonProtocol {
                     commentContent:String,
                     )
   case class GetCommentRsp(
-                            roomId:Option[List[Comment]],
+                            comments: Option[List[Comment]],
                             errCode: Int = 0,
                             msg: String = "Ok"
                           ) extends Request

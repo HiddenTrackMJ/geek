@@ -27,10 +27,10 @@ object Route {
     val getUserInfo: String = base + "/getUserInfo"
     val updateRoomInfo: String = base + "/updateRoomInfo"
     val getRoomSectionList:String =base +"/getRoomSectionList"
-    val getRoomIdList:String =base +"/getRoomIdList"
-    val getCommentList:String =base +"/getRoomCommentList"
-    val addComment:String =base +"/addRoomComment"
-    val delComment:String =base +"/delComment"
+    val getRoomIdList:String = base +"/getRoomIdList"
+    val getCommentList:String = base +"/getRoomCommentList"
+    val addComment:String = base +"/addRoomComment"
+    val delComment:String = base +"/delComment"
   }
 
   object User {

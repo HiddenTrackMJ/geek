@@ -28,7 +28,7 @@ import scala.xml.Elem
   * Time: 1:06
   */
 
-class WatchRecord(roomID: Long,videoName :String) extends Page{
+class WatchRecord(roomID: Long, videoName :String) extends Page{
   override val locationHashString: String = s"#/room/$roomID/$videoName"
 
   var roomList: List[RoomData] = Main.roomList
@@ -193,7 +193,7 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
       rsp =>
         try {
           if (rsp.errCode == 0) {
-            CommentInfo :=rsp.roomId
+            CommentInfo := rsp.comments
             println(s"ssss got it : $rsp")
           }
           else {

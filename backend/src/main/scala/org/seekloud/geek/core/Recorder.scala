@@ -18,6 +18,7 @@ import org.seekloud.geek.shared.ptcl.Protocol.OutTarget
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
+import scala.collection.immutable.Queue
 import scala.util.{Failure, Success, Try}
 import scala.concurrent.duration._
 
@@ -80,11 +81,25 @@ object Recorder {
 
   case object Close extends DrawCommand
 
+  sealed trait SampleCommand
+
+  case class GetFFfilter(filters: mutable.HashMap[Int, FFmpegFrameFilter]) extends SampleCommand
+
+  case class Sample4Host( shieldMap :mutable.HashMap[String, State] = mutable.HashMap.empty, isOne: Boolean, frame: Frame) extends SampleCommand
+
+  case class Sample4All(id: String, frame: Frame) extends SampleCommand
+
+  case class DeleteSample4Others(id: String) extends SampleCommand
+
+  case object CloseSample extends SampleCommand
+
   case class Ts4Host(var time: Long = 0)
 
   case class Ts4Others(var time: Long = 0)
 
-  case class Image(var frame: mutable.HashMap[String,Frame] = mutable.HashMap.empty)
+  case class Image(var frame: mutable.HashMap[String, Queue[Frame]] = mutable.HashMap.empty)
+
+  case class Audio(var frame: mutable.HashMap[String, (Int, Queue[Frame])] = mutable.HashMap.empty)
 
   case class Ts4LastImage(var time: Long = -1)
 
@@ -126,9 +141,9 @@ object Recorder {
           val drawer = ctx.spawn(draw(canvas, canvas.getGraphics, Ts4LastImage(), Image(), recorder4ts,
             new Java2DFrameConverter(), new Java2DFrameConverter(),new Java2DFrameConverter, layout, "defaultImg.jpg", roomId, (640, 480)), s"drawer_$roomId")
 
-          //          Boot.roomManager ! RoomManager.RecorderRef(roomId, ctx.self) //fixme 取消注释
+          val sampleRecorder = ctx.spawn(sampleRecord(roomId, Ts4LastSample(), Audio(), recorder4ts,mutable.HashMap.empty, None), s"sampleRecorder_$roomId")
           ctx.self ! Init
-          idle(roomId, hostId, stream, pullLiveId, roomActor,List.empty, pullLiveId.head, recorder4ts, mutable.HashMap.empty, drawer, mutable.HashMap.empty)
+          idle(roomId, hostId, stream, pullLiveId, roomActor,List.empty, pullLiveId.head, recorder4ts, mutable.HashMap.empty, drawer, sampleRecorder, mutable.HashMap.empty)
       }
     }
   }
@@ -144,6 +159,7 @@ object Recorder {
     recorder4ts: FFmpegFrameRecorder,
     ffFilter:  mutable.HashMap[Int, FFmpegFrameFilter],
     drawer: ActorRef[DrawCommand],
+    sampleRecorder: ActorRef[SampleCommand],
     grabbers: mutable.HashMap[String, ActorRef[Grabber.Command]], // id -> grabActor
     indexMap :mutable.HashMap[String, Int] = mutable.HashMap.empty,
     shieldMap :mutable.HashMap[String, State] = mutable.HashMap.empty,
@@ -179,22 +195,8 @@ object Recorder {
               filter.startUnsafe()
             }
           }
-//          if (ffFilter != null) {
-//            ffFilter.close()
-//          }
-//          val complexFilter = s"amix=inputs=${pullLiveId.size}:duration=longest:dropout_transition=3:weights=1 1[a]"
-//          //音频混流
-//          var filterStr = complexFilter
-//          (1 to pullLiveId.size).reverse.foreach { i =>
-//            filterStr = s"[${i - 1}:a]" + filterStr
-//          }
-////          val ffFilterN = new FFmpegFrameFilter(s"[0:a][1:a] amix=inputs=${pullLiveId.size}:duration=longest:dropout_transition=3:weights=1 1[a]", audioChannels)
-//          val ffFilterN = new FFmpegFrameFilter(filterStr, audioChannels)
-//          ffFilterN.setAudioChannels(audioChannels)
-//          ffFilterN.setSampleFormat(sampleFormat)
-//          ffFilterN.setAudioInputs(2)
-//          ffFilterN.start()
-          idle(roomId, hostId, stream, pullLiveId, roomDealer, online, host, recorder4ts,filters, drawer, grabbers, indexMap, shieldMap, filterInUse)
+          sampleRecorder ! GetFFfilter(filters)
+          idle(roomId, hostId, stream, pullLiveId, roomDealer, online, host, recorder4ts,filters, drawer, sampleRecorder, grabbers, indexMap, shieldMap, filterInUse)
 
         case GetGrabber(id, grabber) =>
           grabber ! Grabber.GetRecorder(ctx.self)
@@ -226,9 +228,10 @@ object Recorder {
             recorder4ts.setImageWidth(width)
             recorder4ts.setImageHeight(height)
 //            timer.startPeriodicTimer(TimerKey4ImageRec, RecordImage, 10.millis)
-            idle(roomId, hostId, stream, pullLiveId, roomDealer, onlineNew, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, shieldMap, filterInUse)
+            idle(roomId, hostId, stream, pullLiveId, roomDealer, onlineNew, host, recorder4ts, ffFilter, drawer, sampleRecorder, grabbers, indexMap, shieldMap, filterInUse)
           }
-          else Behaviors.same
+          else idle(roomId, hostId, stream, pullLiveId, roomDealer, onlineNew, host, recorder4ts, ffFilter, drawer, sampleRecorder, grabbers, indexMap, shieldMap, filterInUse)
+
 
         case RecordImage =>
           drawer ! RecordImage
@@ -249,76 +252,16 @@ object Recorder {
           var index = liveId.split("_").last.toInt
           var newFilterInUse = filterInUse
           if (frame.samples != null) {
-//            println(s"$liveId timeStamp: ${frame.timestamp}")
-            val sampleFrame = frame.clone()
-            if (ffFilter.nonEmpty) {
-//              println(1,"index: " + index)
-              if (online.size == 1 || shieldMap.count(_._2.audio) == 1) {
-//                println(2, ffFilter)
-                recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
-//                log.debug(s"record sample...")
-              } else {
-                val fil = ffFilter(shieldMap.count(_._2.audio))
-//                println(3, peopleOnline, fil)
-                if (filterInUse.nonEmpty && fil != filterInUse.get) {
-                  println(5)
-                  filterInUse.get.close()
-                  fil.start()
-                  newFilterInUse = Some(fil)
-                } else if (filterInUse.isEmpty) {
-                  println(6)
-                  fil.start()
-                  newFilterInUse = Some(fil)
-                }
-                try {
-                  if (indexMap.isEmpty && !indexMap.contains(liveId)) indexMap.put(liveId, 0)
-                  else if (indexMap.nonEmpty && !indexMap.contains(liveId)) indexMap.put(liveId, indexMap.maxBy(_._2)._2 + 1)
-//                  println(7, indexMap, fil, "index: " + (index-1), sampleFrame.audioChannels, sampleFrame.sampleRate, fil.getSampleFormat)
-                  fil.pushSamples(indexMap(liveId), sampleFrame.audioChannels, sampleFrame.sampleRate, 1, sampleFrame.samples: _*)
-                  val f = fil.pullSamples()
-                  if (f != null) {
-                    val ff = f.clone()
-                    recorder4ts.recordSamples(ff.sampleRate, ff.audioChannels, ff.samples: _*)
-//                    log.debug(s"record sample...")
-                  }
-//                  if (liveId == "1000_1") {
-//                    recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
-//                  }
-                } catch {
-                  case ex: Exception =>
-                    println(s"record sample error: $ex")
-                }
-
-              }
+            if (liveId == host && shieldMap.filter(_._2.audio).exists(_._1 == liveId)) {
+              //              recorder4ts.record(frame.clone())
+              sampleRecorder ! Sample4Host(shieldMap,online.size == 1 || shieldMap.count(_._2.audio) == 1, frame)
+            } else if (pullLiveId.contains(liveId) && shieldMap.filter(_._2.audio).exists(_._1 == liveId)) {
+              sampleRecorder ! Sample4All(liveId, frame)
+            } else {
+              log.info(s"wrong, liveId, work got wrong sample")
             }
-            else {
-              try {
-                recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
-              }
-              catch {
-                case e: Exception =>
-                  log.info(s"record sample error: ${e.getMessage}")
-              }
-//              log.debug(s"record sample...")
-            }
-//            try {
-//              if (liveId == host) {
-//                ffFilter.pushSamples(0, frame.audioChannels, frame.sampleRate, ffFilter.getSampleFormat, frame.samples: _*)
-//              } else if (liveId == client) {
-//                ffFilter.pushSamples(1, frame.audioChannels, frame.sampleRate, ffFilter.getSampleFormat, frame.samples: _*)
-//              } else {
-//                log.info(s"wrong liveId, couple got wrong audio")
-//              }
-//              val f = ffFilter.pullSamples().clone()
-//              if (f != null) {
-//                recorder4ts.recordSamples(f.sampleRate, f.audioChannels, f.samples: _*)
-//              }
-//            } catch {
-//              case ex: Exception =>
-//                log.debug(s"$liveId record sample error system: $ex")
-//            }
           }
-          idle(roomId, hostId, stream, pullLiveId, roomDealer, online, host, recorder4ts, ffFilter, drawer, grabbers, indexMap, shieldMap, newFilterInUse)
+          idle(roomId, hostId, stream, pullLiveId, roomDealer, online, host, recorder4ts, ffFilter, drawer, sampleRecorder, grabbers, indexMap, shieldMap, newFilterInUse)
 
         case CloseRecorder =>
           val video = SlickTables.rVideo(0L, hostId, roomId, stream.split("_").last.toLong, stream + ".mp4", "",0,"")
@@ -335,7 +278,7 @@ object Recorder {
             }else{
               log.info(s"no record for roomId:${roomId} and startTime:${video.timestamp}")
             }
-
+            Thread.sleep(2000)
 //            roomDealer ! RoomDealer.StoreVideo(video)
           } catch {
             case e: Exception =>
@@ -346,6 +289,7 @@ object Recorder {
         case StopRecorder(msg) =>
           log.info(s"recorder-$roomId stop because $msg")
           drawer ! Close
+          sampleRecorder ! CloseSample
           filterInUse.foreach(_.close())
           timer.startSingleTimer(TimerKey4Close, CloseRecorder, 5.seconds)
           Behaviors.same
@@ -373,9 +317,12 @@ object Recorder {
 //          log.info(s"add host")
           val time = t.frame.timestamp
           val img = convert1.convert(t.frame)
-          val clientImg = if(clientFrame.frame.nonEmpty) clientFrame.frame.toList.sortBy(_._1.split("_").last.toInt).map(
-            i => convert2.convert(i._2)
-          )
+          val clientImg = if(clientFrame.frame.nonEmpty) clientFrame.frame.toList.filter(_._2.nonEmpty).sortBy(_._1.split("_").last.toInt).map{
+            i =>
+              val frameNew = i._2.dequeue
+              clientFrame.frame.update(i._1, frameNew._2)
+              convert2.convert(frameNew._1)
+          }
           else List.empty
           //          graph.clearRect(0, 0, canvasSize._1, canvasSize._2)
           layout match {
@@ -408,16 +355,21 @@ object Recorder {
               graph.drawString("主播", 584, 24)
 
           }
-          //          if (addTs) {
-          //            val serverTime = ChannelWorker.pullClient.getServerTimestamp()
-          //             val ts = TimeUtil.format(serverTime)
-          //             graph.drawString(ts, canvasSize._1 - 200, 40)
-          //          }
           //fixme 此处为何不直接recordImage
           val frame = convert.convert(canvas)
           try{
-//            log.info("record image")
+//            log.info(s"record image: ${frame.imageWidth}")
             recorder4ts.record(frame.clone())
+//            val f = frame.clone()
+//            recorder4ts.recordImage(
+//              f.imageWidth,
+//              f.imageHeight,
+//              f.imageDepth,
+//              f.imageChannels,
+//              f.imageStride,
+//              recorder4ts.getPixelFormat,
+//              f.image: _*
+//            )
           }
           catch {
             case e: Exception =>
@@ -437,9 +389,19 @@ object Recorder {
           //            lastTime.time = time
           Behaviors.same
 
-        case t: Image4Others =>
+        case Image4Others(id, frame) =>
 //          log.info(s"add ${t.id}")
-          clientFrame.frame.put(t.id, t.frame)
+//          clientFrame.frame.put(t.id, t.frame)
+          if (!clientFrame.frame.contains(id)) {
+            val sampleQueue = Queue.empty.enqueue(frame)
+            clientFrame.frame.put(id,  sampleQueue)
+            //            println("c1: " + clientFrame)
+          }
+          else {
+            val oldInfo = clientFrame.frame(id)
+            clientFrame.frame.update(id, oldInfo.enqueue(frame))
+            //            println("c3: " + clientFrame)
+          }
           Behaviors.same
 
         case RecordImage =>
@@ -484,4 +446,167 @@ object Recorder {
     }
   }
 
+  def sampleRecord(
+    roomId: Long,
+    lastTime  : Ts4LastSample,
+    clientFrame: Audio,
+    recorder4ts: FFmpegFrameRecorder,
+    ffFilter:  mutable.HashMap[Int, FFmpegFrameFilter],
+    filterInUse: Option[FFmpegFrameFilter] = None,
+    indexMap :mutable.HashMap[String, Int] = mutable.HashMap.empty,
+//    shieldMap :mutable.HashMap[String, State] = mutable.HashMap.empty,
+    ): Behavior[SampleCommand] = {
+    Behaviors.setup[SampleCommand] { ctx =>
+      Behaviors.receiveMessage[SampleCommand] {
+
+        case GetFFfilter(filters) =>
+          sampleRecord(roomId, lastTime, clientFrame, recorder4ts, filters, filterInUse)
+
+        case Sample4Host(shieldMap, isOne, frame) =>
+          var newFilterInUse = filterInUse
+          if (frame.samples != null) {
+            //            println(s"$liveId timeStamp: ${frame.timestamp}")
+            val sampleFrame = frame.clone()
+            if (ffFilter.nonEmpty) {
+              //              println(online.size, shieldMap.count(_._2.audio) )
+              if (isOne) {
+                //                println(2, ffFilter)
+                try {
+                  recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
+                }
+                catch {
+                  case ex: Exception =>
+                    println(s"record solo sample error: $ex")
+                }
+              } else {
+                val fil = ffFilter(shieldMap.count(_._2.audio))
+                //                println(3, peopleOnline, fil)
+                if (filterInUse.nonEmpty && fil != filterInUse.get) {
+                  println(5, fil.getAudioInputs)
+                  filterInUse.get.close()
+                  fil.start()
+                  newFilterInUse = Some(fil)
+                } else if (filterInUse.isEmpty) {
+                  println(6, fil.getAudioInputs)
+                  fil.start()
+                  newFilterInUse = Some(fil)
+                }
+                try {
+//                  println(7, indexMap, fil, "index: " + (index - 1), sampleFrame.audioChannels, sampleFrame.sampleRate, fil.getSampleFormat)
+//                  fil.pushSamples(indexMap(liveId), sampleFrame.audioChannels, sampleFrame.sampleRate, 1, sampleFrame.samples: _*)
+                  fil.pushSamples(0, sampleFrame.audioChannels, sampleFrame.sampleRate, fil.getSampleFormat, sampleFrame.samples: _*)
+                  clientFrame.frame.toList.filter(_._2._2.nonEmpty).sortBy(_._2._1).foreach { f =>
+                    val frameNew = f._2._2.dequeue
+                    clientFrame.frame.update(f._1, (f._2._1, frameNew._2))
+                    fil.pushSamples(f._2._1, frameNew._1.audioChannels, frameNew._1.sampleRate, fil.getSampleFormat, frameNew._1.samples: _*)
+                  }
+                  val f = fil.pullSamples()
+                  if (f != null) {
+                    val ff = f.clone()
+                    recorder4ts.recordSamples(ff.sampleRate, ff.audioChannels, ff.samples: _*)
+                    //                    log.debug(s"record sample...")
+                  }
+                } catch {
+                  case ex: Exception =>
+                    println(s"record sample1 error: $ex")
+                }
+
+              }
+            }
+            else {
+              try {
+//                log.info(s"record audio: ${sampleFrame.sampleRate}")
+                recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
+              }
+              catch {
+                case e: Exception =>
+                  log.info(s"record sample2 error: ${e.getMessage}")
+              }
+              //              log.debug(s"record sample...")
+            }
+          }
+          sampleRecord(roomId, lastTime, clientFrame, recorder4ts, ffFilter, newFilterInUse)
+
+        case Sample4All(id, frame) =>
+          if (!clientFrame.frame.contains(id)) {
+            val sampleQueue = Queue.empty.enqueue(frame)
+            clientFrame.frame.put(id, (clientFrame.frame.size + 1, sampleQueue))
+//            println("c1: " + clientFrame)
+          }
+          else {
+            val oldInfo = clientFrame.frame(id)
+            clientFrame.frame.update(id, (oldInfo._1, oldInfo._2.enqueue(frame)))
+//            println("c3: " + clientFrame)
+          }
+          Behaviors.same
+
+        case t: DeleteSample4Others =>
+          clientFrame.frame.-=(t.id)
+          Behaviors.same
+
+
+        case CloseSample =>
+          log.info(s"sample recorder stopped")
+          recorder4ts.releaseUnsafe()
+          Behaviors.stopped
+
+      }
+    }
+  }
+
 }
+////            println(s"$liveId timeStamp: ${frame.timestamp}")
+//val sampleFrame = frame.clone()
+//if (ffFilter.nonEmpty) {
+//  //              println(1,"index: " + index)
+//  //              println(online.size, shieldMap.count(_._2.audio) )
+//  if (online.size == 1 || shieldMap.count(_._2.audio) == 1) {
+//  //                println(2, ffFilter)
+//  try {
+//  recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
+//}
+//  catch {
+//  case ex: Exception =>
+//  println(s"record solo sample error: $ex")
+//}
+//  //                log.debug(s"record sample...")
+//} else {
+//  val fil = ffFilter(shieldMap.count(_._2.audio))
+//  //                println(3, peopleOnline, fil)
+//  if (filterInUse.nonEmpty && fil != filterInUse.get) {
+//  println(5, fil.getAudioInputs)
+//  filterInUse.get.close()
+//  fil.start()
+//  newFilterInUse = Some(fil)
+//} else if (filterInUse.isEmpty) {
+//  println(6, fil.getAudioInputs)
+//  fil.start()
+//  newFilterInUse = Some(fil)
+//}
+//  try {
+//  if (indexMap.isEmpty && !indexMap.contains(liveId)) indexMap.put(liveId, 0)
+//  else if (indexMap.nonEmpty && !indexMap.contains(liveId)) indexMap.put(liveId, indexMap.maxBy(_._2)._2 + 1)
+//  println(7, indexMap, fil, "index: " + (index-1), sampleFrame.audioChannels, sampleFrame.sampleRate, fil.getSampleFormat)
+//  fil.pushSamples(indexMap(liveId), sampleFrame.audioChannels, sampleFrame.sampleRate, fil.getSampleFormat, sampleFrame.samples: _*)
+//  val f = fil.pullSamples()
+//  if (f != null) {
+//  val ff = f.clone()
+//  recorder4ts.recordSamples(ff.sampleRate, ff.audioChannels, ff.samples: _*)
+//  //                    log.debug(s"record sample...")
+//}
+//} catch {
+//  case ex: Exception =>
+//  println(s"record sample1 error: $ex")
+//}
+//
+//}
+//}
+//  else {
+//  try {
+//  recorder4ts.recordSamples(sampleFrame.sampleRate, sampleFrame.audioChannels, sampleFrame.samples: _*)
+//}
+//  catch {
+//  case e: Exception =>
+//  log.info(s"record sample2 error: ${e.getMessage}")
+//}
+//}

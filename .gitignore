@@ -93,3 +93,26 @@ frontend/target
 !/.gitignore
 
 
+!/.idea/workspace.xml
+!/.idea/
+!/.idea/modules.xml
+.idea/.gitignore
+.idea/.name
+.idea/codeStyles/
+.idea/inspectionProfiles/
+.idea/libraries/
+.idea/misc.xml
+.idea/modules.xml
+.idea/sbt.xml
+.idea/vcs.xml
+.gitignore
+.name
+codeStyles/
+dataSources.xml
+inspectionProfiles/
+libraries/
+misc.xml
+modules.xml
+sbt.xml
+uiDesigner.xml
+vcs.xml

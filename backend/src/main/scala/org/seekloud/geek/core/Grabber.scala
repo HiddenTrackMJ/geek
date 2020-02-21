@@ -91,6 +91,8 @@ object Grabber {
           //"rtmp://58.200.131.2:1935/livetv/hunantv"
 //          "rtmp://127.0.0.1:1935/live/1000_2"
           AppSettings.rtmpServer + liveId
+//            "C:\\Users\\19783\\Videos\\Captures\\" + liveId.split("_").head
+          println(s"srcPath: $srcPath")
           log.info(s"${ctx.self} receive a msg $t")
           val grabber = new FFmpegFrameGrabber(srcPath)
           Try {
@@ -167,13 +169,15 @@ object Grabber {
 
         case GrabFrame =>
           val frame = grabber.grab()
-          if(frame.image != null && state.image) {
-            recorder ! Recorder.NewFrame(liveId, frame.clone())
-            ctx.self ! GrabFrame
-          }
-          else if(frame.samples != null && state.audio) {
-            recorder ! Recorder.NewFrame(liveId, frame.clone())
-            ctx.self ! GrabFrame
+          if (frame != null) {
+            if(frame.image != null && state.image) {
+              recorder ! Recorder.NewFrame(liveId, frame.clone())
+              ctx.self ! GrabFrame
+            }
+            else if(frame.samples != null && state.audio) {
+              recorder ! Recorder.NewFrame(liveId, frame.clone())
+              ctx.self ! GrabFrame
+            }
           }
           else{
             log.info(s"$liveId --- frame is null")

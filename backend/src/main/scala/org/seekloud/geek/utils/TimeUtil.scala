@@ -7,6 +7,8 @@ import org.seekloud.geek.common.AppSettings
 import org.seekloud.geek.core.RoomDealer.getVideoDuration
 import org.slf4j.LoggerFactory
 
+import scala.collection.immutable.Queue
+
 /**
   * Created by hongruying on 2017/10/25.
   */
@@ -116,15 +118,21 @@ object TimeUtil {
   def fun(): Unit ={
     log.info(s"RoomActor is storing video...")
     var d = ""
-    val file = new File(s"http://10.1.29.247:42075/geek/room/getRecord/1001/1074_1581592782805.mp4")
+//    val file = new File(s"http:///10.1.29.247:42075/geek/room/getRecord/1001/1074_1581592782805.mp4")
+    val file = new File(s"C:\\Users\\19783\\Videos\\Captures\\geek云会议 2020-02-13 17-48-51.mp4")
+    println(file.getPath)
     if(file.exists()){
-      d = getVideoDuration("2020-02-01 16-52-35")
+      d = getVideoDuration(file.getPath)
       log.info(s"duration:$d")
     }else{
       log.info(s"no record for")
     }
   }
-
-  fun()
-  Thread.sleep(2000)
+  println("10.56165.3215.2".replaceAll("\\.", ""))
+  val xx = Queue.empty.enqueue(1)
+  println(s"xx: $xx")
+  println(xx.dequeue)
+  println(s"xx: $xx")
+//  fun()
+//  Thread.sleep(2000)
 }
