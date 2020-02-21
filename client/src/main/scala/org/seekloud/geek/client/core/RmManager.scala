@@ -243,7 +243,7 @@ object RmManager {
           }
           Boot.addToPlatform {
             SnackBar.show(hostController.centerPane,"停止会议成功!")
-            WarningDialog.initWarningDialog("停止会议成功！")
+//            WarningDialog.initWarningDialog("停止会议成功！")
           }
           //当前的链接状态改为未连接
           hostBehavior(stageCtx,hostScene,hostController,liveManager,mediaPlayer,sender,hostStatus=HostStatus.NOT_CONNECT,joinAudience)

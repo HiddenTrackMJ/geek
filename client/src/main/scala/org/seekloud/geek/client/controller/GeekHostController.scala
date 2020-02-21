@@ -5,7 +5,7 @@ import com.jfoenix.controls.{JFXListView, JFXTextArea}
 import javafx.fxml.FXML
 import javafx.scene.canvas.{Canvas, GraphicsContext}
 import javafx.scene.control.Label
-import javafx.scene.layout.{AnchorPane, Background, BackgroundFill, BorderPane, GridPane}
+import javafx.scene.layout._
 import javafx.scene.paint.Color
 import org.kordamp.ikonli.javafx.FontIcon
 import org.seekloud.geek.client.Boot
@@ -60,10 +60,12 @@ class GeekHostController(
   )
 
   var commentJList = new JFXListView[GridPane]
+  var userJList = new JFXListView[GridPane]
 
   var hostStatus: Int = HostStatus.NOT_CONNECT
   var micStatus: Int = DeviceStatus.NOT_READY //音频状态，false未开启
   var videoStatus: Int = DeviceStatus.NOT_READY //视频状态，false未开启摄像头
+  var recordStatus: Int = DeviceStatus.OFF //录制状态，一开始未录制
 
   var loading:Loading = _
   var gc: GraphicsContext = _
@@ -103,7 +105,30 @@ class GeekHostController(
           video.setIconColor(Color.WHITE)
       }
     }
+  }
 
+  def updateRecordUI() = {
+    Boot.addToPlatform {
+      recordStatus match {
+        case DeviceStatus.NOT_READY =>
+          record.setIconLiteral("fas-stop-circle")
+          record.setIconColor(Color.GRAY)
+          record_label.setText("权限不足")
+
+
+        case DeviceStatus.ON =>
+          log.info("摄像头准备好了")
+          record.setIconLiteral("fas-stop-circle")
+          record.setIconColor(Color.RED)
+          record_label.setText("录制中……")
+
+
+        case DeviceStatus.OFF =>
+          record.setIconLiteral("fas-stop-circle")
+          record.setIconColor(Color.WHITE)
+          record_label.setText("录制")
+      }
+    }
   }
 
   def updateMicUI() = {
@@ -151,6 +176,15 @@ class GeekHostController(
     }
 
     //todo 根据用户类型锁定一些内容/按钮的事件修改
+
+
+    //后续从服务器端的ws链接中获取和更新
+    RmManager.roomInfo.get.userList = List(
+      UserInfo(2L, "hewro", "",isHost=Some(true)),
+      UserInfo(3L, "秋林会", ""),
+      UserInfo(4L, "薛甘愿", ""),
+    )
+
     initUserList()
     initCommentList()
 
@@ -163,27 +197,38 @@ class GeekHostController(
     rootPane.getChildren.add(toolbar)
   }
 
-  //更新界面
+  //初始化创建
   def initUserList() = {
-    //后续从服务器端的ws链接中获取和更新
-    val userList = List(
-      UserInfo(1L, "何为", ""),
-      UserInfo(2L, "秋林会", ""),
-      UserInfo(3L, "薛甘愿", ""),
-    )
+    val paneList = createUserListPane()
+    userJList.getItems.addAll(paneList:_*)
+    userJList.setPrefWidth(userListPane.getPrefWidth)
+    userJList.setPrefHeight(userListPane.getPrefHeight)
+    userJList.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
+    userListPane.getChildren.add(userJList)
+  }
 
-    val jList = new JFXListView[GridPane]
-    userList.foreach{
+
+  def createUserListPane():List[GridPane] = {
+    val userList = RmManager.roomInfo.get.userList
+
+    userList.map{
       t=>
         //创建一个AnchorPane
-        val pane = AvatarColumn(t,userListPane.getPrefWidth - 30,centerPane)()
+        val m = ()=>{updateUserList()}
+        val pane = AvatarColumn(t,userListPane.getPrefWidth - 30,centerPane,m)()
         pane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
-        jList.getItems.add(pane)
+        pane
     }
-    jList.setPrefWidth(userListPane.getPrefWidth)
-    jList.setPrefHeight(userListPane.getPrefHeight)
-    jList.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
-    userListPane.getChildren.add(jList)
+  }
+
+  //更新整个list
+  def updateUserList():Unit = {
+    val paneList = createUserListPane()
+    Boot.addToPlatform{
+      //修改整个list
+      userJList.getItems.removeAll(userJList.getItems)
+      userJList.getItems.addAll(paneList:_*)
+    }
 
   }
 
@@ -211,7 +256,7 @@ class GeekHostController(
     rmManager ! RmManager.BackToHome
   }
 
-  //发表评论
+  //todo 发表评论,ws每收到一条消息就给我发一条消息
   def commentSubmit() = {
     //获得当前的评论消息，添加一个新的comment结构加入到jList中
     val content = commentInput.getText
@@ -293,6 +338,23 @@ class GeekHostController(
 
   }
 
+
+  //点击录制按钮
+  def toggleRecord() = {
+    recordStatus match {
+      case DeviceStatus.OFF =>
+        //todo 开始录制
+        recordStatus = DeviceStatus.ON
+
+      case DeviceStatus.ON =>
+        //todo 取消录制
+        recordStatus = DeviceStatus.OFF
+
+    }
+
+    updateRecordUI()
+
+  }
   //点击音频按钮：根据设备的状态
   def toggleMic() = {
     micStatus match {
@@ -351,6 +413,11 @@ class GeekHostController(
 
     }
     updateOffUI()
+  }
+
+  //邀请别人
+  def inviteOne() = {
+    SnackBar.show(centerPane,s"会议号：${RmManager.roomInfo.get.roomId},发给你的小伙伴吧！")
   }
 
   def updateOffUI()={
