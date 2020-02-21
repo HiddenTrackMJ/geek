@@ -83,7 +83,6 @@ object GrabberManager {
           val grabbers = if (AppSettings.rtmpIsTest) {
             msg.rtmpInfo.liveCode.map {
               stream =>
-                Thread.sleep(5000)
                 getGrabber(ctx, msg.roomId, stream, recordActor)
             }
           }

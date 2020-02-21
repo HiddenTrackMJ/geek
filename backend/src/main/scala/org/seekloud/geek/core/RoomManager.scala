@@ -134,7 +134,7 @@ object RoomManager {
 //            log.info(s"Init room list error due to $e")
 //        }
 //        busy()
-        ctx.self ! Test
+        if (AppSettings.rtmpIsTest) ctx.self ! Test
         idle(roomIdGenerator, mutable.HashMap.empty, mutable.HashMap.empty)
       }
     }
@@ -152,14 +152,14 @@ object RoomManager {
         case Test =>
           val roomDetailInfo = RoomDetailInfo(RoomUserInfo(1000001, "a", "b"), RtmpInfo("a", "1000",List("1000_1", "1000_3")), "", Map.empty, null)
           val roomActor = getRoomDealer(1000, roomDetailInfo, ctx)
-          Boot.grabManager ! GrabberManager.StartLive(1000, 100000L, RtmpInfo("a", "1000",List("1000_1")), "1000_1", roomActor)
+          Boot.grabManager ! GrabberManager.StartLive(1000, 100000L, RtmpInfo("a", "1000",List("1000_1", "1000_1_2", "1000_1_3", "1000_1_4", "1000_1_5")), "1000_1", roomActor)
           Behaviors.same
 
         case CreateRoom(req, rsp) =>
           val rRoom = SlickTables.rRoom(0L, req.info.roomName, Some(req.info.des), "", "", AppSettings.rtmpServer, req.userId)
           RoomDao.addRoom(rRoom).onComplete{
             case Success(roomId) =>
-              val peopleNum = 4
+              val peopleNum = 5
               var streams = List[String]()
               (1 to peopleNum).foreach { i =>
                 val streamName = s"${roomId}_$i"

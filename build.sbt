@@ -1,7 +1,7 @@
 val scalaV = "2.12.10"
 
 
-val projectName = "org.seekloud.geek"
+val projectName = "geek"
 val projectVersion = "2020.02.13a"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
@@ -144,7 +144,7 @@ lazy val backend = (project in file("backend")).enablePlugins(PackPlugin)
   .settings(commonSettings: _*)
   .settings(
     mainClass in reStart := Some(projectMainClass),
-    javaOptions in reStart += "-Xmx2g"
+    javaOptions in reStart += "-Xmx4g"
   )
   .settings(name := "backend")
 
@@ -153,9 +153,9 @@ lazy val backend = (project in file("backend")).enablePlugins(PackPlugin)
     // If you need to specify main classes manually, use packSettings and packMain
     //packSettings,
     // [Optional] Creating `hello` command that calls org.mydomain.Hello#main(Array[String])
-    packMain := Map("org.seekloud.geek" -> projectMainClass),
-    packJvmOpts := Map("org.seekloud.geek" -> Seq("-Xmx1024m", "-Xms512m")),
-    packExtraClasspath := Map("org.seekloud.geek" -> Seq("."))
+    packMain := Map("geek" -> projectMainClass),
+    packJvmOpts := Map("geek" -> Seq("-Xmx4096m", "-Xms2048m")),
+    packExtraClasspath := Map("geek" -> Seq("."))
   )
   .settings(
     libraryDependencies ++= Dependencies.backendDependencies,

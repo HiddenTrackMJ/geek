@@ -90,8 +90,9 @@ object Grabber {
           val srcPath =
           //"rtmp://58.200.131.2:1935/livetv/hunantv"
 //          "rtmp://127.0.0.1:1935/live/1000_2"
-          AppSettings.rtmpServer + liveId
-//            "C:\\Users\\19783\\Videos\\Captures\\" + liveId.split("_").head
+//          if (AppSettings.rtmpIsTest) "C:\\Users\\19783\\Videos\\Captures\\" + liveId.split("_").head
+//          else
+            AppSettings.rtmpServer + (if (liveId == "1000_1_2" || liveId == "1000_1_3" || liveId == "1000_1_4" || liveId == "1000_1_5") "1000_1" else liveId)
           println(s"srcPath: $srcPath")
           log.info(s"${ctx.self} receive a msg $t")
           val grabber = new FFmpegFrameGrabber(srcPath)

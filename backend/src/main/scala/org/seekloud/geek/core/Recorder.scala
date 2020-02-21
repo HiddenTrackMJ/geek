@@ -101,7 +101,7 @@ object Recorder {
 
   case class Audio(var frame: mutable.HashMap[String, (Int, Queue[Frame])] = mutable.HashMap.empty)
 
-  case class Ts4LastImage(var time: Long = -1)
+  case class Ts4LastImage(var frame: mutable.HashMap[String, Frame] = mutable.HashMap.empty)
 
   case class Ts4LastSample(var time: Long = 0)
 
@@ -112,7 +112,7 @@ object Recorder {
         implicit timer =>
           log.info(s"recorder-$roomId start----")
           avutil.av_log_set_level(-8)
-          val srcPath = AppSettings.rtmpServer + stream
+          val srcPath = AppSettings.rtmpServer + stream//System.currentTimeMillis().toString
           println(s"path: $srcPath")
           val recorder4ts = new FFmpegFrameRecorder(srcPath, 640, 480, audioChannels)
           recorder4ts.setInterleaved(true)
@@ -138,7 +138,7 @@ object Recorder {
               log.error(s" recorder starts error: ${e.getMessage}")
           }
           val canvas = new BufferedImage(640, 480, BufferedImage.TYPE_3BYTE_BGR)
-          val drawer = ctx.spawn(draw(canvas, canvas.getGraphics, Ts4LastImage(), Image(), recorder4ts,
+          val drawer = ctx.spawn(draw(canvas, canvas.getGraphics, Ts4LastImage(), Queue.empty, Image(), recorder4ts,
             new Java2DFrameConverter(), new Java2DFrameConverter(),new Java2DFrameConverter, layout, "defaultImg.jpg", roomId, (640, 480)), s"drawer_$roomId")
 
           val sampleRecorder = ctx.spawn(sampleRecord(roomId, Ts4LastSample(), Audio(), recorder4ts,mutable.HashMap.empty, None), s"sampleRecorder_$roomId")
@@ -300,13 +300,15 @@ object Recorder {
       }
     }
 
+//  var last = System.currentTimeMillis()
   def draw(
     canvas: BufferedImage,
     graph: Graphics,
     lastTime: Ts4LastImage,
+    hostFrame: Queue[Frame],
     clientFrame: Image,
     recorder4ts: FFmpegFrameRecorder,
-    convert1: Java2DFrameConverter, convert2: Java2DFrameConverter,convert:Java2DFrameConverter,
+    convert1: Java2DFrameConverter, convert2: Java2DFrameConverter, convert:Java2DFrameConverter,
     layout: Int = 0,
     bgImg: String,
     roomId: Long,
@@ -317,11 +319,18 @@ object Recorder {
 //          log.info(s"add host")
           val time = t.frame.timestamp
           val img = convert1.convert(t.frame)
-          val clientImg = if(clientFrame.frame.nonEmpty) clientFrame.frame.toList.filter(_._2.nonEmpty).sortBy(_._1.split("_").last.toInt).map{
+          val clientImg = if(clientFrame.frame.nonEmpty) clientFrame.frame.toList.sortBy(_._1.split("_").last.toInt).map{
             i =>
-              val frameNew = i._2.dequeue
-              clientFrame.frame.update(i._1, frameNew._2)
-              convert2.convert(frameNew._1)
+              if (i._2.nonEmpty) {
+                val frameNew = i._2.dequeue
+                val newFrame = frameNew._1.clone()
+                clientFrame.frame.update(i._1, frameNew._2)
+                lastTime.frame.put(i._1, newFrame)
+                convert2.convert(newFrame)
+              }
+              else {
+                convert2.convert(lastTime.frame.getOrElse(i._1, t.frame))
+              }
           }
           else List.empty
           //          graph.clearRect(0, 0, canvasSize._1, canvasSize._2)
@@ -359,33 +368,25 @@ object Recorder {
           val frame = convert.convert(canvas)
           try{
 //            log.info(s"record image: ${frame.imageWidth}")
-            recorder4ts.record(frame.clone())
-//            val f = frame.clone()
-//            recorder4ts.recordImage(
-//              f.imageWidth,
-//              f.imageHeight,
-//              f.imageDepth,
-//              f.imageChannels,
-//              f.imageStride,
-//              recorder4ts.getPixelFormat,
-//              f.image: _*
-//            )
+//            recorder4ts.record(frame.clone())
+            val f = frame.clone()
+            recorder4ts.recordImage(
+              f.imageWidth,
+              f.imageHeight,
+              f.imageDepth,
+              f.imageChannels,
+              f.imageStride,
+              recorder4ts.getPixelFormat,
+              f.image: _*
+            )
+//            val a = System.currentTimeMillis()
+//            println(s"record: ${a - last}ms")
+//            last = a
           }
           catch {
             case e: Exception =>
               log.info(s"record error: ${e.getMessage}")
           }
-//          val f = frame.clone()
-//          recorder4ts.recordImage(
-//            f.imageWidth,
-//            f.imageHeight,
-//            f.imageDepth,
-//            f.imageChannels,
-//            f.imageStride,
-//            recorder4ts.getPixelFormat,
-//            f.image: _*
-//          )
-//          println(s"record")
           //            lastTime.time = time
           Behaviors.same
 
@@ -432,7 +433,7 @@ object Recorder {
 
         case m@NewRecord4Ts(recorder4ts) =>
           log.info(s"got msg: $m")
-          draw(canvas, graph, lastTime, clientFrame, recorder4ts, convert1, convert2,convert, layout, bgImg, roomId, canvasSize)
+          draw(canvas, graph, lastTime, hostFrame, clientFrame, recorder4ts, convert1, convert2,convert, layout, bgImg, roomId, canvasSize)
 
         case Close =>
           log.info(s"drawer stopped")
@@ -441,7 +442,7 @@ object Recorder {
 
         case t: SetLayout =>
           log.info(s"got msg: $t")
-          draw(canvas, graph, lastTime, clientFrame, recorder4ts, convert1, convert2,convert, t.layout, bgImg, roomId, canvasSize)
+          draw(canvas, graph, lastTime, hostFrame, clientFrame, recorder4ts, convert1, convert2,convert, t.layout, bgImg, roomId, canvasSize)
       }
     }
   }
@@ -497,8 +498,9 @@ object Recorder {
                   fil.pushSamples(0, sampleFrame.audioChannels, sampleFrame.sampleRate, fil.getSampleFormat, sampleFrame.samples: _*)
                   clientFrame.frame.toList.filter(_._2._2.nonEmpty).sortBy(_._2._1).foreach { f =>
                     val frameNew = f._2._2.dequeue
+                    val newFrame = frameNew._1.clone()
                     clientFrame.frame.update(f._1, (f._2._1, frameNew._2))
-                    fil.pushSamples(f._2._1, frameNew._1.audioChannels, frameNew._1.sampleRate, fil.getSampleFormat, frameNew._1.samples: _*)
+                    fil.pushSamples(f._2._1, newFrame.audioChannels, newFrame.sampleRate, fil.getSampleFormat, newFrame.samples: _*)
                   }
                   val f = fil.pullSamples()
                   if (f != null) {
