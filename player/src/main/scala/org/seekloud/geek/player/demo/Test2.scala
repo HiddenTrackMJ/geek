@@ -48,7 +48,7 @@ class Test2 extends javafx.application.Application{
     //39.105.16.162
     startBtn.setOnAction(_ =>
 
-      mediaActor.start(playId,videoPlayer,Left("rtmp://10.1.29.247:1935/live/1197_15822856122042"),Some(gc),None)) // 开始输出
+      mediaActor.start(playId,videoPlayer,Left("rtmp://10.1.29.247:1935/live/10008"),Some(gc),None)) // 开始输出
 
     val pauseBtn = new Button("pause")
     pauseBtn.setOnAction(_ => mediaActor.pause(playId))  // 暂停输出

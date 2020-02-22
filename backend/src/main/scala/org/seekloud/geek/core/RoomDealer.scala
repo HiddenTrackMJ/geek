@@ -189,7 +189,7 @@ object RoomDealer {
 
         case msg: StopLive =>
           log.info(s"RoomDealer-${wholeRoomInfo.roomId} is stopping...")
-          grabManager ! GrabberManager.StopLive(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo)
+          grabManager ! GrabberManager.StopLive(wholeRoomInfo.roomId)
           dispatch(subscribe)( WsProtocol.StopLiveRsp(wholeRoomInfo.roomId))
           ctx.self ! RoomProtocol.HostCloseRoom(wholeRoomInfo.roomId)
           idle( roomDetailInfo.copy(rtmpInfo = msg.rtmpInfo), wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)

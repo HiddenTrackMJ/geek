@@ -21,6 +21,7 @@ import scala.collection.mutable
 import scala.util.{Failure, Success}
 import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 
 
@@ -80,6 +81,8 @@ object RoomManager {
   private val initTime = 5.minutes
 
   case object Test extends Command
+
+  case object Test2 extends Command
 
   case class RoomDetailInfo(
     roomUserInfo: RoomUserInfo,
@@ -150,9 +153,15 @@ object RoomManager {
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
         case Test =>
-          val roomDetailInfo = RoomDetailInfo(RoomUserInfo(1000001, "a", "b"), RtmpInfo("a", "1000",List("1000_1", "1000_3")), "", Map.empty, null)
-          val roomActor = getRoomDealer(1000, roomDetailInfo, ctx)
-          Boot.grabManager ! GrabberManager.StartLive(1000, 100000L, RtmpInfo("a", "1000",List("1000_1", "1000_1_2", "1000_1_3", "1000_1_4", "1000_1_5")), "1000_1", roomActor)
+          val roomDetailInfo = RoomDetailInfo(RoomUserInfo(1000001, "a", "b"), RtmpInfo("a", "10008",List("1000_1", "1000_3")), "", Map.empty, null)
+          val roomActor = getRoomDealer(10008, roomDetailInfo, ctx)
+//          Boot.grabManager ! GrabberManager.StartLive(10008, 100000L, RtmpInfo("a", "10008",List("1000_1", "1000_1_2", "1000_1_3", "1000_1_4", "1000_1_5")), "1000_1", roomActor)
+          Boot.grabManager ! GrabberManager.StartLive(10008, 100000L, RtmpInfo("a", "10008",List("1.mp4_1", "2.mp4_2", "3.mp4_3")), "1.mp4_1_1", roomActor)
+          timer.startSingleTimer("", Test2, 1 minute)
+          Behaviors.same
+
+        case Test2 =>
+          Boot.grabManager ! GrabberManager.StopLive(10008)
           Behaviors.same
 
         case CreateRoom(req, rsp) =>

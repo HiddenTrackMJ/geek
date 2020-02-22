@@ -139,7 +139,7 @@ object Recorder {
           }
           val canvas = new BufferedImage(640, 480, BufferedImage.TYPE_3BYTE_BGR)
           val drawer = ctx.spawn(draw(canvas, canvas.getGraphics, Ts4LastImage(), Queue.empty, Image(), recorder4ts,
-            new Java2DFrameConverter(), new Java2DFrameConverter(),new Java2DFrameConverter, layout, "defaultImg.jpg", roomId, (640, 480)), s"drawer_$roomId")
+            new Java2DFrameConverter(), new Java2DFrameConverter(),new Java2DFrameConverter,mutable.HashMap.empty, layout, "defaultImg.jpg", roomId, (640, 480)), s"drawer_$roomId")
 
           val sampleRecorder = ctx.spawn(sampleRecord(roomId, Ts4LastSample(), Audio(), recorder4ts,mutable.HashMap.empty, None), s"sampleRecorder_$roomId")
           ctx.self ! Init
@@ -288,9 +288,8 @@ object Recorder {
 
         case StopRecorder(msg) =>
           log.info(s"recorder-$roomId stop because $msg")
-          drawer ! Close
           sampleRecorder ! CloseSample
-          filterInUse.foreach(_.close())
+          drawer ! Close
           timer.startSingleTimer(TimerKey4Close, CloseRecorder, 5.seconds)
           Behaviors.same
 
@@ -309,6 +308,7 @@ object Recorder {
     clientFrame: Image,
     recorder4ts: FFmpegFrameRecorder,
     convert1: Java2DFrameConverter, convert2: Java2DFrameConverter, convert:Java2DFrameConverter,
+    converter4Others: mutable.HashMap[String, Java2DFrameConverter],
     layout: Int = 0,
     bgImg: String,
     roomId: Long,
@@ -319,14 +319,22 @@ object Recorder {
 //          log.info(s"add host")
           val time = t.frame.timestamp
           val img = convert1.convert(t.frame)
-          val clientImg = if(clientFrame.frame.nonEmpty) clientFrame.frame.toList.sortBy(_._1.split("_").last.toInt).map{
-            i =>
+          val clientImg = if(clientFrame.frame.nonEmpty) clientFrame.frame.toList.sortBy(_._1.split("_").last.toInt).zipWithIndex.map{
+            j =>
+              val i = j._1
               if (i._2.nonEmpty) {
                 val frameNew = i._2.dequeue
-                val newFrame = frameNew._1.clone()
+//                val newFrame = frameNew._1.clone()
                 clientFrame.frame.update(i._1, frameNew._2)
-                lastTime.frame.put(i._1, newFrame)
-                convert2.convert(newFrame)
+                lastTime.frame.put(i._1, frameNew._1)
+                if (converter4Others.contains(i._1)){
+                  converter4Others(i._1).convert(frameNew._1)
+                }
+                else {
+                  val newConvert = new Java2DFrameConverter
+                  converter4Others.put(i._1, newConvert)
+                  newConvert.convert(frameNew._1)
+                }
               }
               else {
                 convert2.convert(lastTime.frame.getOrElse(i._1, t.frame))
@@ -433,7 +441,7 @@ object Recorder {
 
         case m@NewRecord4Ts(recorder4ts) =>
           log.info(s"got msg: $m")
-          draw(canvas, graph, lastTime, hostFrame, clientFrame, recorder4ts, convert1, convert2,convert, layout, bgImg, roomId, canvasSize)
+          draw(canvas, graph, lastTime, hostFrame, clientFrame, recorder4ts, convert1, convert2,convert, converter4Others, layout, bgImg, roomId, canvasSize)
 
         case Close =>
           log.info(s"drawer stopped")
@@ -442,7 +450,7 @@ object Recorder {
 
         case t: SetLayout =>
           log.info(s"got msg: $t")
-          draw(canvas, graph, lastTime, hostFrame, clientFrame, recorder4ts, convert1, convert2,convert, t.layout, bgImg, roomId, canvasSize)
+          draw(canvas, graph, lastTime, hostFrame, clientFrame, recorder4ts, convert1, convert2,convert, converter4Others, t.layout, bgImg, roomId, canvasSize)
       }
     }
   }
@@ -548,7 +556,8 @@ object Recorder {
 
         case CloseSample =>
           log.info(s"sample recorder stopped")
-          recorder4ts.releaseUnsafe()
+          filterInUse.foreach(_.close())
+//          recorder4ts.releaseUnsafe()
           Behaviors.stopped
 
       }

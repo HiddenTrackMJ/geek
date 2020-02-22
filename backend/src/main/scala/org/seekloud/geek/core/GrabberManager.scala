@@ -41,7 +41,7 @@ object GrabberManager {
 
   final case class StartLive4Client(roomId: Long, rtmpInfo: RtmpInfo, selfCode: String, roomDealer: ActorRef[RoomDealer.Command]) extends Command
 
-  final case class StopLive(roomId: Long, rtmpInfo: RtmpInfo) extends Command
+  final case class StopLive(roomId: Long) extends Command
 
   final case class StopLive4Client(roomId: Long, userId: Long, selfCode: String) extends Command
 
