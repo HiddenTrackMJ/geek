@@ -1,13 +1,14 @@
 package org.seekloud.geek.models.dao
-import org.seekloud.geek.utils.DBUtil.db
-import org.seekloud.geek.models.SlickTables._
-import slick.jdbc.PostgresProfile.api._
 import org.seekloud.geek.Boot.executor
 import org.seekloud.geek.models.SlickTables
+import org.seekloud.geek.models.SlickTables._
+import org.seekloud.geek.utils.DBUtil.db
 import org.slf4j.LoggerFactory
+import slick.jdbc.PostgresProfile.api._
 
+import scala.concurrent.Future
+import scala.language.postfixOps
 import scala.util.Failure
-import scala.concurrent.{Await, Future}
 /**
  * User: hewro
  * Date: 2020/2/2
@@ -23,6 +24,20 @@ object UserDao {
         ex.printStackTrace()
         log.error(s"登录查询数据库失败")
     }
+  }
+
+  //先查询，查询不存在，直接创建一个
+  def sigIn4Client(name:String,password:String) = {
+
+    val q = for{
+      i<- tUser.filter(_.name===name).filter(_.password === password).result.headOption
+      m <- if(i nonEmpty){//查询到信息直接返回
+        DBIO.successful(i.get.id)
+      }else{//注册成功
+        tUser.returning(tUser.map(_.id)) += rUser(-1L,name,password)
+      }
+    }yield (i,m)
+    db.run(q)
 
   }
 
