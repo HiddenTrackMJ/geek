@@ -299,7 +299,7 @@ object Recorder {
       }
     }
 
-  //  var last = System.currentTimeMillis()
+    var last = System.currentTimeMillis()
   def draw(
     canvas: BufferedImage,
     graph: Graphics,
@@ -351,10 +351,10 @@ object Recorder {
               clientImg.zipWithIndex.foreach{ i =>
                 val index = i._2
                 index match {
-                  case 0 => graph.drawImage(i._1, 0, 0, canvasSize._1 / 4, canvasSize._2 / 4, null)
-                  case 1 => graph.drawImage(i._1, 0, canvasSize._2 / 4 * 3, canvasSize._1 / 4, canvasSize._2 / 4, null)
-                  case 2 => graph.drawImage(i._1, canvasSize._1 / 4 * 3, 0, canvasSize._1 / 4, canvasSize._2 / 4, null)
-                  case 3 => graph.drawImage(i._1, canvasSize._1 / 4 * 3, canvasSize._2 / 4 * 3, canvasSize._1 / 4, canvasSize._2 / 4, null)
+                  case 0 => graph.drawImage(i._1, 0, 0, canvasSize._1 / 3, canvasSize._2 / 3, null)
+                  case 1 => graph.drawImage(i._1, 0, canvasSize._2 / 3 * 2, canvasSize._1 / 3, canvasSize._2 / 3, null)
+                  case 2 => graph.drawImage(i._1, canvasSize._1 / 3 * 2, 0, canvasSize._1 / 3, canvasSize._2 / 3, null)
+                  case 3 => graph.drawImage(i._1, canvasSize._1 / 3 * 2, canvasSize._2 / 3 * 2, canvasSize._1 / 3, canvasSize._2 / 3, null)
                   case _ =>
                 }
               }

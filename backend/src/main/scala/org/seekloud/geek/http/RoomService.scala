@@ -248,13 +248,12 @@ trait RoomService extends BaseService with ServiceUtils {
       dealFutureResult {
         VideoDao.getInviteeVideo(userId.toLong,file).map { list =>
           if (list.toList.nonEmpty) {
-//            val f = new File(s"${AppSettings.videoPath}${list.toList.head.filename}").getAbsoluteFile
-                              val f = new File(s"J:\\暂存\\videos\\录制_2020_02_15_18_54_27_35.mp4").getAbsoluteFile
+            val f = new File(s"${AppSettings.videoPath}${list.toList.head.filename}").getAbsoluteFile
+//                              val f = new File(s"J:\\暂存\\videos\\录制_2020_02_15_18_54_27_35.mp4").getAbsoluteFile
             getFromFile(f,ContentTypes.`application/octet-stream`)
 //            complete(SuccessRsp())
           }
           else {
-
             complete(ErrorRsp(10001, "没有该录像"))
           }
         }

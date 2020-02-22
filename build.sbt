@@ -2,7 +2,7 @@ val scalaV = "2.12.10"
 
 
 val projectName = "org.seekloud.geek"
-val projectVersion = "2020.02.13a"
+val projectVersion = "2020.02.21a"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 resolvers += "jitpack" at "https://jitpack.io"
@@ -154,7 +154,7 @@ lazy val backend = (project in file("backend")).enablePlugins(PackPlugin)
     //packSettings,
     // [Optional] Creating `hello` command that calls org.mydomain.Hello#main(Array[String])
     packMain := Map("org.seekloud.geek" -> projectMainClass),
-    packJvmOpts := Map("org.seekloud.geek" -> Seq("-Xmx1024m", "-Xms512m")),
+    packJvmOpts := Map("org.seekloud.geek" -> Seq("-Xmx4096m", "-Xms1024m")),
     packExtraClasspath := Map("org.seekloud.geek" -> Seq("."))
   )
   .settings(

@@ -295,7 +295,7 @@ object RoomDealer {
 //            DistributorClient.finishPull(liveInfoMap(Role.host)(wholeRoomInfo.userId).liveId) //Todo  start stop
 //            roomManager ! RoomManager.DelaySeekRecord(wholeRoomInfo, totalView, roomId, startTime, liveInfoMap(Role.host)(wholeRoomInfo.userId).liveId)
           }
-          dispatchTo(subscribe)(subscribe.filter(r => r._1 != (wholeRoomInfo.userId, false)).keys.toList, HostCloseRoom())
+          dispatchTo(subscribe)(subscribe.filter(r => r._1 != wholeRoomInfo.userId).keys.toList, HostCloseRoom())
           Behaviors.stopped
 
 //        case RoomProtocol.StartLiveAgain(roomId) =>
