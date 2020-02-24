@@ -169,6 +169,7 @@ object RoomDealer {
       timer: TimerScheduler[Command],
       sendBuffer: MiddleBufferInJvm
     ): Behavior[Command] = {
+
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
         case GetRoomInfo(replyTo) =>
@@ -237,7 +238,7 @@ object RoomDealer {
           var viewNum = totalView
           //虽然房间存在，但其实主播已经关闭房间，这时的startTime=-1
           //向所有人发送主播已经关闭房间的消息
-          log.info(s"-----RoomDealer get UpdateSubscriber id: $roomId")
+          log.info(s"-----RoomDealer get UpdateSubscriber room id: $roomId, user id: $userId")
           if (false) {
             dispatchTo(subscribe)(List(userId), NoAuthor)
           }
@@ -395,6 +396,17 @@ object RoomDealer {
       sendBuffer: MiddleBufferInJvm
     ): Behavior[Command] = {
     msg match {
+
+      case msg: WsProtocol.Comment =>
+        UserDao.searchById(msg.userId).onComplete{
+          case Success(u) =>
+            if (u.isDefined) dispatchTo(subscribers.keys.toList.filter(_ != msg.userId), WsProtocol.RcvComment(msg.userId, u.get.name, msg.comment, msg.color, msg.extension))
+            else dispatchTo(subscribers.keys.toList.filter(_ == msg.userId), WsProtocol.CommentError("Your info doesn't exsit."))
+
+          case Failure(e) =>
+            dispatchTo(subscribers.keys.toList.filter(_ == msg.userId), WsProtocol.CommentError("Your info doesn't exsit."))
+        }
+        Behaviors.same
 
       case ChangeLiveMode(isConnectOpen, aiMode, screenLayout) =>
         val connect = isConnectOpen match {

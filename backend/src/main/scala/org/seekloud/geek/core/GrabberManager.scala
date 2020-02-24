@@ -164,7 +164,7 @@ object GrabberManager {
     liveId: String,
     recorderRef: ActorRef[Recorder.Command]
   ): ActorRef[Grabber.Command] = {
-    val childName = s"grabber_-${liveId.split("/").last}"
+    val childName = s"grabber-$roomId-${liveId.split("/").last}"
     ctx.child(childName).getOrElse{
       val actor = ctx.spawn(Grabber.create(roomId, liveId, recorderRef), childName)
 //      ctx.watchWith(actor,ChildDead4Grabber(roomId, childName, actor))

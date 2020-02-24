@@ -34,6 +34,8 @@ import scala.concurrent.duration._
 object RoomManager {
   private val log = LoggerFactory.getLogger(this.getClass)
 
+  private val peopleNum = 5
+
   trait Command
 
   final case class CreateRoom(req: CreateRoomReq, rsp: ActorRef[CreateRoomRsp]) extends Command
@@ -159,7 +161,6 @@ object RoomManager {
           val rRoom = SlickTables.rRoom(0L, req.info.roomName, Some(req.info.des), "", "", AppSettings.rtmpServer, req.userId)
           RoomDao.addRoom(rRoom).onComplete{
             case Success(roomId) =>
-              val peopleNum = 4
               var streams = List[String]()
               (1 to peopleNum).foreach { i =>
                 val streamName = s"${roomId}_$i"
@@ -199,15 +200,33 @@ object RoomManager {
 
         case r@RoomProtocol.StartRoom4Anchor(userId, roomId, actor) =>
           if (rooms.get(roomId).isDefined) {
-            log.info(s"room-$roomId is starting live...")
-            assert(rooms.contains(roomId))
-            val roomOldInfo = rooms(roomId)
-            val stream = roomId + "_" + System.currentTimeMillis()
-            val rtmpInfoNew = roomOldInfo.rtmpInfo.copy(stream = stream)
-            val roomDealer = getRoomDealer(roomId, roomOldInfo, ctx)
-            val roomInfoNew = RoomDetailInfo(roomOldInfo.roomUserInfo, rtmpInfoNew, roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomDealer)
-            rooms.put(roomId, roomInfoNew)
-            roomDealer ! RoomDealer.StartLive(roomInfoNew, roomOldInfo.hostCode, roomOldInfo.roomUserInfo.userId, actor)
+            log.info(s"room-$roomId is starting live...233")
+            if (rooms(roomId).roomDealer != null) {
+              assert(rooms.contains(roomId))
+              val roomOldInfo = rooms(roomId)
+              val stream = roomId + "_" + System.currentTimeMillis()
+              val rtmpInfoNew = roomOldInfo.rtmpInfo.copy(stream = stream)
+              val roomDealer = getRoomDealer(roomId, roomOldInfo, ctx)
+              val roomInfoNew = RoomDetailInfo(roomOldInfo.roomUserInfo, rtmpInfoNew, roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, roomDealer)
+              rooms.put(roomId, roomInfoNew)
+              roomDealer ! RoomDealer.StartLive(roomInfoNew, roomOldInfo.hostCode, roomOldInfo.roomUserInfo.userId, actor)
+            }
+            else {
+              val roomOldInfo = rooms(roomId)
+              val index = roomOldInfo.rtmpInfo.liveCode.maxBy(_.split("_").last.toInt).split("_").last.toInt
+              var streams = List[String]()
+              (index until index + peopleNum).foreach { i =>
+                val streamName = s"${roomId}_$i"
+                streams = streamName :: streams
+              }
+              log.info(s"room-$roomId is back to live...")
+              val stream = roomId + "_" + System.currentTimeMillis()
+              val rtmpInfoNew = roomOldInfo.rtmpInfo.copy(stream = stream, liveCode = streams.reverse)
+              val roomDealer = getRoomDealer(roomId, roomOldInfo, ctx)
+              val roomInfoNew = RoomDetailInfo(roomOldInfo.roomUserInfo, rtmpInfoNew, streams.reverse.head, roomOldInfo.userLiveCodeMap, roomDealer)
+              rooms.put(roomId, roomInfoNew)
+              roomDealer ! RoomDealer.StartLive(roomInfoNew, streams.reverse.head, roomOldInfo.roomUserInfo.userId, actor)
+            }
           }
           else log.debug(s"${ctx.self.path}请求错误，该房间还不存在，房间id=$roomId，用户id=$userId")
           Behaviors.same
@@ -240,10 +259,10 @@ object RoomManager {
 
                 case msg: WsProtocol.StopLiveReq =>
                   log.info(s"stop live in room: ${msg.roomId}")
-                  if ((rooms.contains(msg.roomId))) {
+                  if (rooms.contains(msg.roomId)) {
                     val liveCodes = rooms(msg.roomId).rtmpInfo.liveCode
                     val roomOldInfo = rooms(msg.roomId)
-                    val roomInfoNew = RoomDetailInfo(roomOldInfo.roomUserInfo, RtmpInfo(AppSettings.rtmpServer, "", Nil), roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, null)
+                    val roomInfoNew = RoomDetailInfo(roomOldInfo.roomUserInfo, RtmpInfo(AppSettings.rtmpServer, "", roomOldInfo.rtmpInfo.liveCode), roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, null)
                     getRoomDealerOpt(roomId, ctx) match{
                       case Some(actor) =>actor !  RoomDealer.StopLive(roomInfoNew, RtmpInfo(AppSettings.rtmpServer, "", liveCodes))
                       case None => log.debug(s"${ctx.self.path} StopLiveReq，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
@@ -333,7 +352,22 @@ object RoomManager {
         case r@RoomProtocol.HostCloseRoom(roomId)=>
           //如果断开websocket的用户的id能够和已经开的房间里面的信息匹配上，就说明是主播
           getRoomDealerOpt(roomId, ctx) match{
-            case Some(roomActor) => roomActor ! r
+            case Some(roomActor) =>
+              if (rooms.contains(roomId)) {
+                val liveCodes = rooms(roomId).rtmpInfo.liveCode
+                val roomOldInfo = rooms(roomId)
+                val roomInfoNew = RoomDetailInfo(roomOldInfo.roomUserInfo, RtmpInfo(AppSettings.rtmpServer, "", Nil), roomOldInfo.hostCode, roomOldInfo.userLiveCodeMap, null)
+                getRoomDealerOpt(roomId, ctx) match{
+                  case Some(actor) =>
+                    roomActor ! r
+
+                  case None => log.debug(s"${ctx.self.path} HostCloseRoom，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId")
+
+                }
+                rooms.put(roomId, roomInfoNew)
+              }
+
+
             case None =>log.debug(s"${ctx.self.path}关闭房间失败，房间不存在，id=$roomId")
           }
           Behaviors.same

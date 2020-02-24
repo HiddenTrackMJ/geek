@@ -355,6 +355,10 @@ object WsProtocol  {
     extension: Option[String] = None
   ) extends WsMsgRm
 
+  case class CommentError(
+    msg: String
+  ) extends WsMsgRm
+
   case class UpdateRoomInfo2Client(
     roomName: String,
     roomDec: String

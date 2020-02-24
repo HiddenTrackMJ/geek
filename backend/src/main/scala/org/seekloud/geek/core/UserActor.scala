@@ -149,7 +149,7 @@ object UserActor {
                     req match {
                       case StartLiveReq(`roomId`) =>
 //                        roomManager ! RoomProtocol.StartLiveAgain(roomId)
-                        roomManager ! RoomProtocol.WebSocketMsgWithActor(userId, roomId, req)
+                        roomManager ! RoomProtocol.StartRoom4Anchor(userId, roomId, ctx.self)
                         ctx.self ! SwitchBehavior("anchor",anchor(userId,clientActor,roomId))
 
                       case x =>
