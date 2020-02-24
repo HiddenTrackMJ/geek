@@ -1,31 +1,20 @@
 package org.seekloud.geek.http
 
-import akka.http.scaladsl.server.Directives.pathPrefix
-import akka.http.scaladsl.server.Route
-
-import scala.language.postfixOps
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.Route
-import org.seekloud.geek.Boot.{executor, roomManager, scheduler, userManager}
 import akka.actor.typed.scaladsl.AskPattern._
-import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.ws.Message
-import org.seekloud.geek.models.dao.{UserDao, VideoDao}
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{Comment, GetCommentReq, GetCommentRsp, GetUserReq, GetUserRsp, SignIn, SignInRsp, SignUp, SignUpRsp, UpdateAvatarReq, UpdateUserReq, UserInfoDetail}
-import org.seekloud.geek.utils.SecureUtil
-import org.seekloud.geek.shared.ptcl.CommonErrorCode._
-import org.slf4j.LoggerFactory
-import akka.actor.Scheduler
-import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Directives.{pathPrefix, _}
 import akka.http.scaladsl.server.Route
-import akka.util.Timeout
-import akka.actor.typed.scaladsl.AskPattern._
 import akka.stream.scaladsl.Flow
-import org.seekloud.geek.core.UserManager.{MSignIn, MSignUp, SetupWs}
+import org.seekloud.geek.Boot.userManager
+import org.seekloud.geek.core.UserManager.{MSignIn, MSignIn4Client, MSignUp, SetupWs}
+import org.seekloud.geek.models.dao.UserDao
+import org.seekloud.geek.shared.ptcl.CommonErrorCode._
+import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.seekloud.geek.shared.ptcl.{ErrorRsp, SuccessRsp}
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.Future
+import scala.language.postfixOps
 /**
  * User: hewro
  * Date: 2020/2/2
@@ -34,8 +23,8 @@ import scala.concurrent.Future
  */
 trait UserService extends BaseService {
 
-  import io.circe.generic.auto._
   import io.circe.Error
+  import io.circe.generic.auto._
 
 
   private val log = LoggerFactory.getLogger(this.getClass)
@@ -57,6 +46,26 @@ trait UserService extends BaseService {
         complete(jsonFormatError)
     }
   }
+
+  //登录注册于一体
+  private def signIn4Client = (path("signIn4Client") & post){
+    entity(as[Either[Error, SignIn]]) {
+      case Right(user) =>
+        dealFutureResult{
+          println("signIn4Client")
+          val rst:Future[SignInRsp] = userManager ? (MSignIn4Client(user,_))
+          rst.map{
+            rsp=>
+              complete(rsp)
+          }
+        }
+
+      case Left(e) =>
+        log.debug(s"signIn parse json failed,error:${e.getMessage}")
+        complete(jsonFormatError)
+    }
+  }
+
 
   private def signUp = (path("signUp") & post){
     entity(as[Either[Error, SignUp]]) {
@@ -151,7 +160,7 @@ trait UserService extends BaseService {
 
 
   val userRoutes: Route = pathPrefix("user") {
-    signIn ~ signUp ~ setupWebSocket ~ getUserDetail ~ updateUserDetail ~ updateAvatar
+    signIn ~ signUp ~ setupWebSocket ~ getUserDetail ~ updateUserDetail ~ updateAvatar ~ signIn4Client
   }
 
 

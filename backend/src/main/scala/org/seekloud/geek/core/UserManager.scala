@@ -2,18 +2,16 @@ package org.seekloud.geek.core
 
 import akka.actor.Scheduler
 import akka.actor.typed.scaladsl.AskPattern._
-import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
+import akka.actor.typed.{ActorRef, Behavior}
 import akka.http.scaladsl.model.ws.{BinaryMessage, Message, TextMessage}
-import akka.http.scaladsl.server.Directives.complete
-import akka.stream.{ActorAttributes, Supervision}
 import akka.stream.scaladsl.Flow
+import akka.stream.{ActorAttributes, Supervision}
 import akka.util.{ByteString, Timeout}
 import org.seekloud.geek.Boot
+import org.seekloud.geek.Boot.{executor, scheduler, timeout}
 import org.seekloud.geek.models.dao.UserDao
-import org.seekloud.geek.Boot.{executor, roomManager, scheduler, timeout}
-import org.seekloud.geek.core.RoomManager.{Command, idle}
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{SignIn, SignInRsp, SignUp, SignUpRsp, UserInfo}
+import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.seekloud.geek.shared.ptcl.WsProtocol.{Wrap, WsMsgClient}
 import org.slf4j.LoggerFactory
 
@@ -35,6 +33,7 @@ object UserManager {
   private val log = LoggerFactory.getLogger(this.getClass)
 
   final case class MSignIn(user:SignIn,replyTo:ActorRef[SignInRsp]) extends Command//登录
+  final case class MSignIn4Client(user:SignIn,replyTo:ActorRef[SignInRsp]) extends Command//登录
 
   final case class MSignUp(user:SignUp, replyTo:ActorRef[SignUpRsp]) extends Command//注册
 
@@ -89,6 +88,20 @@ object UserManager {
                 }
             }
             Behaviors.same
+
+          case MSignIn4Client(user, replyTo) =>
+            UserDao.sigIn4Client(user.userName,user.password).map{
+              rsp=>
+                if (rsp._1 nonEmpty){//直接登录成功没有注册
+                  replyTo ! SignInRsp(Some(UserInfo(rsp._1.get.id,rsp._1.get.name,"")),None,0,"恭喜你登录成功")
+                }else{//注册成功的
+                  replyTo ! SignInRsp(Some(UserInfo(rsp._2,user.userName,"")),None,0,"恭喜你注册成功")
+                }
+
+            }
+            Behaviors.same
+
+
 
           case MSignUp(user, replyTo)=>
             UserDao.signUp(user.userName,user.password).map{

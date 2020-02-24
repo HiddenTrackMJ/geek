@@ -38,6 +38,8 @@ class GeekLoginController(
     loading = Loading(rootPane).build()
 
     initToolbar()
+    //这个地方是为了修复第一次点击按钮登录界面会卡一下的问题..
+    RMClient.signIn("","")
   }
 
 
@@ -47,12 +49,16 @@ class GeekLoginController(
   }
 
   def loginBySelf() = {
+//    SnackBar.show(rootPane,"信息不完整，粗心！")
+//    loading.showLoading()
+
     if (checkInfo){//信息不完整
       //弹框
       SnackBar.show(rootPane,"信息不完整，粗心！")
 
     }else{//
       loading.showLoading()
+
       val r = RMClient.signIn(username.getText, password.getText) //用户名登录
       r.map {
         case Right(rsp) =>

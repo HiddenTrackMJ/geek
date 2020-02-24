@@ -14,7 +14,7 @@
 <children>
       <AnchorPane fx:id="rootPane" prefHeight="367.0" prefWidth="616.0">
          <children>
-            <AnchorPane opacity="0.3" prefHeight="383.0" prefWidth="626.0" style="-fx-background-color: #ffffff;" />
+            <AnchorPane opacity="0.46" prefHeight="383.0" prefWidth="626.0" style="-fx-background-color: #ffffff;" />
             <VBox prefHeight="383.0" prefWidth="626.0">
                <children>
                   <AnchorPane prefHeight="365.0" prefWidth="610.0">
