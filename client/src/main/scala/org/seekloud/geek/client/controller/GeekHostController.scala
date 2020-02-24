@@ -290,6 +290,9 @@ class GeekHostController(
       case msg: RcvComment =>
         addComment(CommentInfo(msg.userId, msg.userName, RmManager.userInfo.get.headImgUrl, msg.comment, System.currentTimeMillis()))
 
+      case msg: GetRoomInfoRsp =>
+        println(msg)
+
       case msg: StartLiveRsp =>
         //房主收到的消息
         log.debug(s"get StartLiveRsp: $msg")

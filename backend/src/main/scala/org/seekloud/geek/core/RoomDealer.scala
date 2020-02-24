@@ -9,7 +9,7 @@ import org.seekloud.byteobject.MiddleBufferInJvm
 import org.seekloud.geek.models.dao.{UserDao, VideoDao}
 import org.seekloud.geek.protocol.RoomProtocol
 import org.seekloud.geek.shared.ptcl.CommonInfo.LiveInfo
-import org.seekloud.geek.shared.ptcl.CommonProtocol.RoomInfo
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{RoomInfo, UserInfo}
 import org.seekloud.geek.shared.ptcl.WsProtocol._
 import org.seekloud.geek.Boot.{executor, grabManager, roomManager, scheduler, timeout}
 import org.seekloud.geek.common.{AppSettings, Common}
@@ -116,44 +116,28 @@ object RoomDealer {
       log.debug(s"${ctx.self.path} setup")
       Behaviors.withTimers[Command] { implicit timer =>
         implicit val sendBuffer: MiddleBufferInJvm = new MiddleBufferInJvm(1024)  //8192
-        val subscribers = mutable.HashMap.empty[Long, ActorRef[UserActor.Command]]
-//        init(roomId, subscribers)
+        val users = UserInfo(roomDetailInfo.roomUserInfo.userId, "", "", isHost = Some(true))
         val wholeRoomInfo = RoomInfo(roomId, roomDetailInfo.roomUserInfo.roomName, roomDetailInfo.roomUserInfo.des, roomDetailInfo.roomUserInfo.userId, "", "", "", 0)
-        idle(roomDetailInfo, wholeRoomInfo, mutable.HashMap.empty, mutable.HashMap.empty, mutable.Set.empty, -1, 0, isJoinOpen = true)
+        UserDao.searchById(roomDetailInfo.roomUserInfo.userId).onComplete {
+          case Success(u) =>
+            u match {
+              case Some(user) =>
+                ctx.self ! SwitchBehavior("idle", idle(roomDetailInfo, wholeRoomInfo.copy(userName = user.name, headImgUrl = user.avatar.getOrElse(""), userList = List(users.copy(userName = user.name, headImgUrl = user.avatar.getOrElse("")))), mutable.HashMap.empty, mutable.HashMap.empty, mutable.Set.empty, -1, 0, isJoinOpen = true))
 
+              case _ =>
+                ctx.self ! SwitchBehavior("idle", idle(roomDetailInfo, wholeRoomInfo.copy(userList = List(users)), mutable.HashMap.empty, mutable.HashMap.empty, mutable.Set.empty, -1, 0, isJoinOpen = true))
+            }
+
+          case Failure(e) =>
+            ctx.self ! SwitchBehavior("idle", idle(roomDetailInfo, wholeRoomInfo.copy(userList = List(users)), mutable.HashMap.empty, mutable.HashMap.empty, mutable.Set.empty, -1, 0, isJoinOpen = true))
+
+        }
+        busy()
+//        idle(roomDetailInfo, wholeRoomInfo, mutable.HashMap.empty, mutable.HashMap.empty, mutable.Set.empty, -1, 0, isJoinOpen = true)
       }
     }
   }
 
-  private def init(
-    roomId: Long,
-    subscribers: mutable.HashMap[Long, ActorRef[UserActor.Command]],
-    roomInfoOpt: Option[RoomInfo] = None
-  )
-    (
-      implicit stashBuffer: StashBuffer[Command],
-      timer: TimerScheduler[Command],
-      sendBuffer: MiddleBufferInJvm
-    ): Behavior[Command] = {
-    Behaviors.receive[Command] { (ctx, msg) =>
-      msg match {
-
-        case GetRoomInfo(replyTo) =>
-          if (roomInfoOpt.nonEmpty) {
-            replyTo ! roomInfoOpt.get
-          }else {
-            log.debug("房间信息未更新")
-            replyTo ! RoomInfo(-1, "", "", -1L, "", "", "", 0)
-          }
-          Behaviors.same
-
-
-        case x =>
-          log.debug(s"${ctx.self.path} recv an unknown msg:$x in init state...")
-          Behaviors.same
-      }
-    }
-  }
 
   private def idle(
     roomDetailInfo: RoomDetailInfo,
@@ -192,8 +176,8 @@ object RoomDealer {
           log.info(s"RoomDealer-${wholeRoomInfo.roomId} is stopping...")
           grabManager ! GrabberManager.StopLive(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo)
           dispatch(subscribe)( WsProtocol.StopLiveRsp(wholeRoomInfo.roomId))
-          idle( roomDetailInfo.copy(rtmpInfo = msg.rtmpInfo), wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
-
+//          idle( roomDetailInfo.copy(rtmpInfo = msg.rtmpInfo), wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
+          Behaviors.stopped
 
         case msg: StopLive4Client =>
           log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.userId} is stopping...${subscribe}")
@@ -204,7 +188,7 @@ object RoomDealer {
         case msg: Shield =>
           log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.req.userId} recv shield rsp...")
           grabManager ! GrabberManager.Shield(msg.req, msg.liveCode)
-          dispatch(subscribe)( WsProtocol.ShieldRsp())
+          dispatch(subscribe)( WsProtocol.ShieldRsp(msg.req.isForced))
           Behaviors.same
 
         case msg: StoreVideo =>
@@ -247,11 +231,34 @@ object RoomDealer {
               // todo observe event
               viewNum += 1
               log.debug(s"${ctx.self.path}新用户加入房间roomId=$roomId,userId=$userId")
-              subscribe.put((userId), userActorOpt.get)
+              subscribe.put(userId, userActorOpt.get)
+              if (userId != wholeRoomInfo.userId)
+                UserDao.searchById(userId).onComplete {
+                  case Success(u) =>
+                    u match {
+                      case Some(user) =>
+                        val newUser = UserInfo(user.id, user.name, user.avatar.getOrElse(""), isHost = Some(false))
+                        val newInfo = wholeRoomInfo.copy(userList = wholeRoomInfo.userList :+ newUser)
+                        dispatch(subscribe)(WsProtocol.GetRoomInfoRsp(newInfo))
+
+                      case _ =>
+                        dispatch(subscribe)(WsProtocol.GetRoomInfoRsp(wholeRoomInfo))
+                    }
+
+                  case Failure(e) =>
+                    dispatch(subscribe)(WsProtocol.GetRoomInfoRsp(wholeRoomInfo))
+                }
+              else dispatch(subscribe)(WsProtocol.GetRoomInfoRsp(wholeRoomInfo))
             } else if (join == Common.Subscriber.left) {
               // todo observe event
               log.debug(s"${ctx.self.path}用户离开房间roomId=$roomId,userId=$userId")
               subscribe.remove((userId))
+              if (userId == wholeRoomInfo.userId) {
+                ctx.self ! RoomProtocol.HostCloseRoom(roomId)
+              }
+              else {
+                dispatch(subscribe)(WsProtocol.GetRoomInfoRsp(wholeRoomInfo.copy(userList = wholeRoomInfo.userList.filter(_.userId != userId))))
+              }
               if(liveInfoMap.contains(Role.audience)){
                 if(liveInfoMap(Role.audience).contains(userId)){
                   wholeRoomInfo.rtmp match {
@@ -262,6 +269,7 @@ object RoomDealer {
                         dispatch(subscribe)(WsProtocol.AudienceDisconnect(liveInfoMap(Role.host)(wholeRoomInfo.userId).liveId))
                         dispatch(subscribe)(RcvComment(-1l, "", s"the audience has shut the join in room $roomId"))
                       }
+
                     case None =>
                       log.debug("no host liveId when audience left room")
                   }
