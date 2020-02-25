@@ -26,7 +26,7 @@ object CommonProtocol {
     var isHost:Option[Boolean] = Some(false), //是否是房主，组员和房主的权限不同
     var isMic:Option[Boolean] = Some(true), //当前用户是否开了声音
     var isVideo:Option[Boolean] = Some(true), //当前用户是否开了摄像头
-    var isAllow:Option[Boolean] = Some(true), //当前用户是否是发言人（发言模式下）
+    var isAllow:Option[Boolean] = Some(false), //当前用户是否是发言人（发言模式下）
   )
 
   case class CommentInfo(

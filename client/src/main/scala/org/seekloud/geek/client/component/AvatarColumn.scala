@@ -50,7 +50,6 @@ case class AvatarColumn(
     vBox.setPadding(new Insets(3,0,0,10))
     gridPane.add(vBox, 1, 0)
 
-//    gridPane.setPrefWidth(width)
 
     //用户操作按钮，4个按钮，声音、摄像头、发言模式、房主切换
     //根据声音开启状态显示不同图标
@@ -64,7 +63,7 @@ case class AvatarColumn(
 
     //控制某个用户的视频消息
     val videoIcon = HostOperateIcon("fas-video:16:white","fas-eye-slash:16:white","关闭视频","开启视频",
-      userInfo.isMic.get,userInfo,rootPane,
+      userInfo.isVideo.get,userInfo,rootPane,
       ()=>toggleVideo(),()=>updateFunc(),HostOperateIconType.VIDEO)()
 
 
@@ -72,7 +71,7 @@ case class AvatarColumn(
 
     //控制某个用户的发言情况
     val speakIcon = HostOperateIcon("fas-hand-paper:16:green","fas-hand-paper:16:white","取消指定发言","指定发言",
-      userInfo.isMic.get,userInfo,rootPane,
+      userInfo.isAllow.get,userInfo,rootPane,
       ()=>Unit,()=>updateFunc(),HostOperateIconType.ALLOW)()
 
     gridPane.add(speakIcon, 4, 0)
@@ -80,8 +79,8 @@ case class AvatarColumn(
 
     //根据用户身份显示不同的图标，普通用户 user-o
     val user = HostOperateIcon("fas-user-circle:16:#fab726","fas-user:16:white","指定为主持人","指定为主持人",
-      userInfo.isMic.get,userInfo,rootPane,
-      ()=>Unit,()=>updateFunc(),HostOperateIconType.ALLOW)()
+      userInfo.isHost.get,userInfo,rootPane,
+      ()=>Unit,()=>updateFunc(),HostOperateIconType.HOST)()
 
 
     gridPane.add(user, 5, 0)

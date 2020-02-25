@@ -20,8 +20,8 @@ case class HostOperateIcon(
   yseFlag:Boolean,// true
   userInfo: UserInfo,
   rootPane:Pane,
-  updateUI:()=>Unit, //更新整个用户列表界面
   updateMyUI:() =>Unit, //更新与自己相关的界面，当前仅当点击的userinfo.id和自己的id匹配时候执行
+  updateUI:()=>Unit, //更新整个用户列表界面
   sType:Int
 ){
 
