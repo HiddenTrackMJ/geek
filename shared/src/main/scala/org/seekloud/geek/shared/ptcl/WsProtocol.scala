@@ -118,6 +118,18 @@ object WsProtocol  {
     roomInfo: ModifyRoomInfo
   ) extends WsMsgHost
 
+  case class ChangePossessionReq(
+    roomId: Long,
+    userId: Long
+  ) extends WsMsgHost
+
+  case class ChangePossessionRsp(
+    userId: Long,
+    userName: String
+  ) extends WsMsgRm
+
+  case class ChangeErrorRsp(msg: String) extends WsMsgRm2Host
+
 
   case class StartLiveReq(
     roomId: Long

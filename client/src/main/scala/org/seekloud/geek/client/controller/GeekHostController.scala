@@ -309,6 +309,9 @@ class GeekHostController(
       case msg: GetRoomInfoRsp =>
         println(msg)
 
+      case msg: ChangePossessionRsp =>
+        println(msg)
+
       case msg: StartLiveRsp =>
         //房主收到的消息
         log.debug(s"get StartLiveRsp: $msg")
