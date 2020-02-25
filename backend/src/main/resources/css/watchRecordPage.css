@@ -1,0 +1,288 @@
+.orderPage-Title {
+    height: 56px;
+    background:rgba(255,255,255,1);
+    line-height: 56px;
+    padding-left: 24px;
+    margin-top: 64px;
+}
+.orderPage-highlySearch{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 16px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(49,144,255,1);
+    line-height:20px;
+    width:100%;
+}
+
+.orderPage-rotate-one {
+    color:rgba(49,144,255,1);
+    margin-left: 11px;
+    -webkit-transform: rotate(90deg);  /* to support Safari and Android browser */
+    -ms-transform: rotate(90deg);      /* to support IE 9 */
+    transform: rotate(90deg);
+}
+
+.orderPage-rotate-two {
+    margin-left: 11px;
+    color:rgba(49,144,255,1);
+    -webkit-transform: rotate(-90deg);  /* to support Safari and Android browser */
+    -ms-transform: rotate(-90deg);      /* to support IE 9 */
+    transform: rotate(-90deg);
+}
+.orderPage-Container{
+    /*display: flex;*/
+    width: 93%;
+    height: 100%;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: white;
+}
+.orderPage-searchContainer{
+    display: flex;
+    border-radius:4px;
+    justify-content: flex-start;
+    align-items: center;
+    background: white;
+    margin: 24px auto;
+}
+
+.flexCenter{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.flexCenterRight{
+    display: flex;
+    justify-content:  flex-end;
+    align-items: center;
+}
+
+.orderPage-highlySearchContainer{
+    display: flex;
+    border-radius:4px;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    margin: 16px auto;
+    font-size:14px;
+}
+
+.orderPage-searchButton-one{
+    text-align: center;
+    width:108px;
+    height:32px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(49,144,255,1);
+    color: rgba(49,144,255,1);
+}
+
+.orderPage-searchButton-two{
+    text-align: center;
+    margin-left: 16px;
+    width:108px;
+    height:32px;
+    background:rgba(49,144,255,1);
+    color: white;
+    border-radius:4px;
+    border:1px solid rgba(49,144,255,1);
+}
+
+.orderPage-Search1 {
+    border:1px solid rgba(217,217,217,1);
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    background: url(./img/展开.png) no-repeat 100% scroll ;
+    width:224px;
+    height:32px;
+    border-radius:4px;
+    border:white;
+
+}
+
+.orderPage-Search2 {
+    width:224px;
+    height:32px;
+    border-radius:4px;
+    border:1px solid rgba(217,217,217,1);
+}
+.orderPage-SearchState {
+    width:124px;
+    height:32px;
+    border-radius:4px;
+    border:1px solid rgba(217,217,217,1);
+}
+
+.orderPage .table {
+    /*width:1104px;*/
+    /*height:148px;*/
+    /*border:1px solid rgba(232,232,232,1);*/
+}
+
+
+.orderPage .table-time{
+    width:148px;
+    height:22px;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(0,0,0,0.45);
+    line-height:22px;
+    margin-top: 7px;
+    margin-left: 18px;
+}
+
+.orderPage .table-id{
+    width:220px;
+    height:22px;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(0,0,0,0.45);
+    line-height:22px;
+    margin-top: 7px;
+    margin-left: 19px;
+}
+
+.orderPage .table-first{
+    margin-top: 18px;
+    margin-left: 51px;
+    margin-bottom: 11px;
+    width:300px;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(0,0,0,0.65);
+    line-height:22px;
+    display: flex;
+    /*justify-content: space-between;*/
+}
+
+.orderPage-nowrap-flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space:nowrap;
+}
+
+.orderPage .table-first-txt{
+    margin-left: 16px;
+}
+
+.orderPage .table-first-img{
+    width:160px;
+    height:90px;
+}
+
+.orderPage .table-second{
+    text-align: left;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(0,0,0,0.65);
+    /*margin-left: 60px;*/
+    width:120px;
+}
+
+.orderPage .table-third{
+    white-space:pre-wrap;
+    text-align: left;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(0,0,0,0.65);
+    /*margin-left: 50px;*/
+    width:150px;
+}
+
+
+.orderPage .table-forth{
+    text-align: left;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(0,0,0,0.65);
+    /*margin-left: 50px;*/
+    width:65px;
+}
+.orderPage .table-fifth{
+    text-align: left;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(0,0,0,0.65);
+    /*margin-left: 50px;*/
+    width:80px;
+}
+.orderPage .table-forth-pay{
+    /*width:34px;*/
+    /*height:22px;*/
+    font-size:14px;
+    font-weight:400;
+    color:rgba(208,2,27,1);
+    line-height:22px;
+}
+.orderPage .table-sixth{
+    text-align: left;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(49,144,255,1);
+    line-height:22px;
+    margin-right: 24px;
+    width:65px;
+}
+
+.orderPage .table-sixth-font{
+    cursor:pointer;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(49,144,255,1);
+    width:100%;
+}
+
+ .boom {
+     background:rgba(255,255,255,1);
+     height:122px;
+     margin: 10px 10px 10px 23px;
+     border: 1px solid rgba(232,232,232,1);
+}
+
+.orderPage .detail-title {
+    padding: 5px 16px;
+    background:rgba(243,247,251,1);
+    height:36px;
+    font-size:16px;
+    font-weight:600;
+    color:rgba(0,0,0,0.85);
+}
+
+.orderPage .detail-part {
+    display: flex;
+    /*height: 100%;*/
+    justify-content: space-between;
+    align-items: center;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(0,0,0,0.65);
+}
+
+.orderPage .detail-part .piece{
+    padding-top: 30px;
+    width: 300px;
+    /*height: 100%;*/
+    display: block;
+    margin-left: 16px;
+}
+
+.orderPage .detail-part .otherPiece{
+    padding-top: 10px;
+    width: 300px;
+    height: 100%;
+    display: block;
+    margin-left: 16px;
+}
+
+
+
+
+

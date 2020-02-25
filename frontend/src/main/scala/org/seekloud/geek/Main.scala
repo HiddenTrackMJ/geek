@@ -48,7 +48,7 @@ object Main extends PageSwitcher{
       case "home" :: Nil => HomePage.render
       case "userInfo" :: Nil => UserInfoPage.render
       case "inviterManage" :: Nil => InviterManagement.render
-      case "room" :: r :: v :: Nil => new WatchRecord(r.toLong,v).render
+      case "room" :: r :: v :: Nil => new WatchRecord_new(r.toLong,v).render
       case "preRecord" :: c :: Nil => new PreRecord(c).render
       case "login" :: Nil => Login.render
 //      case "info" :: Nil => LiveHouse.render //fixme delete
