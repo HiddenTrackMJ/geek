@@ -31,6 +31,7 @@ object Route {
     val getCommentList:String =base +"/getRoomCommentList"
     val addComment:String =base +"/addRoomComment"
     val delComment:String =base +"/delComment"
+
   }
 
   object User {
@@ -49,6 +50,7 @@ object Route {
     val delInvitee: String = base + "/delInvitee"
     val signIn: String = base + "/signIn"
     val addInvitee:String = base + "/addInvitee"
+    val checkInvitee:String =base +"/checkInvitee"
   }
 
   object Test {

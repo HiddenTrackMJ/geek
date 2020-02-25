@@ -5,62 +5,100 @@ import org.seekloud.geek.Main
 import org.seekloud.geek.common.Route
 import org.seekloud.geek.pages.Header.username
 import org.seekloud.geek.pages.UserInfoPage.userDetail
-import org.seekloud.geek.utils.Page
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{CheckInviteeReq, Comment}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{GetRoomSectionListReq, GetRoomSectionListRsp, RoomInfoSection}
+import org.seekloud.geek.utils.{Http, JsFunc, Page}
+import mhtml.Var
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import io.circe.generic.auto._
+import io.circe.syntax._
+import org.seekloud.geek.shared.ptcl.SuccessRsp
 
 import scala.xml.Elem
 
-object PreRecord extends Page{
-    override def render:Elem={
-      <div class="container" style="position: fixed;margin-left: 13%;">
-        <div class="navbar-header">
+object PreRecord  {
+  private val roomIdData: Var[List[RoomInfoSection]] = Var(Main.roomIdData)
+//  private val CommentInfo: Var[Option[List[Comment]]] = Var(None)
+//  private val userNameVar = Var("")
+//  private val fileNameVar = Var("")
+//  private val isinvitedVar = Var(false)
 
-          <div class="navbar-brand" >
-            <a href="#/home">
-              <h1 class="logo-alt" alt="logo" style="font-color:blue;">Geek</h1>
-            </a>
+}
+class PreRecord(c:String) extends Page{
+  import PreRecord._
+
+  def checkInvAndSkip(roomId:Long,fileName:String): Unit ={
+    val userId = dom.window.localStorage.getItem("userId").toLong
+    Http.postJsonAndParse[SuccessRsp](Route.Invitation.checkInvitee, CheckInviteeReq(userId,fileName).asJson.noSpaces).map {
+      rsp =>
+        if(rsp.errCode == 0) {
+//          dom.document.location.href= s"#/room/"+roomId.toString + "/" + fileName
+          dom.document.location.hash= s"#/room/"+roomId.toString + "/" + fileName
+          println("ssssss")
+        } else {
+          JsFunc.alert("抱歉，你没有查看该录像的权限")
+          println(rsp.msg)
+        }
+    }
+
+  }
+
+  private val courseListRx1 =
+    roomIdData.map {
+    case Nil => <div style="margin: 30px; font-size: 17px; text-align: center" class="studentContainer">暂无录像信息
+    </div>
+    case list =>{<div class="courseContainer" >
+      {list.map { l =>
+
+        <div class="courseItem" onclick={()=>}>
+          <img class="courseItem-img" src={Route.imgPath("house.png")}></img>
+          <div style="padding:0 20px">
+            <div class="courseItem-title" onclick={() => checkInvAndSkip(l.roomId,l.fileName);()}>
+              <div class="courseItem-name">
+                {l.fileName}
+              </div>
+
+            </div>
+            <div class="courseItem-teacher">发起人：{l.userName}</div>
+            <div class="courseItem-peopleNum">发起时间：{l.time}</div>
           </div>
-
-
-          <div class="nav-collapse">
-            <span></span>
-          </div>
-
         </div>
+      }}</div>
+    }
+  }
 
-        <ul class="main-nav nav navbar-nav navbar-right" >
-          <li class="active">
-            <a href="#/home">Home</a>
-          </li>
-          <li>
-            <a href="#/inviterManage">Invite</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)" onclick={() =>
-              Main.getRoomSecList()
-              dom.window.setTimeout(() => Header.gotoLive(), 2000)
-              ()
-            }>Watch</a>
-          </li>
-          <li class="has-dropdown">
-            <a href="#/userInfo">
-              {userDetail.map{user=>
-              <img style="width:25px;height:25px" src={Route.hestiaPath(user.avatar.getOrElse("be8feec67e052403e26ec05559607f10.jpg"))}></img>
-            }}
-            </a>
-            <ul class="dropdown">
-              <li>
-                <p style="color:white">Signed in as</p>
-                <strong style="color:white">
-                  <p>{username}</p>
-                </strong>
-              </li>
-              <li role="separator" class="divider"></li>
-              <li>
-                <a href="javascript:void(0)" onclick={() => Login.logout()}>log out</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+  def getRoomSecList(): Unit ={
+    val userId = dom.window.localStorage.getItem("userId").toLong
+    Http.postJsonAndParse[GetRoomSectionListRsp](Route.Room.getRoomSectionList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
+      rsp =>
+        if(rsp.errCode == 0) {
+          roomIdData := rsp.roomList
+        } else {
+          println(rsp.msg)
+        }
+    }
+  }
+
+
+  def init(): Unit = {
+    dom.document.body.style = "background-image: url('/geek/static/img/blueSky.jpg');" +
+      "background-attachment: fixed;" +
+      "background-size: cover;" +
+      "background-position: center;" +
+      "background-repeat: no-repeat;"
+  }
+
+    override def render:Elem={
+      HomePage.init()
+      init()
+      getRoomSecList()
+
+      <div>
+      <div style="display: flex;justify-content: center;margin-top: -2%;margin-bottom: 2%;">
+        <div style="font-size: 25px;color: white;">全部录像</div>
+      </div>
+          {courseListRx1}
       </div>
 
     }

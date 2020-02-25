@@ -62,10 +62,11 @@ object InviterManagement extends Page{
     <div class="row info">
       <div class="col-md-8">
         {userDetail.map{user=>
-        <img style="width:25px;height:25px" src={Route.hestiaPath(user.avatar.getOrElse("be8feec67e052403e26ec05559607f10.jpg"))}></img>
+        <img style="width:100px;height:100px" src={Route.hestiaPath(user.avatar.getOrElse("be8feec67e052403e26ec05559607f10.jpg"))}></img>
       }}
         <h2 class="username">
-          {dom.window.localStorage.getItem("username")}
+          <div>{"用户名："+dom.window.localStorage.getItem("username")}</div>
+          <div>{"用户Id："+dom.window.localStorage.getItem("userId")}</div>
         </h2>
       </div>
     </div>

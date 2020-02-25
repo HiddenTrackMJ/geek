@@ -24,8 +24,7 @@ object HomePage extends Page {
                 <h1 class="white-text">多人视频会议系统</h1>
                 <button class="white-btn" style="width:145px" onclick={() => gotoPage("inviterManage")}>Invite</button>
                 <button class="main-btn" style="width:145px" onclick={() =>
-                  Main.getRoomList()
-                  dom.window.setTimeout(() => Header.gotoLive(), 500)
+                  dom.document.location.href="#/preRecord/-"
                   ()
                 }>Watch</button>
               </div>

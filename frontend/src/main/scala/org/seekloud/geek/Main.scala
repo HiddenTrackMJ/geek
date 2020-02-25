@@ -49,6 +49,7 @@ object Main extends PageSwitcher{
       case "userInfo" :: Nil => UserInfoPage.render
       case "inviterManage" :: Nil => InviterManagement.render
       case "room" :: r :: v :: Nil => new WatchRecord(r.toLong,v).render
+      case "preRecord" :: c :: Nil => new PreRecord(c).render
       case "login" :: Nil => Login.render
 //      case "info" :: Nil => LiveHouse.render //fixme delete
       case _ => HomePage.render
@@ -74,39 +75,39 @@ object Main extends PageSwitcher{
     mount(dom.document.body, page)
   }
 
-  def getRoomList(): Unit = {
-    val url = Route.Room.getRoomList
-    val data = GetRoomListReq().asJson.noSpaces
-    Http.postJsonAndParse[GetRoomListRsp](url, data).map {
-      rsp =>
-        try {
-          if (rsp.errCode == 0) {
-            roomList = rsp.roomList
-            println(s"got it : $rsp")
-          }
-          else {
-            println("error======" + rsp.msg)
-            JsFunc.alert(rsp.msg)
-          }
-        }
-        catch {
-          case e: Exception =>
-            println(e)
-        }
-    }
-  }
+//  def getRoomList(): Unit = {
+//    val url = Route.Room.getRoomList
+//    val data = GetRoomListReq().asJson.noSpaces
+//    Http.postJsonAndParse[GetRoomListRsp](url, data).map {
+//      rsp =>
+//        try {
+//          if (rsp.errCode == 0) {
+//            roomList = rsp.roomList
+//            println(s"got it : $rsp")
+//          }
+//          else {
+//            println("error======" + rsp.msg)
+//            JsFunc.alert(rsp.msg)
+//          }
+//        }
+//        catch {
+//          case e: Exception =>
+//            println(e)
+//        }
+//    }
+//  }
 
-  def getRoomSecList(): Unit ={
-    val userId = dom.window.localStorage.getItem("userId").toLong
-    Http.postJsonAndParse[GetRoomSectionListRsp](Route.Room.getRoomSectionList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
-      rsp =>
-        if(rsp.errCode == 0) {
-          roomIdData = rsp.roomList
-        } else {
-          println(rsp.msg)
-        }
-    }
-  }
+//  def getRoomSecList(): Unit ={
+//    val userId = dom.window.localStorage.getItem("userId").toLong
+//    Http.postJsonAndParse[GetRoomSectionListRsp](Route.Room.getRoomSectionList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
+//      rsp =>
+//        if(rsp.errCode == 0) {
+//          roomIdData = rsp.roomList
+//        } else {
+//          println(rsp.msg)
+//        }
+//    }
+//  }
 
   def main(args: Array[String]): Unit ={
     show()

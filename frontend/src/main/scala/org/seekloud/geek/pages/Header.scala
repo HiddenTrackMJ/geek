@@ -20,12 +20,12 @@ object Header extends Component {
   val userId: Var[String] = Var("")
   val username: Var[String] = Var("")
   val Show = Var("")
-  def gotoLive(): Unit = {
-//    if (Main.roomList.nonEmpty) gotoPage(s"room/${Main.roomList.head.roomId}")
+//  def gotoLive(): Unit = {
+////    if (Main.roomList.nonEmpty) gotoPage(s"room/${Main.roomList.head.roomId}")
+////    else JsFunc.alert("当前没有录像！")
+//    if (Main.roomIdData.nonEmpty) gotoPage(s"room/${Main.roomIdData.head.roomId}/${Main.roomIdData.head.fileName}")
 //    else JsFunc.alert("当前没有录像！")
-    if (Main.roomIdData.nonEmpty) gotoPage(s"room/${Main.roomIdData.head.roomId}/${Main.roomIdData.head.fileName}")
-    else JsFunc.alert("当前没有录像！")
-  }
+//  }
 
   def Show(flag: String): Unit = {
     Show := flag
@@ -44,31 +44,20 @@ object Header extends Component {
                 </a>
               </li>
               </ul>
+            <div style="margin-left:20%;">
+            <div  style="padding: 1rem 1rem 1rem 1rem;display:flex;">
+              <div >
+                <input type="text" id="username" placeholder="搜索" style="width:500px;height:35px;" autofocus="true"></input>
+              </div>
+              <div>
+                <button id="random" class="btn btn-info" style="margin: 0rem 1rem 0rem 1rem;height:35px;">搜索</button>
+              </div>
+            </div>
+
+            </div>
+
+
             <ul class = "ul-list" style="display:flex;">
-              <li class="top-text top-text-opacity" style="width:30px;" onmouseover={() => Show("house")} onmouseleave={() => Show(" ")}>
-                <a href="#/home">
-                  <img style="width:25px;height:25px" src={Route.imgPath("house.png")}/>
-                  <span class="header-word-tip" style={Show.map { show =>  if (show=="house") "display:block;" else "display:none;" }}>我的主页</span>
-                </a>
-              </li>
-              <li class="top-text top-text-opacity" style="width:30px;" onmouseover={() => Show("invite")} onmouseleave={() => Show(" ")}>
-                <a  href="#/inviterManage">
-                  <img style="width:25px;height:25px" src={Route.imgPath("invite.png")}/>
-                  <span class="header-word-tip" style={Show.map { show =>  if (show=="invite") "display:block;" else "display:none;" }}>邀请详情</span>
-                </a>
-              </li>
-              <li class="top-text top-text-opacity" style="width:30px;" onmouseover={() => Show("video")} onmouseleave={() => Show(" ")}>
-                <a href="javascript:void(0)" onclick={() =>Main.getRoomSecList();dom.window.setTimeout(() => Header.gotoLive(), 2000);()}>
-                  <img style="width:25px;height:25px" src={Route.imgPath("video.png")}/>
-                  <span class="header-word-tip" style={Show.map { show =>  if (show=="video") "display:block;" else "display:none;" }}>查看录像</span>
-                </a>
-              </li>
-              <li class="top-text top-text-opacity" style="width:30px;" onmouseover={() => Show("logout")} onmouseleave={() => Show(" ")}>
-                <a href="javascript:void(0)" onclick={() =>()}>
-                  <img style="width:25px;height:25px" src={Route.imgPath("logout.png")}/>
-                  <span class="header-word-tip" style={Show.map { show =>  if (show=="logout") "display:block;" else "display:none;" }}>退出登录</span>
-                </a>
-              </li>
               <li class="top-text top-text-opacity" style="width:30px;" onmouseover={() => Show("mycard")} onmouseleave={() => Show(" ")}>
                 <a href="#/userInfo">
                   {userDetail.map{user=>
@@ -77,7 +66,30 @@ object Header extends Component {
                   <span class="header-word-tip" style={Show.map { show =>  if (show=="mycard") "display:block;" else "display:none;" }}>我的信息</span>
                 </a>
               </li>
-
+              <li class="top-text top-text-opacity" style="width:30px;" onmouseover={() => Show("logout")} onmouseleave={() => Show(" ")}>
+                <a href="javascript:void(0)" onclick={() => Login.logout()}>
+                  <img style="width:25px;height:25px" src={Route.imgPath("logout.png")}/>
+                  <span class="header-word-tip" style={Show.map { show =>  if (show=="logout") "display:block;" else "display:none;" }}>退出登录</span>
+                </a>
+              </li>
+              <li class="top-text top-text-opacity" style="width:30px;" onmouseover={() => Show("video")} onmouseleave={() => Show(" ")}>
+                <a href="#/preRecord/-" onclick={() =>/*Main.getRoomSecList();dom.window.setTimeout(() => Header.gotoLive(), 1000);*/()}>
+                  <img style="width:25px;height:25px" src={Route.imgPath("video.png")}/>
+                  <span class="header-word-tip" style={Show.map { show =>  if (show=="video") "display:block;" else "display:none;" }}>查看录像</span>
+                </a>
+              </li>
+              <li class="top-text top-text-opacity" style="width:30px;" onmouseover={() => Show("invite")} onmouseleave={() => Show(" ")}>
+                <a  href="#/inviterManage">
+                  <img style="width:25px;height:25px" src={Route.imgPath("invite.png")}/>
+                  <span class="header-word-tip" style={Show.map { show =>  if (show=="invite") "display:block;" else "display:none;" }}>邀请详情</span>
+                </a>
+              </li>
+              <li class="top-text top-text-opacity" style="width:30px;" onmouseover={() => Show("house")} onmouseleave={() => Show(" ")}>
+                <a href="#/home">
+                  <img style="width:25px;height:25px" src={Route.imgPath("house.png")}/>
+                  <span class="header-word-tip" style={Show.map { show =>  if (show=="house") "display:block;" else "display:none;" }}>我的主页</span>
+                </a>
+              </li>
 
 
 

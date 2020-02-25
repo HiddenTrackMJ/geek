@@ -89,6 +89,10 @@ object VideoDao {
     } yield (inviteeName,inviteeId)
     db.run(innerJoin.distinct.sortBy(_._1.id).result)
   }
+  def checkInvitee(inviteeId: Long,fileName:String) = {
+    val q = tVideo.filter(_.invitation ===inviteeId ).filter(_.filename === fileName).result
+    db.run(q)
+  }
 
   def searchInvitee(inviteeName: String) = {
     val q = tUser.filter(_.name ===inviteeName ).result

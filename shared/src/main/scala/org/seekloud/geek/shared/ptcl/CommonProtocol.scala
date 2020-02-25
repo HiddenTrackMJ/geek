@@ -158,6 +158,11 @@ object CommonProtocol {
                             address:String
                           ) extends Request
 
+  case class CheckInviteeReq(
+                            inviteeId:Long,
+                            fileName:String,
+                          ) extends Request
+
   /**
     * 单独改变头像数据库接口
     **/

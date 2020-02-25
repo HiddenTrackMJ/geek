@@ -4,12 +4,12 @@ import java.text.SimpleDateFormat
 
 import mhtml.Var
 import org.seekloud.geek.utils.{Http, JsFunc, Page}
-import org.seekloud.geek.videoJs.VideoJSBuilderNew
+//import org.seekloud.geek.videoJs.VideoJSBuilderNew
 import org.scalajs.dom
 import org.scalajs.dom.html.{Button, Input}
 import org.seekloud.geek.Main
 import org.seekloud.geek.common.Route
-import org.seekloud.geek.videoJs._
+//import org.seekloud.geek.videoJs._
 import org.seekloud.geek.shared.ptcl.RoomProtocol.{GetRoomListReq, GetRoomListRsp, GetRoomSectionListReq, GetRoomSectionListRsp, RoomData, RoomInfoSection}
 import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import io.circe.generic.auto._
@@ -130,8 +130,10 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
   }}
 
   private def switchEyesight(roomId: Long,videoName: String): Unit ={
-    val userId= dom.window.localStorage.getItem("userId").toString
-    renderTest(dom.document.getElementById("my-video"),userId,videoNameVar.toString().drop(4).dropRight(1))
+//    val userId= dom.window.localStorage.getItem("userId").toString
+//    renderTest(dom.document.getElementById("my-video"),userId,videoNameVar.toString().drop(4).dropRight(1))
+//    renderTest(dom.document.getElementById("my-video"),userId,videoName)
+//    dom.window.setTimeout(()=>println("sssss"),8000)
     dom.window.location.hash = s"#/room/$roomId/$videoName"
   }
 
@@ -139,8 +141,14 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
     dom.window.location.hash = s"#/room/$roomID/$videoName"
   }
 
-  val container: Elem =
-    VideoJSBuilderNew().buildElem("my-video")
+//  val container: Elem =
+//    VideoJSBuilderNew().buildElem("my-video")
+  val container:Elem =
+        <div style="float: left">
+          <video controls="controls" width="500px" height="300px" preload="metadata">
+            <source src={"http://127.0.0.1:42075/geek/room/getRecord/1000/1018_4.mp4"} type="video/webm" />
+          </video>
+        </div>
 
   val background: Elem =
     <div id="home">
@@ -162,28 +170,28 @@ class WatchRecord(roomID: Long,videoName :String) extends Page{
 
     </div>
 
-  def getRoomList: Future[Unit] = {
-    val url = Route.Room.getRoomList
-    val data = GetRoomListReq().asJson.noSpaces
-    Http.postJsonAndParse[GetRoomListRsp](url, data).map {
-      rsp =>
-        try {
-          if (rsp.errCode == 0) {
-            roomList = rsp.roomList
-            liveRoomInfo := roomList
-            println(s"got it : $rsp")
-          }
-          else {
-            println("error======" + rsp.msg)
-            JsFunc.alert(rsp.msg)
-          }
-        }
-        catch {
-          case e: Exception =>
-            println(e)
-        }
-    }
-  }
+//  def getRoomList: Future[Unit] = {
+//    val url = Route.Room.getRoomList
+//    val data = GetRoomListReq().asJson.noSpaces
+//    Http.postJsonAndParse[GetRoomListRsp](url, data).map {
+//      rsp =>
+//        try {
+//          if (rsp.errCode == 0) {
+//            roomList = rsp.roomList
+//            liveRoomInfo := roomList
+//            println(s"got it : $rsp")
+//          }
+//          else {
+//            println("error======" + rsp.msg)
+//            JsFunc.alert(rsp.msg)
+//          }
+//        }
+//        catch {
+//          case e: Exception =>
+//            println(e)
+//        }
+//    }
+//  }
 
   def getCommentList(roomID:Long,videoName:String): Unit = {
     val url = Route.Room.getCommentList

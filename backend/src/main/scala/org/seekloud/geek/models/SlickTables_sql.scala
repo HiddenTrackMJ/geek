@@ -1,12 +1,12 @@
 package org.seekloud.geek.models
 // AUTO-GENERATED Slick data model
 /** Stand-alone Slick data model for immediate use */
-object SlickTables extends {
-  val profile = slick.jdbc.H2Profile
+object SlickTables_sql extends {
+  val profile = slick.jdbc.MySQLProfile
 } with SlickTables
 
 /** Slick data model trait for extension, choice of backend or usage in the cake pattern. (Make sure to initialize this late.) */
-trait SlickTables {
+trait SlickTables_sql {
   val profile: slick.jdbc.JdbcProfile
   import profile.api._
   import slick.model.ForeignKeyAction
@@ -19,7 +19,7 @@ trait SlickTables {
   def ddl = schema
 
   /** Entity class storing rows of table tRoom
-    *  @param id Database column ID SqlType(BIGINT), PrimaryKey
+    *  @param id Database column ID SqlType(BIGINT), AutoInc, PrimaryKey
     *  @param title Database column TITLE SqlType(VARCHAR), Length(200,true)
     *  @param desc Database column DESC SqlType(VARCHAR), Length(200,true), Default(None)
     *  @param livecode Database column LIVECODE SqlType(VARCHAR), Length(1000,true)
@@ -32,14 +32,14 @@ trait SlickTables {
     prs => import prs._
       rRoom.tupled((<<[Long], <<[String], <<?[String], <<[String], <<[String], <<[String], <<[Long]))
   }
-  /** Table description of table ROOM. Objects of this class serve as prototypes for rows in queries. */
-  class tRoom(_tableTag: Tag) extends profile.api.Table[rRoom](_tableTag, Some("GEEK"), "ROOM") {
+  /** Table description of table room. Objects of this class serve as prototypes for rows in queries. */
+  class tRoom(_tableTag: Tag) extends profile.api.Table[rRoom](_tableTag, Some("geek"), "room") {
     def * = (id, title, desc, livecode, hostcode, serverurl, hostid) <> (rRoom.tupled, rRoom.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = ((Rep.Some(id), Rep.Some(title), desc, Rep.Some(livecode), Rep.Some(hostcode), Rep.Some(serverurl), Rep.Some(hostid))).shaped.<>({r=>import r._; _1.map(_=> rRoom.tupled((_1.get, _2.get, _3, _4.get, _5.get, _6.get, _7.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
-    /** Database column ID SqlType(BIGINT), PrimaryKey */
-    val id: Rep[Long] = column[Long]("ID", O.PrimaryKey)
+    /** Database column ID SqlType(BIGINT), AutoInc, PrimaryKey */
+    val id: Rep[Long] = column[Long]("ID", O.AutoInc, O.PrimaryKey)
     /** Database column TITLE SqlType(VARCHAR), Length(200,true) */
     val title: Rep[String] = column[String]("TITLE", O.Length(200,varying=true))
     /** Database column DESC SqlType(VARCHAR), Length(200,true), Default(None) */
@@ -57,12 +57,12 @@ trait SlickTables {
   lazy val tRoom = new TableQuery(tag => new tRoom(tag))
 
   /** Entity class storing rows of table tUser
-    *  @param id Database column ID SqlType(BIGINT), PrimaryKey
+    *  @param id Database column ID SqlType(BIGINT), AutoInc, PrimaryKey
     *  @param name Database column NAME SqlType(VARCHAR), Length(100,true)
     *  @param password Database column PASSWORD SqlType(VARCHAR), Length(300,true)
     *  @param avatar Database column AVATAR SqlType(VARCHAR), Length(300,true), Default(None)
-    *  @param gender Database column GENDER SqlType(INTEGER), Default(None)
-    *  @param age Database column AGE SqlType(INTEGER), Default(None)
+    *  @param gender Database column GENDER SqlType(INT), Default(None)
+    *  @param age Database column AGE SqlType(INT), Default(None)
     *  @param address Database column ADDRESS SqlType(VARCHAR), Length(100,true), Default(None) */
   case class rUser(id: Long, name: String, password: String, avatar: Option[String] = None, gender: Option[Int] = None, age: Option[Int] = None, address: Option[String] = None)
   /** GetResult implicit for fetching rUser objects using plain SQL queries */
@@ -70,23 +70,23 @@ trait SlickTables {
     prs => import prs._
       rUser.tupled((<<[Long], <<[String], <<[String], <<?[String], <<?[Int], <<?[Int], <<?[String]))
   }
-  /** Table description of table USER. Objects of this class serve as prototypes for rows in queries. */
-  class tUser(_tableTag: Tag) extends profile.api.Table[rUser](_tableTag, Some("GEEK"), "USER") {
+  /** Table description of table user. Objects of this class serve as prototypes for rows in queries. */
+  class tUser(_tableTag: Tag) extends profile.api.Table[rUser](_tableTag, Some("geek"), "user") {
     def * = (id, name, password, avatar, gender, age, address) <> (rUser.tupled, rUser.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = ((Rep.Some(id), Rep.Some(name), Rep.Some(password), avatar, gender, age, address)).shaped.<>({r=>import r._; _1.map(_=> rUser.tupled((_1.get, _2.get, _3.get, _4, _5, _6, _7)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
-    /** Database column ID SqlType(BIGINT), PrimaryKey */
-    val id: Rep[Long] = column[Long]("ID", O.PrimaryKey)
+    /** Database column ID SqlType(BIGINT), AutoInc, PrimaryKey */
+    val id: Rep[Long] = column[Long]("ID", O.AutoInc, O.PrimaryKey)
     /** Database column NAME SqlType(VARCHAR), Length(100,true) */
     val name: Rep[String] = column[String]("NAME", O.Length(100,varying=true))
     /** Database column PASSWORD SqlType(VARCHAR), Length(300,true) */
     val password: Rep[String] = column[String]("PASSWORD", O.Length(300,varying=true))
     /** Database column AVATAR SqlType(VARCHAR), Length(300,true), Default(None) */
     val avatar: Rep[Option[String]] = column[Option[String]]("AVATAR", O.Length(300,varying=true), O.Default(None))
-    /** Database column GENDER SqlType(INTEGER), Default(None) */
+    /** Database column GENDER SqlType(INT), Default(None) */
     val gender: Rep[Option[Int]] = column[Option[Int]]("GENDER", O.Default(None))
-    /** Database column AGE SqlType(INTEGER), Default(None) */
+    /** Database column AGE SqlType(INT), Default(None) */
     val age: Rep[Option[Int]] = column[Option[Int]]("AGE", O.Default(None))
     /** Database column ADDRESS SqlType(VARCHAR), Length(100,true), Default(None) */
     val address: Rep[Option[String]] = column[Option[String]]("ADDRESS", O.Length(100,varying=true), O.Default(None))
@@ -109,8 +109,8 @@ trait SlickTables {
     prs => import prs._
       rVideo.tupled((<<[Long], <<[Long], <<[Long], <<[Long], <<[String], <<[String], <<[Long], <<[String]))
   }
-  /** Table description of table VIDEO. Objects of this class serve as prototypes for rows in queries. */
-  class tVideo(_tableTag: Tag) extends profile.api.Table[rVideo](_tableTag, Some("GEEK"), "VIDEO") {
+  /** Table description of table video. Objects of this class serve as prototypes for rows in queries. */
+  class tVideo(_tableTag: Tag) extends profile.api.Table[rVideo](_tableTag, Some("geek"), "video") {
     def * = (id, userid, roomid, timestamp, filename, length, invitation, comment) <> (rVideo.tupled, rVideo.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = ((Rep.Some(id), Rep.Some(userid), Rep.Some(roomid), Rep.Some(timestamp), Rep.Some(filename), Rep.Some(length), Rep.Some(invitation), Rep.Some(comment))).shaped.<>({r=>import r._; _1.map(_=> rVideo.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))

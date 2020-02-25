@@ -22,12 +22,25 @@ object DBUtil {
 
     //hikariDS.setDataSource(DB.getDataSource())
 
-    val mysqlDS = new MysqlDataSource()
-    mysqlDS.setURL(slickUrl)
-    mysqlDS.setUser(slickUser)
-    mysqlDS.setPassword(slickPassword)
+//    val mysqlDS = new MysqlDataSource()
+//    mysqlDS.setURL(slickUrl)
+//    mysqlDS.setUser(slickUser)
+//    mysqlDS.setPassword(slickPassword)
+//    val hikariDS = new HikariDataSource()
+//    hikariDS.setDataSource(mysqlDS)
+//    hikariDS.setMaximumPoolSize(slickMaximumPoolSize)
+//    hikariDS.setConnectionTimeout(slickConnectTimeout)
+//    hikariDS.setIdleTimeout(slickIdleTimeout)
+//    hikariDS.setMaxLifetime(slickMaxLifetime)
+//    hikariDS.setAutoCommit(true)
+//    hikariDS
+
+    val dataSource = new org.h2.jdbcx.JdbcDataSource
+    dataSource.setURL(slickUrl)
+    dataSource.setUser(slickUser)
+    dataSource.setPassword(slickPassword)
     val hikariDS = new HikariDataSource()
-    hikariDS.setDataSource(mysqlDS)
+    hikariDS.setDataSource(dataSource)
     hikariDS.setMaximumPoolSize(slickMaximumPoolSize)
     hikariDS.setConnectionTimeout(slickConnectTimeout)
     hikariDS.setIdleTimeout(slickIdleTimeout)
