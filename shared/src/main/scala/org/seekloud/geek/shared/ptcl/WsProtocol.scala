@@ -162,13 +162,15 @@ object WsProtocol  {
   ) extends WsMsgRm
 
   case class ShieldReq(
+    isForced: Boolean, //为true是被主持人屏蔽的，为false是主动屏蔽的
     roomId: Long,
     userId: Long,
     isImage: Boolean,
     isAudio: Boolean
-  ) extends WsMsgHost
+  ) extends WsMsgClient
 
   case class ShieldRsp(
+    isForced: Boolean,
     errCode: Int = 0,
     msg: String = "ok"
   ) extends WsMsgRm
@@ -355,11 +357,24 @@ object WsProtocol  {
     extension: Option[String] = None
   ) extends WsMsgRm
 
+  case class CommentError(
+    msg: String
+  ) extends WsMsgRm
+
   case class UpdateRoomInfo2Client(
     roomName: String,
     roomDec: String
   ) extends WsMsgRm2Audience
 
   case object HostStopPushStream2Client extends WsMsgRm2Audience
+
+  case class GetRoomInfoReq(
+    roomId: Long
+  ) extends WsMsgClient
+
+  case class GetRoomInfoRsp(
+    info: CommonProtocol.RoomInfo
+  ) extends WsMsgRm
+
 
 }

@@ -253,7 +253,6 @@ trait RoomService extends BaseService with ServiceUtils {
             getFromFile(f,ContentTypes.`application/octet-stream`)
           }
           else {
-
             complete(ErrorRsp(10001, "没有该录像"))
           }
         }

@@ -15,6 +15,7 @@ import org.seekloud.geek.client.component._
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.core.RmManager._
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, UserInfo}
+import org.seekloud.geek.shared.ptcl.WsProtocol
 import org.seekloud.geek.shared.ptcl.WsProtocol._
 import org.slf4j.LoggerFactory
 /**
@@ -262,10 +263,10 @@ class GeekHostController(
     val content = commentInput.getText
     if (content.trim.replaceAll(" ","").replaceAll("\n","") ==""){
       //提示内容为空
-
     }else{
       val t = CommentInfo(RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,RmManager.userInfo.get.headImgUrl,content,System.currentTimeMillis())
       addComment(t)
+      rmManager ! RmManager.Comment(WsProtocol.Comment(RmManager.userInfo.get.userId, RmManager.roomInfo.get.roomId, content))
       commentInput.setText("")//清空输入框
     }
   }
@@ -285,6 +286,12 @@ class GeekHostController(
       case _: HeatBeat =>
       //        log.debug(s"heartbeat: ${msg.ts}")
       //        rmManager ! HeartBeat
+
+      case msg: RcvComment =>
+        addComment(CommentInfo(msg.userId, msg.userName, RmManager.userInfo.get.headImgUrl, msg.comment, System.currentTimeMillis()))
+
+      case msg: GetRoomInfoRsp =>
+        println(msg)
 
       case msg: StartLiveRsp =>
         //房主收到的消息

@@ -57,6 +57,8 @@ object RmManager {
   final case object StopLiveFailed extends RmCommand
   final case object PullerStopped extends RmCommand
 
+  final case class Comment(comment: WsProtocol.Comment) extends RmCommand
+
   final case object GetPackageLoss extends RmCommand
 
   //ws链接
@@ -204,6 +206,11 @@ object RmManager {
           liveManager ! LiveManager.PullStream(RmManager.userInfo.get.pullStream.get,mediaPlayer,hostController,liveManager)
           Behaviors.same
 
+        case msg: Comment =>
+          sender.foreach( s=>
+            s ! msg.comment
+          )
+          Behaviors.same
 
         case GetPackageLoss =>
           liveManager ! LiveManager.GetPackageLoss

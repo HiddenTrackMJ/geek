@@ -14,7 +14,7 @@ object RoomProtocol {
 
   trait RoomCommand extends RoomManager.Command with RoomDealer.Command
 
-  case class WebSocketMsgWithActor(userId:Long,roomId:Long,msg:WsMsgClient) extends RoomCommand
+  case class WebSocketMsgWithActor(userId:Long, roomId:Long, msg:WsMsgClient) extends RoomCommand
 
   case class UpdateSubscriber(join:Int,roomId:Long,userId:Long,userActorOpt:Option[ActorRef[UserActor.Command]]) extends RoomCommand
 
