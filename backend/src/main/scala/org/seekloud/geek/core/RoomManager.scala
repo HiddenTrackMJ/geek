@@ -306,9 +306,9 @@ object RoomManager {
 //                        roomInfo.roomDealer ! RoomDealer.Shield(msg, s._1)
                       }
                     }
-                    else log.info( "This user doesn't exist")
+                    else log.info( "shield error, This user doesn't exist")
                   }
-                  else log.info( "This room doesn't exist")
+                  else log.info( "shield error, This room doesn't exist")
 
                 case msg: WsProtocol.KickOffReq =>
                   log.info(s"user-${msg.userId} stop live in room: ${msg.roomId}")
@@ -335,6 +335,26 @@ object RoomManager {
                   else {
                     log.debug(s"${ctx.self.path}更新用户信息失败，kick off error，房间id=$roomId,用户id=$userId")
                   }
+
+                case msg: WsProtocol.ChangePossessionReq =>
+                  if (rooms.contains(msg.roomId)) {
+                    val roomInfo = rooms(msg.roomId)
+                    val selfCodeOpt = roomInfo.userLiveCodeMap.find(_._2 == msg.userId)
+                    if (selfCodeOpt.isDefined) {
+                      selfCodeOpt.foreach{ s =>
+                        val roomInfoNew = roomInfo.copy(roomUserInfo = roomInfo.roomUserInfo.copy(userId = msg.userId), hostCode = s._1)
+                        rooms.update(msg.roomId, roomInfoNew)
+                        getRoomDealerOpt(roomId, ctx)match{
+                          case Some(actor) => actor ! RoomDealer.ChangePossession(roomInfoNew)
+
+                          case None => log.debug(s"${ctx.self.path} ShieldReq，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
+                        }
+                        //                        roomInfo.roomDealer ! RoomDealer.Shield(msg, s._1)
+                      }
+                    }
+                    else log.info( "shield error, This user doesn't exist")
+                  }
+                  else log.info( "shield error, This room doesn't exist")
 
                 case _ => actor ! r
               }

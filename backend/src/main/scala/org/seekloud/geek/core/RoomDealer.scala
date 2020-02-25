@@ -49,6 +49,8 @@ object RoomDealer {
 
   case class Shield(req: ShieldReq, liveCode: String) extends Command
 
+  case class ChangePossession(roomDetailInfo: RoomDetailInfo) extends Command
+
   final case class StoreVideo(video: SlickTables.rVideo) extends Command
 
   final case class ChildDead[U](name: String, childRef: ActorRef[U]) extends Command with RoomManager.Command
@@ -167,7 +169,6 @@ object RoomDealer {
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StartLive4Client =>
-          log.info(s"sss: ${subscribe}")
           grabManager ! GrabberManager.StartLive4Client(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo, msg.selfCode, ctx.self)
           dispatchTo(subscribe)(List(msg.userId),  WsProtocol.StartLive4ClientRsp(Some(msg.roomDetailInfo.rtmpInfo), msg.selfCode))
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
@@ -190,6 +191,24 @@ object RoomDealer {
           grabManager ! GrabberManager.Shield(msg.req, msg.liveCode)
           dispatch(subscribe)( WsProtocol.ShieldRsp(msg.req.isForced))
           Behaviors.same
+
+        case msg: ChangePossession =>
+          log.info(s"change possession roomId-${wholeRoomInfo.roomId}, userId-${msg.roomDetailInfo.roomUserInfo.userId}")
+          var newWholeInfo = wholeRoomInfo
+          UserDao.searchById(msg.roomDetailInfo.roomUserInfo.userId).onComplete {
+            case Success(u) =>
+              u match {
+                case Some(user) =>
+                  newWholeInfo = wholeRoomInfo.copy(userId = user.id, userName = user.name)
+                  dispatch(subscribe)( WsProtocol.ChangePossessionRsp(msg.roomDetailInfo.roomUserInfo.userId, user.name))
+                case _ =>
+                  dispatchTo(subscribe)(List(wholeRoomInfo.userId), WsProtocol.ChangeErrorRsp("This user doesn't exist"))
+              }
+            case Failure(e) =>
+              dispatchTo(subscribe)( List(wholeRoomInfo.userId), WsProtocol.ChangeErrorRsp("This user doesn't exist"))
+          }
+
+          idle(msg.roomDetailInfo, newWholeInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StoreVideo =>
           def fun(): Unit ={

@@ -58,6 +58,7 @@ object RmManager {
   final case object PullerStopped extends RmCommand
 
   final case class Comment(comment: WsProtocol.Comment) extends RmCommand
+  final case class ChangePossession(req: WsProtocol.ChangePossessionReq) extends RmCommand
 
   final case object GetPackageLoss extends RmCommand
 
@@ -207,9 +208,11 @@ object RmManager {
           Behaviors.same
 
         case msg: Comment =>
-          sender.foreach( s=>
-            s ! msg.comment
-          )
+          sender.foreach( s=> s ! msg.comment)
+          Behaviors.same
+
+        case msg: ChangePossession =>
+          sender.foreach( s=> s ! msg.req)
           Behaviors.same
 
         case GetPackageLoss =>
