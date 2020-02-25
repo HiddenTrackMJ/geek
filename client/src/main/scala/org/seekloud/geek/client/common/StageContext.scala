@@ -4,7 +4,6 @@ package org.seekloud.geek.client.common
 import javafx.fxml.FXMLLoader
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
-import org.seekloud.geek.client.controller.GeekLoginController
 
 /**
  * Author: Jason
@@ -39,6 +38,7 @@ class StageContext(stage: Stage) {
     stage.setResizable(resize)
     stage.setTitle(title)
     stage.setFullScreen(fullScreen)
+    stage.centerOnScreen()
     if (isSetOffX) {
       stage.setX(0)
       stage.setY(0)

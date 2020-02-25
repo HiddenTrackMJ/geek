@@ -56,7 +56,7 @@ class GeekUserController(
   }
 
   def initToolbar() = {
-    val toolbar = TopBar("geek云会议", Color.TRANSPARENT, rootPane.getPrefWidth, 30, "user", context, rmManager)()
+    val toolbar = TopBar("geek云会议", Color.TRANSPARENT,Color.BLACK, rootPane.getPrefWidth, 30, "user", context, rmManager)()
     rootPane.getChildren.add(toolbar)
   }
 
@@ -101,13 +101,19 @@ class GeekUserController(
     if (RmManager.userInfo.nonEmpty) {
       //创建房间
       log.info("创建房间")
-      loading.showLoading()
       val userId = RmManager.userInfo.get.userId
-      val roomName = s"$userId 的会议间"
-      val roomDesc = "大家好才是真的好"
-      RoomClient.createRoom(userId,RoomUserInfo(userId,roomName,roomDesc)).map{
+      var mRoomName = InputDialog("输入会议名称","为所欲为的起一个名字",stage = context.getStage).build()
+      if (mRoomName.nonEmpty && mRoomName.get.trim.replaceAll(" ","").replaceAll("\n","") !=""){
+        //用户自己创建的会议名称
+      }else{
+        mRoomName = Some(s"$userId 的会议间")
+      }
+      loading.showLoading()
+
+      val roomDesc = ""
+      RoomClient.createRoom(userId,RoomUserInfo(userId,mRoomName.get,roomDesc)).map{
         case Right(rsp) =>
-          RmManager.roomInfo = Some(RoomInfo(rsp.roomId,roomName,roomDesc,userId,RmManager.userInfo.get.userName,"",observerNum=0))
+          RmManager.roomInfo = Some(RoomInfo(rsp.roomId,mRoomName.get,roomDesc,userId,RmManager.userInfo.get.userName,"",observerNum=0))
 
           //当前用户是房主
           loading.removeLoading()
@@ -116,7 +122,7 @@ class GeekUserController(
 
           rmManager ! RmManager.GoToCreateAndJoinRoom
           //添加到历史记录列表
-          RmManager.meetingListInfo = RmManager.meetingListInfo :+ MeetingInfo(roomName,rsp.roomId.toString,System.currentTimeMillis())
+          RmManager.meetingListInfo = RmManager.meetingListInfo :+ MeetingInfo(mRoomName.get,rsp.roomId.toString,System.currentTimeMillis())
 
 
         case Left(error) =>
@@ -135,7 +141,7 @@ class GeekUserController(
     if (RmManager.userInfo.nonEmpty) {
       //创建房间
       log.info("加入房间")
-      val roomId = InputDialog(stage = context.getStage).build()
+      val roomId = InputDialog("输入会议号","会议号一般由房主告知您",stage = context.getStage).build()
       if (roomId.nonEmpty && roomId.get.trim.replaceAll(" ","").replaceAll("\n","") !=""){
         //跳转到会议室的界面
         loading.showLoading()

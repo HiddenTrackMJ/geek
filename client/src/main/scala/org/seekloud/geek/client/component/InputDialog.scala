@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory
 // todo: 抽象成组件
 case class InputDialog(
   title:String = "",
+  desc:String = "",
+  text:String = "",//输入框的默认值
   data:List[InputField] =Nil,
   stage:Stage
 ){
@@ -26,14 +28,16 @@ case class InputDialog(
   def build()= {
     try {
       val usernameTextField = new JFXTextField
+      //设置默认值
+      usernameTextField.setText(text)
       val alert = new JFXAlert[String](stage)
       alert.initModality(Modality.APPLICATION_MODAL)
       //点击外部不会取消
       alert.setOverlayClose(false)
 
       val layout = new JFXDialogLayout
-      layout.setHeading(new Label("输入会议号"))
-      layout.setBody(new VBox(new Label("会议号一般由房主告知参会的所有人"), usernameTextField))
+      layout.setHeading(new Label(title))
+      layout.setBody(new VBox(new Label(desc), usernameTextField))
 
       val addButton = new JFXButton("确定")
       addButton.setDefaultButton(true)

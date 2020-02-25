@@ -44,7 +44,7 @@ class GeekLoginController(
 
 
   def initToolbar() = {
-    val toolbar = TopBar("", Color.TRANSPARENT, rootPane.getPrefWidth, 30, "login", context, rmManager)()
+    val toolbar = TopBar("", Color.TRANSPARENT,Color.BLACK, rootPane.getPrefWidth, 30, "login", context, rmManager)()
     rootPane.getChildren.add(toolbar)
   }
 

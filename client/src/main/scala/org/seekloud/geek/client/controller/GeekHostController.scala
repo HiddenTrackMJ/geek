@@ -2,6 +2,7 @@ package org.seekloud.geek.client.controller
 
 import akka.actor.typed.ActorRef
 import com.jfoenix.controls.{JFXListView, JFXTextArea}
+import javafx.animation.AnimationTimer
 import javafx.fxml.FXML
 import javafx.scene.canvas.{Canvas, GraphicsContext}
 import javafx.scene.control.Label
@@ -71,6 +72,20 @@ class GeekHostController(
   var loading:Loading = _
   var gc: GraphicsContext = _
 
+  //定时器,定时修改直播时间和录制时长
+  private val animationTimer = new AnimationTimer() {
+    override def handle(now: Long): Unit = {
+
+      writeLiveTime()
+      writeRecordTime()
+
+    }
+  }
+
+//  def startTimer() = {
+//
+//  }
+
 
   //改变底部工具栏的图标和文字,
   //CaptureStartSuccess 摄像头启动成功的时候会执行这个
@@ -81,6 +96,9 @@ class GeekHostController(
 
     updateVideoUI()
     updateMicUI()
+    //启动定时器
+    animationTimer.start()
+
   }
 
   def updateVideoUI() = {
@@ -194,7 +212,7 @@ class GeekHostController(
 
 
   def initToolbar() = {
-    val toolbar = TopBar(s"会议厅（会议号：${RmManager.roomInfo.get.roomId}）", Color.BLACK, rootPane.getPrefWidth-10, 25, "host", context, rmManager)()
+    val toolbar = TopBar(s"会议名称：${RmManager.roomInfo.get.roomName} 会议号：${RmManager.roomInfo.get.roomId}", Color.BLACK,  Color.WHITE,rootPane.getPrefWidth-10, 25, "host", context, rmManager)()
     rootPane.getChildren.add(toolbar)
   }
 
@@ -216,7 +234,7 @@ class GeekHostController(
       t=>
         //创建一个AnchorPane
         val m = ()=>{updateUserList()}
-        val pane = AvatarColumn(t,userListPane.getPrefWidth - 30,centerPane,m)()
+        val pane = AvatarColumn(t,userListPane.getPrefWidth - 20,centerPane,m)()
         pane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
         pane
     }
@@ -352,6 +370,8 @@ class GeekHostController(
       case DeviceStatus.OFF =>
         //todo 开始录制
         recordStatus = DeviceStatus.ON
+        //开始时间
+        startRecTime = System.currentTimeMillis()
 
       case DeviceStatus.ON =>
         //todo 取消录制
@@ -400,6 +420,9 @@ class GeekHostController(
 
   }
 
+  protected var startLiveTime: Long = 0L  //开始直播的时间
+  protected var startRecTime: Long = 0L   //开始录像的时间
+
 
   //点击会议开始按钮：根据会议的当前状态判断点击后执行的操作
   def toggleLive() = {
@@ -408,6 +431,8 @@ class GeekHostController(
         //开始会议
         rmManager ! HostLiveReq
         hostStatus = HostStatus.LOADING
+
+        startLiveTime = System.currentTimeMillis()
 
 //      case HostStatus.LOADING =>
 
@@ -450,7 +475,7 @@ class GeekHostController(
         //结束会议
         Boot.addToPlatform{
           //修改界面
-          off_label.setText("结束会议")
+          off_label.setText("结束")
           off.setIconColor(Color.RED)
           hostStatus = HostStatus.CONNECT
         }
@@ -458,6 +483,32 @@ class GeekHostController(
     }
   }
 
+
+  def writeRecordTime() = {
+    recordStatus match {
+      case DeviceStatus.ON =>
+        val recTime = System.currentTimeMillis() - startRecTime
+        val hours = recTime / 3600000
+        val minutes = (recTime % 3600000) / 60000
+        val seconds = (recTime % 60000) / 1000
+        record_label.setText(s"录制中，时长：${hours.toInt}:${minutes.toInt}:${seconds.toInt}")
+      case _=>
+      //          updateRecordUI()
+    }
+  }
+
+  def writeLiveTime() = {
+    hostStatus match{
+      case HostStatus.CONNECT =>
+        val liveTime = System.currentTimeMillis() - startLiveTime
+        val hours = liveTime / 3600000
+        val minutes = (liveTime % 3600000) / 60000
+        val seconds = (liveTime % 60000) / 1000
+        off_label.setText(s"结束，时长：${hours.toInt}:${minutes.toInt}:${seconds.toInt}")
+      case _ =>
+      //          updateVideoUI()
+    }
+  }
   //开始会议后，界面可以做的一些修改，结束会议，界面需要做的一些修改
   def resetBack() = {
 
