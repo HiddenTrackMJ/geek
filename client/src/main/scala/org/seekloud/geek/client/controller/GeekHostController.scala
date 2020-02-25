@@ -212,7 +212,7 @@ class GeekHostController(
 
 
   def initToolbar() = {
-    val toolbar = TopBar(s"会议名称：${RmManager.roomInfo.get.roomName} 会议号：${RmManager.roomInfo.get.roomId}", Color.BLACK,  Color.WHITE,rootPane.getPrefWidth-10, 20, "host", context, rmManager)()
+    val toolbar = TopBar(s"会议名称：${RmManager.roomInfo.get.roomName} 会议号：${RmManager.roomInfo.get.roomId}", Color.BLACK,  Color.WHITE,rootPane.getPrefWidth, 10, "host", context, rmManager)()
     rootPane.getChildren.add(toolbar)
   }
 

@@ -16,13 +16,13 @@
 <?import javafx.scene.shape.Line?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<VBox prefHeight="728.0" prefWidth="1377.0" stylesheets="@css/geek-host.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="728.0" prefWidth="1421.0" stylesheets="@css/geek-host.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-      <AnchorPane fx:id="rootPane" prefHeight="778.0" prefWidth="1155.0">
+      <AnchorPane fx:id="rootPane" prefHeight="753.0" prefWidth="1421.0" style="-fx-background-color: #000;">
          <children>
-            <BorderPane prefHeight="671.0" prefWidth="1176.0" style="-fx-background-color: #000000;">
+            <BorderPane layoutY="6.0" prefHeight="669.0" prefWidth="1421.0" style="-fx-background-color: #000000;">
                <left>
-                  <AnchorPane prefHeight="643.0" prefWidth="294.0" style="-fx-background-color: #2a2e32;" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="643.0" prefWidth="302.0" style="-fx-background-color: #2a2e32;" BorderPane.alignment="CENTER">
                      <children>
                         <Label layoutX="125.0" layoutY="31.0" text="房间成员" textFill="WHITE" />
                         <Line endX="193.0" layoutX="108.0" layoutY="63.0" startX="-108.0" />
@@ -88,14 +88,14 @@
                   <Insets top="30.0" />
                </padding>
                <center>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="616.0" prefWidth="789.0" BorderPane.alignment="CENTER">
                      <children>
                         <BorderPane fx:id="centerPane" prefHeight="643.0" prefWidth="789.0" />
                      </children>
                   </AnchorPane>
                </center>
             </BorderPane>
-            <BorderPane layoutY="671.0" prefHeight="57.0" prefWidth="1414.0" style="-fx-background-color: #32363c;">
+            <BorderPane layoutY="671.0" prefHeight="57.0" prefWidth="1421.0" style="-fx-background-color: #32363c;">
                <center>
                   <GridPane prefHeight="57.0" prefWidth="1330.0" BorderPane.alignment="CENTER">
                     <columnConstraints>
