@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory
 case class TopBar(
   title:String = "", //标题
   color:Color = Color.TRANSPARENT, //标题栏背景颜色
+  textColor:Color = Color.BLACK, //标题文字的颜色
   width:Double, //标题栏的长度
   height:Double, //标题栏的高度
   name: String, //根据不同name关闭窗口执行的操作不同
@@ -37,7 +38,6 @@ case class TopBar(
     topBar.setPrefWidth(width)
     topBar.setPrefHeight(height)
     topBar.setBackground(new Background(new BackgroundFill(color, null, null)))
-
     //左侧边栏的按钮栏
     val pane = new GridPane()
     pane.setPadding(new Insets(10,0,7,10))
@@ -131,8 +131,9 @@ case class TopBar(
     topBar.setLeft(pane)
 
     if (title!=""){
-      //todo 设置标题的颜色
-      topBar.setCenter(new Label(title))
+      val titleLabel = new Label(title)
+      titleLabel.setTextFill(textColor)
+      topBar.setCenter(titleLabel)
     }
 
     val isRight: Boolean = false // 是否处于右边界调整窗口状态

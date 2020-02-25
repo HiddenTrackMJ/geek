@@ -24,7 +24,8 @@ object CommonProtocol {
     var pushStream:Option[String] = None,//推流的地址
     var pullStream:Option[String] = None,//拉流的地址
     var isHost:Option[Boolean] = Some(false), //是否是房主，组员和房主的权限不同
-    var isVoice:Option[Boolean] = Some(true) //当前用户是否开了声音
+    var isMic:Option[Boolean] = Some(true), //当前用户是否开了声音
+    var isVideo:Option[Boolean] = Some(true) //当前用户是否开了摄像头
   )
 
   case class CommentInfo(
@@ -98,7 +99,7 @@ object CommonProtocol {
 
   case class RoomInfo(
     roomId: Long,
-    roomName: String,
+    var roomName: String,
     roomDes: String,
     userId: Long,  //房主id
     userName:String,

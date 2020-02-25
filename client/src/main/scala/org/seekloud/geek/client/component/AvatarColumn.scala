@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory
   * User: hewro
   * Date: 2020/2/17
   * Time: 21:35
-  * Description: 用户信息栏 = 圆形头像+ 用户名+用户角色（主持人/普通成员）
+  * Description: 用户信息栏 = 圆形头像+ (用户名+用户角色)（主持人/普通成员） + 摄像头开关+声音开关+角色切换开关
   */
 case class AvatarColumn(
   userInfo: UserInfo,
@@ -30,15 +30,15 @@ case class AvatarColumn(
     gridPane.add(Avatar(30, userInfo.headImgUrl)(), 0, 0); // column=1 row=0
 
 //    val width = gridPane.getPrefWidth
-    (0 to 3).foreach{
+    (0 to 4).foreach{
       i=>
-        println("1当前序号" + i)
+//        println("1当前序号" + i)
         val column = if (i == 1) {
-          new ColumnConstraints(width/7 * 4)
+          new ColumnConstraints(width/7 * 3)
         }else if (i==0){
           new ColumnConstraints(width/7 + 5)
         }else{
-          new ColumnConstraints(width/7 - 10)
+          new ColumnConstraints(width/7 - 5)
         }
         gridPane.getColumnConstraints.add(column)
     }
@@ -55,21 +55,20 @@ case class AvatarColumn(
 
     //用户操作按钮
     //根据声音开启状态显示不同图标
-    val r = if(userInfo.isVoice.get) RippleIcon(List("fas-microphone:16:white"))()else RippleIcon(List("fas-microphone-slash:16:white"))()
+    val r = if(userInfo.isMic.get) RippleIcon(List("fas-microphone:16:white"))()else RippleIcon(List("fas-microphone-slash:16:white"))()
     val icon = r._1
-    val iconSpan = r._2
 
 
     icon.setOnMouseClicked(_ =>{
       //todo 发ws消息
-      if (userInfo.isVoice.get){
+      if (userInfo.isMic.get){
         SnackBar.show(rootPane,"静音" + userInfo.userName)
       }else{
         SnackBar.show(rootPane,"取消静音" + userInfo.userName)
       }
 
       //修改内存中该用户的静音状态
-      userInfo.isVoice = Some(!userInfo.isVoice.get)
+      userInfo.isMic = Some(!userInfo.isMic.get)
 
       //修改界面
       updateFunc()
@@ -78,6 +77,32 @@ case class AvatarColumn(
 
 
     gridPane.add(icon, 2, 0)
+
+
+    //控制某个用户的视频消息
+    val v = if(userInfo.isVideo.get) RippleIcon(List("fas-video:16:white"))()else RippleIcon(List("fas-eye-slash:16:white"))()
+    val videoIcon = v._1
+
+
+    videoIcon.setOnMouseClicked(_ =>{
+      //todo 发ws消息
+      if (userInfo.isVideo.get){
+        SnackBar.show(rootPane,"关闭视频" + userInfo.userName)
+      }else{
+        SnackBar.show(rootPane,"显示视频" + userInfo.userName)
+      }
+
+      //修改内存中该用户的静音状态
+      userInfo.isVideo = Some(!userInfo.isVideo.get)
+
+      //修改界面
+      updateFunc()
+
+    })
+
+
+    gridPane.add(videoIcon, 3, 0)
+
 
     //根据用户身份显示不同的图标，普通用户 user-o
     val r2 =
