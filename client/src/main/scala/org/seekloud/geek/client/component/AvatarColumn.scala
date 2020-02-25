@@ -17,22 +17,20 @@ case class AvatarColumn(
   userInfo: UserInfo,
   width:Double,
   rootPane:Pane,
-  updateFunc: ()=>Unit
+  updateFunc: ()=>Unit,
+  toggleMic: ()=>Unit,
+  toggleVideo: ()=>Unit
 ){
 
   private val log = LoggerFactory.getLogger(this.getClass)
 
   def apply(): GridPane = {
     val gridPane = new GridPane()
-//    gridPane.setAlignment()="LEFT"
-//    GridPane.setHalignment()="CENTER"
     //用户头像
     gridPane.add(Avatar(30, userInfo.headImgUrl)(), 0, 0); // column=1 row=0
 
-//    val width = gridPane.getPrefWidth
     (0 to 4).foreach{
       i=>
-//        println("1当前序号" + i)
         val column = if (i == 1) {
           new ColumnConstraints(width/7 * 3)
         }else if (i==0){
@@ -51,6 +49,7 @@ case class AvatarColumn(
     vBox.getChildren.addAll(userName,userLevel)
     vBox.setPadding(new Insets(3,0,0,10))
     gridPane.add(vBox, 1, 0)
+
 //    gridPane.setPrefWidth(width)
 
     //用户操作按钮
@@ -59,21 +58,29 @@ case class AvatarColumn(
     val icon = r._1
 
 
-    icon.setOnMouseClicked(_ =>{
-      //todo 发ws消息
-      if (userInfo.isMic.get){
-        SnackBar.show(rootPane,"静音" + userInfo.userName)
-      }else{
-        SnackBar.show(rootPane,"取消静音" + userInfo.userName)
-      }
+    if (RmManager.userInfo.get.isHost.get){
+      icon.setOnMouseClicked(_ =>{
+        //todo 发ws消息
+        if (userInfo.isMic.get){
+          SnackBar.show(rootPane,"静音" + userInfo.userName)
+        }else{
+          SnackBar.show(rootPane,"取消静音" + userInfo.userName)
+        }
 
-      //修改内存中该用户的静音状态
-      userInfo.isMic = Some(!userInfo.isMic.get)
+        //当前自己的用户
+        if (userInfo.userId == RmManager.userInfo.get.userId){
+          toggleMic()
+        }
 
-      //修改界面
-      updateFunc()
+        //修改内存中该用户的静音状态
+        userInfo.isMic = Some(!userInfo.isMic.get)
 
-    })
+        //修改界面
+        updateFunc()
+
+      })
+    }
+
 
 
     gridPane.add(icon, 2, 0)
@@ -84,21 +91,28 @@ case class AvatarColumn(
     val videoIcon = v._1
 
 
-    videoIcon.setOnMouseClicked(_ =>{
-      //todo 发ws消息
-      if (userInfo.isVideo.get){
-        SnackBar.show(rootPane,"关闭视频" + userInfo.userName)
-      }else{
-        SnackBar.show(rootPane,"显示视频" + userInfo.userName)
-      }
+    if (RmManager.userInfo.get.isHost.get) {
+      videoIcon.setOnMouseClicked(_ =>{
+        //todo 发ws消息
+        if (userInfo.isVideo.get){
+          SnackBar.show(rootPane,"关闭视频" + userInfo.userName)
+        }else{
+          SnackBar.show(rootPane,"显示视频" + userInfo.userName)
+        }
 
-      //修改内存中该用户的静音状态
-      userInfo.isVideo = Some(!userInfo.isVideo.get)
+        if (userInfo.userId == RmManager.userInfo.get.userId){
+          toggleVideo()
+        }
 
-      //修改界面
-      updateFunc()
+        //修改内存中该用户的静音状态
+        userInfo.isVideo = Some(!userInfo.isVideo.get)
 
-    })
+        //修改界面
+        updateFunc()
+
+      })
+    }
+
 
 
     gridPane.add(videoIcon, 3, 0)
@@ -111,21 +125,23 @@ case class AvatarColumn(
     val user = r2._1
     val userSpan = r2._2
 
-    userSpan.setOnMouseClicked(_=>{
-      //修改用户的身份信息
-      //把当前用户设置为主持人，其他用户设置为非主持人
-      val origHost = RmManager.roomInfo.get.userList.find(_.isHost.get == true)
-      if (origHost nonEmpty){
-        origHost.get.isHost = Some(false)
-        userInfo.isHost = Some(true)
-        //修改整个Jlist的界面，回调controller里面的方法
-        updateFunc()
-      }else{
-        //
-        log.info("当前数据有误，成员列表中没有房主")
+    if (RmManager.userInfo.get.isHost.get) {
+      userSpan.setOnMouseClicked(_=>{
+        //修改用户的身份信息
+        //把当前用户设置为主持人，其他用户设置为非主持人
+        val origHost = RmManager.roomInfo.get.userList.find(_.isHost.get == true)
+        if (origHost nonEmpty){
+          origHost.get.isHost = Some(false)
+          userInfo.isHost = Some(true)
+          //修改整个Jlist的界面，回调controller里面的方法
+          updateFunc()
+        }else{
+          //
+          log.info("当前数据有误，成员列表中没有房主")
 
-      }
-    })
+        }
+      })
+    }
 
     gridPane.add(user, 4, 0)
 

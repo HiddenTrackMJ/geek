@@ -1,8 +1,7 @@
 package org.seekloud.geek.client.common
 
-import java.io.{File, FileInputStream}
+import java.io.File
 
-import javafx.scene.image.Image
 import javafx.scene.paint.Color
 
 
@@ -69,6 +68,10 @@ object Constants {
     val ON = 2
   }
 
+  object CommentType{
+    val USER = 0
+    val SERVER = 1
+  }
 
 
   object AudienceStatus {

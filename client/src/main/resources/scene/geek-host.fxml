@@ -19,13 +19,26 @@
   <children>
       <AnchorPane fx:id="rootPane" prefHeight="778.0" prefWidth="1155.0">
          <children>
-            <BorderPane prefHeight="671.0" prefWidth="1149.0" style="-fx-background-color: #000000;">
+            <BorderPane prefHeight="671.0" prefWidth="1176.0" style="-fx-background-color: #000000;">
                <left>
-                  <AnchorPane prefHeight="647.0" prefWidth="215.0" style="-fx-background-color: #2a2e32;" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="556.0" prefWidth="258.0" style="-fx-background-color: #2a2e32;" BorderPane.alignment="CENTER">
                      <children>
-                        <Label layoutX="82.0" layoutY="22.0" text="房间成员" textFill="WHITE" />
-                        <Line endX="107.0" layoutX="108.0" layoutY="50.0" startX="-108.0" />
-                        <AnchorPane fx:id="userListPane" layoutX="8.0" layoutY="62.0" prefHeight="580.0" prefWidth="200.0" />
+                        <Label layoutX="103.0" layoutY="30.0" text="房间成员" textFill="WHITE" />
+                        <Line endX="149.0" layoutX="108.0" layoutY="63.0" startX="-108.0" />
+                        <AnchorPane fx:id="userListPane" layoutX="10.0" layoutY="82.0" prefHeight="465.0" prefWidth="238.0" />
+                        <Line endX="149.0" layoutX="108.0" layoutY="560.0" startX="-108.0" />
+                        <JFXRippler layoutX="79.0" layoutY="572.0">
+                            <VBox alignment="CENTER" prefHeight="57.0" prefWidth="100.0" style="-fx-background-color: #3c3e42; -fx-background-radius: 10;">
+                                <children>
+                                    <FontIcon iconColor="WHITE" iconLiteral="fas-hand-paper" textAlignment="CENTER" />
+                                    <Label text="申请发言" textFill="WHITE">
+                                        <VBox.margin>
+                                            <Insets top="10.0" />
+                                        </VBox.margin>
+                                    </Label>
+                                </children>
+                            </VBox>
+                        </JFXRippler>
                      </children>
                   </AnchorPane>
                </left>
@@ -56,7 +69,7 @@
                   </AnchorPane>
                </center>
             </BorderPane>
-            <BorderPane layoutY="671.0" prefHeight="57.0" prefWidth="1149.0" style="-fx-background-color: #32363c;">
+            <BorderPane layoutY="671.0" prefHeight="57.0" prefWidth="1193.0" style="-fx-background-color: #32363c;">
                <center>
                   <GridPane BorderPane.alignment="CENTER">
                     <columnConstraints>
