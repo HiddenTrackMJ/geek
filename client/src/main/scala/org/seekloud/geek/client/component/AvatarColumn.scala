@@ -3,7 +3,7 @@ package org.seekloud.geek.client.component
 import javafx.geometry.Insets
 import javafx.scene.control.Label
 import javafx.scene.layout.{ColumnConstraints, GridPane, Pane, VBox}
-import org.seekloud.geek.client.core.RmManager
+import org.seekloud.geek.client.common.Constants.HostOperateIconType
 import org.seekloud.geek.shared.ptcl.CommonProtocol.UserInfo
 import org.slf4j.LoggerFactory
 
@@ -29,14 +29,14 @@ case class AvatarColumn(
     //用户头像
     gridPane.add(Avatar(30, userInfo.headImgUrl)(), 0, 0); // column=1 row=0
 
-    (0 to 4).foreach{
+    (0 to 5).foreach{
       i=>
         val column = if (i == 1) {
-          new ColumnConstraints(width/7 * 3)
+          new ColumnConstraints(width/8 * 3)
         }else if (i==0){
           new ColumnConstraints(width/7 + 5)
         }else{
-          new ColumnConstraints(width/7 - 5)
+          new ColumnConstraints(width/7 - 10)
         }
         gridPane.getColumnConstraints.add(column)
     }
@@ -52,98 +52,39 @@ case class AvatarColumn(
 
 //    gridPane.setPrefWidth(width)
 
-    //用户操作按钮
+    //用户操作按钮，4个按钮，声音、摄像头、发言模式、房主切换
     //根据声音开启状态显示不同图标
-    val r = if(userInfo.isMic.get) RippleIcon(List("fas-microphone:16:white"))()else RippleIcon(List("fas-microphone-slash:16:white"))()
-    val icon = r._1
-
-
-    if (RmManager.userInfo.get.isHost.get){
-      icon.setOnMouseClicked(_ =>{
-        //todo 发ws消息
-        if (userInfo.isMic.get){
-          SnackBar.show(rootPane,"静音" + userInfo.userName)
-        }else{
-          SnackBar.show(rootPane,"取消静音" + userInfo.userName)
-        }
-
-        //当前自己的用户
-        if (userInfo.userId == RmManager.userInfo.get.userId){
-          toggleMic()
-        }
-
-        //修改内存中该用户的静音状态
-        userInfo.isMic = Some(!userInfo.isMic.get)
-
-        //修改界面
-        updateFunc()
-
-      })
-    }
-
+    val icon = HostOperateIcon("fas-microphone:16:white","fas-microphone-slash:16:white","取消静音","静音",
+      userInfo.isMic.get,userInfo,rootPane,
+      ()=>toggleMic(),()=>updateFunc(),HostOperateIconType.MIC)()
 
 
     gridPane.add(icon, 2, 0)
 
 
     //控制某个用户的视频消息
-    val v = if(userInfo.isVideo.get) RippleIcon(List("fas-video:16:white"))()else RippleIcon(List("fas-eye-slash:16:white"))()
-    val videoIcon = v._1
-
-
-    if (RmManager.userInfo.get.isHost.get) {
-      videoIcon.setOnMouseClicked(_ =>{
-        //todo 发ws消息
-        if (userInfo.isVideo.get){
-          SnackBar.show(rootPane,"关闭视频" + userInfo.userName)
-        }else{
-          SnackBar.show(rootPane,"显示视频" + userInfo.userName)
-        }
-
-        if (userInfo.userId == RmManager.userInfo.get.userId){
-          toggleVideo()
-        }
-
-        //修改内存中该用户的静音状态
-        userInfo.isVideo = Some(!userInfo.isVideo.get)
-
-        //修改界面
-        updateFunc()
-
-      })
-    }
-
+    val videoIcon = HostOperateIcon("fas-video:16:white","fas-eye-slash:16:white","关闭视频","开启视频",
+      userInfo.isMic.get,userInfo,rootPane,
+      ()=>toggleVideo(),()=>updateFunc(),HostOperateIconType.VIDEO)()
 
 
     gridPane.add(videoIcon, 3, 0)
 
+    //控制某个用户的发言情况
+    val speakIcon = HostOperateIcon("fas-hand-paper:16:green","fas-hand-paper:16:white","取消指定发言","指定发言",
+      userInfo.isMic.get,userInfo,rootPane,
+      ()=>Unit,()=>updateFunc(),HostOperateIconType.ALLOW)()
+
+    gridPane.add(speakIcon, 4, 0)
+
 
     //根据用户身份显示不同的图标，普通用户 user-o
-    val r2 =
-      if(userInfo.isHost.get) RippleIcon(List("fas-user-circle:16:#fab726"))()
-      else  RippleIcon(List("fas-user:16:white"))()
-    val user = r2._1
-    val userSpan = r2._2
+    val user = HostOperateIcon("fas-user-circle:16:#fab726","fas-user:16:white","指定为主持人","指定为主持人",
+      userInfo.isMic.get,userInfo,rootPane,
+      ()=>Unit,()=>updateFunc(),HostOperateIconType.ALLOW)()
 
-    if (RmManager.userInfo.get.isHost.get) {
-      userSpan.setOnMouseClicked(_=>{
-        //修改用户的身份信息
-        //把当前用户设置为主持人，其他用户设置为非主持人
-        val origHost = RmManager.roomInfo.get.userList.find(_.isHost.get == true)
-        if (origHost nonEmpty){
-          origHost.get.isHost = Some(false)
-          userInfo.isHost = Some(true)
-          //修改整个Jlist的界面，回调controller里面的方法
-          updateFunc()
-        }else{
-          //
-          log.info("当前数据有误，成员列表中没有房主")
 
-        }
-      })
-    }
-
-    gridPane.add(user, 4, 0)
+    gridPane.add(user, 5, 0)
 
     gridPane
 

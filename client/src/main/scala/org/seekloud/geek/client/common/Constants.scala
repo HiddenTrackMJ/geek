@@ -86,6 +86,13 @@ object Constants {
     val AUDIENCE_REC = 2
   }
 
+  //用户列表栏每个用户的4种操作
+  object HostOperateIconType{
+    val MIC = 0
+    val VIDEO = 1
+    val ALLOW = 2
+    val HOST = 3
+  }
   val barrageColors = List(
     Color.PINK,
     Color.HOTPINK,
