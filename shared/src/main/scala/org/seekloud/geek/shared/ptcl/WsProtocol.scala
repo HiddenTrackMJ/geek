@@ -191,6 +191,21 @@ object WsProtocol  {
   ) extends WsMsgRm
 
 
+  case class AskSpeakReq(
+    isForced: Boolean,//true是主持人指定发言，false是用户主动申请发言
+    isSpeak: Boolean,//true 为申请发言，false为申请关闭发言
+    roomId: Long,
+    userId: Long
+  )extends WsMsgClient
+
+  case class AskSpeakRsp(
+    isForced: Boolean,//true是主持人指定发言，false是用户主动申请发言
+    isSpeak: Boolean,//true 为申请发言，false为申请关闭发言
+    userId: Long,
+    errCode: Int = 0,
+    msg: String = "ok"
+  )extends WsMsgRm
+
 
 //  val StartLiveRefused: StartLiveRsp = StartLiveRsp(errCode = 200001, msg = "start live refused.")
 //  val StartLiveRefused4Seal: StartLiveRsp = StartLiveRsp(errCode = 200001, msg = "start live refused.account has been sealed")
