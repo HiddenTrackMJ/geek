@@ -11,21 +11,27 @@ import org.scalajs.dom.raw._
 import org.scalajs.dom.KeyboardEvent
 import org.seekloud.geek.Main
 import org.seekloud.geek.pages.UserInfoPage.userDetail
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{InvitationReq, InvitationRsp, Inviter, InviterAndInviteeReq, addInviteeReq}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{InvitationReq, InvitationRsp, Inviter, InviterAndInviteeDetail, InviterAndInviteeDetailRsp, InviterAndInviteeReq, addInviteeReq}
 import org.seekloud.geek.shared.ptcl.{ComRsp, SuccessRsp}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.Elem
+
 object InviterManagement extends Page{
   private val roomWrapper = Var(emptyHTML)
   private val inviterData: Var[Option[List[Inviter]]] = Var(None)
   private val inviteeData: Var[Option[List[Inviter]]] = Var(None)
+  private val inviterDetailData: Var[List[InviterAndInviteeDetail]] = Var(List.empty)
+  private val inviteeDetailData: Var[List[InviterAndInviteeDetail]] = Var(List.empty)
   private val roomIdData: Var[List[RoomId]] = Var(List())
   private val isMeetingChoose = Var(false)
+  private val inviterVar = Var("")
+  private val inviteeVar = Var("")
 
 
 
-  def makeModal: Elem = {
+
+  def meetingModal: Elem = {
     val title = <h4 class="modal-title" style="text-align: center;">邀请用户</h4>
     val child =
       <div>
@@ -40,8 +46,7 @@ object InviterManagement extends Page{
       </div>
     new Modal(title, child, () => addInvitee(), s"chooseVisitor").render
   }
-
-  def inviteeModal: Elem = {
+  def inviterModal: Elem = {
     val title = <h4 class="modal-title" style="text-align: center;">邀请人详情</h4>
     val child =
       <div>
@@ -54,18 +59,35 @@ object InviterManagement extends Page{
           </div>
         </form>
       </div>
-    new Modal(title, child, () => addInvitee(), s"chooseVisitor").render
+    new Modal(title, child, () => addInvitee(), s"inviterModal").render
+  }
+
+  def inviteeModal: Elem = {
+    val title = <h4 class="modal-title" style="text-align: center;">被邀请人详情</h4>
+    val child =
+      <div>
+        <form style="border: 1px solid #dfdbdb;border-radius: 3px;padding:2rem 1rem 2rem 1rem;">
+          <div class="row" style="padding: 1rem 1rem 1rem 1rem;">
+            <label class="col-md-3" style="text-align:right">用户名</label>
+            <div class="col-md-6">
+              <input type="text" id="name" placeholder="请输入被邀请用户名" class="form-control" autofocus="true"></input>
+            </div>
+          </div>
+        </form>
+      </div>
+    new Modal(title, child, () => addInvitee(), s"inviteeModal").render
   }
 
   private val primaryInfo =
   <div class="primaryInfo">
     <div class="row info">
-      <div class="col-md-8">
+      <div>
         {userDetail.map{user=>
-        <img style="width:25px;height:25px" src={Route.hestiaPath(user.avatar.getOrElse("be8feec67e052403e26ec05559607f10.jpg"))}></img>
+        <img style="width:100px;height:100px" src={Route.hestiaPath(user.avatar.getOrElse("be8feec67e052403e26ec05559607f10.jpg"))}></img>
       }}
         <h2 class="username">
-          {dom.window.localStorage.getItem("username")}
+          <div>{"用户名："+dom.window.localStorage.getItem("username")}</div>
+          <div>{"用户Id："+dom.window.localStorage.getItem("userId")}</div>
         </h2>
       </div>
     </div>
@@ -78,7 +100,7 @@ object InviterManagement extends Page{
       val username= dom.window.localStorage.getItem("username")
       if(info.length==1 && info.head.inviterName == username) <div class="save">暂无邀请 </div>
       else <div>{info.filter(_.inviterName != username).map{inviter =>
-        <a href="#/inviterManage" title={"用户id:"+inviter.inviterId} class="save">{inviter.inviterName} </a>
+        <a href="#/inviterManage" title={"用户id:"+inviter.inviterId} class="save" data-toggle="modal" data-target={s"#inviterModal"}>{inviter.inviterName} </a>
       }}</div>
 
       }
@@ -92,7 +114,7 @@ object InviterManagement extends Page{
       val username= dom.window.localStorage.getItem("username")
       if(info.length==1 && info.head.inviterName == username) <div class="save">暂无邀请 </div>
       else <div>{info.filter(_.inviterName != username).map{invitee =>
-        <div  title="点击查看邀请人详情" class="save" onclick={()=>()/*delInvitee(invitee.inviterId);getInviteeInfo()*/}>{invitee.inviterName} </div>
+        <div  title="点击查看邀请人详情" class="save" data-toggle="modal" data-target={s"#inviteeModal"} onclick={()=>()/*delInvitee(invitee.inviterId);getInviteeInfo()*/}>{invitee.inviterName} </div>
       }}</div>
       }
     </div>
@@ -146,7 +168,9 @@ object InviterManagement extends Page{
         <div >
           {roomIdDetail}
 
-          {makeModal}
+          {meetingModal}
+          {inviterModal}
+          {inviteeModal}
         </div>
       </div>
 
@@ -191,7 +215,30 @@ object InviterManagement extends Page{
     }
   }
 
-  def delInvitee(invitee: Long): Unit ={
+  def getInviteeDetail(invitee: Long): Unit ={
+    val userId = dom.window.localStorage.getItem("userId").toLong
+    Http.postJsonAndParse[InviterAndInviteeDetailRsp](Route.Invitation.getInviteDetail, InviterAndInviteeReq(userId,invitee).asJson.noSpaces).map {
+      rsp =>
+        if(rsp.errCode == 0) {
+          inviteeDetailData:=rsp.list
+        } else {
+          println(rsp.msg)
+        }
+    }
+  }
+  def getInviterDetail(inviter: Long): Unit ={
+    val userId = dom.window.localStorage.getItem("userId").toLong
+    Http.postJsonAndParse[InviterAndInviteeDetailRsp](Route.Invitation.getInviteDetail, InviterAndInviteeReq(inviter,userId).asJson.noSpaces).map {
+      rsp =>
+        if(rsp.errCode == 0) {
+          inviterDetailData:=rsp.list
+        } else {
+          println(rsp.msg)
+        }
+    }
+  }
+
+  def delInvitee(invitee: Long,roomId:Long): Unit ={
     val userId = dom.window.localStorage.getItem("userId").toLong
     Http.postJsonAndParse[SuccessRsp](Route.Invitation.delInvitee, InviterAndInviteeReq(userId,invitee).asJson.noSpaces).map {
       rsp =>

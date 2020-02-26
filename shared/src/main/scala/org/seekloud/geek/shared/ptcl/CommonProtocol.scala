@@ -97,6 +97,16 @@ object CommonProtocol {
                          msg: String = "Ok"
                        ) extends Response
 
+  case class InviterAndInviteeDetail(
+                      roomId:String,
+                      fileList:List[String],
+                    )
+  case class InviterAndInviteeDetailRsp(
+                                         list: List[InviterAndInviteeDetail],
+                                         errCode: Int = 0,
+                                         msg: String = "Ok"
+                                 ) extends Response
+
 
   object ModeStatus{
     val FREE = 0 //自由发言
@@ -165,6 +175,11 @@ object CommonProtocol {
                             address:String
                           ) extends Request
 
+  case class CheckInviteeReq(
+                            inviteeId:Long,
+                            fileName:String,
+                          ) extends Request
+
   /**
     * 单独改变头像数据库接口
     **/
@@ -186,6 +201,7 @@ object CommonProtocol {
                     commentId:Long,
                     userId:Long,
                     invitation:Long,
+                    invitationAvatar:Option[String],
                     invitationName:String,
                     commentContent:String,
                     )

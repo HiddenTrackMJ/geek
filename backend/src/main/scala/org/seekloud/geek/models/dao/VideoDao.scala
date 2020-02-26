@@ -89,6 +89,16 @@ object VideoDao {
     } yield (inviteeName,inviteeId)
     db.run(innerJoin.distinct.sortBy(_._1.id).result)
   }
+  def checkInvitee(inviteeId: Long,fileName:String) = {
+    val q = tVideo.filter(_.invitation ===inviteeId ).filter(_.filename === fileName).result
+    db.run(q)
+  }
+
+  def getInviteDetail(inviterId:Long,inviteeId:Long) = {
+//    val q = tUser.filter(_.name ===i ).result
+//    db.run(q)
+  }
+
 
   def searchInvitee(inviteeName: String) = {
     val q = tUser.filter(_.name ===inviteeName ).result
@@ -124,9 +134,23 @@ object VideoDao {
     db.run(q)
   }
 
-  def deleteComment(id: Long): Future[Int] =
+  def deleteComment(id: Long): Future[Int] ={
+
+    try {
+      db.run(tVideo.filter(t=>t.id===id).delete)
+
+      Future.successful(1)
+    } catch {
+      case e: Throwable =>
+        println(s"deleteComment error with error $e")
+        Future.successful(-1)
+    }
+  }
+
+
+  def checkDeleteComment(id: Long) =
     db.run{
-      tVideo.filter(_.id === id).delete
+      tVideo.filter(_.id === id).result
     }
 
 

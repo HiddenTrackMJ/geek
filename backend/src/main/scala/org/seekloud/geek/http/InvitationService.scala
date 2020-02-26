@@ -11,7 +11,7 @@ import akka.actor.typed.scaladsl.AskPattern._
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.ws.Message
 import org.seekloud.geek.models.dao.{UserDao, VideoDao}
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{GetRoomInfoReq, InvitationReq, InvitationRsp, Inviter, InviterAndInviteeReq, SignIn, SignInRsp, SignUp, SignUpRsp, addInviteeReq}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{CheckInviteeReq, GetRoomInfoReq, InvitationReq, InvitationRsp, Inviter, InviterAndInviteeReq, SignIn, SignInRsp, SignUp, SignUpRsp, addInviteeReq}
 import org.seekloud.geek.utils.SecureUtil
 import org.seekloud.geek.shared.ptcl.CommonErrorCode._
 import org.slf4j.LoggerFactory
@@ -125,6 +125,43 @@ trait InvitationService extends BaseService{
     }
   }
 
+  private def checkInvitee =(path("checkInvitee") & post){
+    entity(as[Either[Error, CheckInviteeReq]]) {
+      case Right(req) =>
+        dealFutureResult(
+          VideoDao.checkInvitee(req.inviteeId,req.fileName).map { rsp =>
+            if (rsp != Vector())
+              complete(SuccessRsp())
+            else
+              complete(ErrorRsp(1000045, "没有被邀请"))
+          }
+
+        )
+      case Left(error) =>
+        log.warn(s"error in checkInvitee: $error")
+        complete(ErrorRsp(msg = "json parse error.1", errCode = 1000005))
+    }
+  }
+
+
+  private def getInviteDetail = (path("getInviteDetail") & post){
+    entity(as[Either[Error, InviterAndInviteeReq]]) {
+      case Right(req) =>
+//        dealFutureResult{
+//          VideoDao.getInviteDetail(req.inviterId,req.inviteeId).map { rsp =>
+//            if (rsp != Vector())
+//              complete(SuccessRsp())
+//            else
+              complete(ErrorRsp(1000045, "没有被邀请"))
+//          }
+
+//        }
+      case Left(e) =>
+        log.debug(s"delInvitee parse json failed,error:${e.getMessage}")
+        complete(jsonFormatError)
+    }
+  }
+
 
 
   private def addInvitee = (path("addInvitee") & post){
@@ -152,7 +189,7 @@ trait InvitationService extends BaseService{
   }
 
   val invitationRoutes: Route = pathPrefix("invitation") {
-    getInviterList ~ getInviteeList ~ delInvitee  ~ addInvitee
+    getInviterList ~ getInviteeList ~ delInvitee  ~ addInvitee ~ checkInvitee ~ getInviteDetail
   }
 
 }

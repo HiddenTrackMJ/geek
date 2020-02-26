@@ -14,7 +14,7 @@ trait SlickTables {
   import slick.jdbc.{GetResult => GR}
 
   /** DDL for all tables. Call .create to execute. */
-  lazy val schema: profile.SchemaDescription = tRoom.schema ++ tUser.schema ++ tVideo.schema
+  lazy val schema: profile.SchemaDescription = tRoom.schema ++ tUser.schema ++ tVideo.schema ++ tVideoTest.schema
   @deprecated("Use .schema instead of .ddl", "3.0")
   def ddl = schema
 
@@ -134,4 +134,45 @@ trait SlickTables {
   }
   /** Collection-like TableQuery object for table tVideo */
   lazy val tVideo = new TableQuery(tag => new tVideo(tag))
+
+  /** Entity class storing rows of table tVideoTest
+    *  @param id Database column ID SqlType(BIGINT), AutoInc, PrimaryKey
+    *  @param userid Database column USERID SqlType(BIGINT)
+    *  @param roomid Database column ROOMID SqlType(BIGINT)
+    *  @param timestamp Database column TIMESTAMP SqlType(BIGINT)
+    *  @param filename Database column FILENAME SqlType(VARCHAR), Length(300,true)
+    *  @param invitation Database column INVITATION SqlType(BIGINT), Default(None)
+    *  @param length Database column LENGTH SqlType(VARCHAR), Length(100,true)
+    *  @param comment Database column COMMENT SqlType(VARCHAR), Length(500,true), Default(None) */
+  case class rVideoTest(id: Long, userid: Long, roomid: Long, timestamp: Long, filename: String, invitation: Option[Long] = None, length: String, comment: Option[String] = None)
+  /** GetResult implicit for fetching rVideoTest objects using plain SQL queries */
+  implicit def GetResultrVideoTest(implicit e0: GR[Long], e1: GR[String], e2: GR[Option[Long]], e3: GR[Option[String]]): GR[rVideoTest] = GR{
+    prs => import prs._
+      rVideoTest.tupled((<<[Long], <<[Long], <<[Long], <<[Long], <<[String], <<?[Long], <<[String], <<?[String]))
+  }
+  /** Table description of table video_test. Objects of this class serve as prototypes for rows in queries. */
+  class tVideoTest(_tableTag: Tag) extends profile.api.Table[rVideoTest](_tableTag, Some("geek"), "video_test") {
+    def * = (id, userid, roomid, timestamp, filename, invitation, length, comment) <> (rVideoTest.tupled, rVideoTest.unapply)
+    /** Maps whole row to an option. Useful for outer joins. */
+    def ? = ((Rep.Some(id), Rep.Some(userid), Rep.Some(roomid), Rep.Some(timestamp), Rep.Some(filename), invitation, Rep.Some(length), comment)).shaped.<>({r=>import r._; _1.map(_=> rVideoTest.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6, _7.get, _8)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+
+    /** Database column ID SqlType(BIGINT), AutoInc, PrimaryKey */
+    val id: Rep[Long] = column[Long]("ID", O.AutoInc, O.PrimaryKey)
+    /** Database column USERID SqlType(BIGINT) */
+    val userid: Rep[Long] = column[Long]("USERID")
+    /** Database column ROOMID SqlType(BIGINT) */
+    val roomid: Rep[Long] = column[Long]("ROOMID")
+    /** Database column TIMESTAMP SqlType(BIGINT) */
+    val timestamp: Rep[Long] = column[Long]("TIMESTAMP")
+    /** Database column FILENAME SqlType(VARCHAR), Length(300,true) */
+    val filename: Rep[String] = column[String]("FILENAME", O.Length(300,varying=true))
+    /** Database column INVITATION SqlType(BIGINT), Default(None) */
+    val invitation: Rep[Option[Long]] = column[Option[Long]]("INVITATION", O.Default(None))
+    /** Database column LENGTH SqlType(VARCHAR), Length(100,true) */
+    val length: Rep[String] = column[String]("LENGTH", O.Length(100,varying=true))
+    /** Database column COMMENT SqlType(VARCHAR), Length(500,true), Default(None) */
+    val comment: Rep[Option[String]] = column[Option[String]]("COMMENT", O.Length(500,varying=true), O.Default(None))
+  }
+  /** Collection-like TableQuery object for table tVideoTest */
+  lazy val tVideoTest = new TableQuery(tag => new tVideoTest(tag))
 }

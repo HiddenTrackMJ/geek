@@ -11,7 +11,7 @@ create table `GEEK`.`ROOM`
     SERVERURL varchar(200)                                       not null,
     HOSTID    BIGINT                                             not null
 )ENGINE = InnoDB,AUTO_INCREMENT=1000;
-alter table ROOM AUTO_INCREMENT=1000;
+# alter table ROOM AUTO_INCREMENT=1000;
 
 -- # 用户信息
 create table `GEEK`.`USER`
@@ -22,9 +22,9 @@ create table `GEEK`.`USER`
     AVATAR   VARCHAR(300),
     GENDER   INT,
     AGE   INT,
-    ADDRESS   VARCHAR(100),
+    ADDRESS   VARCHAR(100)
 )ENGINE = InnoDB,auto_increment=1000;
-alter table user AUTO_INCREMENT=1000;
+# alter table user AUTO_INCREMENT=1000;
 
 
 -- # 录像信息
@@ -35,6 +35,8 @@ create table `GEEK`.`VIDEO`
     ROOMID    BIGINT                                              not null,
     TIMESTAMP BIGINT                                              not null,
     FILENAME  VARCHAR(300)                                        not null,
-    LENGTH    VARCHAR(100)                                        not null
-);
-alter table VIDEO AUTO_INCREMENT=1000;
+    LENGTH    VARCHAR(100)                                        not null,
+    INVITATION BIGINT                                             not null,
+    COMMENT VARCHAR(500)                                          not null
+)ENGINE = InnoDB,auto_increment=1000;
+# alter table 'VIDEO' AUTO_INCREMENT=1000;

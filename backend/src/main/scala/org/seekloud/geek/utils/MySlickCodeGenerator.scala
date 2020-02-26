@@ -21,7 +21,7 @@ object MySlickCodeGenerator {
 
   val slickDriver = "slick.jdbc.MySQLProfile"
   val jdbcDriver = "com.mysql.jdbc.Driver"
-//  val url = "jdbc:h2:file://F:\\Scala\\workspace\\geek\\data\\geek" //注意相对路径，会根据电脑系统的不同和启动路径的不同而发生变化
+//  val url ="jdbc:h2:file:D:\\Github\\geek2\\backend\\data\\geek" //注意相对路径，会根据电脑系统的不同和启动路径的不同而发生变化
   val url = "jdbc:mysql://192.144.143.31:3306/geek?characterEncoding=utf-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true" //  new test
   val outputFolder = "target/gencode/genTablesPsql"
   val pkg = "org.seekloud.geek.models"
