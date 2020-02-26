@@ -449,7 +449,7 @@ object PlayerGrabber {
 //          val ts2 = System.currentTimeMillis() -ts1
 //          debug(s"$ts2..........$img")
 //          println(s"img w :${img.getWidth}, h: ${img.getHeight}")
-          pictureQueue.offer(AddPicture(img, frame.timestamp))
+          pictureQueue.offer(AddPicture((id, img), frame.timestamp))
         } else {
           log.warn("warning: no picture to buffer.")
         }

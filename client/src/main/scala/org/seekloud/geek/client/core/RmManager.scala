@@ -16,6 +16,8 @@ import org.seekloud.geek.shared.ptcl.WsProtocol
 import org.seekloud.geek.shared.ptcl.WsProtocol.{CompleteMsgClient, StopLive4ClientReq, StopLiveReq, WsMsgFront}
 import org.slf4j.LoggerFactory
 
+import scala.collection.mutable
+
 /**
  * User: hewro
  * Date: 2020/1/31
@@ -31,6 +33,7 @@ object RmManager {
   var userInfo: Option[UserInfo] = None
   var roomInfo: Option[RoomInfo] = None
   var meetingListInfo:List[MeetingInfo] = Nil //存储用户登录当前会话中参加和发起的会议信息
+  val userLiveIdMap: mutable.HashMap[String, Long] = mutable.HashMap.empty
 
 
   private[this] def switchBehavior(ctx: ActorContext[RmCommand],
@@ -51,7 +54,8 @@ object RmManager {
   final case object HostWsEstablish extends RmCommand
   final case object BackToHome extends RmCommand
   final case object HostLiveReq extends RmCommand //请求开启会议
-  final case class StartLiveSuccess(pull:String, push:String) extends RmCommand
+  final case class StartLiveSuccess(pull:String, push:String, userLiveCodeMap: Map[String, Long]) extends RmCommand
+  final case class StartLive4ClientSuccess(userLiveCodeMap: Map[String, Long]) extends RmCommand
   final case object StopLive extends RmCommand
   final case object StopLiveSuccess extends RmCommand
   final case object StopLiveFailed extends RmCommand
@@ -192,7 +196,7 @@ object RmManager {
           Behaviors.same
 
 
-        case StartLiveSuccess(pull, push)=>
+        case StartLiveSuccess(pull, push, userLiveCodeMap)=>
 
           //更新会议室的状态
           hostController.hostStatus = HostStatus.CONNECT
@@ -204,7 +208,23 @@ object RmManager {
 
           //2.开始拉流：
           RmManager.userInfo.get.pullStream = Some(pull)
-          liveManager ! LiveManager.PullStream(RmManager.userInfo.get.pullStream.get,mediaPlayer,hostController,liveManager)
+
+          userLiveCodeMap.filter(_._2 != -1).zipWithIndex.foreach { u =>
+            val position = u._1._1.split("_").last
+            RmManager.userLiveIdMap.put(u._1._1, u._1._2)
+            liveManager ! LiveManager.PullStream(u._1._1, position, mediaPlayer, hostController, liveManager)
+          }
+
+          Behaviors.same
+
+        case StartLive4ClientSuccess(userLiveCodeMap)=>
+
+          userLiveCodeMap.filter(_._2 != -1).filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach { u =>
+            val position = u._1.split("_").last
+            RmManager.userLiveIdMap.put(u._1, u._2)
+            liveManager ! LiveManager.PullStream(u._1, position, mediaPlayer, hostController, liveManager)
+          }
+
           Behaviors.same
 
         case msg: Comment =>

@@ -126,12 +126,12 @@ class MediaPlayer () {
     * 开始播放
     *
     * */
-  def start(playId: String, replyTo: ActorRef[Messages.RTCommand], input:Either[String, InputStream], graphContext: Option[GraphicsContext], mediaSettings: Option[MediaSettings] = None): Unit = {
+  def start(playId: String, position: String, replyTo: ActorRef[Messages.RTCommand], input:Either[String, InputStream], graphContext: Option[GraphicsContext], mediaSettings: Option[MediaSettings] = None): Unit = {
     log.info(s"开始播放器playerId:$playId")
     if(mediaSettings.isEmpty){
-      playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, MediaSettings(imageWidth, imageHeight, frameRate, needImage, needSound, outputFile))
+      playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, MediaSettings(imageWidth, imageHeight, frameRate, needImage, needSound, outputFile), position)
     } else{
-      playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, mediaSettings.get)
+      playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, mediaSettings.get, position)
 
     }
 

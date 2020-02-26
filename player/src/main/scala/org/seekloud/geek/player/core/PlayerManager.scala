@@ -74,7 +74,8 @@ object PlayerManager {
     replyTo: ActorRef[Messages.RTCommand],
     graphContext: Option[GraphicsContext],
     input: Either[String, InputStream],
-    settings: MediaSettings
+    settings: MediaSettings,
+    position: String,
   ) extends SupervisorCmd
 
   final case class PausePlay(
@@ -125,22 +126,22 @@ object PlayerManager {
           playerGrabberMap.get(msg.playId).foreach(_._1 ! PlayerGrabber.SetTimeGetter(msg.func))
           Behaviors.same
 
-        case StartPlay(playId, replyTo, gc, input, settings) =>
+        case StartPlay(playId, replyTo, gc, input, settings, position) =>
           log.info(s"StartPlay video - $input")
 
-          if (replyToMap.get(playId).isEmpty) {
+          if (replyToMap.get(position).isEmpty) {
             log.debug(s"save replyTo actor to map.")
-            replyToMap.put(playId, replyTo)
+            replyToMap.put(position, replyTo)
           }
 
-          val playerGrabber = getPlayerGrabber(replyTo, gc, ctx, playId, input, settings)
-          playerGrabberMap.put(playId, (playerGrabber, input))
+          val playerGrabber = getPlayerGrabber(replyTo, gc, ctx, position, input, settings)
+          playerGrabberMap.put(position, (playerGrabber, input))
 
-          if (!mediaSettingsMap.contains(playId)) {
-            mediaSettingsMap.put(playId, settings)
+          if (!mediaSettingsMap.contains(position)) {
+            mediaSettingsMap.put(position, settings)
           }
-          if (gc.nonEmpty && !gcMap.contains(playId)) {
-            gcMap.put(playId, gc.get)
+          if (gc.nonEmpty && !gcMap.contains(position)) {
+            gcMap.put(position, gc.get)
           }
 
           idle(mediaSettingsMap, gcMap, recordActorMap, playerGrabberMap, imageActorMap, soundActorMap, replyToMap)

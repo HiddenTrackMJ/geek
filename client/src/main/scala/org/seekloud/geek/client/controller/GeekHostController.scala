@@ -317,7 +317,7 @@ class GeekHostController(
         log.debug(s"get StartLiveRsp: $msg")
         if (msg.errCode == 0) {
           //开始直播
-          rmManager ! StartLiveSuccess(msg.rtmp.serverUrl+msg.rtmp.stream,msg.rtmp.serverUrl+msg.selfCode)
+          rmManager ! StartLiveSuccess(msg.rtmp.serverUrl+msg.rtmp.stream,msg.rtmp.serverUrl+msg.selfCode,  msg.userLiveCodeMap.map(i => (msg.rtmp.serverUrl + i._1, i._2)))
         } else {
           Boot.addToPlatform {
             WarningDialog.initWarningDialog(s"${msg.msg}")
@@ -328,7 +328,7 @@ class GeekHostController(
         log.info(s"收到后端的开始会议消息")
         if (msg.errCode == 0) {
           //开始直播
-          rmManager ! StartLiveSuccess(msg.rtmp.get.serverUrl+msg.rtmp.get.stream,msg.rtmp.get.serverUrl+msg.selfCode)
+          rmManager ! StartLiveSuccess(msg.rtmp.get.serverUrl+msg.rtmp.get.stream,msg.rtmp.get.serverUrl+msg.selfCode,  msg.userLiveCodeMap.map(i => (msg.rtmp.get.serverUrl + i._1, i._2)))
         } else {
           Boot.addToPlatform {
             WarningDialog.initWarningDialog(s"${msg.msg}")

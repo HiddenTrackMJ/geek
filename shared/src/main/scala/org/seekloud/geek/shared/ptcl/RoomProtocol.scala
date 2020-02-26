@@ -184,7 +184,7 @@ object RoomProtocol {
 
   case class RtmpInfo(
     serverUrl: String,
-    stream: Map[Long, String],
+    stream: String,
     liveCode: List[String]
   )
 
