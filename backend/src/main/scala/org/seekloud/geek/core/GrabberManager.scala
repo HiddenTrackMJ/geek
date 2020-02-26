@@ -79,7 +79,7 @@ object GrabberManager {
     Behaviors.receive[Command] { (ctx, msg) =>
       msg match {
         case msg: StartLive =>
-          val recordActor = getRecorder(ctx, msg.roomId, msg.userId, msg.rtmpInfo.stream, msg.roomDealer, msg.rtmpInfo.liveCode, 0)//todo layout
+          val recordActor = getRecorder(ctx, msg.roomId, msg.userId, msg.rtmpInfo.stream.head._2, msg.roomDealer, msg.rtmpInfo.liveCode, 0)//todo layout
           val grabbers = if (AppSettings.rtmpIsTest) {
             msg.rtmpInfo.liveCode.map {
               stream =>
