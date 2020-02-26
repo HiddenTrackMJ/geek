@@ -1,7 +1,7 @@
 package org.seekloud.geek.shared.ptcl
 
 import org.seekloud.geek.shared.ptcl.CommonInfo.{AudienceInfo, LiveInfo, RoomInfo, UserDes}
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{ModifyRoomInfo, RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
 
 /**
  * Author: Jason
@@ -183,6 +183,9 @@ object WsProtocol  {
 
   case class ShieldRsp(
     isForced: Boolean,
+    userId: Long,
+    isImage: Boolean,
+    isAudio: Boolean,
     errCode: Int = 0,
     msg: String = "ok"
   ) extends WsMsgRm
