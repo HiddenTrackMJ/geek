@@ -122,24 +122,24 @@ class GeekHostController(
       allow_button.setOpacity(0.3)
     }else{
       allow_button.setOpacity(1)
-      allowStatus match {
-        case AllowStatus.NOT_ALLOW =>
-          allow_label.setText("申请发言")
-          allow_icon.setIconColor(Color.WHITE)
-        case AllowStatus.ASKING =>
-          allow_label.setText("等待房主同意")
-          allow_icon.setIconColor(Color.GRAY)
-        case AllowStatus.ALLOW =>
-          allow_label.setText("停止发言")
-          allow_icon.setIconColor(Color.GREEN)
-      }
     }
-
+    allowStatus match {
+      case AllowStatus.NOT_ALLOW =>
+        allow_label.setText("申请发言")
+        allow_icon.setIconColor(Color.WHITE)
+      case AllowStatus.ASKING =>
+        allow_label.setText("等待房主同意")
+        allow_icon.setIconColor(Color.GRAY)
+      case AllowStatus.ALLOW =>
+        allow_label.setText("停止发言")
+        allow_icon.setIconColor(Color.GREEN)
+    }
   }
 
   //更新当前的模式状态的UI
   def updateModeUI() = {
     //根据当前所有用户的发言状态，如果没有在申请发言，则为自由发言状态，反之为申请发言状态
+    println(RmManager.roomInfo.get.userList)
     if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
       //当前是申请发言状态
       mode_label.setText("申请发言")
@@ -147,6 +147,13 @@ class GeekHostController(
       //当前是自由发言状态
       mode_label.setText("自由发言")
     }
+
+    if (RmManager.getCurrentUserInfo().isAllow.get){
+      allowStatus = AllowStatus.ALLOW
+    }else{
+      allowStatus = AllowStatus.NOT_ALLOW
+    }
+    updateAllowUI()
   }
 
 
@@ -159,7 +166,6 @@ class GeekHostController(
 
     updateVideoUI()
     updateMicUI()
-    updateAllowUI()
     //启动定时器
     animationTimer.start()
 
@@ -273,6 +279,8 @@ class GeekHostController(
     initCommentList()
     addServerMsg(CommentInfo(-1L,"","","欢迎加入",1L))
     initToolbar()
+    updateAllowUI()
+
   }
 
 
@@ -298,7 +306,9 @@ class GeekHostController(
     userList.map{
       t=>
         //创建一个AnchorPane
-        val pane = AvatarColumn(t,userListPane.getPrefWidth - 20,centerPane,()=>{updateUserList()},()=>toggleMic(),()=>toggleVideo())()
+        val pane = AvatarColumn(t,userListPane.getPrefWidth - 20,centerPane,
+          ()=>{updateUserList()},()=>toggleMic(),()=>toggleVideo(),()=>updateModeUI()
+        )()
         pane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
         pane
     }
@@ -360,6 +370,15 @@ class GeekHostController(
   }
 
 
+
+  //当userList数据更新，需要更新的界面
+  def updateWhenUserList() = {
+
+    updateUserList()
+    updateModeUI()
+    updateAllowUI()
+  }
+
   //接收处理与【后端发过来】的消息
   def wsMessageHandle(data: WsMsgRm): Unit = {
     data match {
@@ -372,7 +391,10 @@ class GeekHostController(
         addComment(CommentInfo(msg.userId, msg.userName, RmManager.userInfo.get.headImgUrl, msg.comment, System.currentTimeMillis()))
 
       case msg: GetRoomInfoRsp =>
-        println("成员信息更新"+msg)
+        println("GetRoomInfoRsp"+msg)
+        RmManager.roomInfo.get.userList = msg.info.userList
+        //更新界面
+        updateWhenUserList()
 
       case msg: ChangePossessionRsp =>
         println(msg)
@@ -454,16 +476,20 @@ class GeekHostController(
       case DeviceStatus.ON =>
         //todo 关闭音频
         micStatus = DeviceStatus.OFF
+        RmManager.getCurrentUserInfo().isMic = Some(false)
 
 
       case DeviceStatus.OFF =>
         //todo 开启音频
         micStatus = DeviceStatus.ON
+        RmManager.getCurrentUserInfo().isMic = Some(true)
+
 
       case _=>
 
     }
     updateMicUI()
+    updateUserList()
 
   }
 
@@ -471,18 +497,22 @@ class GeekHostController(
   def toggleVideo() = {
     videoStatus match {
       case DeviceStatus.ON =>
-      //todo 关闭摄像头
+        //todo 关闭摄像头
         videoStatus = DeviceStatus.OFF
+        RmManager.getCurrentUserInfo().isVideo = Some(false)
+
 
       case DeviceStatus.OFF =>
-      // todo开启摄像头
+        // todo开启摄像头
         videoStatus = DeviceStatus.ON
+        RmManager.getCurrentUserInfo().isVideo = Some(true)
 
       case _=>
 
     }
 
     updateVideoUI()
+    updateUserList()
 
   }
 

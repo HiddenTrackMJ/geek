@@ -19,7 +19,8 @@ case class AvatarColumn(
   rootPane:Pane,
   updateFunc: ()=>Unit,
   toggleMic: ()=>Unit,
-  toggleVideo: ()=>Unit
+  toggleVideo: ()=>Unit,
+  updateAllowUI: ()=>Unit
 ){
 
   private val log = LoggerFactory.getLogger(this.getClass)
@@ -70,9 +71,9 @@ case class AvatarColumn(
     gridPane.add(videoIcon, 3, 0)
 
     //控制某个用户的发言情况
-    val speakIcon = HostOperateIcon("fas-hand-paper:16:green","fas-hand-paper:16:white","取消指定发言","指定发言",
+    val speakIcon = HostOperateIcon("fas-hand-paper:16:green","fas-hand-paper:16:white","指定发言","取消指定发言",
       userInfo.isAllow.get,userInfo,rootPane,
-      ()=>Unit,()=>updateFunc(),HostOperateIconType.ALLOW)()
+      ()=>updateAllowUI(),()=>updateFunc(),HostOperateIconType.ALLOW,false)()
 
     gridPane.add(speakIcon, 4, 0)
 

@@ -42,6 +42,10 @@ object RmManager {
     }
   }
 
+  def getUserInfo(userId:Long) = {
+    roomInfo.get.userList.find(_.userId == userId)
+  }
+
   private[this] def switchBehavior(ctx: ActorContext[RmCommand],
     behaviorName: String,
     behavior: Behavior[RmCommand])

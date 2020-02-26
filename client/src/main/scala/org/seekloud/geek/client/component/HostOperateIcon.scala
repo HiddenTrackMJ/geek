@@ -22,7 +22,8 @@ case class HostOperateIcon(
   rootPane:Pane,
   updateMyUI:() =>Unit, //更新与自己相关的界面，当前仅当点击的userinfo.id和自己的id匹配时候执行
   updateUI:()=>Unit, //更新整个用户列表界面
-  sType:Int
+  sType:Int,
+  updateMyUIIfNeedI :Boolean = true //执行updateMyUI这个函数，是否需要判断点击的用户是当前登录的用户
 ){
 
   private val log = LoggerFactory.getLogger(this.getClass)
@@ -40,23 +41,19 @@ case class HostOperateIcon(
           SnackBar.show(rootPane,yesText + userInfo.userName)
         }
 
-        //当前自己的用户
-        if (userInfo.userId == RmManager.userInfo.get.userId){
-          updateMyUI()
-        }
-
         //修改内存中该用户的状态
         sType match {
           //todo 发ws消息
           case HostOperateIconType.MIC =>
-            userInfo.isMic = Some(!userInfo.isMic.get)
+//            userInfo.isMic = Some(!userInfo.isMic.get)
 
           case HostOperateIconType.VIDEO =>
             //修改内存中该用户的静音状态
-            userInfo.isVideo = Some(!userInfo.isVideo.get)
+//            userInfo.isVideo = Some(!userInfo.isVideo.get)
 
           case HostOperateIconType.ALLOW =>
-            userInfo.isAllow = Some(!userInfo.isAllow.get)
+            println("当前用户" + userInfo.isAllow.get)
+            RmManager.getUserInfo(userInfo.userId).get.isAllow = Some(!userInfo.isAllow.get)
 
           case HostOperateIconType.HOST =>
             val origHost = RmManager.roomInfo.get.userList.find(_.isHost.get == true)
@@ -67,8 +64,15 @@ case class HostOperateIcon(
               log.info("当前数据有误，成员列表中没有房主")
             }
 
-//            println(RmManager.roomInfo.get.userList)
         }
+
+        //当前自己的用户
+        if (updateMyUIIfNeedI && userInfo.userId == RmManager.userInfo.get.userId){
+          updateMyUI()
+        }else{
+          updateMyUI()
+        }
+
 
         //修改list界面
         updateUI()
