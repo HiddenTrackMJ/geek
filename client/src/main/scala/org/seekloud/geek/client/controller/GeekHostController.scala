@@ -121,8 +121,8 @@ class GeekHostController(
       //房主将这个按钮透明度降低
       allow_button.setOpacity(0.3)
     }else{
+      allow_button.setOpacity(1)
       allowStatus match {
-
         case AllowStatus.NOT_ALLOW =>
           allow_label.setText("申请发言")
           allow_icon.setIconColor(Color.WHITE)
@@ -271,7 +271,7 @@ class GeekHostController(
 
     initUserList()
     initCommentList()
-    addServerMsg(CommentInfo(-1L,"","","欢迎加入geek会议厅，尽情发言吧",1L))
+    addServerMsg(CommentInfo(-1L,"","","欢迎加入",1L))
     initToolbar()
   }
 
@@ -372,7 +372,7 @@ class GeekHostController(
         addComment(CommentInfo(msg.userId, msg.userName, RmManager.userInfo.get.headImgUrl, msg.comment, System.currentTimeMillis()))
 
       case msg: GetRoomInfoRsp =>
-        println(msg)
+        println("成员信息更新"+msg)
 
       case msg: ChangePossessionRsp =>
         println(msg)

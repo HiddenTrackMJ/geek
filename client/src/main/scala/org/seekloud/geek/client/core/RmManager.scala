@@ -119,12 +119,10 @@ object RmManager {
             Behaviors.same
 
 
-
           case Logout =>
             log.info(s"退出登录.")
             this.roomInfo = None
             this.userInfo = None
-            //todo: 回退到登录界面
             Behaviors.same
 
           case _=>

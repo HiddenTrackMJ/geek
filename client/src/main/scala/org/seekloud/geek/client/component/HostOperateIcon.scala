@@ -67,7 +67,7 @@ case class HostOperateIcon(
               log.info("当前数据有误，成员列表中没有房主")
             }
 
-            println(RmManager.roomInfo.get.userList)
+//            println(RmManager.roomInfo.get.userList)
         }
 
         //修改list界面

@@ -48,6 +48,13 @@
     -fx-text-fill: rgb(43, 42, 42);
 }
 
+.jfx-list-cell .serverCommentBubble{
+    -fx-text-fill: #a4a4a4;
+    -fx-background-color: rgba(0,0,0,1);
+    -fx-padding: 5;
+    -fx-background-radius: 6;
+}
+
 
 
 .jfx-list-cell {
@@ -59,9 +66,8 @@
     -fx-background-color: rgba(0, 0, 0, 0);
 }
 
-.serverCommentBubble{
-    -fx-background-color: rgba(0, 0, 0, 0);
-}
+
+
 
 
 
