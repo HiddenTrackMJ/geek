@@ -1,7 +1,7 @@
 package org.seekloud.geek.client.controller
 
 import akka.actor.typed.ActorRef
-import com.jfoenix.controls.{JFXListView, JFXTextArea}
+import com.jfoenix.controls.{JFXListView, JFXRippler, JFXTextArea}
 import javafx.animation.AnimationTimer
 import javafx.fxml.FXML
 import javafx.scene.canvas.{Canvas, GraphicsContext}
@@ -10,7 +10,7 @@ import javafx.scene.layout._
 import javafx.scene.paint.Color
 import org.kordamp.ikonli.javafx.FontIcon
 import org.seekloud.geek.client.Boot
-import org.seekloud.geek.client.common.Constants.{DeviceStatus, HostStatus}
+import org.seekloud.geek.client.common.Constants.{AllowStatus, CommentType, DeviceStatus, HostStatus}
 import org.seekloud.geek.client.common.{Constants, StageContext}
 import org.seekloud.geek.client.component._
 import org.seekloud.geek.client.core.RmManager
@@ -56,6 +56,12 @@ class GeekHostController(
   @FXML private var commentInput: JFXTextArea = _
   @FXML private var rootPane: AnchorPane = _
 
+  //发言模式相关
+  @FXML private var mode_label: Label = _ //当前发言状态
+  @FXML private var allow_label: Label = _ //用户自己的发言状态
+  @FXML private var allow_button: JFXRippler = _ //申请发言按钮
+  @FXML private var allow_icon: FontIcon = _ //用户的申请发言图标
+
 
   val commentList = List(
     CommentInfo(1,"何为","","大家新年好",1232132L)
@@ -65,6 +71,7 @@ class GeekHostController(
   var userJList = new JFXListView[GridPane]
 
   var hostStatus: Int = HostStatus.NOT_CONNECT
+  var allowStatus: Int =AllowStatus.NOT_ALLOW
   var micStatus: Int = DeviceStatus.NOT_READY //音频状态，false未开启
   var videoStatus: Int = DeviceStatus.NOT_READY //视频状态，false未开启摄像头
   var recordStatus: Int = DeviceStatus.OFF //录制状态，一开始未录制
@@ -82,9 +89,72 @@ class GeekHostController(
     }
   }
 
-//  def startTimer() = {
-//
-//  }
+
+  //申请发言按钮点击
+  def allowClick()= {
+    //非主持人才可以申请发言
+    if (!RmManager.getCurrentUserInfo().isHost.get){
+      allowStatus match {
+
+        case AllowStatus.NOT_ALLOW =>
+          //申请发言
+          //todo ws消息发送请求
+          allowStatus = AllowStatus.ASKING
+
+
+        case AllowStatus.ASKING =>
+          //
+
+        case AllowStatus.ALLOW =>
+          //停止发言
+          //todo ws消息发送请求
+          allowStatus = AllowStatus.NOT_ALLOW
+      }
+    }else{//提示消息：房主可以直接在成员列表中点击手掌图标指定某人发言（包括自己）
+      SnackBar.show(centerPane,"房主可以直接在成员列表中点击「手掌」图标指定某人发言（包括自己）")
+    }
+    updateAllowUI()
+  }
+
+  def updateAllowUI() = {
+    if (RmManager.getCurrentUserInfo().isHost.get){
+      //房主将这个按钮透明度降低
+      allow_button.setOpacity(0.3)
+    }else{
+      allow_button.setOpacity(1)
+    }
+    allowStatus match {
+      case AllowStatus.NOT_ALLOW =>
+        allow_label.setText("申请发言")
+        allow_icon.setIconColor(Color.WHITE)
+      case AllowStatus.ASKING =>
+        allow_label.setText("等待房主同意")
+        allow_icon.setIconColor(Color.GRAY)
+      case AllowStatus.ALLOW =>
+        allow_label.setText("停止发言")
+        allow_icon.setIconColor(Color.GREEN)
+    }
+  }
+
+  //更新当前的模式状态的UI
+  def updateModeUI() = {
+    //根据当前所有用户的发言状态，如果没有在申请发言，则为自由发言状态，反之为申请发言状态
+//    println(RmManager.roomInfo.get.userList)
+    if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
+      //当前是申请发言状态
+      mode_label.setText("申请发言")
+    }else{
+      //当前是自由发言状态
+      mode_label.setText("自由发言")
+    }
+
+    if (RmManager.getCurrentUserInfo().isAllow.get){
+      allowStatus = AllowStatus.ALLOW
+    }else{
+      allowStatus = AllowStatus.NOT_ALLOW
+    }
+    updateAllowUI()
+  }
 
 
   //改变底部工具栏的图标和文字,
@@ -100,6 +170,7 @@ class GeekHostController(
     animationTimer.start()
 
   }
+
 
   def updateVideoUI() = {
 
@@ -206,13 +277,15 @@ class GeekHostController(
 
     initUserList()
     initCommentList()
-
+    addServerMsg(CommentInfo(-1L,"","","欢迎加入",1L))
     initToolbar()
+    updateAllowUI()
+
   }
 
 
   def initToolbar() = {
-    val toolbar = TopBar(s"会议名称：${RmManager.roomInfo.get.roomName} 会议号：${RmManager.roomInfo.get.roomId}", Color.BLACK,  Color.WHITE,rootPane.getPrefWidth-10, 25, "host", context, rmManager)()
+    val toolbar = TopBar(s"会议名称：${RmManager.roomInfo.get.roomName} 会议号：${RmManager.roomInfo.get.roomId}", Color.BLACK,  Color.WHITE,rootPane.getPrefWidth, 10, "host", context, rmManager)()
     rootPane.getChildren.add(toolbar)
   }
 
@@ -233,8 +306,9 @@ class GeekHostController(
     userList.map{
       t=>
         //创建一个AnchorPane
-        val m = ()=>{updateUserList()}
-        val pane = AvatarColumn(t,userListPane.getPrefWidth - 20,centerPane,m)()
+        val pane = AvatarColumn(t,userListPane.getPrefWidth - 20,centerPane,
+          ()=>{updateUserList()},()=>toggleMic(),()=>toggleVideo(),()=>updateModeUI(),rmManager
+        )()
         pane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
         pane
     }
@@ -269,11 +343,6 @@ class GeekHostController(
 
 
 
-  //回到首页
-  def gotoHomeScene(): Unit = {
-    //回到首页
-    rmManager ! RmManager.BackToHome
-  }
 
   //todo 发表评论,ws每收到一条消息就给我发一条消息
   def commentSubmit() = {
@@ -289,6 +358,10 @@ class GeekHostController(
     }
   }
 
+  //添加系统消息
+  def addServerMsg(t:CommentInfo) = {
+    commentJList.getItems.add(CommentColumn(commentPane.getPrefWidth - 30,t,CommentType.SERVER)())
+  }
 
   def addComment(t:CommentInfo) = {
     Boot.addToPlatform{
@@ -296,6 +369,15 @@ class GeekHostController(
     }
   }
 
+
+
+  //当userList数据更新，需要更新的界面
+  def updateWhenUserList() = {
+
+    updateUserList()
+    updateModeUI()
+    updateAllowUI()
+  }
 
   //接收处理与【后端发过来】的消息
   def wsMessageHandle(data: WsMsgRm): Unit = {
@@ -309,10 +391,22 @@ class GeekHostController(
         addComment(CommentInfo(msg.userId, msg.userName, RmManager.userInfo.get.headImgUrl, msg.comment, System.currentTimeMillis()))
 
       case msg: GetRoomInfoRsp =>
-        println(msg)
+        println("GetRoomInfoRsp"+msg)
+        RmManager.roomInfo.get.userList = msg.info.userList
+        //更新界面
+        updateWhenUserList()
 
       case msg: ChangePossessionRsp =>
-        println(msg)
+        //改变成员列表中的
+
+        val origHost = RmManager.roomInfo.get.userList.find(_.isHost.get == true).get
+        origHost.isHost = Some(false)
+        val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId)
+        if (user nonEmpty){
+          user.get.isHost = Some(true)
+        }
+        //更新界面
+        updateWhenUserList()
 
       case msg: StartLiveRsp =>
         //房主收到的消息
@@ -359,6 +453,30 @@ class GeekHostController(
           rmManager ! StopLiveFailed
         }
 
+      case msg:ShieldRsp =>
+        log.info("收到ShieldRsp")
+        val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId)
+        if (user nonEmpty){
+          //更新设备状态
+          user.get.isVideo = Some(msg.isImage)
+          user.get.isMic = Some(msg.isAudio)
+        }
+        //更新界面
+        updateWhenUserList()
+        // 如果被封禁的userId是自己，需要修改底部功能条的样式并且调整摄像头、音频设置的关闭开启
+        if (msg.userId == RmManager.userInfo.get.userId){
+          if ((micStatus==DeviceStatus.ON && !msg.isAudio) || (micStatus==DeviceStatus.OFF && msg.isAudio)){
+            toggleMic()
+          }
+
+          if ((videoStatus==DeviceStatus.ON && !msg.isImage) || (videoStatus==DeviceStatus.OFF && msg.isImage)){
+            toggleVideo()
+          }
+        }
+
+
+
+
 
       case x =>
         log.warn(s"host recv unknown msg from rm: $x")
@@ -391,16 +509,20 @@ class GeekHostController(
       case DeviceStatus.ON =>
         //todo 关闭音频
         micStatus = DeviceStatus.OFF
+        RmManager.getCurrentUserInfo().isMic = Some(false)
 
 
       case DeviceStatus.OFF =>
         //todo 开启音频
         micStatus = DeviceStatus.ON
+        RmManager.getCurrentUserInfo().isMic = Some(true)
+
 
       case _=>
 
     }
     updateMicUI()
+    updateUserList()
 
   }
 
@@ -408,18 +530,22 @@ class GeekHostController(
   def toggleVideo() = {
     videoStatus match {
       case DeviceStatus.ON =>
-      //todo 关闭摄像头
+        //todo 关闭摄像头
         videoStatus = DeviceStatus.OFF
+        RmManager.getCurrentUserInfo().isVideo = Some(false)
+
 
       case DeviceStatus.OFF =>
-      // todo开启摄像头
+        // todo开启摄像头
         videoStatus = DeviceStatus.ON
+        RmManager.getCurrentUserInfo().isVideo = Some(true)
 
       case _=>
 
     }
 
     updateVideoUI()
+    updateUserList()
 
   }
 

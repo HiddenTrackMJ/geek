@@ -9,23 +9,62 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<VBox prefHeight="728.0" prefWidth="1149.0" stylesheets="@css/geek-host.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="728.0" prefWidth="1421.0" stylesheets="@css/geek-host.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-      <AnchorPane fx:id="rootPane" prefHeight="778.0" prefWidth="1155.0">
+      <AnchorPane fx:id="rootPane" prefHeight="753.0" prefWidth="1421.0" style="-fx-background-color: #000;">
          <children>
-            <BorderPane prefHeight="671.0" prefWidth="1149.0" style="-fx-background-color: #000000;">
+            <BorderPane layoutY="6.0" prefHeight="669.0" prefWidth="1421.0" style="-fx-background-color: #000000;">
                <left>
-                  <AnchorPane prefHeight="647.0" prefWidth="215.0" style="-fx-background-color: #2a2e32;" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="643.0" prefWidth="302.0" style="-fx-background-color: #2a2e32;" BorderPane.alignment="CENTER">
                      <children>
-                        <Label layoutX="82.0" layoutY="22.0" text="房间成员" textFill="WHITE" />
-                        <Line endX="107.0" layoutX="108.0" layoutY="50.0" startX="-108.0" />
-                        <AnchorPane fx:id="userListPane" layoutX="8.0" layoutY="62.0" prefHeight="580.0" prefWidth="200.0" />
+                        <Label layoutX="125.0" layoutY="31.0" text="房间成员" textFill="WHITE" />
+                        <Line endX="193.0" layoutX="108.0" layoutY="63.0" startX="-108.0" />
+                        <AnchorPane fx:id="userListPane" layoutX="10.0" layoutY="82.0" prefHeight="328.0" prefWidth="284.0" />
+                        <AnchorPane fx:id="speakingArea" layoutX="8.0" layoutY="384.0" prefHeight="248.0" prefWidth="293.0">
+                           <children>
+                              <Line endX="169.0" layoutX="123.0" layoutY="36.0" startX="-123.0" />
+                              <AnchorPane layoutX="18.0" layoutY="91.0" prefHeight="149.0" prefWidth="233.0">
+                                 <children>
+                                    <JFXRippler fx:id="allow_button" layoutX="67.0" layoutY="14.0" onMouseClicked="#allowClick">
+                                        <VBox fx:id="allowButtonVBox" alignment="CENTER" prefHeight="57.0" prefWidth="100.0" style="-fx-background-color: #3c3e42; -fx-background-radius: 10;">
+                                            <children>
+                                                <FontIcon fx:id="allow_icon" iconColor="WHITE" iconLiteral="fas-hand-paper" textAlignment="CENTER" />
+                                                <Label fx:id="allow_label" text="申请发言" textFill="WHITE">
+                                                    <VBox.margin>
+                                                        <Insets top="10.0" />
+                                                    </VBox.margin>
+                                                </Label>
+                                            </children>
+                                        </VBox>
+                                    </JFXRippler>
+                                    <Label layoutX="4.0" layoutY="88.0" prefHeight="17.0" prefWidth="252.0" text="申请发言模式下,只能听到允许发言人的声音" textFill="#9a9a9a" />
+                                    <Label layoutX="19.0" layoutY="118.0" prefHeight="17.0" prefWidth="219.0" text="自由发言模式下,可以听到所有人声音" textFill="#9a9a9a" />
+                                 </children>
+                              </AnchorPane>
+                              <HBox alignment="CENTER" layoutX="2.0" layoutY="66.0" prefHeight="17.0" prefWidth="288.0">
+                                 <children>
+                                    <FontIcon iconColor="#ff6060" iconLiteral="fas-circle" />
+                                    <Label text="当前模式:" textFill="#9a9a9a">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="mode_label" text="自由发言" textFill="WHITE">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
                </left>
@@ -49,16 +88,16 @@
                   <Insets top="30.0" />
                </padding>
                <center>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="616.0" prefWidth="789.0" BorderPane.alignment="CENTER">
                      <children>
-                        <BorderPane fx:id="centerPane" prefHeight="643.0" prefWidth="605.0" />
+                        <BorderPane fx:id="centerPane" prefHeight="643.0" prefWidth="789.0" />
                      </children>
                   </AnchorPane>
                </center>
             </BorderPane>
-            <BorderPane layoutY="671.0" prefHeight="57.0" prefWidth="1149.0" style="-fx-background-color: #32363c;">
+            <BorderPane layoutY="671.0" prefHeight="57.0" prefWidth="1421.0" style="-fx-background-color: #32363c;">
                <center>
-                  <GridPane BorderPane.alignment="CENTER">
+                  <GridPane prefHeight="57.0" prefWidth="1330.0" BorderPane.alignment="CENTER">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -77,7 +116,7 @@
                                       <FontIcon fx:id="mic" iconColor="#c6c4c4" iconLiteral="fas-microphone" iconSize="20" onMouseClicked="#toggleMic" />
                                   </StackPane>
                               </JFXRippler>
-                              <Label fx:id="mic_label" alignment="CENTER" prefHeight="17.0" prefWidth="237.0" text="音频准备中" textAlignment="CENTER" textFill="#c6c4c4" />
+                              <Label fx:id="mic_label" alignment="CENTER" prefHeight="17.0" prefWidth="316.0" text="音频准备中" textAlignment="CENTER" textFill="#c6c4c4" />
                            </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click" GridPane.columnIndex="1">
@@ -91,7 +130,7 @@
                                     </StackPane>
                                  </control>
                               </JFXRippler>
-                              <Label fx:id="video_label" alignment="CENTER" prefHeight="17.0" prefWidth="250.0" text="摄像头准备中" textAlignment="CENTER" textFill="#c6c4c4" />
+                              <Label fx:id="video_label" alignment="CENTER" prefHeight="17.0" prefWidth="318.0" text="摄像头准备中" textAlignment="CENTER" textFill="#c6c4c4" />
                            </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click" GridPane.columnIndex="2">
@@ -105,7 +144,7 @@
                                     </StackPane>
                                  </control>
                               </JFXRippler>
-                              <Label fx:id="off_label" alignment="CENTER" prefHeight="17.0" prefWidth="236.0" text="开始会议" textAlignment="CENTER" textFill="WHITE" />
+                              <Label fx:id="off_label" alignment="CENTER" prefHeight="17.0" prefWidth="300.0" text="开始会议" textAlignment="CENTER" textFill="WHITE" />
                            </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click" GridPane.columnIndex="3">
@@ -119,10 +158,10 @@
                                     </StackPane>
                                  </control>
                               </JFXRippler>
-                              <Label fx:id="invite_label" alignment="CENTER" prefHeight="17.0" prefWidth="236.0" text="邀请" textAlignment="CENTER" textFill="WHITE" />
+                              <Label fx:id="invite_label" alignment="CENTER" prefHeight="17.0" prefWidth="301.0" text="邀请" textAlignment="CENTER" textFill="WHITE" />
                            </children>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="icon-click" GridPane.columnIndex="4">
+                        <VBox prefHeight="57.0" prefWidth="424.0" styleClass="icon-click" GridPane.columnIndex="4">
                            <children>
                               <JFXRippler prefHeight="57.0" prefWidth="144.0" styleClass="icons-rippler">
                                  <control>
@@ -133,7 +172,7 @@
                                     </StackPane>
                                  </control>
                               </JFXRippler>
-                              <Label fx:id="record_label" alignment="CENTER" prefHeight="17.0" prefWidth="244.0" text="录制" textAlignment="CENTER" textFill="WHITE" />
+                              <Label fx:id="record_label" alignment="CENTER" prefHeight="17.0" prefWidth="298.0" text="录制" textAlignment="CENTER" textFill="WHITE" />
                            </children>
                         </VBox>
                      </children>

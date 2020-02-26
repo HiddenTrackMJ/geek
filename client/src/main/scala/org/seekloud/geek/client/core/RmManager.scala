@@ -7,13 +7,13 @@ import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.common.Constants.HostStatus
 import org.seekloud.geek.client.common.{AppSettings, Routes, StageContext}
 import org.seekloud.geek.client.component.{SnackBar, WarningDialog}
-import org.seekloud.geek.client.controller.{GeekHostController, GeekUserController}
+import org.seekloud.geek.client.controller.GeekHostController
 import org.seekloud.geek.client.core.stream.LiveManager
 import org.seekloud.geek.client.utils.WsUtil
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.seekloud.geek.shared.ptcl.WsProtocol
-import org.seekloud.geek.shared.ptcl.WsProtocol.{CompleteMsgClient, StopLive4ClientReq, StopLiveReq, WsMsgFront}
+import org.seekloud.geek.shared.ptcl.WsProtocol.{CompleteMsgClient, ShieldReq, StopLive4ClientReq, StopLiveReq, WsMsgFront}
 import org.slf4j.LoggerFactory
 
 /**
@@ -28,10 +28,23 @@ object RmManager {
   sealed trait RmCommand
 
   //
-  var userInfo: Option[UserInfo] = None
+  var userInfo: Option[UserInfo] = None //只包括登录成功后的返回信息，后续的房间相关信息需要从roomInfo里面去寻找
   var roomInfo: Option[RoomInfo] = None
   var meetingListInfo:List[MeetingInfo] = Nil //存储用户登录当前会话中参加和发起的会议信息
 
+  def getCurrentUserInfo(): UserInfo = {
+    assert(userInfo.nonEmpty && roomInfo.nonEmpty)
+    val user = roomInfo.get.userList.find(_.userId == userInfo.get.userId)
+    if (user nonEmpty){
+      user.get
+    }else{
+      userInfo.get
+    }
+  }
+
+  def getUserInfo(userId:Long) = {
+    roomInfo.get.userList.find(_.userId == userId)
+  }
 
   private[this] def switchBehavior(ctx: ActorContext[RmCommand],
     behaviorName: String,
@@ -49,6 +62,7 @@ object RmManager {
 //  final case object GoToJoinRoom extends RmCommand //进去加入会议的页面
 
   final case object HostWsEstablish extends RmCommand
+
   final case object BackToHome extends RmCommand
   final case object HostLiveReq extends RmCommand //请求开启会议
   final case class StartLiveSuccess(pull:String, push:String) extends RmCommand
@@ -64,7 +78,7 @@ object RmManager {
 
   //ws链接
   final case class GetSender(sender: ActorRef[WsMsgFront]) extends RmCommand
-
+  final case class Shield(req:ShieldReq) extends RmCommand
 
   def create(stageCtx: StageContext): Behavior[RmCommand] =
     Behaviors.setup[RmCommand] { ctx =>
@@ -110,12 +124,10 @@ object RmManager {
             Behaviors.same
 
 
-
           case Logout =>
             log.info(s"退出登录.")
             this.roomInfo = None
             this.userInfo = None
-            //todo: 回退到登录界面
             Behaviors.same
 
           case _=>
@@ -166,6 +178,13 @@ object RmManager {
           WsUtil.buildWebSocket(ctx, url, hostController, successFunc(), failureFunc())
           Behaviors.same
 
+
+        case msg: Shield=>
+          //屏蔽某个人声音/图像
+          sender.foreach( s=> s ! msg.req)
+          Behaviors.same
+
+
         case msg: GetSender =>
           //添加给后端发消息的对象sender
           log.info("获取到后端消息对象")
@@ -177,7 +196,7 @@ object RmManager {
           //ws请求服务器获取拉流地址
           log.info("ws-client:请求开始会议")
           if (sender nonEmpty){
-            if (RmManager.userInfo.get.isHost.get){//房主
+            if (RmManager.getCurrentUserInfo().isHost.get){//房主
               sender.get ! WsProtocol.StartLiveReq(RmManager.roomInfo.get.roomId)
             }else{
               sender.get ! WsProtocol.StartLive4ClientReq(RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId)
@@ -221,7 +240,7 @@ object RmManager {
 
         case StopLive =>
           liveManager ! LiveManager.StopPush
-          if (RmManager.userInfo.get.isHost.get){//房主
+          if (RmManager.getCurrentUserInfo().isHost.get){//房主
             log.info("房主停止推流")
             if (sender nonEmpty){
               sender.get ! StopLiveReq(RmManager.roomInfo.get.roomId)

@@ -1,7 +1,7 @@
 package org.seekloud.geek.shared.ptcl
 
 import org.seekloud.geek.shared.ptcl.CommonInfo.{AudienceInfo, LiveInfo, RoomInfo, UserDes}
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{ModifyRoomInfo, RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
 
 /**
  * Author: Jason
@@ -183,10 +183,28 @@ object WsProtocol  {
 
   case class ShieldRsp(
     isForced: Boolean,
+    userId: Long,
+    isImage: Boolean,//true 表示开启图像
+    isAudio: Boolean,//true 表示开启声音
     errCode: Int = 0,
     msg: String = "ok"
   ) extends WsMsgRm
 
+
+  case class AskSpeakReq(
+    isForced: Boolean,//true是主持人指定发言，false是用户主动申请发言
+    isSpeak: Boolean,//true 为申请发言，false为申请关闭发言
+    roomId: Long,
+    userId: Long
+  )extends WsMsgClient
+
+  case class AskSpeakRsp(
+    isForced: Boolean,//true是主持人指定发言，false是用户主动申请发言
+    isSpeak: Boolean,//true 为申请发言，false为申请关闭发言
+    userId: Long,
+    errCode: Int = 0,
+    msg: String = "ok"
+  )extends WsMsgRm
 
 
 //  val StartLiveRefused: StartLiveRsp = StartLiveRsp(errCode = 200001, msg = "start live refused.")
