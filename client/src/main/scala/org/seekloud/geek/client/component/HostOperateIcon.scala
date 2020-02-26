@@ -31,7 +31,7 @@ case class HostOperateIcon(
     val r =  if(yseFlag) RippleIcon(List(yesIcon))()else RippleIcon(List(notIcon))()
     val icon = r._1
 
-    if (RmManager.userInfo.get.isHost.get){//只有房主可以进行操作
+    if (RmManager.getCurrentUserInfo().isHost.get){//只有房主可以进行操作
       icon.setOnMouseClicked(_ =>{
 
         if (yseFlag){
@@ -67,6 +67,7 @@ case class HostOperateIcon(
               log.info("当前数据有误，成员列表中没有房主")
             }
 
+            println(RmManager.roomInfo.get.userList)
         }
 
         //修改list界面

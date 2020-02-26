@@ -1,7 +1,7 @@
 package org.seekloud.geek.client.controller
 
 import akka.actor.typed.ActorRef
-import com.jfoenix.controls.{JFXListView, JFXTextArea}
+import com.jfoenix.controls.{JFXListView, JFXRippler, JFXTextArea}
 import javafx.animation.AnimationTimer
 import javafx.fxml.FXML
 import javafx.scene.canvas.{Canvas, GraphicsContext}
@@ -10,7 +10,7 @@ import javafx.scene.layout._
 import javafx.scene.paint.Color
 import org.kordamp.ikonli.javafx.FontIcon
 import org.seekloud.geek.client.Boot
-import org.seekloud.geek.client.common.Constants.{CommentType, DeviceStatus, HostStatus}
+import org.seekloud.geek.client.common.Constants.{AllowStatus, CommentType, DeviceStatus, HostStatus}
 import org.seekloud.geek.client.common.{Constants, StageContext}
 import org.seekloud.geek.client.component._
 import org.seekloud.geek.client.core.RmManager
@@ -56,6 +56,12 @@ class GeekHostController(
   @FXML private var commentInput: JFXTextArea = _
   @FXML private var rootPane: AnchorPane = _
 
+  //发言模式相关
+  @FXML private var mode_label: Label = _ //当前发言状态
+  @FXML private var allow_label: Label = _ //用户自己的发言状态
+  @FXML private var allow_button: JFXRippler = _ //申请发言按钮
+  @FXML private var allow_icon: FontIcon = _ //用户的申请发言图标
+
 
   val commentList = List(
     CommentInfo(1,"何为","","大家新年好",1232132L)
@@ -65,6 +71,7 @@ class GeekHostController(
   var userJList = new JFXListView[GridPane]
 
   var hostStatus: Int = HostStatus.NOT_CONNECT
+  var allowStatus: Int =AllowStatus.NOT_ALLOW
   var micStatus: Int = DeviceStatus.NOT_READY //音频状态，false未开启
   var videoStatus: Int = DeviceStatus.NOT_READY //视频状态，false未开启摄像头
   var recordStatus: Int = DeviceStatus.OFF //录制状态，一开始未录制
@@ -82,9 +89,65 @@ class GeekHostController(
     }
   }
 
-//  def startTimer() = {
-//
-//  }
+
+  //申请发言按钮点击
+  def allowClick()= {
+    //非主持人才可以申请发言
+    if (!RmManager.getCurrentUserInfo().isHost.get){
+      allowStatus match {
+
+        case AllowStatus.NOT_ALLOW =>
+          //申请发言
+          //todo ws消息发送请求
+          allowStatus = AllowStatus.ASKING
+
+
+        case AllowStatus.ASKING =>
+          //
+
+        case AllowStatus.ALLOW =>
+          //停止发言
+          //todo ws消息发送请求
+          allowStatus = AllowStatus.NOT_ALLOW
+      }
+    }else{//提示消息：房主可以直接在成员列表中点击手掌图标指定某人发言（包括自己）
+      SnackBar.show(centerPane,"房主可以直接在成员列表中点击「手掌」图标指定某人发言（包括自己）")
+    }
+    updateAllowUI()
+  }
+
+  def updateAllowUI() = {
+    if (RmManager.getCurrentUserInfo().isHost.get){
+      //房主将这个按钮透明度降低
+      allow_button.setOpacity(0.3)
+    }else{
+      allowStatus match {
+
+        case AllowStatus.NOT_ALLOW =>
+          allow_label.setText("申请发言")
+          allow_icon.setIconColor(Color.WHITE)
+        case AllowStatus.ASKING =>
+          allow_label.setText("等待房主同意")
+          allow_icon.setIconColor(Color.GRAY)
+        case AllowStatus.ALLOW =>
+          allow_label.setText("停止发言")
+          allow_icon.setIconColor(Color.GREEN)
+      }
+    }
+
+  }
+
+  //更新当前的模式状态的UI
+  def updateModeUI() = {
+    //根据当前所有用户的发言状态，如果没有在申请发言，则为自由发言状态，反之为申请发言状态
+    if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
+      //当前是申请发言状态
+      mode_label.setText("申请发言")
+    }else{
+      //当前是自由发言状态
+      mode_label.setText("自由发言")
+    }
+  }
 
 
   //改变底部工具栏的图标和文字,
@@ -96,10 +159,12 @@ class GeekHostController(
 
     updateVideoUI()
     updateMicUI()
+    updateAllowUI()
     //启动定时器
     animationTimer.start()
 
   }
+
 
   def updateVideoUI() = {
 

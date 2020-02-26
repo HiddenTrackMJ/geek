@@ -98,6 +98,11 @@ object CommonProtocol {
                        ) extends Response
 
 
+  object ModeStatus{
+    val FREE = 0 //自由发言
+    val ASK = 1 //申请发言
+  }
+
   case class RoomInfo(
     roomId: Long,
     var roomName: String,
@@ -108,7 +113,8 @@ object CommonProtocol {
     coverImgUrl:String = "",
     var observerNum:Int,
     var rtmp: Option[String] = None,
-    var userList:List[UserInfo] = Nil //房间里面的所有人信息
+    var userList:List[UserInfo] = Nil, //房间里面的所有人信息
+    var modeStatus:Int = ModeStatus.FREE //当前发言状态
   )
 
   case class MeetingInfo(

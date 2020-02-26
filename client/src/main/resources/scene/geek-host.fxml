@@ -32,11 +32,11 @@
                               <Line endX="169.0" layoutX="123.0" layoutY="36.0" startX="-123.0" />
                               <AnchorPane layoutX="18.0" layoutY="91.0" prefHeight="149.0" prefWidth="233.0">
                                  <children>
-                                    <JFXRippler layoutX="67.0" layoutY="14.0">
-                                        <VBox alignment="CENTER" prefHeight="57.0" prefWidth="100.0" style="-fx-background-color: #3c3e42; -fx-background-radius: 10;">
+                                    <JFXRippler fx:id="allow_button" layoutX="67.0" layoutY="14.0" onMouseClicked="#allowClick">
+                                        <VBox fx:id="allowButtonVBox" alignment="CENTER" prefHeight="57.0" prefWidth="100.0" style="-fx-background-color: #3c3e42; -fx-background-radius: 10;">
                                             <children>
-                                                <FontIcon iconColor="WHITE" iconLiteral="fas-hand-paper" textAlignment="CENTER" />
-                                                <Label text="申请发言" textFill="WHITE">
+                                                <FontIcon fx:id="allow_icon" iconColor="WHITE" iconLiteral="fas-hand-paper" textAlignment="CENTER" />
+                                                <Label fx:id="allow_label" text="申请发言" textFill="WHITE">
                                                     <VBox.margin>
                                                         <Insets top="10.0" />
                                                     </VBox.margin>
@@ -56,7 +56,7 @@
                                           <Insets left="10.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label text="自由发言" textFill="WHITE">
+                                    <Label fx:id="mode_label" text="自由发言" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>

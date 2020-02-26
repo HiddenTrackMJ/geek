@@ -47,6 +47,7 @@ object Constants {
   }
 
 
+
   object AppWindow {
     val width = 1152
     val height = 864
@@ -60,6 +61,12 @@ object Constants {
     val NOT_CONNECT = 0
     val LOADING = 1
     val CONNECT = 2
+  }
+
+  object AllowStatus {
+    val NOT_ALLOW = 0 //不被允许
+    val ASKING = 1 //正在申请
+    val ALLOW = 2 //允许发言
   }
 
   object DeviceStatus {

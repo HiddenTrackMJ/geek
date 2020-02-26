@@ -7,7 +7,7 @@ import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.common.Constants.HostStatus
 import org.seekloud.geek.client.common.{AppSettings, Routes, StageContext}
 import org.seekloud.geek.client.component.{SnackBar, WarningDialog}
-import org.seekloud.geek.client.controller.{GeekHostController, GeekUserController}
+import org.seekloud.geek.client.controller.GeekHostController
 import org.seekloud.geek.client.core.stream.LiveManager
 import org.seekloud.geek.client.utils.WsUtil
 import org.seekloud.geek.player.sdk.MediaPlayer
@@ -28,10 +28,19 @@ object RmManager {
   sealed trait RmCommand
 
   //
-  var userInfo: Option[UserInfo] = None
+  var userInfo: Option[UserInfo] = None //只包括登录成功后的返回信息，后续的房间相关信息需要从roomInfo里面去寻找
   var roomInfo: Option[RoomInfo] = None
   var meetingListInfo:List[MeetingInfo] = Nil //存储用户登录当前会话中参加和发起的会议信息
 
+  def getCurrentUserInfo(): UserInfo = {
+    assert(userInfo.nonEmpty && roomInfo.nonEmpty)
+    val user = roomInfo.get.userList.find(_.userId == userInfo.get.userId)
+    if (user nonEmpty){
+      user.get
+    }else{
+      userInfo.get
+    }
+  }
 
   private[this] def switchBehavior(ctx: ActorContext[RmCommand],
     behaviorName: String,
@@ -177,7 +186,7 @@ object RmManager {
           //ws请求服务器获取拉流地址
           log.info("ws-client:请求开始会议")
           if (sender nonEmpty){
-            if (RmManager.userInfo.get.isHost.get){//房主
+            if (RmManager.getCurrentUserInfo().isHost.get){//房主
               sender.get ! WsProtocol.StartLiveReq(RmManager.roomInfo.get.roomId)
             }else{
               sender.get ! WsProtocol.StartLive4ClientReq(RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId)
@@ -221,7 +230,7 @@ object RmManager {
 
         case StopLive =>
           liveManager ! LiveManager.StopPush
-          if (RmManager.userInfo.get.isHost.get){//房主
+          if (RmManager.getCurrentUserInfo().isHost.get){//房主
             log.info("房主停止推流")
             if (sender nonEmpty){
               sender.get ! StopLiveReq(RmManager.roomInfo.get.roomId)
