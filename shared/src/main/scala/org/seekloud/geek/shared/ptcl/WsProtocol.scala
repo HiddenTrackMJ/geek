@@ -184,8 +184,8 @@ object WsProtocol  {
   case class ShieldRsp(
     isForced: Boolean,
     userId: Long,
-    isImage: Boolean,
-    isAudio: Boolean,
+    isImage: Boolean,//true 表示开启图像
+    isAudio: Boolean,//true 表示开启声音
     errCode: Int = 0,
     msg: String = "ok"
   ) extends WsMsgRm

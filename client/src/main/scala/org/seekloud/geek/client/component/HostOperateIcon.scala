@@ -49,16 +49,17 @@ case class HostOperateIcon(
         sType match {
           case HostOperateIconType.MIC =>
 //            userInfo.isMic = Some(!userInfo.isMic.get)
-            rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,userInfo.userId,isImage = false,isAudio = true))
+            log.info("roomid" + RmManager.roomInfo.get.roomId)
+            rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,userInfo.userId,isImage = userInfo.isVideo.get,isAudio = !userInfo.isMic.get))
 
           case HostOperateIconType.VIDEO =>
             //修改内存中该用户的静音状态
-            rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,userInfo.userId,isImage = true,isAudio = false))
+            rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,userInfo.userId,isImage = !userInfo.isVideo.get,isAudio = userInfo.isMic.get))
 //            userInfo.isVideo = Some(!userInfo.isVideo.get)
 
 
           case HostOperateIconType.ALLOW =>
-            println("当前用户" + userInfo.isAllow.get)
+//            println("当前用户" + userInfo.isAllow.get)
             RmManager.getUserInfo(userInfo.userId).get.isAllow = Some(!userInfo.isAllow.get)
             //todo ws消息
 

@@ -139,7 +139,7 @@ class GeekHostController(
   //更新当前的模式状态的UI
   def updateModeUI() = {
     //根据当前所有用户的发言状态，如果没有在申请发言，则为自由发言状态，反之为申请发言状态
-    println(RmManager.roomInfo.get.userList)
+//    println(RmManager.roomInfo.get.userList)
     if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
       //当前是申请发言状态
       mode_label.setText("申请发言")
@@ -398,9 +398,13 @@ class GeekHostController(
 
       case msg: ChangePossessionRsp =>
         //改变成员列表中的
+
         val origHost = RmManager.roomInfo.get.userList.find(_.isHost.get == true).get
         origHost.isHost = Some(false)
-        RmManager.roomInfo.get.userList.find(_.userId == msg.userId).get.isHost = Some(true)
+        val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId)
+        if (user nonEmpty){
+          user.get.isHost = Some(true)
+        }
         //更新界面
         updateWhenUserList()
 
@@ -450,7 +454,27 @@ class GeekHostController(
         }
 
       case msg:ShieldRsp =>
-        //
+        log.info("收到ShieldRsp")
+        val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId)
+        if (user nonEmpty){
+          //更新设备状态
+          user.get.isVideo = Some(msg.isImage)
+          user.get.isMic = Some(msg.isAudio)
+        }
+        //更新界面
+        updateWhenUserList()
+        // 如果被封禁的userId是自己，需要修改底部功能条的样式并且调整摄像头、音频设置的关闭开启
+        if (msg.userId == RmManager.userInfo.get.userId){
+          if ((micStatus==DeviceStatus.ON && !msg.isAudio) || (micStatus==DeviceStatus.OFF && msg.isAudio)){
+            toggleMic()
+          }
+
+          if ((videoStatus==DeviceStatus.ON && !msg.isImage) || (videoStatus==DeviceStatus.OFF && msg.isImage)){
+            toggleVideo()
+          }
+        }
+
+
 
 
 
