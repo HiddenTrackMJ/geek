@@ -1,10 +1,13 @@
 package org.seekloud.geek.client.component
 
+import akka.actor.typed.ActorRef
 import com.jfoenix.controls.JFXRippler
 import javafx.scene.layout.Pane
 import org.seekloud.geek.client.common.Constants.HostOperateIconType
 import org.seekloud.geek.client.core.RmManager
+import org.seekloud.geek.client.core.RmManager.Shield
 import org.seekloud.geek.shared.ptcl.CommonProtocol.UserInfo
+import org.seekloud.geek.shared.ptcl.WsProtocol.{ChangePossessionReq, ShieldReq}
 import org.slf4j.LoggerFactory
 /**
   * User: hewro
@@ -23,7 +26,8 @@ case class HostOperateIcon(
   updateMyUI:() =>Unit, //更新与自己相关的界面，当前仅当点击的userinfo.id和自己的id匹配时候执行
   updateUI:()=>Unit, //更新整个用户列表界面
   sType:Int,
-  updateMyUIIfNeedI :Boolean = true //执行updateMyUI这个函数，是否需要判断点击的用户是当前登录的用户
+  updateMyUIIfNeedI :Boolean = true, //执行updateMyUI这个函数，是否需要判断点击的用户是当前登录的用户
+  rmManager: ActorRef[RmManager.RmCommand]
 ){
 
   private val log = LoggerFactory.getLogger(this.getClass)
@@ -43,17 +47,20 @@ case class HostOperateIcon(
 
         //修改内存中该用户的状态
         sType match {
-          //todo 发ws消息
           case HostOperateIconType.MIC =>
 //            userInfo.isMic = Some(!userInfo.isMic.get)
+            rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,userInfo.userId,isImage = false,isAudio = true))
 
           case HostOperateIconType.VIDEO =>
             //修改内存中该用户的静音状态
+            rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,userInfo.userId,isImage = true,isAudio = false))
 //            userInfo.isVideo = Some(!userInfo.isVideo.get)
+
 
           case HostOperateIconType.ALLOW =>
             println("当前用户" + userInfo.isAllow.get)
             RmManager.getUserInfo(userInfo.userId).get.isAllow = Some(!userInfo.isAllow.get)
+            //todo ws消息
 
           case HostOperateIconType.HOST =>
             val origHost = RmManager.roomInfo.get.userList.find(_.isHost.get == true)
@@ -63,6 +70,7 @@ case class HostOperateIcon(
             }else{
               log.info("当前数据有误，成员列表中没有房主")
             }
+            rmManager ! RmManager.ChangePossession(ChangePossessionReq(RmManager.roomInfo.get.roomId,userInfo.userId))
 
         }
 

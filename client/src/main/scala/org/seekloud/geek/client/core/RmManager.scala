@@ -13,7 +13,7 @@ import org.seekloud.geek.client.utils.WsUtil
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.seekloud.geek.shared.ptcl.WsProtocol
-import org.seekloud.geek.shared.ptcl.WsProtocol.{CompleteMsgClient, StopLive4ClientReq, StopLiveReq, WsMsgFront}
+import org.seekloud.geek.shared.ptcl.WsProtocol.{CompleteMsgClient, ShieldReq, StopLive4ClientReq, StopLiveReq, WsMsgFront}
 import org.slf4j.LoggerFactory
 
 /**
@@ -62,6 +62,7 @@ object RmManager {
 //  final case object GoToJoinRoom extends RmCommand //进去加入会议的页面
 
   final case object HostWsEstablish extends RmCommand
+
   final case object BackToHome extends RmCommand
   final case object HostLiveReq extends RmCommand //请求开启会议
   final case class StartLiveSuccess(pull:String, push:String) extends RmCommand
@@ -77,7 +78,7 @@ object RmManager {
 
   //ws链接
   final case class GetSender(sender: ActorRef[WsMsgFront]) extends RmCommand
-
+  final case class Shield(req:ShieldReq) extends RmCommand
 
   def create(stageCtx: StageContext): Behavior[RmCommand] =
     Behaviors.setup[RmCommand] { ctx =>
@@ -176,6 +177,13 @@ object RmManager {
           val url = Routes.linkRoomManager(userInfo.get.userId, roomInfo.map(_.roomId).get)
           WsUtil.buildWebSocket(ctx, url, hostController, successFunc(), failureFunc())
           Behaviors.same
+
+
+        case msg: Shield=>
+          //屏蔽某个人声音/图像
+          sender.foreach( s=> s ! msg.req)
+          Behaviors.same
+
 
         case msg: GetSender =>
           //添加给后端发消息的对象sender

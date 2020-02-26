@@ -307,7 +307,7 @@ class GeekHostController(
       t=>
         //创建一个AnchorPane
         val pane = AvatarColumn(t,userListPane.getPrefWidth - 20,centerPane,
-          ()=>{updateUserList()},()=>toggleMic(),()=>toggleVideo(),()=>updateModeUI()
+          ()=>{updateUserList()},()=>toggleMic(),()=>toggleVideo(),()=>updateModeUI(),rmManager
         )()
         pane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
         pane
@@ -397,7 +397,12 @@ class GeekHostController(
         updateWhenUserList()
 
       case msg: ChangePossessionRsp =>
-        println(msg)
+        //改变成员列表中的
+        val origHost = RmManager.roomInfo.get.userList.find(_.isHost.get == true).get
+        origHost.isHost = Some(false)
+        RmManager.roomInfo.get.userList.find(_.userId == msg.userId).get.isHost = Some(true)
+        //更新界面
+        updateWhenUserList()
 
       case msg: StartLiveRsp =>
         //房主收到的消息
@@ -443,6 +448,10 @@ class GeekHostController(
         }else{
           rmManager ! StopLiveFailed
         }
+
+      case msg:ShieldRsp =>
+        //
+
 
 
       case x =>

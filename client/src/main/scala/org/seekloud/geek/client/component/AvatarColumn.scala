@@ -1,9 +1,11 @@
 package org.seekloud.geek.client.component
 
+import akka.actor.typed.ActorRef
 import javafx.geometry.Insets
 import javafx.scene.control.Label
 import javafx.scene.layout.{ColumnConstraints, GridPane, Pane, VBox}
 import org.seekloud.geek.client.common.Constants.HostOperateIconType
+import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.shared.ptcl.CommonProtocol.UserInfo
 import org.slf4j.LoggerFactory
 
@@ -20,7 +22,8 @@ case class AvatarColumn(
   updateFunc: ()=>Unit,
   toggleMic: ()=>Unit,
   toggleVideo: ()=>Unit,
-  updateAllowUI: ()=>Unit
+  updateAllowUI: ()=>Unit,
+  rmManager: ActorRef[RmManager.RmCommand]
 ){
 
   private val log = LoggerFactory.getLogger(this.getClass)
@@ -56,7 +59,7 @@ case class AvatarColumn(
     //根据声音开启状态显示不同图标
     val icon = HostOperateIcon("fas-microphone:16:white","fas-microphone-slash:16:white","取消静音","静音",
       userInfo.isMic.get,userInfo,rootPane,
-      ()=>toggleMic(),()=>updateFunc(),HostOperateIconType.MIC)()
+      ()=>toggleMic(),()=>updateFunc(),HostOperateIconType.MIC,rmManager = rmManager)()
 
 
     gridPane.add(icon, 2, 0)
@@ -65,7 +68,7 @@ case class AvatarColumn(
     //控制某个用户的视频消息
     val videoIcon = HostOperateIcon("fas-video:16:white","fas-eye-slash:16:white","关闭视频","开启视频",
       userInfo.isVideo.get,userInfo,rootPane,
-      ()=>toggleVideo(),()=>updateFunc(),HostOperateIconType.VIDEO)()
+      ()=>toggleVideo(),()=>updateFunc(),HostOperateIconType.VIDEO,rmManager = rmManager)()
 
 
     gridPane.add(videoIcon, 3, 0)
@@ -73,7 +76,7 @@ case class AvatarColumn(
     //控制某个用户的发言情况
     val speakIcon = HostOperateIcon("fas-hand-paper:16:green","fas-hand-paper:16:white","指定发言","取消指定发言",
       userInfo.isAllow.get,userInfo,rootPane,
-      ()=>updateAllowUI(),()=>updateFunc(),HostOperateIconType.ALLOW,false)()
+      ()=>updateAllowUI(),()=>updateFunc(),HostOperateIconType.ALLOW,false,rmManager = rmManager)()
 
     gridPane.add(speakIcon, 4, 0)
 
@@ -81,7 +84,7 @@ case class AvatarColumn(
     //根据用户身份显示不同的图标，普通用户 user-o
     val user = HostOperateIcon("fas-user-circle:16:#fab726","fas-user:16:white","指定为主持人","指定为主持人",
       userInfo.isHost.get,userInfo,rootPane,
-      ()=>Unit,()=>updateFunc(),HostOperateIconType.HOST)()
+      ()=>Unit,()=>updateFunc(),HostOperateIconType.HOST,rmManager = rmManager)()
 
 
     gridPane.add(user, 5, 0)
