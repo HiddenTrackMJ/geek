@@ -1,8 +1,7 @@
 package org.seekloud.geek.client.common
 
-import java.io.{File, FileInputStream}
+import java.io.File
 
-import javafx.scene.image.Image
 import javafx.scene.paint.Color
 
 
@@ -69,6 +68,10 @@ object Constants {
     val ON = 2
   }
 
+  object CommentType{
+    val USER = 0
+    val SERVER = 1
+  }
 
 
   object AudienceStatus {
@@ -83,6 +86,13 @@ object Constants {
     val AUDIENCE_REC = 2
   }
 
+  //用户列表栏每个用户的4种操作
+  object HostOperateIconType{
+    val MIC = 0
+    val VIDEO = 1
+    val ALLOW = 2
+    val HOST = 3
+  }
   val barrageColors = List(
     Color.PINK,
     Color.HOTPINK,

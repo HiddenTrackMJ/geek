@@ -48,6 +48,8 @@
     -fx-text-fill: rgb(43, 42, 42);
 }
 
+
+
 .jfx-list-cell {
     -fx-background-color: rgba(0, 0, 0, 0);
     -fx-background-insets: 0.0;
@@ -56,6 +58,12 @@
 .jfx-list-cell:odd:selected > .jfx-rippler > StackPane, .jfx-list-cell:even:selected > .jfx-rippler > StackPane {
     -fx-background-color: rgba(0, 0, 0, 0);
 }
+
+.serverCommentBubble{
+    -fx-background-color: rgba(0, 0, 0, 0);
+}
+
+
 
 .jfx-snackbar-content {
     -fx-background-color: WHITE;

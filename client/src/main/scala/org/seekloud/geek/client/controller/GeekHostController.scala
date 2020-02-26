@@ -10,7 +10,7 @@ import javafx.scene.layout._
 import javafx.scene.paint.Color
 import org.kordamp.ikonli.javafx.FontIcon
 import org.seekloud.geek.client.Boot
-import org.seekloud.geek.client.common.Constants.{DeviceStatus, HostStatus}
+import org.seekloud.geek.client.common.Constants.{CommentType, DeviceStatus, HostStatus}
 import org.seekloud.geek.client.common.{Constants, StageContext}
 import org.seekloud.geek.client.component._
 import org.seekloud.geek.client.core.RmManager
@@ -206,13 +206,13 @@ class GeekHostController(
 
     initUserList()
     initCommentList()
-
+    addServerMsg(CommentInfo(-1L,"","","欢迎加入geek会议厅，尽情发言吧",1L))
     initToolbar()
   }
 
 
   def initToolbar() = {
-    val toolbar = TopBar(s"会议名称：${RmManager.roomInfo.get.roomName} 会议号：${RmManager.roomInfo.get.roomId}", Color.BLACK,  Color.WHITE,rootPane.getPrefWidth-10, 25, "host", context, rmManager)()
+    val toolbar = TopBar(s"会议名称：${RmManager.roomInfo.get.roomName} 会议号：${RmManager.roomInfo.get.roomId}", Color.BLACK,  Color.WHITE,rootPane.getPrefWidth, 10, "host", context, rmManager)()
     rootPane.getChildren.add(toolbar)
   }
 
@@ -233,8 +233,7 @@ class GeekHostController(
     userList.map{
       t=>
         //创建一个AnchorPane
-        val m = ()=>{updateUserList()}
-        val pane = AvatarColumn(t,userListPane.getPrefWidth - 20,centerPane,m)()
+        val pane = AvatarColumn(t,userListPane.getPrefWidth - 20,centerPane,()=>{updateUserList()},()=>toggleMic(),()=>toggleVideo())()
         pane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)))
         pane
     }
@@ -269,11 +268,6 @@ class GeekHostController(
 
 
 
-  //回到首页
-  def gotoHomeScene(): Unit = {
-    //回到首页
-    rmManager ! RmManager.BackToHome
-  }
 
   //todo 发表评论,ws每收到一条消息就给我发一条消息
   def commentSubmit() = {
@@ -289,6 +283,10 @@ class GeekHostController(
     }
   }
 
+  //添加系统消息
+  def addServerMsg(t:CommentInfo) = {
+    commentJList.getItems.add(CommentColumn(commentPane.getPrefWidth - 30,t,CommentType.SERVER)())
+  }
 
   def addComment(t:CommentInfo) = {
     Boot.addToPlatform{
