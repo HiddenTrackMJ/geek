@@ -3,6 +3,7 @@ package org.seekloud.geek.utils
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource
 import com.zaxxer.hikari.HikariDataSource
 import org.slf4j.LoggerFactory
+import slick.jdbc.H2Profile
 import slick.jdbc.MySQLProfile.api._
 import slick.util.AsyncExecutor
 
@@ -20,38 +21,39 @@ object DBUtil {
 
   private def createDataSource() = {
 
-    //hikariDS.setDataSource(DB.getDataSource())
+//    hikariDS.setDataSource(DB.getDataSource())
 
-//    val mysqlDS = new MysqlDataSource()
-//    mysqlDS.setURL(slickUrl)
-//    mysqlDS.setUser(slickUser)
-//    mysqlDS.setPassword(slickPassword)
-//    val hikariDS = new HikariDataSource()
-//    hikariDS.setDataSource(mysqlDS)
-//    hikariDS.setMaximumPoolSize(slickMaximumPoolSize)
-//    hikariDS.setConnectionTimeout(slickConnectTimeout)
-//    hikariDS.setIdleTimeout(slickIdleTimeout)
-//    hikariDS.setMaxLifetime(slickMaxLifetime)
-//    hikariDS.setAutoCommit(true)
-//    hikariDS
-
-    val dataSource = new org.h2.jdbcx.JdbcDataSource
-    dataSource.setURL(slickUrl)
-    dataSource.setUser(slickUser)
-    dataSource.setPassword(slickPassword)
+    val mysqlDS = new MysqlDataSource()
+    mysqlDS.setURL(slickUrl)
+    mysqlDS.setUser(slickUser)
+    mysqlDS.setPassword(slickPassword)
     val hikariDS = new HikariDataSource()
-    hikariDS.setDataSource(dataSource)
+    hikariDS.setDataSource(mysqlDS)
     hikariDS.setMaximumPoolSize(slickMaximumPoolSize)
     hikariDS.setConnectionTimeout(slickConnectTimeout)
     hikariDS.setIdleTimeout(slickIdleTimeout)
     hikariDS.setMaxLifetime(slickMaxLifetime)
     hikariDS.setAutoCommit(true)
     hikariDS
+
+//    val dataSource = new org.h2.jdbcx.JdbcDataSource
+//    dataSource.setURL(slickUrl)
+//    dataSource.setUser(slickUser)
+//    dataSource.setPassword(slickPassword)
+//    val hikariDS = new HikariDataSource()
+//    hikariDS.setDataSource(dataSource)
+//    hikariDS.setMaximumPoolSize(slickMaximumPoolSize)
+//    hikariDS.setConnectionTimeout(slickConnectTimeout)
+//    hikariDS.setIdleTimeout(slickIdleTimeout)
+//    hikariDS.setMaxLifetime(slickMaxLifetime)
+//    hikariDS.setAutoCommit(true)
+//    hikariDS
   }
 
 
 
   val driver = slick.jdbc.MySQLProfile
+//  val driver = H2Profile
 
   val asyncExecutor : AsyncExecutor = AsyncExecutor.apply("AsyncExecutor.default",20,-1)
   val db = Database.forDataSource(dataSource, Some(slickMaximumPoolSize),asyncExecutor)

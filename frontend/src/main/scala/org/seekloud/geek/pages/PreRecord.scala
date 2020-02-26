@@ -34,7 +34,7 @@ class PreRecord(c:String) extends Page{
       rsp =>
         if(rsp.errCode == 0) {
 //          dom.document.location.href= s"#/room/"+roomId.toString + "/" + fileName
-          dom.document.location.hash= s"#/room/"+roomId.toString + "/" + fileName
+          dom.document.location.hash= s"#/room/"+roomId.toString + "/" + fileName.dropRight(4)
           println("ssssss")
         } else {
           JsFunc.alert("抱歉，你没有查看该录像的权限")
@@ -46,13 +46,13 @@ class PreRecord(c:String) extends Page{
 
   private val courseListRx1 =
     roomIdData.map {
-    case Nil => <div style="margin: 30px; font-size: 17px; text-align: center" class="studentContainer">暂无录像信息
+    case Nil => <div style="margin: 30px; font-size: 17px; " class="courseTitleContainer">暂无录像信息
     </div>
     case list =>{<div class="courseContainer" >
       {list.map { l =>
 
         <div class="courseItem" onclick={()=>}>
-          <img class="courseItem-img" src={Route.imgPath("house.png")}></img>
+          <img class="courseItem-img" src={Route.imgPath("videoCover/video"+l.fileName.takeRight(5).replaceAll("mp4","png"))}></img>
           <div style="padding:0 20px">
             <div class="courseItem-title" onclick={() => checkInvAndSkip(l.roomId,l.fileName);()}>
               <div class="courseItem-name">

@@ -39,12 +39,13 @@ object Header extends Component {
             <img   class ="header-logo" onclick={()=> dom.window.location.href = "/"}/>
             <ul style="margin-left:50px;display:flex;">
               <li class="top-text top-text-opacity">
-                <a href="#/home">
-                  <img style="height:50px" src={Route.imgPath("logo3.png")}/>
+                <a href="#/home" style="display: flex;align-items: center;">
+                  <img style="height:30px" src={Route.imgPath("logo4_Title.png")}/>
+                  <img style="height:50px" src={Route.imgPath("logo4.png")}/>
                 </a>
               </li>
               </ul>
-            <div style="margin-left:20%;">
+            <div style="margin-left:15%;">
             <div  style="padding: 1rem 1rem 1rem 1rem;display:flex;">
               <div >
                 <input type="text" id="username" placeholder="搜索" style="width:500px;height:35px;" autofocus="true"></input>

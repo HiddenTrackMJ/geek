@@ -96,6 +96,16 @@ object CommonProtocol {
                          msg: String = "Ok"
                        ) extends Response
 
+  case class InviterAndInviteeDetail(
+                      roomId:String,
+                      fileList:List[String],
+                    )
+  case class InviterAndInviteeDetailRsp(
+                                         list: List[InviterAndInviteeDetail],
+                                         errCode: Int = 0,
+                                         msg: String = "Ok"
+                                 ) extends Response
+
 
   case class RoomInfo(
     roomId: Long,
@@ -184,6 +194,7 @@ object CommonProtocol {
                     commentId:Long,
                     userId:Long,
                     invitation:Long,
+                    invitationAvatar:Option[String],
                     invitationName:String,
                     commentContent:String,
                     )

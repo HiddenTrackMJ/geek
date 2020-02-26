@@ -169,12 +169,22 @@
     white-space:nowrap;
 }
 
+.orderPage-wrap-flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space:normal;
+}
+
 .orderPage .table-first-txt{
     margin-left: 16px;
 }
 
 .orderPage .table-first-img{
     width:160px;
+    height:90px;
+}
+.orderPage .table-first-img2{
     height:90px;
 }
 

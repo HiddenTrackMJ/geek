@@ -22,10 +22,12 @@
 }
 
 .primaryInfo .info .username {
-    height: 50px;
+    height: 100px;
     float: right;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     margin-left: 20px;
-
 }
 
 .primaryInfo .info .label {

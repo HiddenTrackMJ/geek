@@ -124,6 +124,7 @@ trait InvitationService extends BaseService{
         complete(jsonFormatError)
     }
   }
+
   private def checkInvitee =(path("checkInvitee") & post){
     entity(as[Either[Error, CheckInviteeReq]]) {
       case Right(req) =>
@@ -139,6 +140,25 @@ trait InvitationService extends BaseService{
       case Left(error) =>
         log.warn(s"error in checkInvitee: $error")
         complete(ErrorRsp(msg = "json parse error.1", errCode = 1000005))
+    }
+  }
+
+
+  private def getInviteDetail = (path("getInviteDetail") & post){
+    entity(as[Either[Error, InviterAndInviteeReq]]) {
+      case Right(req) =>
+//        dealFutureResult{
+//          VideoDao.getInviteDetail(req.inviterId,req.inviteeId).map { rsp =>
+//            if (rsp != Vector())
+//              complete(SuccessRsp())
+//            else
+              complete(ErrorRsp(1000045, "没有被邀请"))
+//          }
+
+//        }
+      case Left(e) =>
+        log.debug(s"delInvitee parse json failed,error:${e.getMessage}")
+        complete(jsonFormatError)
     }
   }
 
@@ -169,7 +189,7 @@ trait InvitationService extends BaseService{
   }
 
   val invitationRoutes: Route = pathPrefix("invitation") {
-    getInviterList ~ getInviteeList ~ delInvitee  ~ addInvitee ~ checkInvitee
+    getInviterList ~ getInviteeList ~ delInvitee  ~ addInvitee ~ checkInvitee ~ getInviteDetail
   }
 
 }

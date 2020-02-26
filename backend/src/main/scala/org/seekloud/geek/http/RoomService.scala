@@ -248,8 +248,8 @@ trait RoomService extends BaseService with ServiceUtils {
       dealFutureResult {
         VideoDao.getInviteeVideo(userId.toLong,file).map { list =>
           if (list.toList.nonEmpty) {
-//            val f = new File(s"${AppSettings.videoPath}${list.toList.head.filename}").getAbsoluteFile
-                              val f = new File(s"J:\\暂存\\videos\\录制_2020_02_15_18_54_27_35.mp4").getAbsoluteFile
+            val f = new File(s"${AppSettings.videoPath}${list.toList.head.filename}").getAbsoluteFile
+//                              val f = new File(s"J:\\暂存\\videos\\录制_2020_02_15_18_54_27_35.mp4").getAbsoluteFile
             getFromFile(f,ContentTypes.`application/octet-stream`)
           }
           else {
@@ -302,7 +302,7 @@ trait RoomService extends BaseService with ServiceUtils {
       case Right(req) =>
         dealFutureResult{
           VideoDao.getComment(req.roomId,req.filename).map{ v =>
-            val rsp = v.toList.map(i => Comment(i._2.id, i._2.userid, i._2.invitation,i._1.name, i._2.comment))
+            val rsp = v.toList.map(i => Comment(i._2.id, i._2.userid, i._2.invitation,i._1.avatar,i._1.name, i._2.comment))
             complete(GetCommentRsp(Some(rsp)))
           }
         }
@@ -325,8 +325,28 @@ trait RoomService extends BaseService with ServiceUtils {
   private val delComment = (path("delComment") & post){
     entity(as[Either[Error, delCommentReq]]) {
       case Right(req) =>
-        VideoDao.deleteComment(req.roomId)
-        complete(SuccessRsp())
+
+        dealFutureResult(
+          VideoDao.deleteComment(req.roomId).map{ r =>
+            if (r > 0) {
+              complete(SuccessRsp())
+            } else {
+              complete(ErrorRsp(1000101, "删除失败"))
+
+            }
+          }
+//          VideoDao.checkDeleteComment(req.roomId).map{rsp=>
+//            if(rsp.isEmpty)
+//              complete(SuccessRsp())
+//            else {
+//              println(req.roomId + ":  删除失败")
+//              complete(ErrorRsp(10000035,"删除失败"))
+//            }
+//
+//
+//          }
+        )
+
       case Left(error) =>
         complete(jsonFormatError)
     }
