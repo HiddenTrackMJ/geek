@@ -27,6 +27,7 @@ object CommonProtocol {
     var isMic:Option[Boolean] = Some(true), //当前用户是否开了声音
     var isVideo:Option[Boolean] = Some(true), //当前用户是否开了摄像头
     var isAllow:Option[Boolean] = Some(false), //当前用户是否是发言人（发言模式下）
+    var position:Int = 0 //0表示凸显的为孩子，1，2，3，4分别对应右侧的4个位置
   )
 
   case class CommentInfo(

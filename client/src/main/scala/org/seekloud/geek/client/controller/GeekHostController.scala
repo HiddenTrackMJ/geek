@@ -316,11 +316,14 @@ class GeekHostController(
 
   //更新整个list
   def updateUserList():Unit = {
-    val paneList = createUserListPane()
     Boot.addToPlatform{
+      val paneList = createUserListPane()
       //修改整个list
+      println("444")
       userJList.getItems.removeAll(userJList.getItems)
+      println("555")
       userJList.getItems.addAll(paneList:_*)
+      println("666")
     }
 
   }
@@ -374,6 +377,7 @@ class GeekHostController(
   //当userList数据更新，需要更新的界面
   def updateWhenUserList() = {
 
+    RmManager.calUserListPosition()//重新计算用户在界面中的顺序
     updateUserList()
     updateModeUI()
     updateAllowUI()

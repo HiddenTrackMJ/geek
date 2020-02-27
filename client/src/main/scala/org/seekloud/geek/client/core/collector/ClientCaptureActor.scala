@@ -12,6 +12,7 @@ import org.seekloud.geek.capture.protocol.Messages._
 import org.seekloud.geek.capture.sdk.MediaCapture
 import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.core.RmManager
+import org.seekloud.geek.player.util.GCUtil
 import org.seekloud.geek.shared.ptcl.CommonProtocol.ModeStatus
 import org.slf4j.LoggerFactory
 
@@ -204,9 +205,6 @@ object ClientCaptureActor {
           val canvas_all_width = gc.getCanvas.getWidth
           val canvas_all_height = gc.getCanvas.getHeight
 
-          val image_w = msg.image.getWidth //图像的宽度
-          val image_h = msg.image.getHeight //图像的高度
-
 //          log.info("imgage宽度" + sWidth + "高度" + sHeight)
           if (needImage) {
             if (!isJoin) {//没有开始会议的时候
@@ -217,42 +215,19 @@ object ClientCaptureActor {
               //开启会议的时候，判断是自由模式还是发言模式
               Boot.addToPlatform {
                 if (RmManager.roomInfo.get.modeStatus == ModeStatus.FREE){
-                  if (RmManager.userInfo.get.isHost.get){
+                  if (RmManager.userInfo.get.isHost.get){//主持人
                     //画在左侧
-                    val canvas_distribute_w = canvas_all_width /2
-                    val canvas_distribute_h = canvas_all_height //画在左侧占用整个左侧的画布，以画布的宽为基准，因为画布的宽一定是小于高的
-                    //为了保险可以做个画布宽高判断，以便确定以谁为基准
-                    if (canvas_distribute_w < canvas_distribute_h){//以宽度为基准
-                      val canvas_last_h = canvas_distribute_w * image_h / image_w
-                      val x = 0
-                      val y = (canvas_distribute_h - canvas_last_h) / 2
-                      gc.drawImage(msg.image, x, y, canvas_distribute_w, canvas_last_h)
-                    }else{//以高为基准
-                      val canvas_last_w = canvas_distribute_h * image_w / image_h
-                      val x = (canvas_distribute_w  - canvas_last_w) / 2
-                      val y = 0
-                      gc.drawImage(msg.image, x, y,canvas_last_w, canvas_distribute_h)
-                    }
-                  }else{
+                    GCUtil.drawLeft(gc,msg.image)
+                  }else {
                     //画在右侧第一格
-                    val canvas_distribute_w = canvas_all_width /4 //左侧一半，右侧是4格，每行两格，一共4格两行
-                    val canvas_distribute_h = (canvas_all_height - 0) /4  //这里可以sHeight-1/4高度，那么绘画起点就可以从0 -> 1/8 height的位置
-                    if (canvas_distribute_w < canvas_distribute_h){//以宽度为基准
-                      val canvas_last_h = canvas_distribute_w * image_h / image_w
-                      val x = canvas_all_width / 2 + 0
-                      val y = canvas_distribute_h - canvas_last_h / 2
-                      gc.drawImage(msg.image, x, y,canvas_distribute_w, canvas_last_h)
-                    }else{
-
-
-                      gc.drawImage(msg.image, 0.0, canvas_all_height / 4, canvas_all_width / 2, canvas_all_height / 2)
-                    }
+                    GCUtil.drawRight(gc, msg.image, 1)
                   }
                 }else{//发言模式下
-                  if (RmManager.userInfo.get.isAllow.get){
-                    gc.drawImage(msg.image, 0.0, canvas_all_height / 4, canvas_all_width / 2, canvas_all_height / 2)
+                  if (RmManager.userInfo.get.isAllow.get){//发言人
+                    GCUtil.drawLeft(gc,msg.image)
                   }else{
-                    gc.drawImage(msg.image, 0.0, canvas_all_height / 4, canvas_all_width / 2, canvas_all_height / 2)
+                    //画在右侧第一格
+                    GCUtil.drawRight(gc, msg.image, 1)
                   }
                 }
               }

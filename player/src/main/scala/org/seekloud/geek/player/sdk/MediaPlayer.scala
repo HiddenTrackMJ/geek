@@ -2,16 +2,17 @@ package org.seekloud.geek.player.sdk
 
 import java.io.{File, InputStream}
 
-import akka.actor.{ActorSystem, Scheduler}
-import akka.actor.typed.{ActorRef, DispatcherSelector}
 import akka.actor.typed.scaladsl.adapter._
+import akka.actor.typed.{ActorRef, DispatcherSelector}
+import akka.actor.{ActorSystem, Scheduler}
 import akka.dispatch.MessageDispatcher
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import javafx.scene.canvas.GraphicsContext
+import org.seekloud.geek.player.core.PlayerManager
 import org.seekloud.geek.player.core.PlayerManager.MediaSettings
-import org.seekloud.geek.player.core.{PlayerGrabber, PlayerManager}
 import org.seekloud.geek.player.protocol.Messages
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{RoomInfo, UserInfo}
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration._
@@ -43,12 +44,19 @@ object MediaPlayer {
 
   var playerManager : ActorRef[PlayerManager.SupervisorCmd] = _
 
+  var roomInfo: Option[RoomInfo] = None
 
   def apply(): MediaPlayer = new MediaPlayer()
 
 }
 
-class MediaPlayer () {
+class MediaPlayer (
+  roomInfo: Option[RoomInfo] = None,
+  currentUser:Option[UserInfo] = None
+) {
+
+  //初始化，这里拿到的是对象的地址，值会随着rmManger更新而更新
+  MediaPlayer.roomInfo = roomInfo
 
   import MediaPlayer._
 
@@ -126,12 +134,12 @@ class MediaPlayer () {
     * 开始播放
     *
     * */
-  def start(playId: String, position: String, replyTo: ActorRef[Messages.RTCommand], input:Either[String, InputStream], graphContext: Option[GraphicsContext], mediaSettings: Option[MediaSettings] = None): Unit = {
+  def start(playId: String, userId: String, replyTo: ActorRef[Messages.RTCommand], input:Either[String, InputStream], graphContext: Option[GraphicsContext], mediaSettings: Option[MediaSettings] = None): Unit = {
     log.info(s"开始播放器playerId:$playId")
     if(mediaSettings.isEmpty){
-      playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, MediaSettings(imageWidth, imageHeight, frameRate, needImage, needSound, outputFile), position)
+      playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, MediaSettings(imageWidth, imageHeight, frameRate, needImage, needSound, outputFile), userId)
     } else{
-      playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, mediaSettings.get, position)
+      playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, mediaSettings.get, userId)
 
     }
 

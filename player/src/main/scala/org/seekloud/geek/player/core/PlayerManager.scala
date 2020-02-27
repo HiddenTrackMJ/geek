@@ -2,17 +2,15 @@ package org.seekloud.geek.player.core
 
 import java.io.{File, InputStream}
 
-import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer}
+import akka.actor.typed.{ActorRef, Behavior}
 import javafx.scene.canvas.GraphicsContext
-import org.seekloud.geek.player.core.PlayerGrabber._
 import org.seekloud.geek.player.core.ImageActor._
+import org.seekloud.geek.player.core.PlayerGrabber._
 import org.seekloud.geek.player.core.RecordActor.StopRecord
 import org.seekloud.geek.player.core.SoundActor._
 import org.seekloud.geek.player.protocol.Messages
 import org.seekloud.geek.player.protocol.Messages._
-import org.seekloud.geek.player.util.RecordUtil
-import org.seekloud.geek.player.sdk.MediaPlayer.executor
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
@@ -75,7 +73,7 @@ object PlayerManager {
     graphContext: Option[GraphicsContext],
     input: Either[String, InputStream],
     settings: MediaSettings,
-    position: String,
+    userID: String,
   ) extends SupervisorCmd
 
   final case class PausePlay(

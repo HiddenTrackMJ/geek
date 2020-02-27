@@ -33,8 +33,33 @@ object RmManager {
   var userInfo: Option[UserInfo] = None //只包括登录成功后的返回信息，后续的房间相关信息需要从roomInfo里面去寻找
   var roomInfo: Option[RoomInfo] = None
   var meetingListInfo:List[MeetingInfo] = Nil //存储用户登录当前会话中参加和发起的会议信息
-  val userLiveIdMap: mutable.HashMap[String, Long] = mutable.HashMap.empty //liveid->userid，存储已经拉过流的键值对信息
+  val userLiveIdMap: mutable.HashMap[String, (Long)] = mutable.HashMap.empty //liveid->(userid)，存储已经拉过流的键值对信息
 
+
+  //对当前的用户立碑的position进行排序
+  //当用户列表变化了，房主切换了，发言人切换了，都需要重新计算一次position
+  def calUserListPosition() ={
+    var x = 1
+    roomInfo.get.userList.foreach{
+      user=>
+        if (roomInfo.get.modeStatus == ModeStatus.FREE){
+          if (user.isHost.get){
+            user.position = 0
+          }else{
+            user.position = x
+            x += 1
+          }
+        }else{//申请发言模式
+          if(user.isAllow.get){
+            user.position = 0
+          }else{
+            user.position = x
+            x += 1
+          }
+        }
+    }
+
+  }
   def getCurrentUserInfo(): UserInfo = {
     assert(userInfo.nonEmpty && roomInfo.nonEmpty)
     val user = roomInfo.get.userList.find(_.userId == userInfo.get.userId)
@@ -90,7 +115,7 @@ object RmManager {
       implicit val stashBuffer: StashBuffer[RmCommand] = StashBuffer[RmCommand](Int.MaxValue)
       Behaviors.withTimers[RmCommand] { implicit timer =>
         //启动client同时启动player
-        val mediaPlayer = new MediaPlayer()
+        val mediaPlayer = new MediaPlayer(RmManager.roomInfo)
         mediaPlayer.init(isDebug = AppSettings.playerDebug, needTimestamp = AppSettings.needTimestamp)
         val liveManager = ctx.spawn(LiveManager.create(ctx.self, mediaPlayer), "liveManager")
         idle(stageCtx, liveManager, mediaPlayer)
@@ -228,19 +253,20 @@ object RmManager {
           //2.开始拉流：
           RmManager.userInfo.get.pullStream = Some(pull)
 
-          userLiveCodeMap.filter(_._2 != -1).zipWithIndex.foreach { u =>
-            val position = u._1._1.split("_").last
-            RmManager.userLiveIdMap.put(u._1._1, u._1._2)
-            liveManager ! LiveManager.PullStream(u._1._1, position, mediaPlayer, hostController, liveManager)
+          //排除掉用户自己的流，因为自己的不需要拉流，直接是摄像头绘制
+          userLiveCodeMap.filter(_._2 != RmManager.userInfo.get.userId).filter{_._2 != -1}.filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach {
+            u =>
+              RmManager.userLiveIdMap.put(u._1,u._2)
+              liveManager ! LiveManager.PullStream(u._1, u._2.toString, mediaPlayer, hostController, liveManager)
           }
 
           Behaviors.same
 
         case StartLive4ClientSuccess(userLiveCodeMap)=>
-          userLiveCodeMap.filter(_._2 != -1).filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach { u =>
-            val position = u._1.split("_").last
+          userLiveCodeMap.filter(_._2 != RmManager.userInfo.get.userId).filter(_._2 != -1).filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach {
+            u =>
             RmManager.userLiveIdMap.put(u._1, u._2)
-            liveManager ! LiveManager.PullStream(u._1, position, mediaPlayer, hostController, liveManager)
+            liveManager ! LiveManager.PullStream(u._1, u._2.toString, mediaPlayer, hostController, liveManager)
           }
 
           Behaviors.same

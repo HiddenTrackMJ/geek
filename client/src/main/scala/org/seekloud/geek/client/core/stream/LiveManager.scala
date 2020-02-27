@@ -64,7 +64,7 @@ object LiveManager {
 
   final case class Ask4State(reply: ActorRef[Boolean]) extends LiveCommand
 
-  final case class PullStream(stream: String, position: String, mediaPlayer: MediaPlayer,hostController:GeekHostController,liveManager: ActorRef[LiveManager.LiveCommand]) extends LiveCommand
+  final case class PullStream(stream: String, userId: String, mediaPlayer: MediaPlayer,hostController:GeekHostController,liveManager: ActorRef[LiveManager.LiveCommand]) extends LiveCommand
 
   final case object StopPull extends LiveCommand
 
@@ -167,7 +167,7 @@ object LiveManager {
 
             }
             else videoPlayer.get
-          mediaPlayer.start(playId, msg.position, videoPlayerNew,Left(msg.stream),Some(msg.hostController.gc),None)
+          mediaPlayer.start(playId, msg.userId, videoPlayerNew,Left(msg.stream),Some(msg.hostController.gc),None)
           idle(parent, mediaPlayer, captureActor, isStart = isStart, isRegular = isRegular, videoPlayer = Some(videoPlayerNew))
 
 

@@ -5,10 +5,12 @@ import akka.actor.typed.{ActorRef, Behavior}
 import javafx.application.Platform
 import javafx.scene.canvas.GraphicsContext
 import org.seekloud.geek.player.protocol.Messages._
+import org.seekloud.geek.player.sdk.MediaPlayer
+import org.seekloud.geek.player.util.GCUtil
 import org.slf4j.LoggerFactory
 
 import scala.collection.immutable
-import concurrent.duration._
+import scala.concurrent.duration._
 
 /**
   * Author: zwq
@@ -170,7 +172,8 @@ object ImageActor {
 //              println("quick run image")
               ctx.self ! TryPlayImageTick
             }
-//            println("draw image")
+//          println("draw image")
+
             val (newQueue, newImagePlayedTime, playTimeInWallClock) = drawPicture(id, gc, queue, ImagePlayedTime)
             playing(
               id,
@@ -222,26 +225,13 @@ object ImageActor {
     val newQueue = res._2
     val playTimeInWallClock = System.currentTimeMillis() //实际播放时间
     Platform.runLater { () =>
-      val sW = gc.getCanvas.getWidth //画布的宽度
-      val sH = gc.getCanvas.getHeight //画布的高度
-      val w = img.getWidth //图像的宽度
-      val h = img.getHeight //图像的高度
 
-      //todo 需要修改
       //根据需要拉流的map里面的用户身份画到画布的不同位置
-      if (id == "1"){
-        //该位置显示凸显的人的图像
-        gc.drawImage(img, 0, 0, sW / 2, h * sW / w / 2)
-      }
-      else if (id == "2"){
-        gc.drawImage(img,  sW / 2, 0, sW / 2, h * sW / w / 2)
-      }
-      else if (id == "3"){
-        gc.drawImage(img,  0, sH / 2, sW / 2, h * sW / w / 2)
-      }
-      else if (id == "4"){
-        gc.drawImage(img,  sW / 2, sH / 2, sW / 2, h * sW / w / 2)
-      }
+
+      //id的值是当前拉流的用户userId
+      val position = MediaPlayer.roomInfo.get.userList.find(_.userId == id.toLong).get.position
+      GCUtil.draw(gc,img,position)
+
 
     }
     val newImagePlayedTime = //时间戳
