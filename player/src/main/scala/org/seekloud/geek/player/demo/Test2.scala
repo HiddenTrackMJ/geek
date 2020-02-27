@@ -1,12 +1,11 @@
 package org.seekloud.geek.player.demo
 
-import javafx.scene.{Group, Scene}
-import javafx.scene.canvas.{Canvas, GraphicsContext}
-import javafx.stage.Stage
 import akka.actor.typed.scaladsl.adapter._
+import javafx.scene.canvas.{Canvas, GraphicsContext}
 import javafx.scene.control.Button
 import javafx.scene.layout.HBox
-import org.seekloud.geek.player.protocol.Messages
+import javafx.scene.{Group, Scene}
+import javafx.stage.Stage
 import org.seekloud.geek.player.protocol.Messages.AddPicture
 import org.seekloud.geek.player.sdk.MediaPlayer
 
@@ -48,11 +47,11 @@ class Test2 extends javafx.application.Application{
     //39.105.16.162
     startBtn.setOnAction(_ =>
 
-      mediaActor.start(playId, "", videoPlayer,Left("rtmp://47.92.170.2:42073/live/10009_1"),Some(gc),None)) // 开始输出
+      mediaActor.start(None,playId, "", videoPlayer,Left("rtmp://47.92.170.2:42073/live/10009_1"),Some(gc),None)) // 开始输出
 
     val pauseBtn = new Button("pause")
     pauseBtn.setOnAction(_ =>
-      mediaActor.start("2", "", videoPlayer,Left("rtmp://47.92.170.2:42073/live/10009_1"),Some(gc),None)) // 开始输出
+      mediaActor.start(None,"2", "", videoPlayer,Left("rtmp://47.92.170.2:42073/live/10009_1"),Some(gc),None)) // 开始输出
 
 //    mediaActor.pause(playId))  // 暂停输出
 

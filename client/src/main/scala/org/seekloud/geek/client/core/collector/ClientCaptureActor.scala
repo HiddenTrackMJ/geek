@@ -12,8 +12,8 @@ import org.seekloud.geek.capture.protocol.Messages._
 import org.seekloud.geek.capture.sdk.MediaCapture
 import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.core.RmManager
+import org.seekloud.geek.player.sdk.MediaPlayer
 import org.seekloud.geek.player.util.GCUtil
-import org.seekloud.geek.shared.ptcl.CommonProtocol.ModeStatus
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration._
@@ -212,24 +212,10 @@ object ClientCaptureActor {
                 gc.drawImage(msg.image, 0.0, 0.0, canvas_all_width, canvas_all_height)
               }
             } else {
-              //开启会议的时候，判断是自由模式还是发言模式
+              //开启会议的时候，根据自由模式还是发言模式和用户身份，决定当前用户画在什么位置上
               Boot.addToPlatform {
-                if (RmManager.roomInfo.get.modeStatus == ModeStatus.FREE){
-                  if (RmManager.userInfo.get.isHost.get){//主持人
-                    //画在左侧
-                    GCUtil.drawLeft(gc,msg.image)
-                  }else {
-                    //画在右侧第一格
-                    GCUtil.drawRight(gc, msg.image, 1)
-                  }
-                }else{//发言模式下
-                  if (RmManager.userInfo.get.isAllow.get){//发言人
-                    GCUtil.drawLeft(gc,msg.image)
-                  }else{
-                    //画在右侧第一格
-                    GCUtil.drawRight(gc, msg.image, 1)
-                  }
-                }
+                val position = MediaPlayer.roomInfo.get.userList.find(_.userId == RmManager.userInfo.get.userId).get.position
+                GCUtil.draw(gc,msg.image,position)
               }
 
             }

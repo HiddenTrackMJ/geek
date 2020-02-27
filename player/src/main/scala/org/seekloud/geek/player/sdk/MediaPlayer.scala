@@ -134,8 +134,9 @@ class MediaPlayer (
     * 开始播放
     *
     * */
-  def start(playId: String, userId: String, replyTo: ActorRef[Messages.RTCommand], input:Either[String, InputStream], graphContext: Option[GraphicsContext], mediaSettings: Option[MediaSettings] = None): Unit = {
+  def start(roomInfo: Option[RoomInfo] = None,playId: String, userId: String, replyTo: ActorRef[Messages.RTCommand], input:Either[String, InputStream], graphContext: Option[GraphicsContext], mediaSettings: Option[MediaSettings] = None): Unit = {
     log.info(s"开始播放器playerId:$playId")
+    MediaPlayer.roomInfo = roomInfo
     if(mediaSettings.isEmpty){
       playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, MediaSettings(imageWidth, imageHeight, frameRate, needImage, needSound, outputFile), userId)
     } else{

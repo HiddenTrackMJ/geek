@@ -228,6 +228,8 @@ object ImageActor {
 
       //根据需要拉流的map里面的用户身份画到画布的不同位置
 
+//      log.info("房间信息" + MediaPlayer.roomInfo)
+//      log.info("用户id" + id)
       //id的值是当前拉流的用户userId
       val position = MediaPlayer.roomInfo.get.userList.find(_.userId == id.toLong).get.position
       GCUtil.draw(gc,img,position)

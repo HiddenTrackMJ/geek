@@ -425,7 +425,7 @@ class GeekHostController(
         }
 
       case msg: StartLive4ClientRsp =>
-        log.info(s"收到后端的开始会议消息")
+        log.info(s"get StartLive4ClientRsp: $msg")
         if (msg.errCode == 0) {
           //开始直播
           rmManager ! StartLive4ClientSuccess(msg.userLiveCodeMap.map(i => (msg.rtmp.get.serverUrl + i._1, i._2)))
@@ -644,6 +644,8 @@ class GeekHostController(
   }
   //开始会议后，界面可以做的一些修改，结束会议，界面需要做的一些修改
   def resetBack() = {
+    //大背景改成黑色的
+
 
   }
 

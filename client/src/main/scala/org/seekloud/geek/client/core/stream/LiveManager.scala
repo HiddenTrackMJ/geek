@@ -147,11 +147,6 @@ object LiveManager {
         case msg: PullStream =>
 
           log.info(s"拉流地址：${msg.stream}")
-          /*背景改变*/
-//          msg.hostScene.reset Back()
-
-          /*媒体画面模式更改*/
-          msg.liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = msg.hostController.resetBack)
 
           /*拉取观众的rtp流并播放*/
 
@@ -167,7 +162,7 @@ object LiveManager {
 
             }
             else videoPlayer.get
-          mediaPlayer.start(playId, msg.userId, videoPlayerNew,Left(msg.stream),Some(msg.hostController.gc),None)
+          mediaPlayer.start(RmManager.roomInfo,playId, msg.userId, videoPlayerNew,Left(msg.stream),Some(msg.hostController.gc),None)
           idle(parent, mediaPlayer, captureActor, isStart = isStart, isRegular = isRegular, videoPlayer = Some(videoPlayerNew))
 
 

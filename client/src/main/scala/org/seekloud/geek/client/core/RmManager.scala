@@ -242,31 +242,59 @@ object RmManager {
 
         case StartLiveSuccess(pull, push, userLiveCodeMap)=>
 
-          //更新会议室的状态
-          hostController.hostStatus = HostStatus.CONNECT
-          hostController.updateOffUI()
+
 
           //1.开始推流
-          log.info(s"开始会议")
+          log.info(s"StartLiveSuccess:开始会议")
           liveManager ! LiveManager.PushStream(push)
 
           //2.开始拉流：
+
           RmManager.userInfo.get.pullStream = Some(pull)
 
-          //排除掉用户自己的流，因为自己的不需要拉流，直接是摄像头绘制
-          userLiveCodeMap.filter(_._2 != RmManager.userInfo.get.userId).filter{_._2 != -1}.filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach {
+
+          userLiveCodeMap.filter{_._2 != -1}.filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach {
             u =>
+              //用户自己的流，因为自己的不需要拉流，直接是摄像头绘制
+              if (u._2 == RmManager.userInfo.get.userId){
+
+                //更新会议室的状态
+                hostController.hostStatus = HostStatus.CONNECT
+                hostController.updateOffUI()
+
+                /*背景改变*/
+                hostController.resetBack()
+                /*媒体画面模式更改*/
+                liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostController.resetBack)
+
+              }else{
+                liveManager ! LiveManager.PullStream(u._1, u._2.toString, mediaPlayer, hostController, liveManager)
+              }
               RmManager.userLiveIdMap.put(u._1,u._2)
-              liveManager ! LiveManager.PullStream(u._1, u._2.toString, mediaPlayer, hostController, liveManager)
           }
 
           Behaviors.same
 
         case StartLive4ClientSuccess(userLiveCodeMap)=>
-          userLiveCodeMap.filter(_._2 != RmManager.userInfo.get.userId).filter(_._2 != -1).filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach {
+
+          log.info(s"StartLive4ClientSuccess:开始会议")
+
+          userLiveCodeMap.filter(_._2 != -1).filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach {
             u =>
-            RmManager.userLiveIdMap.put(u._1, u._2)
-            liveManager ! LiveManager.PullStream(u._1, u._2.toString, mediaPlayer, hostController, liveManager)
+              if (u._2 == RmManager.userInfo.get.userId){
+                //更新会议室的状态
+                hostController.hostStatus = HostStatus.CONNECT
+                hostController.updateOffUI()
+
+                /*背景改变*/
+                hostController.resetBack()
+
+                /*媒体画面模式更改*/
+                liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostController.resetBack)
+              }else{
+                liveManager ! LiveManager.PullStream(u._1, u._2.toString, mediaPlayer, hostController, liveManager)
+              }
+              RmManager.userLiveIdMap.put(u._1, u._2)
           }
 
           Behaviors.same

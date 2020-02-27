@@ -48,7 +48,7 @@ object Test1 extends javafx.application.Application{
     startBtn1.setOnAction { _ =>
       val file = new File("C:\\Users\\Administrator\\Videos\\2019-10-18 15-47-10.mp4")
       val inputStream = new FileInputStream(file)
-      mediaPlayer.start(playId1, "",videoPlayer1, Right(inputStream), Some(gc1))
+      mediaPlayer.start(None,playId1, "",videoPlayer1, Right(inputStream), Some(gc1))
     }
     pauseBtn1.setOnAction(_ =>
       mediaPlayer.pause(playId1)
@@ -75,7 +75,7 @@ object Test1 extends javafx.application.Application{
     val continueBtn2 = new Button("continue2")
     val stopBtn2 = new Button("stop2")
     startBtn2.setOnAction(_ =>
-      mediaPlayer.start(playId2, "", videoPlayer2, Left("rtmp://10.1.29.247:22/live/123456"), Some(gc2))
+      mediaPlayer.start(None,playId2, "", videoPlayer2, Left("rtmp://10.1.29.247:22/live/123456"), Some(gc2))
     )
     pauseBtn2.setOnAction(_ =>
       mediaPlayer.pause(playId2)
