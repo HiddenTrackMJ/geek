@@ -185,6 +185,11 @@ object RmManager {
           sender.foreach( s=> s ! msg.req)
           Behaviors.same
 
+        case msg: Appoint=>
+          //屏蔽某个人声音/图像
+          sender.foreach( s=> s ! msg.req)
+          Behaviors.same
+
 
         case msg: GetSender =>
           //添加给后端发消息的对象sender
