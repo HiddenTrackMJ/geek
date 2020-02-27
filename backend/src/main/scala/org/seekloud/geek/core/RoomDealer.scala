@@ -49,6 +49,8 @@ object RoomDealer {
 
   case class Shield(req: ShieldReq, liveCode: String) extends Command
 
+  case class Appoint(userId: Long, roomId: Long,  liveId: String) extends Command
+
   case class ChangePossession(roomDetailInfo: RoomDetailInfo) extends Command
 
   final case class StoreVideo(video: SlickTables.rVideo) extends Command
@@ -187,9 +189,36 @@ object RoomDealer {
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: Shield =>
-          log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.req.userId} recv shield rsp...")
-          grabManager ! GrabberManager.Shield(msg.req, msg.liveCode)
-          dispatch(subscribe)( WsProtocol.ShieldRsp(msg.req.isForced))
+          UserDao.searchById(msg.req.userId).onComplete {
+            case Success(u) =>
+              u match {
+                case Some(user) =>
+                  log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.req.userId} recv shield rsp...")
+                  grabManager ! GrabberManager.Shield(msg.req, msg.liveCode)
+                  dispatch(subscribe)( WsProtocol.ShieldRsp(msg.req.isForced, user.id, user.name, msg.req.isImage, msg.req.isAudio))
+                case _ =>
+                  dispatch(subscribe)( WsProtocol.ShieldRsp(msg.req.isForced, -1L, "", msg.req.isImage, msg.req.isAudio, errCode = 100035, msg = "This user doesn't exist"))
+              }
+            case Failure(e) =>
+              dispatch(subscribe)( WsProtocol.ShieldRsp(msg.req.isForced, -1L, "", msg.req.isImage, msg.req.isAudio, errCode = 100036, msg = "This user doesn't exist"))
+          }
+
+          Behaviors.same
+
+        case Appoint(userId, roomId, liveId) =>
+          UserDao.searchById(userId).onComplete {
+            case Success(u) =>
+              u match {
+                case Some(user) =>
+                  log.info(s"RoomDealer-${roomId} userId-${userId} recv appoint rsp...")
+                  grabManager ! GrabberManager.Appoint(userId, roomId, liveId)
+                  dispatch(subscribe)( WsProtocol.AppointRsp(user.id, user.name))
+                case _ =>
+                  dispatch(subscribe)( WsProtocol.AppointRsp(-1L, "", errCode = 100035, msg = "This user doesn't exist"))
+              }
+            case Failure(e) =>
+              dispatch(subscribe)( WsProtocol.AppointRsp(-1L, "", errCode = 100036, msg = "This user doesn't exist"))
+          }
           Behaviors.same
 
         case msg: ChangePossession =>

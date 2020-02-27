@@ -174,6 +174,18 @@ object WsProtocol  {
     msg: String = "ok"
   ) extends WsMsgRm
 
+  case class AppointReq(
+    roomId: Long,
+    userId: Long
+  ) extends WsMsgHost
+
+  case class AppointRsp(
+    userId: Long,
+    userName: String,
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
+
   case class ShieldReq(
     isForced: Boolean, //为true是被主持人屏蔽的，为false是主动屏蔽的
     roomId: Long,
@@ -184,6 +196,10 @@ object WsProtocol  {
 
   case class ShieldRsp(
     isForced: Boolean,
+    userId: Long,
+    userName: String,
+    isImage: Boolean,
+    isAudio: Boolean,
     errCode: Int = 0,
     msg: String = "ok"
   ) extends WsMsgRm
