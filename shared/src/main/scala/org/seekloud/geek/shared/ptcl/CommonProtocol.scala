@@ -108,9 +108,10 @@ object CommonProtocol {
                                  ) extends Response
 
 
-  object ModeStatus{
+  object ModeStatus {
     val FREE = 0 //自由发言
     val ASK = 1 //申请发言
+  }
 
   case class RoomInfo(
     roomId: Long,
