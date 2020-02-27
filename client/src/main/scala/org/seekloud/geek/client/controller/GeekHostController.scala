@@ -319,8 +319,8 @@ class GeekHostController(
   //更新整个list
   def updateUserList():Unit = {
     Boot.addToPlatform{
-      val paneList = createUserListPane()
       //修改整个list
+      val paneList = createUserListPane()
       userJList.getItems.removeAll(userJList.getItems)
       userJList.getItems.addAll(paneList:_*)
     }
@@ -408,6 +408,9 @@ class GeekHostController(
         }
         //更新界面
         updateWhenUserList()
+
+      case msg: AppointRsp =>
+        println(msg)
 
       case msg: StartLiveRsp =>
         //房主收到的消息
