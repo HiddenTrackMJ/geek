@@ -94,7 +94,7 @@ object Dependencies {
     case (lib, ver) => Seq(
       // Add both: dependency and its native binaries for the current `platform`
       "org.bytedeco" % lib % ver withSources() withJavadoc(),
-      "org.bytedeco" % lib % ver classifier platforms(0)
+      "org.bytedeco" % lib % ver classifier platforms(2)
     )
   }
 
