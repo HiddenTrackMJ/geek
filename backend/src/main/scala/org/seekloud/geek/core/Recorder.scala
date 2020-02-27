@@ -387,9 +387,9 @@ object Recorder {
               recorder4ts.getPixelFormat,
               f.image: _*
             )
-                        val a = System.currentTimeMillis()
-                        println(s"record: ${a - last}ms")
-                        last = a
+//                        val a = System.currentTimeMillis()
+//                        println(s"record: ${a - last}ms")
+//                        last = a
           }
           catch {
             case e: Exception =>

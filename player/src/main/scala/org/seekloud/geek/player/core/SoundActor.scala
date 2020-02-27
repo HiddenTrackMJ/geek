@@ -1,13 +1,13 @@
 package org.seekloud.geek.player.core
 
-import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{Behaviors, TimerScheduler}
+import akka.actor.typed.{ActorRef, Behavior}
 import javax.sound.sampled.{AudioFormat, AudioSystem, SourceDataLine}
 import org.seekloud.geek.player.protocol.Messages.{AddSamples, SoundFinish}
 import org.slf4j.LoggerFactory
 
-import scala.collection.{immutable, mutable}
-import concurrent.duration._
+import scala.collection.mutable
+import scala.concurrent.duration._
 /**
   * Author: zwq
   * Date: 2019/8/28
@@ -51,6 +51,7 @@ object SoundActor {
 //    debug(s"sampleRate: $sampleRate, channels: $channels, nbSamples: $nbSamples")
     val audioFormat = new AudioFormat(sampleRate, BIT_PER_SAMPLE, channels, true, BIG_ENDIAN)
     //todo open失败处理
+    //TODO 声音大小调整
     val sdl = AudioSystem.getSourceDataLine(audioFormat)
     sdl.open(audioFormat)
     sdl.start()

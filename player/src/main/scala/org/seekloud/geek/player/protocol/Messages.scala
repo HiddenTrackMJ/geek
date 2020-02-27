@@ -47,7 +47,7 @@ object Messages {
 
   /*playerGrabber to VideoPlayer*/
 
-  final case class AddPicture(img: Image, timestamp: Long = -1L) extends ImageCmd with RTCommand
+  final case class AddPicture(img: (String, Image), timestamp: Long = -1L) extends ImageCmd with RTCommand
 
   final case class AddSamples(samples: Array[Byte], ts: Long) extends SoundCmd  with RTCommand
 

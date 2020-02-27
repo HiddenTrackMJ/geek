@@ -12,6 +12,7 @@ import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.core.collector.ClientCaptureActor
 import org.seekloud.geek.client.core.collector.ClientCaptureActor.{StartEncode, StopEncode}
 import org.seekloud.geek.client.core.player.VideoPlayer
+import org.seekloud.geek.client.core.player.VideoPlayer.PlayCommand
 import org.seekloud.geek.client.utils.GetAllPixel
 import org.seekloud.geek.player.protocol.Messages.AddPicture
 import org.seekloud.geek.player.sdk.MediaPlayer
@@ -63,7 +64,7 @@ object LiveManager {
 
   final case class Ask4State(reply: ActorRef[Boolean]) extends LiveCommand
 
-  final case class PullStream(stream: String,mediaPlayer: MediaPlayer,hostController:GeekHostController,liveManager: ActorRef[LiveManager.LiveCommand]) extends LiveCommand
+  final case class PullStream(stream: String, position: String, mediaPlayer: MediaPlayer,hostController:GeekHostController,liveManager: ActorRef[LiveManager.LiveCommand]) extends LiveCommand
 
   final case object StopPull extends LiveCommand
 
@@ -81,7 +82,7 @@ object LiveManager {
       log.info(s"LiveManager is starting...")
       implicit val stashBuffer: StashBuffer[LiveCommand] = StashBuffer[LiveCommand](Int.MaxValue)
       Behaviors.withTimers[LiveCommand] { implicit timer =>
-        idle(parent, mediaPlayer, isStart = false, isRegular = false)
+        idle(parent, mediaPlayer, isStart = false, isRegular = false, videoPlayer = None)
       }
     }
 
@@ -92,7 +93,8 @@ object LiveManager {
     captureActor: Option[ActorRef[ClientCaptureActor.CaptureCommand]] = None,
     mediaCapture: Option[MediaCapture] = None,
     isStart: Boolean,
-    isRegular: Boolean
+    isRegular: Boolean,
+    videoPlayer: Option[ActorRef[PlayCommand]] //= None,
   )(
     implicit stashBuffer: StashBuffer[LiveCommand],
     timer: TimerScheduler[LiveCommand]
@@ -115,11 +117,11 @@ object LiveManager {
           mediaCapture.setImageHeight(pixel._2)
           captureActor ! ClientCaptureActor.GetMediaCapture(mediaCapture)
           mediaCapture.start()
-          idle(parent, mediaPlayer, Some(captureActor),  Some(mediaCapture), isStart = isStart, isRegular = isRegular)
+          idle(parent, mediaPlayer, Some(captureActor),  Some(mediaCapture), isStart = isStart, isRegular = isRegular, videoPlayer = None)
 
         case DeviceOff =>
           captureActor.foreach(_ ! ClientCaptureActor.StopCapture)
-          idle(parent, mediaPlayer, None, isStart = isStart, isRegular = isRegular)
+          idle(parent, mediaPlayer, None, isStart = isStart, isRegular = isRegular, videoPlayer = videoPlayer)
 
 //
 //
@@ -153,17 +155,21 @@ object LiveManager {
 
           /*拉取观众的rtp流并播放*/
 
-          //定义 imageQueue 和 samplesQueue，用来接收图像和音频数据
-          val imageQueue = immutable.Queue[AddPicture]()
-          val samplesQueue = immutable.Queue[Array[Byte]]()
-
           //直接启动播放器，拉流并播放到画布上
           val playId = RmManager.roomInfo.get.roomId.toString
-          val videoPlayer = ctx.spawn(VideoPlayer.create(playId,Some(imageQueue),Some(samplesQueue)), s"videoPlayer$playId")
 
-          mediaPlayer.start(playId,videoPlayer,Left(msg.stream),Some(msg.hostController.gc),None)
+          val videoPlayerNew =
+            if (videoPlayer.isEmpty) {
+              //定义 imageQueue 和 samplesQueue，用来接收图像和音频数据
+              val imageQueue = immutable.Queue[AddPicture]()
+              val samplesQueue = immutable.Queue[Array[Byte]]()
+              ctx.spawn(VideoPlayer.create(playId,Some(imageQueue),Some(samplesQueue)), s"videoPlayer$playId")
 
-          Behaviors.same
+            }
+            else videoPlayer.get
+          mediaPlayer.start(playId, msg.position, videoPlayerNew,Left(msg.stream),Some(msg.hostController.gc),None)
+          idle(parent, mediaPlayer, captureActor, isStart = isStart, isRegular = isRegular, videoPlayer = Some(videoPlayerNew))
+
 
         //
 //
@@ -174,12 +180,12 @@ object LiveManager {
 //
         case PusherStopped =>
           log.info(s"LiveManager got pusher stopped.")
-          idle(parent, mediaPlayer, captureActor, isStart = isStart, isRegular = isRegular)
+          idle(parent, mediaPlayer, captureActor, isStart = isStart, isRegular = isRegular, videoPlayer = videoPlayer)
 
         case PullerStopped =>
           log.info(s"LiveManager got puller stopped.")
           if(isRegular) parent ! RmManager.PullerStopped
-          idle(parent, mediaPlayer, captureActor, isStart = false, isRegular = false)
+          idle(parent, mediaPlayer, captureActor, isStart = false, isRegular = false, videoPlayer = videoPlayer)
 
 
         case x =>

@@ -215,9 +215,10 @@ object ImageActor {
   private def drawPicture(id: String, gc: GraphicsContext, queue: immutable.Queue[AddPicture], imagePlayedTime: Long) = {
     //draw picture
 //    val (AddPicture(img, pictureTs), newQueue) = queue.dequeue
+
     frameCount += 1
     val res = queue.dequeue
-    val img = res._1.img
+    val img = res._1.img._2
     val newQueue = res._2
     val playTimeInWallClock = System.currentTimeMillis() //实际播放时间
     Platform.runLater { () =>
@@ -229,20 +230,34 @@ object ImageActor {
       //todo 需要修改
       if (id.contains("-")) { //连线状态
         if (w / sW > h / sH) {
-//          log.info("1")
           gc.drawImage(img, sW / 2, (sH - h * sW / w) / 2 + sH / 4, sW / 2, (h * sW / w) / 2)
         } else {
-//          log.info("2")
           gc.drawImage(img, (sW - w * sH / h) / 2 + sW / 2, sH / 4, (w * sH / h) / 2, sH / 2)
         }
 
       } else { //普通观看
         if (w / sW > h / sH) {
 //          log.info("3")
-          gc.drawImage(img, 0, (sH - h * sW / w) / 2, sW, h * sW / w)
+          if (id == "1"){
+            //该位置显示凸显的人的图像
+            gc.drawImage(img, 0, 0, sW / 2, h * sW / w / 2)
+          }
+          else if (id == "2"){
+            gc.drawImage(img,  sW / 2, 0, sW / 2, h * sW / w / 2)
+          }
+          else if (id == "3"){
+            gc.drawImage(img,  0, sH / 2, sW / 2, h * sW / w / 2)
+          }
+          else if (id == "4"){
+            gc.drawImage(img,  sW / 2, sH / 2, sW / 2, h * sW / w / 2)
+          }
+
         } else {
 //          log.info("4")
-          gc.drawImage(img, (sW - w * sH / h) / 2, 0, w * sH / h, sH)
+          if (id == res._1.img._1)
+          gc.drawImage(img, (sW - w * sH / h) / 2, 0, w * sH / h / 2, sH / 2)
+          else
+            gc.drawImage(img, sW / 2, 0, w * sH / h / 2, sH / 2)
         }
       }
 

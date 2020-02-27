@@ -137,6 +137,7 @@ object WsProtocol  {
 
   case class StartLiveRsp(
     rtmp: RtmpInfo,
+    userLiveCodeMap: Map[String, Long],
     selfCode: String,
     errCode: Int = 0,
     msg: String = "ok"
@@ -297,6 +298,7 @@ object WsProtocol  {
 
   case class StartLive4ClientRsp(
     rtmp: Option[RtmpInfo] = None,
+    userLiveCodeMap: Map[String, Long],
     selfCode: String,
     errCode: Int = 0,
     msg: String = "ok"
@@ -326,7 +328,7 @@ object WsProtocol  {
   ) extends WsMsgRm2Audience
 
 
-  val StartLive4ClientFail = StartLive4ClientRsp(None, "", errCode = 2000001, msg = "StartLive4Client fail.")
+  val StartLive4ClientFail = StartLive4ClientRsp(None, Map(),"", errCode = 2000001, msg = "StartLive4Client fail.")
   /*
   点赞
    */
