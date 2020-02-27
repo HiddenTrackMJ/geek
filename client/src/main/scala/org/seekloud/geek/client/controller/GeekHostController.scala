@@ -117,6 +117,7 @@ class GeekHostController(
   }
 
   def updateAllowUI() = {
+    println("111")
     if (RmManager.getCurrentUserInfo().isHost.get){
       //房主将这个按钮透明度降低
       allow_button.setOpacity(0.3)
@@ -139,7 +140,8 @@ class GeekHostController(
   //更新当前的模式状态的UI
   def updateModeUI() = {
     //根据当前所有用户的发言状态，如果没有在申请发言，则为自由发言状态，反之为申请发言状态
-//    println(RmManager.roomInfo.get.userList)
+    println(RmManager.roomInfo.get.userList)
+    println("111")
     if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
       //当前是申请发言状态
       mode_label.setText("申请发言")
@@ -316,8 +318,8 @@ class GeekHostController(
 
   //更新整个list
   def updateUserList():Unit = {
-    val paneList = createUserListPane()
     Boot.addToPlatform{
+      val paneList = createUserListPane()
       //修改整个list
       userJList.getItems.removeAll(userJList.getItems)
       userJList.getItems.addAll(paneList:_*)
@@ -373,7 +375,6 @@ class GeekHostController(
 
   //当userList数据更新，需要更新的界面
   def updateWhenUserList() = {
-
     updateUserList()
     updateModeUI()
     updateAllowUI()

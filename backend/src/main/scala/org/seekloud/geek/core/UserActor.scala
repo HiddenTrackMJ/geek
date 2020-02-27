@@ -186,6 +186,11 @@ object UserActor {
           log.debug(s"${ctx.self.path} 切换到init状态")
           init(userId, None)
 
+        case UserLeft(childRef) =>
+          log.debug(s"User $userId left")
+          ctx.unwatch(childRef)
+          Behaviors.stopped
+
         case unknown =>
           log.debug(s"${ctx.self.path} recv an unknown msg:$msg in anchor state...")
           stashBuffer.stash(unknown)
@@ -276,6 +281,11 @@ object UserActor {
         case ChangeBehaviorToInit =>
           log.debug(s"${ctx.self.path} 切换到init状态")
           init(userId, None)
+
+        case UserLeft(childRef) =>
+          log.debug(s"User $userId left")
+          ctx.unwatch(childRef)
+          Behaviors.stopped
 
         case unknown =>
           log.debug(s"${ctx.self.path} recv an unknown msg:$msg in audience state...")

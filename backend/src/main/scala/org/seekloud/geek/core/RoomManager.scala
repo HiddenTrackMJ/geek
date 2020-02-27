@@ -14,6 +14,7 @@ import org.seekloud.geek.shared.ptcl.{ComRsp, ErrorRsp, SuccessRsp, WsProtocol}
 import io.circe.generic.auto._
 import io.circe.parser.decode
 import io.circe.syntax._
+import org.seekloud.geek.core.RoomDealer.ChildDead
 import org.seekloud.geek.models.SlickTables
 import org.seekloud.geek.protocol.RoomProtocol
 
@@ -600,6 +601,11 @@ object RoomManager {
           else {
             msg.replyTo ! ComRsp(1000015, "This roomId doesn't exist")
           }
+          Behaviors.same
+
+        case ChildDead(name, childRef) =>
+          log.debug(s"roomManager unwatch $name, ${childRef.path}")
+          ctx.unwatch(childRef)
           Behaviors.same
 
 
