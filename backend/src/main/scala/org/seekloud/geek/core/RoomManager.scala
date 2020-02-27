@@ -310,6 +310,22 @@ object RoomManager {
                   }
                   else log.info( "shield error, This room doesn't exist")
 
+                case msg: WsProtocol.AppointReq =>
+                  if (rooms.contains(msg.roomId)) {
+                    val roomInfo = rooms(msg.roomId)
+                    val selfCodeOpt = roomInfo.userLiveCodeMap.find(_._2 == msg.userId)
+                    if (selfCodeOpt.isDefined) {
+                      selfCodeOpt.foreach{ s =>
+                        getRoomDealerOpt(roomId, ctx)match{
+                          case Some(actor) =>actor !  RoomDealer.Appoint(msg.userId, msg.roomId, s._1)
+                          case None => log.debug(s"${ctx.self.path} AppointReq，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
+                        }
+                      }
+                    }
+                    else log.info( "Appoint error, This user doesn't exist")
+                  }
+                  else log.info( "Appoint error, This room doesn't exist")
+
                 case msg: WsProtocol.KickOffReq =>
                   log.info(s"user-${msg.userId} stop live in room: ${msg.roomId}")
                   assert(rooms.contains(msg.roomId))
@@ -409,16 +425,16 @@ object RoomManager {
           var flag = true
           val userCodeMap =
             if (roomOldInfo.userLiveCodeMap.exists(_._2 == req.userId)) {
-              roomOldInfo.userLiveCodeMap.map{ u =>
+              roomOldInfo.userLiveCodeMap.toList.sortBy(_._1.split("_").last).map{ u =>
                 if (u._2 == req.userId && flag){
                   flag = false
                   selfCode = u._1
                 }
                 u
               }
-            }
+            }.toMap
             else {
-              roomOldInfo.userLiveCodeMap.map{ u =>
+              roomOldInfo.userLiveCodeMap.toList.sortBy(_._1.split("_").last).map{ u =>
                 if (u._2 == -1L && flag){
                   flag = false
                   selfCode = u._1
@@ -426,7 +442,7 @@ object RoomManager {
                 }
                 else u
               }
-            }
+            }.toMap
           val roomNewInfo = roomOldInfo.copy(userLiveCodeMap = userCodeMap)
           RoomDao.updateUserCodeMap(req.roomId, userCodeMap.asJson.noSpaces).onComplete{
             case Success(_) =>
