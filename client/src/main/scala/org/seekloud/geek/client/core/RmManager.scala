@@ -7,7 +7,7 @@ import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.common.Constants.HostStatus
 import org.seekloud.geek.client.common.{AppSettings, Routes, StageContext}
 import org.seekloud.geek.client.component.{SnackBar, WarningDialog}
-import org.seekloud.geek.client.controller.{GeekHostController, GeekUserController}
+import org.seekloud.geek.client.controller.GeekHostController
 import org.seekloud.geek.client.core.stream.LiveManager
 import org.seekloud.geek.client.utils.WsUtil
 import org.seekloud.geek.player.sdk.MediaPlayer
@@ -33,7 +33,7 @@ object RmManager {
   var userInfo: Option[UserInfo] = None
   var roomInfo: Option[RoomInfo] = None
   var meetingListInfo:List[MeetingInfo] = Nil //存储用户登录当前会话中参加和发起的会议信息
-  val userLiveIdMap: mutable.HashMap[String, Long] = mutable.HashMap.empty
+  val userLiveIdMap: mutable.HashMap[String, Long] = mutable.HashMap.empty //liveid->userid，存储已经拉过流的键值对信息
 
 
   private[this] def switchBehavior(ctx: ActorContext[RmCommand],
@@ -218,7 +218,6 @@ object RmManager {
           Behaviors.same
 
         case StartLive4ClientSuccess(userLiveCodeMap)=>
-
           userLiveCodeMap.filter(_._2 != -1).filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach { u =>
             val position = u._1.split("_").last
             RmManager.userLiveIdMap.put(u._1, u._2)

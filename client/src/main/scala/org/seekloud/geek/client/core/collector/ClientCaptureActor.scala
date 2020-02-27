@@ -11,6 +11,7 @@ import org.seekloud.geek.capture.protocol.Messages
 import org.seekloud.geek.capture.protocol.Messages._
 import org.seekloud.geek.capture.sdk.MediaCapture
 import org.seekloud.geek.client.Boot
+import org.seekloud.geek.client.core.RmManager
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration._
@@ -203,15 +204,16 @@ object ClientCaptureActor {
 
 //          log.info("imgage宽度" + sWidth + "高度" + sHeight)
           if (needImage) {
-            if (!isJoin) {
+            if (!isJoin) {//没有开始会议的时候
               Boot.addToPlatform {
                 gc.drawImage(msg.image, 0.0, 0.0, sWidth, sHeight)
               }
             } else {
-              //开启会议的时候，本地player不需要画图形
-//              Boot.addToPlatform {
-//                gc.drawImage(msg.image, 0.0, sHeight / 4, sWidth / 2, sHeight / 2)
-//              }
+              //开启会议的时候，判断是自由模式还是发言模式
+              if (RmManager.roomInfo.get.roomId)
+              Boot.addToPlatform {
+                gc.drawImage(msg.image, 0.0, sHeight / 4, sWidth / 2, sHeight / 2)
+              }
             }
           }
           Behaviors.same
