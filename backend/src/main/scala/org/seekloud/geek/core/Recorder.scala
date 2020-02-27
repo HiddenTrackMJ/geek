@@ -58,6 +58,8 @@ object Recorder {
 
   case class Shield(liveId: String, image: Boolean, audio: Boolean) extends Command
 
+  case class Appoint(liveId: String) extends Command
+
   case class UpdateRecorder(channel: Int, sampleRate: Int, frameRate: Double, width: Int, height: Int, liveId: String) extends Command
 
   case object TimerKey4Close
@@ -212,6 +214,11 @@ object Recorder {
           shieldMap.put(liveId, State(image, audio))
           if (image) drawer ! DeleteImage4Others(liveId)
           Behaviors.same
+
+        case Appoint(liveId) =>
+          log.info(s"appoint to $liveId")
+          idle(roomId, hostId, stream, pullLiveId, roomDealer, online, liveId, recorder4ts, ffFilter, drawer, sampleRecorder, grabbers, indexMap, shieldMap, filterInUse)
+
 
         case UpdateRecorder(channel, sampleRate, f, width, height, liveId) =>
           peopleOnline += 1
