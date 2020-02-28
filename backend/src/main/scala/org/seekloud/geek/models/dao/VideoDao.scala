@@ -95,8 +95,12 @@ object VideoDao {
   }
 
   def getInviteDetail(inviterId:Long,inviteeId:Long) = {
-//    val q = tUser.filter(_.name ===i ).result
-//    db.run(q)
+    val q = tVideo.filter(_.userid ===inviterId ).filter(_.invitation === inviteeId).distinctOn(_.roomid).result
+    db.run(q)
+  }
+  def getInviteDetail2(roomId:Long) = {
+    val q = tVideo.filter(_.roomid===roomId).distinctOn(_.filename).result
+    db.run(q)
   }
 
 

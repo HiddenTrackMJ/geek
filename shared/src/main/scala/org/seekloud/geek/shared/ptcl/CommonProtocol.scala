@@ -97,7 +97,7 @@ object CommonProtocol {
                        ) extends Response
 
   case class InviterAndInviteeDetail(
-                      roomId:String,
+                      roomId:Long,
                       fileList:List[String],
                     )
   case class InviterAndInviteeDetailRsp(
