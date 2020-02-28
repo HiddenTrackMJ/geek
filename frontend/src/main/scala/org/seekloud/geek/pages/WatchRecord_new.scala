@@ -248,7 +248,7 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
     val userId = dom.window.localStorage.getItem("userId")
       <div style="border: 1px solid rgb(232, 232, 232);margin-top: 17px;margin-left: 24px;">
         <video controls="controls" width="800px" height="450px" preload="metadata">
-          <source src={"http://10.1.29.247:42075/geek/room/getRecord" + userId + "/" + videoName} type="video/webm"/>
+          <source src={"http://10.1.29.247:42075/geek/room/getRecord/" + userId + "/" + videoName} type="video/webm"/>
         </video>
       </div>
   }
