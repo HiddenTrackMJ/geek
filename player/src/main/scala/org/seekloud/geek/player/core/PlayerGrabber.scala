@@ -104,7 +104,7 @@ object PlayerGrabber {
           new FFmpegFrameGrabber(inputStream)
       }
       grabber.setFrameRate(settings.frameRate)
-//      grabber.setOption("fflags", "nobuffer")
+      //      grabber.setOption("fflags", "nobuffer")
       Future {
         log.info(s"grabber-$id is starting...")
         grabber.start()
@@ -255,7 +255,7 @@ object PlayerGrabber {
           Behaviors.stopped
 
         case m: AskPicture =>
-//          println(s"playerGrabber-$id get AskPicture,now queue size: ${pictureQueue.size()}")
+          //          println(s"playerGrabber-$id get AskPicture,now queue size: ${pictureQueue.size()}")
           val pic = pictureQueue.poll()
           if (pic != null) {
             m.ref match {
@@ -265,19 +265,19 @@ object PlayerGrabber {
                 replyToActor ! pic
             }
           } else {
-//            log.warn(s"no pic in grabbing.")
-//            if (!timer.isTimerActive(GRAB_VIDEO_TIMER_KEY)) {
-//              timer.startSingleTimer(
-//                GRAB_VIDEO_TIMER_KEY,
-//                m,
-//                5.millis
-//              )
-//            }
+            //            log.warn(s"no pic in grabbing.")
+            //            if (!timer.isTimerActive(GRAB_VIDEO_TIMER_KEY)) {
+            //              timer.startSingleTimer(
+            //                GRAB_VIDEO_TIMER_KEY,
+            //                m,
+            //                5.millis
+            //              )
+            //            }
           }
           Behaviors.same
 
         case m: AskSamples =>
-//          println(s"playerGrabber-$id get AskSamples,now queue size: ${samplesQueue.size()}")
+          //          println(s"playerGrabber-$id get AskSamples,now queue size: ${samplesQueue.size()}")
           val samples = samplesQueue.poll()
           if (samples != null) {
             m.ref match {
@@ -288,9 +288,9 @@ object PlayerGrabber {
             }
           } else {
             //            log.warn(s"no sample in grabbing.")
-//            if (!timer.isTimerActive(GRAB_AUDIO_TIMER_KEY)) {
-//              timer.startSingleTimer(GRAB_AUDIO_TIMER_KEY, m, 5 millis)
-//            }
+            //            if (!timer.isTimerActive(GRAB_AUDIO_TIMER_KEY)) {
+            //              timer.startSingleTimer(GRAB_AUDIO_TIMER_KEY, m, 5 millis)
+            //            }
           }
           Behaviors.same
 
@@ -310,57 +310,57 @@ object PlayerGrabber {
     }
 
 
-//  private def finished(
-//    pictureQueue: LinkedBlockingDeque[AddPicture],
-//    samplesQueue: LinkedBlockingDeque[AddSamples]
-//  ): Behavior[MonitorCmd] =
-//    Behaviors.receive[MonitorCmd] { (ctx, msg) =>
-//      msg match {
-//        case AskPicture(ref) =>
-//          val pic = pictureQueue.poll()
-//          if (pic != null) {
-//            ref match {
-//              case Left(imageActor) =>
-//                imageActor ! pic
-//              case Right(replyToActor) =>
-//                replyToActor ! pic
-//            }
-//          } else {
-//            ref match {
-//              case Left(imageActor) =>
-//                imageActor ! PictureFinish()
-//              case Right(replyToActor) =>
-//                replyToActor ! PictureFinish()
-//            }
-//          }
-//          Behaviors.same
-//        case AskSamples(ref) =>
-//          println("grabber got AskSamples")
-//          val samples = samplesQueue.poll()
-//          if (samples != null) {
-//            ref match {
-//              case Left(soundActor) =>
-//                soundActor ! samples
-//              case Right(replyToActor) =>
-//                replyToActor ! samples
-//            }
-//          } else {
-//            ref match {
-//              case Left(soundActor) =>
-//                soundActor ! SoundFinish
-//              case Right(replyToActor) =>
-//                replyToActor ! SoundFinish
-//            }
-//          }
-//          Behaviors.same
-//        case GrabbingFinish =>
-//          log.info("got GrabbingFinish Msg in finished")
-//          Behaviors.same
-//        case x =>
-//          log.warn(s"unknown msg in finish: $x")
-//          Behaviors.unhandled
-//      }
-//    }
+  //  private def finished(
+  //    pictureQueue: LinkedBlockingDeque[AddPicture],
+  //    samplesQueue: LinkedBlockingDeque[AddSamples]
+  //  ): Behavior[MonitorCmd] =
+  //    Behaviors.receive[MonitorCmd] { (ctx, msg) =>
+  //      msg match {
+  //        case AskPicture(ref) =>
+  //          val pic = pictureQueue.poll()
+  //          if (pic != null) {
+  //            ref match {
+  //              case Left(imageActor) =>
+  //                imageActor ! pic
+  //              case Right(replyToActor) =>
+  //                replyToActor ! pic
+  //            }
+  //          } else {
+  //            ref match {
+  //              case Left(imageActor) =>
+  //                imageActor ! PictureFinish()
+  //              case Right(replyToActor) =>
+  //                replyToActor ! PictureFinish()
+  //            }
+  //          }
+  //          Behaviors.same
+  //        case AskSamples(ref) =>
+  //          println("grabber got AskSamples")
+  //          val samples = samplesQueue.poll()
+  //          if (samples != null) {
+  //            ref match {
+  //              case Left(soundActor) =>
+  //                soundActor ! samples
+  //              case Right(replyToActor) =>
+  //                replyToActor ! samples
+  //            }
+  //          } else {
+  //            ref match {
+  //              case Left(soundActor) =>
+  //                soundActor ! SoundFinish
+  //              case Right(replyToActor) =>
+  //                replyToActor ! SoundFinish
+  //            }
+  //          }
+  //          Behaviors.same
+  //        case GrabbingFinish =>
+  //          log.info("got GrabbingFinish Msg in finished")
+  //          Behaviors.same
+  //        case x =>
+  //          log.warn(s"unknown msg in finish: $x")
+  //          Behaviors.unhandled
+  //      }
+  //    }
 
 
   /*work*/
@@ -394,9 +394,9 @@ object PlayerGrabber {
       samples: Array[Buffer]
     ) = {
       val sampleBuf = samples(0).asInstanceOf[ShortBuffer]
-//      println("samples音频长度：" + samples.length)
-//      println("sampleBuf音频ShortBuffer:" + sampleBuf.capacity(),sampleBuf.limit(),sampleBuf.position(),sampleBuf.remaining())
-//      println("dataBuf: capacity " + dataBuf.capacity())
+      //      println("samples音频长度：" + samples.length)
+      //      println("sampleBuf音频ShortBuffer:" + sampleBuf.capacity(),sampleBuf.limit(),sampleBuf.position(),sampleBuf.remaining())
+      //      println("dataBuf: capacity " + dataBuf.capacity())
 
       val byteDataLength = sampleBuf.remaining() * 2
       if (byteDataLength > dataBuf.capacity()) {
@@ -425,12 +425,12 @@ object PlayerGrabber {
           var sampleData = AddSamples(frameSamples2ByteArray(frame.samples), frame.timestamp)
           samplesQueue.offer(sampleData)
           sampleData = null
-//          if(samplesQueue.size() > 5) samplesQueue.clear()
+          //          if(samplesQueue.size() > 5) samplesQueue.clear()
         } else {
           log.warn("warning: no samples to buffer.")
         }
       }
-//      println(s"PlayGrabber samplesQueue add new, now size: ${samplesQueue.size()}")
+      //      println(s"PlayGrabber samplesQueue add new, now size: ${samplesQueue.size()}")
     }
 
     var picCount = 0
@@ -444,17 +444,17 @@ object PlayerGrabber {
           //          }
           picCount += 1
           //          log.debug(s"grabber-$id grab bufferPicture")
-//          val ts1 = System.currentTimeMillis()
+          //          val ts1 = System.currentTimeMillis()
           val img = imgConverter.convert(frame)
-//          val ts2 = System.currentTimeMillis() -ts1
-//          debug(s"$ts2..........$img")
-//          println(s"img w :${img.getWidth}, h: ${img.getHeight}")
-          pictureQueue.offer(AddPicture((id, img), frame.timestamp))
+          //          val ts2 = System.currentTimeMillis() -ts1
+          //          debug(s"$ts2..........$img")
+          //          println(s"img w :${img.getWidth}, h: ${img.getHeight}")
+          pictureQueue.offer(AddPicture(img, frame.timestamp))
         } else {
           log.warn("warning: no picture to buffer.")
         }
       }
-//      println(s"PlayGrabber pictureQueue add new, now size: ${pictureQueue.size()}")
+      //      println(s"PlayGrabber pictureQueue add new, now size: ${pictureQueue.size()}")
     }
 
     var grabFinish = false
@@ -464,7 +464,7 @@ object PlayerGrabber {
       Behaviors.receive[WorkCmd] { (ctx, msg) =>
         msg match {
           case StartGrab =>
-//            log.debug(s"worker-$id work.")
+            //            log.debug(s"worker-$id work.")
             try {
               if (isWorking) {
                 if (!grabFinish) {

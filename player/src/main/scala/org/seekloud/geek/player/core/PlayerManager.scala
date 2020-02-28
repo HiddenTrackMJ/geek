@@ -72,8 +72,7 @@ object PlayerManager {
     replyTo: ActorRef[Messages.RTCommand],
     graphContext: Option[GraphicsContext],
     input: Either[String, InputStream],
-    settings: MediaSettings,
-    userID: String,
+    settings: MediaSettings
   ) extends SupervisorCmd
 
   final case class PausePlay(
@@ -86,6 +85,10 @@ object PlayerManager {
 
   final case class StopPlay(
     playId: String,
+    reSetFunc: () => Unit
+  ) extends SupervisorCmd
+
+  final case class StopAllPlay(
     reSetFunc: () => Unit
   ) extends SupervisorCmd
 
@@ -124,22 +127,22 @@ object PlayerManager {
           playerGrabberMap.get(msg.playId).foreach(_._1 ! PlayerGrabber.SetTimeGetter(msg.func))
           Behaviors.same
 
-        case StartPlay(playId, replyTo, gc, input, settings, position) =>
+        case StartPlay(playId, replyTo, gc, input, settings) =>
           log.info(s"StartPlay video - $input")
 
-          if (replyToMap.get(position).isEmpty) {
+          if (replyToMap.get(playId).isEmpty) {
             log.debug(s"save replyTo actor to map.")
-            replyToMap.put(position, replyTo)
+            replyToMap.put(playId, replyTo)
           }
 
-          val playerGrabber = getPlayerGrabber(replyTo, gc, ctx, position, input, settings)
-          playerGrabberMap.put(position, (playerGrabber, input))
+          val playerGrabber = getPlayerGrabber(replyTo, gc, ctx, playId, input, settings)
+          playerGrabberMap.put(playId, (playerGrabber, input))
 
-          if (!mediaSettingsMap.contains(position)) {
-            mediaSettingsMap.put(position, settings)
+          if (!mediaSettingsMap.contains(playId)) {
+            mediaSettingsMap.put(playId, settings)
           }
-          if (gc.nonEmpty && !gcMap.contains(position)) {
-            gcMap.put(position, gc.get)
+          if (gc.nonEmpty && !gcMap.contains(playId)) {
+            gcMap.put(playId, gc.get)
           }
 
           idle(mediaSettingsMap, gcMap, recordActorMap, playerGrabberMap, imageActorMap, soundActorMap, replyToMap)
@@ -253,7 +256,7 @@ object PlayerManager {
 
         case PausePlay(playId) =>
           if (gcMap.contains(playId)) { //自主播放
-//            if (playerGrabberMap.contains(playId)) playerGrabberMap(playId)._1 ! PlayerGrabber.PauseGrab
+            //            if (playerGrabberMap.contains(playId)) playerGrabberMap(playId)._1 ! PlayerGrabber.PauseGrab
             if (imageActorMap.contains(playId)) imageActorMap(playId) ! PausePlayImage
             if (soundActorMap.contains(playId)) soundActorMap(playId) ! PausePlaySound
           } else { //不自主播放
@@ -266,7 +269,7 @@ object PlayerManager {
 
         case ContinuePlay(playId) =>
           if (gcMap.contains(playId)) { //自主播放
-//            if (playerGrabberMap.contains(playId)) playerGrabberMap(playId)._1 ! PlayerGrabber.ContinueGrab
+            //            if (playerGrabberMap.contains(playId)) playerGrabberMap(playId)._1 ! PlayerGrabber.ContinueGrab
             if (imageActorMap.contains(playId)) imageActorMap(playId) ! ContinuePlayImage
             if (soundActorMap.contains(playId)) soundActorMap(playId) ! ContinuePlaySound
           } else { //不自主播放
@@ -278,7 +281,7 @@ object PlayerManager {
           Behaviors.same
 
         case StopPlay(playId, reSetFunc) =>
-          ctx.self ! StopRec() //停止录制
+//          ctx.self ! StopRec() //停止录制
           if (mediaSettingsMap.contains(playId)) {
             //            if(mediaSettingsMap(playId).outputFile.nonEmpty){       //正在录制
             //              recordActorMap.get(playId).foreach(_ ! StopRecord)
@@ -306,9 +309,27 @@ object PlayerManager {
           }
           Behaviors.same
 
+
+        case StopAllPlay(reSetFunc) =>
+          //停止所有的拉流和播放
+          ctx.self ! StopRec() //停止录制
+          mediaSettingsMap.clear()
+          gcMap.clear()
+          playerGrabberMap.foreach(_._2._1 ! StopGrab(reSetFunc))
+          playerGrabberMap.clear()
+          imageActorMap.foreach(_._2 ! PictureFinish(Some(reSetFunc)))
+          imageActorMap.clear()
+          soundActorMap.foreach(_._2 ! SoundFinish)
+          soundActorMap.clear()
+          replyToMap.foreach(_._2 ! StopVideoPlayer)
+          replyToMap.clear()
+
+          Behaviors.same
+
+
         case StopRec() =>
           if (recordActorMap.isEmpty) {
-//            log.debug("目前无录制中的流。")
+            //            log.debug("目前无录制中的流。")
           } else {
             recordActorMap.foreach {
               case (playId, recordActor) =>

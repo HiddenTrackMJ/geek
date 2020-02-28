@@ -151,24 +151,22 @@ object LiveManager {
           /*拉取观众的rtp流并播放*/
 
           //直接启动播放器，拉流并播放到画布上
-          val playId = RmManager.roomInfo.get.roomId.toString
 
           val videoPlayerNew =
             if (videoPlayer.isEmpty) {
               //定义 imageQueue 和 samplesQueue，用来接收图像和音频数据
               val imageQueue = immutable.Queue[AddPicture]()
               val samplesQueue = immutable.Queue[Array[Byte]]()
-              ctx.spawn(VideoPlayer.create(playId,Some(imageQueue),Some(samplesQueue)), s"videoPlayer$playId")
+              ctx.spawn(VideoPlayer.create(msg.userId.toString,Some(imageQueue),Some(samplesQueue)), s"videoPlayer${msg.userId.toString}")
 
             }
             else videoPlayer.get
-          mediaPlayer.start(RmManager.roomInfo,playId, msg.userId, videoPlayerNew,Left(msg.stream),Some(msg.hostController.gc),None)
+          log.info("roomInfo" + RmManager.roomInfo)
+          mediaPlayer.start(RmManager.roomInfo,msg.userId.toString, videoPlayerNew,Left(msg.stream),Some(msg.hostController.gc),None)
           idle(parent, mediaPlayer, captureActor, isStart = isStart, isRegular = isRegular, videoPlayer = Some(videoPlayerNew))
-
-
-        //
 //
         case StopPull =>
+          // 就是关闭播放器
           log.info(s"LiveManager stop puller")
 
           Behaviors.same

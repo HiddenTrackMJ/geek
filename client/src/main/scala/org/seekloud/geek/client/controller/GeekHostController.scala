@@ -6,6 +6,7 @@ import javafx.animation.AnimationTimer
 import javafx.fxml.FXML
 import javafx.scene.canvas.{Canvas, GraphicsContext}
 import javafx.scene.control.Label
+import javafx.scene.image.Image
 import javafx.scene.layout._
 import javafx.scene.paint.Color
 import org.kordamp.ikonli.javafx.FontIcon
@@ -15,7 +16,7 @@ import org.seekloud.geek.client.common.{Constants, StageContext}
 import org.seekloud.geek.client.component._
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.core.RmManager._
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, UserInfo}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, ModeStatus, UserInfo}
 import org.seekloud.geek.shared.ptcl.WsProtocol
 import org.seekloud.geek.shared.ptcl.WsProtocol._
 import org.slf4j.LoggerFactory
@@ -143,9 +144,11 @@ class GeekHostController(
     if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
       //当前是申请发言状态
       mode_label.setText("申请发言")
+      RmManager.roomInfo.get.modeStatus = ModeStatus.ASK
     }else{
       //当前是自由发言状态
       mode_label.setText("自由发言")
+      RmManager.roomInfo.get.modeStatus = ModeStatus.FREE
     }
 
     if (RmManager.getCurrentUserInfo().isAllow.get){
@@ -441,7 +444,7 @@ class GeekHostController(
           Boot.addToPlatform {
             SnackBar.show(centerPane,"停止会议成功")
           }
-          log.info(s"普通用户停止推流成功")
+          log.info(s"房主停止推流成功")
           rmManager ! StopLiveSuccess
         }else{
           rmManager ! StopLiveFailed
@@ -452,7 +455,7 @@ class GeekHostController(
       case msg: StopLive4ClientRsp =>
         if (msg.errCode == 0){
           log.info("普通用户停止推流成功")
-          rmManager ! StopLiveSuccess
+          rmManager ! StopLive4ClientSuccess(msg.userId)
         }else{
           rmManager ! StopLiveFailed
         }
@@ -644,9 +647,11 @@ class GeekHostController(
   }
   //开始会议后，界面可以做的一些修改，结束会议，界面需要做的一些修改
   def resetBack() = {
+    log.info("resetBack")
     //大背景改成黑色的
-
-
+    Boot.addToPlatform{
+      gc.drawImage(new Image("scene/img/bg.jpg"),0,0,gc.getCanvas.getWidth,gc.getCanvas.getHeight)
+    }
   }
 
   //禁音某人，只有支持人才可以进行该操作

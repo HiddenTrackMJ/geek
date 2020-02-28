@@ -103,7 +103,7 @@ case class TopBar(
 
 
     def mouseEnter ={
-      log.info("mouseEnter")
+//      log.info("mouseEnter")
       close.getChildren.removeAll()
       val m = RippleIcon(List("fas-circle:15:#7a0d07","fas-times-circle:15:#ff6258"))()._3
       close.getChildren.addAll(m:_*)
@@ -115,7 +115,7 @@ case class TopBar(
     }
 
     def mouseExit = {
-      log.info("setOnMouseExited")
+//      log.info("setOnMouseExited")
       close.getChildren.removeAll()
       val m = RippleIcon(List("fas-circle:15:#7a0d07"))()._3
       close.getChildren.addAll(m:_*)

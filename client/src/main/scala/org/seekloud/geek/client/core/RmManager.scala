@@ -96,7 +96,8 @@ object RmManager {
   final case class StartLiveSuccess(pull:String, push:String, userLiveCodeMap: Map[String, Long]) extends RmCommand
   final case class StartLive4ClientSuccess(userLiveCodeMap: Map[String, Long]) extends RmCommand
   final case object StopLive extends RmCommand
-  final case object StopLiveSuccess extends RmCommand
+  final case object StopLiveSuccess extends RmCommand //房主停止推流了
+  final case class StopLive4ClientSuccess(userId:Long) extends RmCommand
   final case object StopLiveFailed extends RmCommand
   final case object PullerStopped extends RmCommand
 
@@ -281,6 +282,7 @@ object RmManager {
 
           userLiveCodeMap.filter(_._2 != -1).filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach {
             u =>
+              log.info(s"开始会议的信息： $u")
               if (u._2 == RmManager.userInfo.get.userId){
                 //更新会议室的状态
                 hostController.hostStatus = HostStatus.CONNECT
@@ -330,7 +332,8 @@ object RmManager {
           Behaviors.same
 
         case StopLiveSuccess =>
-          //房主/普通组员均一样
+          //房主/或者自己（不是房主）退出会议
+
           /*背景改变*/
           hostController.hostStatus = HostStatus.NOT_CONNECT
           hostController.updateOffUI()
@@ -338,17 +341,29 @@ object RmManager {
           liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostController.resetBack)
 
           if (hostStatus == HostStatus.CONNECT) {//开启会议情况下
-            val playId = RmManager.roomInfo.get.roomId.toString
-            //停止服务器拉流显示到player上
-            mediaPlayer.stop(playId, hostController.resetBack)
+            //停止所有的拉流
+            mediaPlayer.stopAll(hostController.resetBack)
             liveManager ! LiveManager.StopPull
           }
           Boot.addToPlatform {
             SnackBar.show(hostController.centerPane,"停止会议成功!")
-//            WarningDialog.initWarningDialog("停止会议成功！")
           }
           //当前的链接状态改为未连接
           hostBehavior(stageCtx,hostScene,hostController,liveManager,mediaPlayer,sender,hostStatus=HostStatus.NOT_CONNECT,joinAudience)
+
+
+        case StopLive4ClientSuccess(userId) =>
+          //某个成员停止推流了
+          if (userId == RmManager.userInfo.get.userId){//是自己
+            ctx.self ! StopLiveSuccess
+          }else{
+            //停止拉该成员的流
+            mediaPlayer.stop(userId.toString,()=>Unit)
+            log.info(s"停止 ${userId} 用户的拉流")
+          }
+
+
+          Behaviors.same
 
         case StopLiveFailed =>
 

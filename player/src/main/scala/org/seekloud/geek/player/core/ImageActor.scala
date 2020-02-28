@@ -119,11 +119,11 @@ object ImageActor {
         Behaviors.same
 
       case m: AddPicture =>
-//        debug(s"PicturePlayActor got $m")
-//        Behaviors.same
+        //        debug(s"PicturePlayActor got $m")
+        //        Behaviors.same
         val newQueue = queue.enqueue(m)
 
-//        println(s"ImageActor get picture, queue size : ${newQueue.length}")
+        //        println(s"ImageActor get picture, queue size : ${newQueue.length}")
         playing(
           id,
           gc,
@@ -150,8 +150,8 @@ object ImageActor {
         )
 
       case TryPlayImageTick =>
-//        playerGrabber ! PlayerGrabber.AskPicture(Left(ctx.self))
-//        Behaviors.same
+        //        playerGrabber ! PlayerGrabber.AskPicture(Left(ctx.self))
+        //        Behaviors.same
 
         if (queue.length < 2) playerGrabber ! PlayerGrabber.AskPicture(Left(ctx.self))
 
@@ -159,21 +159,20 @@ object ImageActor {
 
         if (needSound && hasAudio && ImagePlayedTime - audioPlayedTime > 50000) {
           //skip picture play, do nothing.
-//          println("skip image")
+          //          println("skip image")
           Behaviors.same
         } else {
-//          if (needSound && hasAudio && (audioPlayedTime != Long.MaxValue) && audioPlayedTime - ImagePlayedTime > 50000) {
-////            debug(s"audioPlayedTime: $audioPlayedTime, imagePlayedTime: $ImagePlayedTime, diff: ${audioPlayedTime - ImagePlayedTime}")
-//            ctx.self ! TryPlayImageTick
-//          }
+          //          if (needSound && hasAudio && (audioPlayedTime != Long.MaxValue) && audioPlayedTime - ImagePlayedTime > 50000) {
+          ////            debug(s"audioPlayedTime: $audioPlayedTime, imagePlayedTime: $ImagePlayedTime, diff: ${audioPlayedTime - ImagePlayedTime}")
+          //            ctx.self ! TryPlayImageTick
+          //          }
           if (queue.nonEmpty) {
             if (needSound && hasAudio && (audioPlayedTime != Long.MaxValue) && audioPlayedTime - ImagePlayedTime > 50000) {
               //            debug(s"audioPlayedTime: $audioPlayedTime, imagePlayedTime: $ImagePlayedTime, diff: ${audioPlayedTime - ImagePlayedTime}")
-//              println("quick run image")
+              //              println("quick run image")
               ctx.self ! TryPlayImageTick
             }
-//          println("draw image")
-
+            //            println("draw image")
             val (newQueue, newImagePlayedTime, playTimeInWallClock) = drawPicture(id, gc, queue, ImagePlayedTime)
             playing(
               id,
@@ -186,7 +185,7 @@ object ImageActor {
               audioPlayedTime
             )
           } else {
-//            println("ask image")
+            //            println("ask image")
             playerGrabber ! PlayerGrabber.AskPicture(Left(ctx.self))
             //            log.warn(s"no pic in the imageQueue of ImageActor-$id!!!")
             Behaviors.same
@@ -203,7 +202,7 @@ object ImageActor {
         Behaviors.stopped
 
       case Count =>
-//        log.info(s"frameRate = $frameCount")
+        //        log.info(s"frameRate = $frameCount")
         frameCount = 0
         Behaviors.same
 
@@ -217,23 +216,20 @@ object ImageActor {
 
   private def drawPicture(id: String, gc: GraphicsContext, queue: immutable.Queue[AddPicture], imagePlayedTime: Long) = {
     //draw picture
-//    val (AddPicture(img, pictureTs), newQueue) = queue.dequeue
-
+    //    val (AddPicture(img, pictureTs), newQueue) = queue.dequeue
     frameCount += 1
     val res = queue.dequeue
-    val img = res._1.img._2
+    val img = res._1.img
     val newQueue = res._2
     val playTimeInWallClock = System.currentTimeMillis() //实际播放时间
     Platform.runLater { () =>
-
       //根据需要拉流的map里面的用户身份画到画布的不同位置
 
-//      log.info("房间信息" + MediaPlayer.roomInfo)
-//      log.info("用户id" + id)
+      //      log.info("房间信息" + MediaPlayer.roomInfo)
+      //      log.info("用户id" + id)
       //id的值是当前拉流的用户userId
       val position = MediaPlayer.roomInfo.get.userList.find(_.userId == id.toLong).get.position
       GCUtil.draw(gc,img,position)
-
 
     }
     val newImagePlayedTime = //时间戳

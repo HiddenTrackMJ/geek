@@ -134,13 +134,13 @@ class MediaPlayer (
     * 开始播放
     *
     * */
-  def start(roomInfo: Option[RoomInfo] = None,playId: String, userId: String, replyTo: ActorRef[Messages.RTCommand], input:Either[String, InputStream], graphContext: Option[GraphicsContext], mediaSettings: Option[MediaSettings] = None): Unit = {
+  def start(roomInfo: Option[RoomInfo] = None,playId: String,replyTo: ActorRef[Messages.RTCommand], input:Either[String, InputStream], graphContext: Option[GraphicsContext], mediaSettings: Option[MediaSettings] = None): Unit = {
     log.info(s"开始播放器playerId:$playId")
     MediaPlayer.roomInfo = roomInfo
     if(mediaSettings.isEmpty){
-      playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, MediaSettings(imageWidth, imageHeight, frameRate, needImage, needSound, outputFile), userId)
+      playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, MediaSettings(imageWidth, imageHeight, frameRate, needImage, needSound, outputFile))
     } else{
-      playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, mediaSettings.get, userId)
+      playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, mediaSettings.get)
 
     }
 
@@ -170,17 +170,29 @@ class MediaPlayer (
 
 
   /**
-    * 停止播放
+    * 停止某个流播放
     *
     * */
-  def stop(playId: String, resetFunc: () => Unit): Unit = {
+  def stop(playId: String,resetFunc: () => Unit = ()=>Unit): Unit = {
     if(playerManager != null){
       log.info(s"停止playerId:$playId")
-      playerManager ! PlayerManager.StopPlay(playId, resetFunc)
-
+      playerManager ! PlayerManager.StopPlay(playId, ()=>Unit)
     }
-
   }
+
+  /**
+    * 停止当前播放器下的所有grabber
+    * @param resetFunc
+    */
+  def stopAll(resetFunc: () => Unit) = {
+    if(playerManager != null){
+      log.info(s"停止所有player")
+      playerManager ! PlayerManager.StopAllPlay(()=>Unit)
+    }
+  }
+
+
+
 
   /**
     * 开始录制
