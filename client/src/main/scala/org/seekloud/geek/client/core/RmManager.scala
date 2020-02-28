@@ -256,6 +256,7 @@ object RmManager {
 
           userLiveCodeMap.filter{_._2 != -1}.filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach {
             u =>
+              log.info("流信息" + u)
               //用户自己的流，因为自己的不需要拉流，直接是摄像头绘制
               if (u._2 == RmManager.userInfo.get.userId){
 
@@ -333,18 +334,17 @@ object RmManager {
 
         case StopLiveSuccess =>
           //房主/或者自己（不是房主）退出会议
-
+          log.info("房主/或者自己（不是房主）退出会议")
           /*背景改变*/
           hostController.hostStatus = HostStatus.NOT_CONNECT
           hostController.updateOffUI()
           /*媒体画面模式更改*/
           liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostController.resetBack)
 
-          if (hostStatus == HostStatus.CONNECT) {//开启会议情况下
-            //停止所有的拉流
-            mediaPlayer.stopAll(hostController.resetBack)
-            liveManager ! LiveManager.StopPull
-          }
+          //停止所有的拉流
+          mediaPlayer.stopAll(hostController.resetBack)
+          liveManager ! LiveManager.StopPull
+
           Boot.addToPlatform {
             SnackBar.show(hostController.centerPane,"停止会议成功!")
           }
