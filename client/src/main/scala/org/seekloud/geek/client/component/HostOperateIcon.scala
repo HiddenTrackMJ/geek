@@ -60,8 +60,14 @@ case class HostOperateIcon(
 
           case HostOperateIconType.ALLOW =>
 //            println("当前用户" + userInfo.isAllow.get)
-            RmManager.getUserInfo(userInfo.userId).get.isAllow = Some(!userInfo.isAllow.get)
-            //todo ws消息
+
+            val originAllow = RmManager.roomInfo.get.userList.find(_.isAllow.get == true)
+            if (originAllow nonEmpty){
+              originAllow.get.isAllow = Some(false)
+            }
+            userInfo.isAllow = Some(true)
+
+          //todo ws消息
 
           case HostOperateIconType.HOST =>
             val origHost = RmManager.roomInfo.get.userList.find(_.isHost.get == true)
