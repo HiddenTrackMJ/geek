@@ -190,12 +190,6 @@ object WsProtocol  {
     status: Boolean = false
   ) extends WsMsgHost
 
-  //主持人对请求发言消息的回复，用户请求关闭发言消息，后端直接处理就可以了
-  case class Appoint4HostReplyReq(
-    status: Boolean, //同意为true，拒绝为false
-    roomId: Long,
-    userId: Long
-  )extends WsMsgHost
 
   //后端给所有用户发送该用户的发言状态
   case class AppointRsp(

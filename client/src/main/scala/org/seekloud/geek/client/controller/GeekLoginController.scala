@@ -2,7 +2,7 @@ package org.seekloud.geek.client.controller
 
 
 import akka.actor.typed.ActorRef
-import com.jfoenix.controls.JFXTextField
+import com.jfoenix.controls.{JFXPasswordField, JFXTextField}
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.layout.AnchorPane
@@ -27,7 +27,7 @@ class GeekLoginController(
 
   @FXML private var testLabel: Label = _
   @FXML private var username:JFXTextField = _
-  @FXML private var password:JFXTextField = _
+  @FXML private var password:JFXPasswordField = _
   @FXML private var rootPane:AnchorPane = _
 
   private val log = LoggerFactory.getLogger(this.getClass)

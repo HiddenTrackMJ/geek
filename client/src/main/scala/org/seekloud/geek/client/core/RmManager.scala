@@ -33,6 +33,7 @@ object RmManager {
 
   //
   var userInfo: Option[UserInfo] = None //只包括登录成功后的返回信息，后续的房间相关信息需要从roomInfo里面去寻找
+  var isStart: Boolean = false //当前用户有没有开启会议
   var roomInfo: Option[RoomInfo] = None
   var meetingListInfo:List[MeetingInfo] = Nil //存储用户登录当前会话中参加和发起的会议信息
   val userLiveIdMap: mutable.HashMap[String, (Long)] = mutable.HashMap.empty //liveid->(userid)，存储已经拉过流的键值对信息
@@ -274,22 +275,15 @@ object RmManager {
 
         case StartLiveSuccess(_, push, userLiveCodeMap)=>
 
-
-
-          //1.开始推流
-          log.info(s"StartLiveSuccess:开始会议")
-          liveManager ! LiveManager.PushStream(push)
-
-          //2.开始拉流：
-
-//          RmManager.userInfo.get.pullStream = Some(pull)
-
-
           userLiveCodeMap.filter{_._2 != -1}.filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach {
             u =>
-              log.info("流信息" + u)
+              log.info(s"开始会议的信息： $u 自己的id :${RmManager.userInfo.get.userId}")
               //用户自己的流，因为自己的不需要拉流，直接是摄像头绘制
               if (u._2 == RmManager.userInfo.get.userId){
+
+                //1.开始推流
+                log.info(s"StartLiveSuccess:开始会议")
+                liveManager ! LiveManager.PushStream(push)
 
                 //更新会议室的状态
                 hostController.hostStatus = HostStatus.CONNECT
@@ -300,6 +294,8 @@ object RmManager {
                 /*媒体画面模式更改*/
                 liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostController.resetBack)
 
+                RmManager.isStart = true
+
               }else{
                 liveManager ! LiveManager.PullStream(u._1, u._2.toString, mediaPlayer, hostController, liveManager)
               }
@@ -309,7 +305,7 @@ object RmManager {
           Behaviors.same
 
         case Appoint4HostReply(userId, status)=>
-          sender.foreach(_ ! Appoint4HostReplyReq(status,RmManager.roomInfo.get.roomId,userId))
+          sender.foreach(_ ! AppointReq(RmManager.roomInfo.get.roomId,userId,status))
           Behaviors.same
 
         case Appoint4Client(userId, userName, status) =>
@@ -329,7 +325,7 @@ object RmManager {
 
           userLiveCodeMap.filter(_._2 != -1).filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach {
             u =>
-              log.info(s"开始会议的信息： $u")
+              log.info(s"开始会议的信息： $u 自己的id :${RmManager.userInfo.get.userId}")
               if (u._2 == RmManager.userInfo.get.userId){
                 //更新会议室的状态
                 hostController.hostStatus = HostStatus.CONNECT
@@ -345,6 +341,8 @@ object RmManager {
                 //1.开始推流
                 log.info(s"StartLiveSuccess:自己开始会议")
                 liveManager ! LiveManager.PushStream(push)
+
+                RmManager.isStart = true
 
               }else{
                 liveManager ! LiveManager.PullStream(u._1, u._2.toString, mediaPlayer, hostController, liveManager)
@@ -388,6 +386,7 @@ object RmManager {
           //房主/或者自己（不是房主）退出会议
           log.info("房主/或者自己（不是房主）退出会议")
           /*背景改变*/
+          RmManager.isStart = false
           hostController.hostStatus = HostStatus.NOT_CONNECT
           hostController.updateOffUI()
           /*媒体画面模式更改*/
