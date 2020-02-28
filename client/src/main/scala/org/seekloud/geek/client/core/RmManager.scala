@@ -222,7 +222,7 @@ object RmManager {
           //修改推流的设置
 
           if (msg.userId == RmManager.userInfo.get.userId){
-            liveManager ! ChangeCaptureOption(msg.userId,msg.needImage,msg.needSound)
+            liveManager ! ChangeCaptureOption(msg.userId,msg.needImage,msg.needSound,()=>hostController.resetBack())
           }else{//关闭player的画面或者声音
             if (!msg.needImage){
               mediaPlayer.pauseImage(msg.userId.toString)
@@ -244,10 +244,6 @@ object RmManager {
           sender.foreach( s=> s ! msg.req)
           Behaviors.same
 
-        case msg: Appoint=>
-          //屏蔽某个人声音/图像
-          sender.foreach( s=> s ! msg.req)
-          Behaviors.same
 
 
         case msg: GetSender =>

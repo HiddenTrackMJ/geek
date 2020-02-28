@@ -47,7 +47,7 @@ object LiveManager {
 
   final case class DevicesOn(gc: GraphicsContext, isJoin: Boolean = false, callBackFunc: Option[() => Unit] = None) extends LiveCommand
 
-  final case class ChangeCaptureOption(userId:Long, needImage: Boolean = true, needSound: Boolean = true) extends LiveCommand with ClientCaptureActor.CaptureCommand
+  final case class ChangeCaptureOption(userId:Long, needImage: Boolean = true, needSound: Boolean = true, callBack:()=>Unit) extends LiveCommand with ClientCaptureActor.CaptureCommand
   final case object DeviceOff extends LiveCommand
 
   //切换模式，isJoin为false显示本地摄像头的内容，true显示拉流的内容

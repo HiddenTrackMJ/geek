@@ -50,7 +50,7 @@ object ClientCaptureActor {
   final case class SwitchMode(isJoin: Boolean, reset: () => Unit) extends DrawCommand with CaptureCommand
 
   //重置是否需要声音
-  final case class ReSet(reset: () => Unit, isNeedImage: Boolean) extends DrawCommand
+  final case class ReSet(noImgReset: () => Unit, isNeedImage: Boolean, haveImgReset: ()=>Unit) extends DrawCommand
 
   final case object StopDraw extends DrawCommand
 
@@ -118,7 +118,7 @@ object ClientCaptureActor {
             ()=>{
               val user = RmManager.roomInfo.get.userList.find(_.userId == RmManager.userInfo.get.userId).get
               GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),user.position)
-            },msg.needImage))
+            },msg.needImage,msg.callBack))
 
           Behaviors.same
 
@@ -241,7 +241,11 @@ object ClientCaptureActor {
 
         case msg: ReSet =>
           log.info("drawer reset")
-          Boot.addToPlatform(msg.reset())
+          if (msg.isNeedImage){
+            Boot.addToPlatform(msg.haveImgReset())
+          }else{
+            Boot.addToPlatform(msg.noImgReset())
+          }
           drawer(gc, isJoin, msg.isNeedImage)
 
         case StopDraw =>
