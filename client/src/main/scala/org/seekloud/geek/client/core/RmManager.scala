@@ -313,7 +313,7 @@ object RmManager {
           Behaviors.same
 
         case Appoint4HostReply(userId, status)=>
-          sender.foreach(_ ! Appoint4HostReplyReq(status,RmManager.roomInfo.get.roomId,userId))
+          sender.foreach(_ ! AppointReq(RmManager.roomInfo.get.roomId,userId,status))
           Behaviors.same
 
         case Appoint4Client(userId, userName, status) =>
@@ -323,7 +323,6 @@ object RmManager {
 
         case Appoint4Host(userId, status) =>
           sender.foreach(_ ! AppointReq(RmManager.roomInfo.get.roomId,userId,status))
-
           Behaviors.same
 
 

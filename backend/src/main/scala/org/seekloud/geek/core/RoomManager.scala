@@ -318,7 +318,7 @@ object RoomManager {
                     if (selfCodeOpt.isDefined) {
                       selfCodeOpt.foreach{ s =>
                         getRoomDealerOpt(roomId, ctx)match{
-                          case Some(actor) =>actor !  RoomDealer.Appoint(msg.userId, msg.roomId, s._1)
+                          case Some(actor) =>actor !  RoomDealer.Appoint(msg.userId, msg.roomId, s._1, msg.status)
                           case None => log.debug(s"${ctx.self.path} AppointReq，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
                         }
                       }

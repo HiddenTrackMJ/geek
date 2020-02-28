@@ -59,7 +59,7 @@ object Recorder {
 
   case class Shield(liveId: String, image: Boolean, audio: Boolean) extends Command
 
-  case class Appoint(liveId: String) extends Command
+  case class Appoint(liveId: String, status: Boolean) extends Command
 
   case class UpdateRecorder(channel: Int, sampleRate: Int, frameRate: Double, width: Int, height: Int, liveId: String) extends Command
 
@@ -217,11 +217,18 @@ object Recorder {
           if (!image) drawer ! DeleteImage4Others(liveId)
           Behaviors.same
 
-        case Appoint(liveId) =>
+        case Appoint(liveId, status) =>
           log.info(s"appoint to $liveId")
-          val newShield = shieldMap.map { s =>
-            if (s._1 != liveId) (s._1, State(s._2.image, audio = false))
-            else s
+          val newShield = if (status) {
+            shieldMap.map { s =>
+              if (s._1 != liveId) (s._1, State(s._2.image, audio = false))
+              else s
+            }
+          }
+          else {
+            shieldMap.map { s =>
+              (s._1, State(image = true, audio = true))
+            }
           }
           idle(roomId, hostId, stream, pullLiveId, roomDealer, online, liveId, recorder4ts, ffFilter, drawer, sampleRecorder, grabbers, indexMap, newShield, filterInUse)
 

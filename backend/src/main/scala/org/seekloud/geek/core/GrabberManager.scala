@@ -49,7 +49,7 @@ object GrabberManager {
 
   final case class Shield(req: WsProtocol.ShieldReq, liveId: String) extends Command
 
-  final case class Appoint(userId: Long, roomId: Long,  liveId: String) extends Command
+  final case class Appoint(userId: Long, roomId: Long,  liveId: String, status: Boolean) extends Command
 
   private[this] def switchBehavior(ctx: ActorContext[Command],
     behaviorName: String, behavior: Behavior[Command], durationOpt: Option[FiniteDuration] = None, timeOut: TimeOut = TimeOut("busy time error"))
@@ -141,7 +141,7 @@ object GrabberManager {
           val workerOpt = roomWorkers.find(_._1 == msg.roomId)
           if (workerOpt.isDefined) {
             workerOpt.foreach { w =>
-              w._2._1 ! Recorder.Appoint(msg.liveId)
+              w._2._1 ! Recorder.Appoint(msg.liveId, msg.status)
             }
           }
           else log.info("Appoint error, this room doesn't exist!")
