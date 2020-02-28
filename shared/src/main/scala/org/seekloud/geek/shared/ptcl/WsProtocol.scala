@@ -1,7 +1,7 @@
 package org.seekloud.geek.shared.ptcl
 
 import org.seekloud.geek.shared.ptcl.CommonInfo.{AudienceInfo, LiveInfo, RoomInfo, UserDes}
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{ModifyRoomInfo, RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
 
 /**
  * Author: Jason
@@ -206,11 +206,7 @@ object WsProtocol  {
     errCode: Int = 0,
   ) extends WsMsgRm
 
-  case class AppointReq(
-    roomId: Long,
-    userId: Long
-  ) extends WsMsgHost
-  
+
 
   case class ShieldReq(
     isForced: Boolean, //为true是被主持人屏蔽的，为false是主动屏蔽的
