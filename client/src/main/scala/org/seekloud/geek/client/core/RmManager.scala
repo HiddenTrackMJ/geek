@@ -315,7 +315,6 @@ object RmManager {
 
         case Appoint4Host(userId, status) =>
           sender.foreach(_ ! AppointReq(RmManager.roomInfo.get.roomId,userId,status))
-
           Behaviors.same
 
 

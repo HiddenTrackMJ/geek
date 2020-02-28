@@ -49,7 +49,7 @@ object RoomDealer {
 
   case class Shield(req: ShieldReq, liveCode: String) extends Command
 
-  case class Appoint(userId: Long, roomId: Long,  liveId: String) extends Command
+  case class Appoint(userId: Long, roomId: Long,  liveId: String, status: Boolean) extends Command
 
   case class ChangePossession(roomDetailInfo: RoomDetailInfo) extends Command
 
@@ -205,14 +205,18 @@ object RoomDealer {
 
           Behaviors.same
 
-        case Appoint(userId, roomId, liveId) =>
+        case Appoint(userId, roomId, liveId, status) =>
           UserDao.searchById(userId).onComplete {
             case Success(u) =>
               u match {
                 case Some(user) =>
-                  log.info(s"RoomDealer-${roomId} userId-${userId} recv appoint rsp...")
-                  grabManager ! GrabberManager.Appoint(userId, roomId, liveId)
-                  dispatch(subscribe)( WsProtocol.AppointRsp(user.id, user.name))
+                  if (status) {
+                    log.info(s"RoomDealer-${roomId} userId-${userId} recv appoint rsp...")
+                    grabManager ! GrabberManager.Appoint(userId, roomId, liveId, status = true)
+                    dispatch(subscribe)( WsProtocol.AppointRsp(user.id, user.name, status = true))
+                  }
+                  else dispatch(subscribe)( WsProtocol.AppointRsp(user.id, user.name, errCode = 100036, msg = "This user doesn't exist"))
+
                 case _ =>
                   dispatch(subscribe)( WsProtocol.AppointRsp(-1L, "", errCode = 100035, msg = "This user doesn't exist"))
               }
@@ -463,6 +467,23 @@ object RoomDealer {
             dispatchTo(subscribers.keys.toList.filter(_ == msg.userId), WsProtocol.CommentError("Your info doesn't exsit."))
         }
         Behaviors.same
+
+      case msg: WsProtocol.Appoint4ClientReq =>
+        log.info(s"appoint req room-${msg.roomId}, user-${msg.userId}")
+        if (msg.status)
+          dispatchTo(List(wholeRoomInfo.userId), msg)
+        else {
+          val selfCodeOpt = roomDetailInfo.userLiveCodeMap.find(_._2 == msg.userId)
+          if (selfCodeOpt.isDefined) {
+            selfCodeOpt.foreach{ s =>
+              grabManager ! GrabberManager.Appoint(userId, roomId, s._1, status = false)
+            }
+          }
+          dispatch(WsProtocol.AppointRsp(msg.userId, msg.userName))
+        }
+        Behaviors.same
+
+
 
       case ChangeLiveMode(isConnectOpen, aiMode, screenLayout) =>
         val connect = isConnectOpen match {
