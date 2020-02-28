@@ -13,7 +13,7 @@ import org.seekloud.geek.client.utils.WsUtil
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.seekloud.geek.shared.ptcl.WsProtocol
-import org.seekloud.geek.shared.ptcl.WsProtocol.{Appoint4HostReply, CompleteMsgClient, ShieldReq, StopLive4ClientReq, StopLiveReq, WsMsgFront}
+import org.seekloud.geek.shared.ptcl.WsProtocol.{Appoint4ClientReq, Appoint4HostReplyReq, AppointReq, CompleteMsgClient, ShieldReq, StopLive4ClientReq, StopLiveReq, WsMsgFront}
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
@@ -39,6 +39,7 @@ object RmManager {
   //对当前的用户立碑的position进行排序
   //当用户列表变化了，房主切换了，发言人切换了，都需要重新计算一次position
   def calUserListPosition() ={
+    log.info("重新计算成员的图像的顺序")
     var x = 1
     roomInfo.get.userList.foreach{
       user=>
@@ -109,7 +110,9 @@ object RmManager {
   //ws链接
   final case class GetSender(sender: ActorRef[WsMsgFront]) extends RmCommand
   final case class Shield(req:ShieldReq) extends RmCommand
-  final case class AppointReply(userId:Long,status:Boolean) extends RmCommand
+  final case class Appoint4HostReply(userId:Long,status:Boolean) extends RmCommand
+  final case class Appoint4Client(userId:Long,userName:String, status:Boolean) extends RmCommand
+  final case class Appoint4Host(userId:Long,status:Boolean) extends RmCommand //主持人关闭某个人发言或者不发言
 
   def create(stageCtx: StageContext): Behavior[RmCommand] =
     Behaviors.setup[RmCommand] { ctx =>
@@ -278,8 +281,18 @@ object RmManager {
 
           Behaviors.same
 
-        case AppointReply(userId, status)=>
-          sender.foreach(_ ! Appoint4HostReply(status,RmManager.roomInfo.get.roomId,userId))
+        case Appoint4HostReply(userId, status)=>
+          sender.foreach(_ ! Appoint4HostReplyReq(status,RmManager.roomInfo.get.roomId,userId))
+          Behaviors.same
+
+        case Appoint4Client(userId, userName, status) =>
+          sender.foreach(_ ! Appoint4ClientReq(RmManager.roomInfo.get.roomId,userId,userName,status))
+
+          Behaviors.same
+
+        case Appoint4Host(userId, status) =>
+          sender.foreach(_ ! AppointReq(RmManager.roomInfo.get.roomId,userId,status))
+
           Behaviors.same
 
 

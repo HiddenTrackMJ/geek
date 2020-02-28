@@ -183,14 +183,15 @@ object WsProtocol  {
   )extends WsMsgHost with WsMsgRm
 
 
-  //这个消息不要使用，后端根据下面的消息进行处理
+  //这个消息是给主持人使用的，主持人直接指定让谁成为发言人,取消谁的发言人身份
   case class AppointReq(
     roomId: Long,
-    userId: Long
+    userId: Long,
+    status: Boolean = false
   ) extends WsMsgHost
 
   //主持人对请求发言消息的回复，用户请求关闭发言消息，后端直接处理就可以了
-  case class Appoint4HostReply(
+  case class Appoint4HostReplyReq(
     status: Boolean, //同意为true，拒绝为false
     roomId: Long,
     userId: Long

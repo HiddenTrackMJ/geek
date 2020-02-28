@@ -158,7 +158,6 @@ object LiveManager {
               val imageQueue = immutable.Queue[AddPicture]()
               val samplesQueue = immutable.Queue[Array[Byte]]()
               ctx.spawn(VideoPlayer.create(msg.userId.toString,Some(imageQueue),Some(samplesQueue)), s"videoPlayer${msg.userId.toString}")
-
             }
             else videoPlayer.get
           log.info("roomInfo" + RmManager.roomInfo)

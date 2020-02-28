@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXRippler
 import javafx.scene.layout.Pane
 import org.seekloud.geek.client.common.Constants.HostOperateIconType
 import org.seekloud.geek.client.core.RmManager
-import org.seekloud.geek.client.core.RmManager.Shield
+import org.seekloud.geek.client.core.RmManager.{Appoint4Host, Shield}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.UserInfo
 import org.seekloud.geek.shared.ptcl.WsProtocol.{ChangePossessionReq, ShieldReq}
 import org.slf4j.LoggerFactory
@@ -62,12 +62,22 @@ case class HostOperateIcon(
 //            println("当前用户" + userInfo.isAllow.get)
 
             val originAllow = RmManager.roomInfo.get.userList.find(_.isAllow.get == true)
-            if (originAllow nonEmpty){
-              originAllow.get.isAllow = Some(false)
+            if (originAllow nonEmpty){//之前的发言人和点击的用户是一个人，即取消当前用户的发言人身份
+              if(originAllow.get.userId == userInfo.userId) {
+                userInfo.isAllow = Some(false)
+                originAllow.get.isAllow = Some(false)
+                rmManager ! Appoint4Host(userInfo.userId,status = false)
+              }else{//更换发言人的身份的用户
+                originAllow.get.isAllow = Some(false)//之前的发言人变成false
+                userInfo.isAllow = Some(true)//现在的发言人变成true
+                rmManager ! Appoint4Host(originAllow.get.userId,status = true)
+                rmManager ! Appoint4Host(userInfo.userId,status = true)
+              }
+            }else{//之前没有发言人，把当前点击的人设为发言人
+              userInfo.isAllow = Some(true)
+              rmManager ! Appoint4Host(userInfo.userId,status = true)
             }
-            userInfo.isAllow = Some(true)
 
-          //todo ws消息
 
           case HostOperateIconType.HOST =>
             val origHost = RmManager.roomInfo.get.userList.find(_.isHost.get == true)

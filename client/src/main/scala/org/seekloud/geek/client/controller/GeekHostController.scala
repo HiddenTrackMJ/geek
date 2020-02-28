@@ -99,16 +99,16 @@ class GeekHostController(
 
         case AllowStatus.NOT_ALLOW =>
           //申请发言
-          //todo ws消息发送请求
+          rmManager ! Appoint4Client(RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,true)
           allowStatus = AllowStatus.ASKING
 
 
         case AllowStatus.ASKING =>
-          //
+          //没有操作等待后端发消息
 
         case AllowStatus.ALLOW =>
           //停止发言
-          //todo ws消息发送请求
+          rmManager ! Appoint4Client(RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,false)
           allowStatus = AllowStatus.NOT_ALLOW
       }
     }else{//提示消息：房主可以直接在成员列表中点击手掌图标指定某人发言（包括自己）
@@ -461,10 +461,10 @@ class GeekHostController(
         if (RmManager.getCurrentUserInfo().isHost.get && msg.status){//自己是主持人而且是请求发言
           ConfirmDialog(context.getStage,s"${msg.userName} 用户请求发言","您可以选择同意或者拒绝",()=>{
             //给后端发送同意
-            rmManager ! AppointReply(msg.userId,status = true)
+            rmManager ! Appoint4HostReply(msg.userId,status = true)
           },()=>{
             //给后端发送拒绝
-            rmManager ! AppointReply(msg.userId,status = false)
+            rmManager ! Appoint4HostReply(msg.userId,status = false)
           }).show()
         }
 
