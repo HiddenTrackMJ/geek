@@ -118,45 +118,50 @@ class GeekHostController(
   }
 
   def updateAllowUI() = {
-    if (RmManager.getCurrentUserInfo().isHost.get){
-      //房主将这个按钮透明度降低
-      allow_button.setOpacity(0.3)
-    }else{
-      allow_button.setOpacity(1)
-    }
-    allowStatus match {
-      case AllowStatus.NOT_ALLOW =>
-        allow_label.setText("申请发言")
-        allow_icon.setIconColor(Color.WHITE)
-      case AllowStatus.ASKING =>
-        allow_label.setText("等待房主同意")
-        allow_icon.setIconColor(Color.GRAY)
-      case AllowStatus.ALLOW =>
-        allow_label.setText("停止发言")
-        allow_icon.setIconColor(Color.GREEN)
+    Boot.addToPlatform{
+      if (RmManager.getCurrentUserInfo().isHost.get){
+        //房主将这个按钮透明度降低
+        allow_button.setOpacity(0.3)
+      }else{
+        allow_button.setOpacity(1)
+      }
+      allowStatus match {
+        case AllowStatus.NOT_ALLOW =>
+          allow_label.setText("申请发言")
+          allow_icon.setIconColor(Color.WHITE)
+        case AllowStatus.ASKING =>
+          allow_label.setText("等待房主同意")
+          allow_icon.setIconColor(Color.GRAY)
+        case AllowStatus.ALLOW =>
+          allow_label.setText("停止发言")
+          allow_icon.setIconColor(Color.GREEN)
+      }
     }
   }
 
   //更新当前的模式状态的UI
   def updateModeUI() = {
-    //根据当前所有用户的发言状态，如果没有在申请发言，则为自由发言状态，反之为申请发言状态
-//    println(RmManager.roomInfo.get.userList)
-    if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
-      //当前是申请发言状态
-      mode_label.setText("申请发言")
-      RmManager.roomInfo.get.modeStatus = ModeStatus.ASK
-    }else{
-      //当前是自由发言状态
-      mode_label.setText("自由发言")
-      RmManager.roomInfo.get.modeStatus = ModeStatus.FREE
+    Boot.addToPlatform{
+      //根据当前所有用户的发言状态，如果没有在申请发言，则为自由发言状态，反之为申请发言状态
+      //    println(RmManager.roomInfo.get.userList)
+      if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
+        //当前是申请发言状态
+        mode_label.setText("申请发言")
+        RmManager.roomInfo.get.modeStatus = ModeStatus.ASK
+      }else{
+        //当前是自由发言状态
+        mode_label.setText("自由发言")
+        RmManager.roomInfo.get.modeStatus = ModeStatus.FREE
+      }
+
+      if (RmManager.getCurrentUserInfo().isAllow.get){
+        allowStatus = AllowStatus.ALLOW
+      }else{
+        allowStatus = AllowStatus.NOT_ALLOW
+      }
+      updateAllowUI()
     }
 
-    if (RmManager.getCurrentUserInfo().isAllow.get){
-      allowStatus = AllowStatus.ALLOW
-    }else{
-      allowStatus = AllowStatus.NOT_ALLOW
-    }
-    updateAllowUI()
   }
 
 
@@ -458,6 +463,7 @@ class GeekHostController(
         }
 
       case msg:Appoint4ClientReq=>
+        log.info(s"Appoint4ClientReq:$msg")
         if (RmManager.getCurrentUserInfo().isHost.get && msg.status){//自己是主持人而且是请求发言
           ConfirmDialog(context.getStage,s"${msg.userName} 用户请求发言","您可以选择同意或者拒绝",()=>{
             //给后端发送同意
@@ -470,6 +476,7 @@ class GeekHostController(
 
       case msg:AppointRsp =>
         //修改当前会议的发言状态和用户的发言状态
+        log.info(s"AppointRsp:$msg")
         val user = RmManager.getUserInfo(msg.userId)
         if (user nonEmpty){
           user.get.isAllow = Some(msg.status)
@@ -479,7 +486,7 @@ class GeekHostController(
         }
 
       case msg:ShieldRsp =>
-        log.info("收到ShieldRsp")
+        log.info(s"收到ShieldRsp:$msg")
         val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId)
         if (user nonEmpty){
           //更新设备状态

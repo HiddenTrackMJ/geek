@@ -62,19 +62,23 @@ case class HostOperateIcon(
 //            println("当前用户" + userInfo.isAllow.get)
 
             val originAllow = RmManager.roomInfo.get.userList.find(_.isAllow.get == true)
-            if (originAllow nonEmpty){//之前的发言人和点击的用户是一个人，即取消当前用户的发言人身份
-              if(originAllow.get.userId == userInfo.userId) {
+            if (originAllow nonEmpty){
+              if(originAllow.get.userId == userInfo.userId) {//之前的发言人和点击的用户是一个人，即取消当前用户的发言人身份
+                log.info("之前的发言人和点击的用户是一个人，即取消当前用户的发言人身份")
                 userInfo.isAllow = Some(false)
                 originAllow.get.isAllow = Some(false)
                 rmManager ! Appoint4Host(userInfo.userId,status = false)
               }else{//更换发言人的身份的用户
+                log.info("更换发言人的身份的用户")
                 originAllow.get.isAllow = Some(false)//之前的发言人变成false
                 userInfo.isAllow = Some(true)//现在的发言人变成true
                 rmManager ! Appoint4Host(originAllow.get.userId,status = true)
                 rmManager ! Appoint4Host(userInfo.userId,status = true)
               }
             }else{//之前没有发言人，把当前点击的人设为发言人
+              log.info("之前没有发言人，把当前点击的人设为发言人")
               userInfo.isAllow = Some(true)
+              log.info("RmManager.roomInfo.get.userList:" + RmManager.roomInfo.get.userList)
               rmManager ! Appoint4Host(userInfo.userId,status = true)
             }
 
