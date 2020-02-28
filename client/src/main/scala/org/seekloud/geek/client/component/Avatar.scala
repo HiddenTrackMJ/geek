@@ -2,6 +2,7 @@ package org.seekloud.geek.client.component
 
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.shape.Circle
+import org.seekloud.geek.client.common.Constants
 /**
   * User: hewro
   * Date: 2020/2/17
@@ -17,13 +18,7 @@ case class Avatar(size:Int,src:String){
 
   def apply(): ImageView = {
 
-    val image =
-      if(src == ""){
-        new Image("scene/img/avatar.jpg")
-      }else{
-        new Image(src)
-      }
-    val imageView = new ImageView(image)
+    val imageView = new ImageView(new Image(Constants.getAvatarSrc(src)))
     imageView.setFitWidth(size)
     imageView.setFitHeight(size)
     val circle = new Circle(15,15,15)

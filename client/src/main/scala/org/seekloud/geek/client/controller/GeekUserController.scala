@@ -1,21 +1,21 @@
 package org.seekloud.geek.client.controller
 
+import akka.actor.typed.ActorRef
+import com.jfoenix.controls.JFXListView
 import javafx.fxml.FXML
+import javafx.geometry.Insets
 import javafx.scene.control.Label
-import org.seekloud.geek.client.component.{InputDialog, Loading, SnackBar, TopBar, WarningDialog}
+import javafx.scene.image.{Image, ImageView}
+import javafx.scene.layout.{AnchorPane, VBox}
+import javafx.scene.paint.Color
+import org.seekloud.geek.client.Boot.executor
+import org.seekloud.geek.client.common.{Constants, StageContext}
+import org.seekloud.geek.client.component._
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.utils.{RMClient, RoomClient, TimeUtil}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{MeetingInfo, RoomInfo}
 import org.seekloud.geek.shared.ptcl.RoomProtocol.RoomUserInfo
 import org.slf4j.LoggerFactory
-import akka.actor.typed.ActorRef
-import javafx.scene.image.ImageView
-import javafx.scene.layout.{AnchorPane, VBox}
-import org.seekloud.geek.client.Boot.executor
-import org.seekloud.geek.client.common.StageContext
-import com.jfoenix.controls.JFXListView
-import javafx.geometry.Insets
-import javafx.scene.paint.Color
 
 
 /**
@@ -34,6 +34,7 @@ class GeekUserController(
   @FXML private var rootPane: AnchorPane = _
   @FXML private var contentPane: AnchorPane = _
   @FXML private var empty: ImageView = _
+  @FXML private var avatar: ImageView = _
 
   var loading:Loading = _
 
@@ -52,6 +53,10 @@ class GeekUserController(
     }else{
       username.setText(RmManager.userInfo.get.userName)
     }
+
+    avatar.setImage(new Image(Constants.getAvatarSrc(RmManager.userInfo.get.headImgUrl)))
+
+
     initToolbar()
   }
 

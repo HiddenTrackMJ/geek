@@ -21,7 +21,7 @@
                <center>
                   <AnchorPane prefHeight="161.0" prefWidth="127.0" BorderPane.alignment="CENTER">
                      <children>
-                        <ImageView fitHeight="60.0" fitWidth="58.0" layoutX="54.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" styleClass="avatar-image">
+                        <ImageView fx:id="avatar" fitHeight="60.0" fitWidth="58.0" layoutX="54.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" styleClass="avatar-image">
                            <image>
                               <Image url="@img/avatar.jpg" />
                            </image>
