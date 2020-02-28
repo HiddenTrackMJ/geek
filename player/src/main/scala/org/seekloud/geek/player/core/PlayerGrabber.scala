@@ -4,20 +4,20 @@ import java.io.InputStream
 import java.nio.{Buffer, ByteBuffer, ShortBuffer}
 import java.util.concurrent.LinkedBlockingDeque
 
-import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{Behaviors, TimerScheduler}
+import akka.actor.typed.{ActorRef, Behavior}
 import javafx.scene.canvas.GraphicsContext
 import org.bytedeco.javacv.{FFmpegFrameGrabber, Frame}
 import org.seekloud.geek.player.core.PlayerManager.MediaSettings
 import org.seekloud.geek.player.processor.ImageConverter
 import org.seekloud.geek.player.protocol.Messages
-import org.seekloud.geek.player.protocol.Messages.{AddPicture, AddSamples, PictureFinish, SoundFinish}
+import org.seekloud.geek.player.protocol.Messages.{AddPicture, AddSamples}
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.seekloud.geek.player.sdk.MediaPlayer.executor
 import org.slf4j.LoggerFactory
 
-import concurrent.duration._
 import scala.concurrent.Future
+import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
 /**
@@ -197,7 +197,7 @@ object PlayerGrabber {
       msg match {
         case StartGrab =>
           workActor ! StartGrab
-          log.info(s"worker start......")
+          log.info(s"${id} :worker start......")
           Behaviors.same
 
         case PauseGrab =>

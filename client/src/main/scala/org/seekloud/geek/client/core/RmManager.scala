@@ -94,7 +94,7 @@ object RmManager {
   final case object BackToHome extends RmCommand
   final case object HostLiveReq extends RmCommand //请求开启会议
   final case class StartLiveSuccess(pull:String, push:String, userLiveCodeMap: Map[String, Long]) extends RmCommand
-  final case class StartLive4ClientSuccess(userLiveCodeMap: Map[String, Long]) extends RmCommand
+  final case class StartLive4ClientSuccess(push:String,userLiveCodeMap: Map[String, Long]) extends RmCommand
   final case object StopLive extends RmCommand
   final case object StopLiveSuccess extends RmCommand //房主停止推流了
   final case class StopLive4ClientSuccess(userId:Long) extends RmCommand
@@ -241,7 +241,7 @@ object RmManager {
           Behaviors.same
 
 
-        case StartLiveSuccess(pull, push, userLiveCodeMap)=>
+        case StartLiveSuccess(_, push, userLiveCodeMap)=>
 
 
 
@@ -251,7 +251,7 @@ object RmManager {
 
           //2.开始拉流：
 
-          RmManager.userInfo.get.pullStream = Some(pull)
+//          RmManager.userInfo.get.pullStream = Some(pull)
 
 
           userLiveCodeMap.filter{_._2 != -1}.filter(i => !RmManager.userLiveIdMap.contains(i._1)).foreach {
@@ -277,7 +277,7 @@ object RmManager {
 
           Behaviors.same
 
-        case StartLive4ClientSuccess(userLiveCodeMap)=>
+        case StartLive4ClientSuccess(push, userLiveCodeMap)=>
 
           log.info(s"StartLive4ClientSuccess:开始会议")
 
@@ -294,6 +294,12 @@ object RmManager {
 
                 /*媒体画面模式更改*/
                 liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostController.resetBack)
+
+                //推流
+                //1.开始推流
+                log.info(s"StartLiveSuccess:自己开始会议")
+                liveManager ! LiveManager.PushStream(push)
+
               }else{
                 liveManager ! LiveManager.PullStream(u._1, u._2.toString, mediaPlayer, hostController, liveManager)
               }

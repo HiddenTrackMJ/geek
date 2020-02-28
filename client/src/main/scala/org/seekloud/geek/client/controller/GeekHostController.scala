@@ -431,7 +431,7 @@ class GeekHostController(
         log.info(s"get StartLive4ClientRsp: $msg")
         if (msg.errCode == 0) {
           //开始直播
-          rmManager ! StartLive4ClientSuccess(msg.userLiveCodeMap.map(i => (msg.rtmp.get.serverUrl + i._1, i._2)))
+          rmManager ! StartLive4ClientSuccess(msg.rtmp.get.serverUrl+msg.selfCode,msg.userLiveCodeMap.map(i => (msg.rtmp.get.serverUrl + i._1, i._2)))
         } else {
           Boot.addToPlatform {
             WarningDialog.initWarningDialog(s"${msg.msg}")
