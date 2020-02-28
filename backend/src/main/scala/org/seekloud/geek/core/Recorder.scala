@@ -3,6 +3,7 @@ package org.seekloud.geek.core
 import java.awt.Graphics
 import java.awt.image.BufferedImage
 import java.io.{File, OutputStream}
+import java.nio.ShortBuffer
 
 import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{Behaviors, StashBuffer, TimerScheduler}
@@ -101,7 +102,7 @@ object Recorder {
 
   case class Image(var frame: mutable.HashMap[String, Queue[Frame]] = mutable.HashMap.empty)
 
-  case class Audio(var frame: mutable.HashMap[String, (Int, Queue[Frame])] = mutable.HashMap.empty)
+  case class Audio(var frame: mutable.HashMap[String, (Int, Queue[Either[Frame, Frame]])] = mutable.HashMap.empty)
 
   case class Ts4LastImage(var frame: mutable.HashMap[String, Frame] = mutable.HashMap.empty)
 
@@ -117,19 +118,19 @@ object Recorder {
           val srcPath = AppSettings.rtmpServer + stream//System.currentTimeMillis().toString
           println(s"path: $srcPath")
           val recorder4ts = new FFmpegFrameRecorder(srcPath, 640, 480, audioChannels)
-//          recorder4ts.setInterleaved(true)
+          recorder4ts.setInterleaved(true)
           recorder4ts.setFrameRate(frameRate)
           recorder4ts.setVideoBitrate(bitRate)
           //          recorder4ts.setVideoCodec(avcodec.AV_CODEC_ID_MPEG2VIDEO)
           //          recorder4ts.setAudioCodec(avcodec.AV_CODEC_ID_MP2)
           //          recorder4ts.setVideoOption("preset","ultrafast")
           recorder4ts.setVideoOption("crf", "25")
-//          recorder4ts.setAudioQuality(0)
+          recorder4ts.setAudioQuality(0)
           recorder4ts.setSampleRate(44100)
-//          recorder4ts.setMaxBFrames(0)
+          recorder4ts.setMaxBFrames(0)
           //          recorder4ts.setFormat("mpegts")
           recorder4ts.setVideoCodec(avcodec.AV_CODEC_ID_H264)
-//          recorder4ts.setAudioCodec(avcodec.AV_CODEC_ID_AAC)
+          recorder4ts.setAudioCodec(avcodec.AV_CODEC_ID_AAC)
           recorder4ts.setFormat("flv")
           Try {
             recorder4ts.start()
@@ -228,8 +229,8 @@ object Recorder {
           if(liveId == host) {
             //            log.info(s"$roomId updateRecorder channel:$channel, sampleRate:$sampleRate, frameRate:$f, width:$width, height:$height")
             recorder4ts.setFrameRate(f)
-//            recorder4ts.setAudioChannels(channel)
-//            recorder4ts.setSampleRate(sampleRate)
+            recorder4ts.setAudioChannels(channel)
+            recorder4ts.setSampleRate(sampleRate)
             ffFilter.foreach(_._2.setAudioChannels(channel))
             ffFilter.foreach(_._2.setSampleRate(sampleRate))
             recorder4ts.setImageWidth(width)
@@ -411,12 +412,10 @@ object Recorder {
           if (!clientFrame.frame.contains(id)) {
             val sampleQueue = Queue.empty.enqueue(frame)
             clientFrame.frame.put(id,  sampleQueue)
-            //            println("c1: " + clientFrame)
           }
           else {
             val oldInfo = clientFrame.frame(id)
             clientFrame.frame.update(id, oldInfo.enqueue(frame))
-            //            println("c3: " + clientFrame)
           }
           Behaviors.same
 
@@ -513,9 +512,18 @@ object Recorder {
                   fil.pushSamples(0, sampleFrame.audioChannels, sampleFrame.sampleRate, fil.getSampleFormat, sampleFrame.samples: _*)
                   clientFrame.frame.toList.filter(_._2._2.nonEmpty).sortBy(_._2._1).foreach { f =>
                     val frameNew = f._2._2.dequeue
-                    val newFrame = frameNew._1.clone()
                     clientFrame.frame.update(f._1, (f._2._1, frameNew._2))
-                    fil.pushSamples(f._2._1, newFrame.audioChannels, newFrame.sampleRate, fil.getSampleFormat, newFrame.samples: _*)
+                    frameNew._1 match {
+                      case Left(newFrame) =>
+                        fil.pushSamples(f._2._1, newFrame.audioChannels, newFrame.sampleRate, fil.getSampleFormat, newFrame.samples: _*)
+
+                      case Right(newSilenceFrame) =>
+                        val samples = new Array[Short](16)
+                        val sp = ShortBuffer.wrap(samples, 0, 16)
+                        fil.pushSamples(f._2._1, newSilenceFrame.audioChannels, newSilenceFrame.sampleRate, fil.getSampleFormat, sp)
+
+                    }
+
                   }
                   val f = fil.pullSamples()
                   if (f != null) {
@@ -545,13 +553,13 @@ object Recorder {
 
         case Sample4All(id, frame) =>
           if (!clientFrame.frame.contains(id)) {
-            val sampleQueue = Queue.empty.enqueue(frame)
+            val sampleQueue = Queue.empty.enqueue(Left(frame))
             clientFrame.frame.put(id, (clientFrame.frame.size + 1, sampleQueue))
             //            println("c1: " + clientFrame)
           }
           else {
             val oldInfo = clientFrame.frame(id)
-            clientFrame.frame.update(id, (oldInfo._1, oldInfo._2.enqueue(frame)))
+            clientFrame.frame.update(id, (oldInfo._1, oldInfo._2.enqueue(Left(frame))))
             //            println("c3: " + clientFrame)
           }
           Behaviors.same
