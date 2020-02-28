@@ -143,7 +143,8 @@ class GeekHostController(
   def updateModeUI() = {
     Boot.addToPlatform{
       //根据当前所有用户的发言状态，如果没有在申请发言，则为自由发言状态，反之为申请发言状态
-      //    println(RmManager.roomInfo.get.userList)
+      log.info(""+RmManager.roomInfo.get.userList)
+
       if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
         //当前是申请发言状态
         mode_label.setText("申请发言")
@@ -160,6 +161,7 @@ class GeekHostController(
         allowStatus = AllowStatus.NOT_ALLOW
       }
       updateAllowUI()
+      RmManager.calUserListPosition()//重新计算用户在界面中的顺序
     }
 
   }
@@ -377,8 +379,6 @@ class GeekHostController(
 
   //当userList数据更新，需要更新的界面
   def updateWhenUserList() = {
-
-    RmManager.calUserListPosition()//重新计算用户在界面中的顺序
     updateUserList()
     updateModeUI()
     updateAllowUI()

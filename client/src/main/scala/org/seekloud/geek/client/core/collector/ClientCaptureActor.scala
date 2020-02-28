@@ -216,12 +216,18 @@ object ClientCaptureActor {
         case msg: DrawImage =>
 
           if (needImage) {
-            //开启会议的时候，根据自由模式还是发言模式和用户身份，决定当前用户画在什么位置上
-            Boot.addToPlatform {
-              val position = RmManager.roomInfo.get.userList.find(_.userId == RmManager.userInfo.get.userId).get.position
-              GCUtil.draw(gc,msg.image,position)
+            if (!isJoin){
+              gc.drawImage(msg.image, 0.0, 0.0,  gc.getCanvas.getWidth, gc.getCanvas.getHeight)
+            }else{
+              //开启会议的时候，根据自由模式还是发言模式和用户身份，决定当前用户画在什么位置上
+              Boot.addToPlatform {
+                val position = RmManager.roomInfo.get.userList.find(_.userId == RmManager.userInfo.get.userId).get.position
+                GCUtil.draw(gc,msg.image,position)
+              }
             }
           }
+
+
           Behaviors.same
 
 
@@ -248,11 +254,6 @@ object ClientCaptureActor {
       }
     }
 
-  def drawPicture(
-    gc: GraphicsContext
-  ) = {
-
-  }
 
 
 }

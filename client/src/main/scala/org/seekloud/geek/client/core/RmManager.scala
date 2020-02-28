@@ -14,7 +14,7 @@ import org.seekloud.geek.client.utils.WsUtil
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.seekloud.geek.shared.ptcl.WsProtocol
-import org.seekloud.geek.shared.ptcl.WsProtocol.{Appoint4ClientReq, Appoint4HostReplyReq, AppointReq, CompleteMsgClient, ShieldReq, StopLive4ClientReq, StopLiveReq, WsMsgFront}
+import org.seekloud.geek.shared.ptcl.WsProtocol._
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
@@ -42,6 +42,7 @@ object RmManager {
   def calUserListPosition() ={
     log.info("重新计算成员的图像的顺序")
     var x = 1
+    log.info("当前的方言状态：" + roomInfo.get.modeStatus)
     roomInfo.get.userList.foreach{
       user=>
         if (roomInfo.get.modeStatus == ModeStatus.FREE){
