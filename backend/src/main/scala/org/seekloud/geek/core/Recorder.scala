@@ -215,6 +215,7 @@ object Recorder {
           shieldMap.update(liveId, State(image, audio))
           println(s"shieldMap : $shieldMap")
           if (!image) drawer ! DeleteImage4Others(liveId)
+          if (!audio)  sampleRecorder ! DeleteSample4Others(liveId)
           Behaviors.same
 
         case Appoint(liveId) =>
@@ -541,7 +542,8 @@ object Recorder {
                   //                  println(7, indexMap, fil, "index: " + (index - 1), sampleFrame.audioChannels, sampleFrame.sampleRate, fil.getSampleFormat)
                   //                  fil.pushSamples(indexMap(liveId), sampleFrame.audioChannels, sampleFrame.sampleRate, 1, sampleFrame.samples: _*)
                   //fil.pushSamples(0, sampleFrame.audioChannels, sampleFrame.sampleRate, fil.getSampleFormat, sampleFrame.samples: _*)
-                  clientFrame.frame.toList.filter(i => i._2._2.nonEmpty && shieldMap.filter(_._2.audio).contains(i._1)).sortBy(_._2._1).foreach { f =>
+                  // && shieldMap.filter(_._2.audio).contains(i._1)
+                  clientFrame.frame.toList.filter(i => i._2._2.nonEmpty).sortBy(_._2._1).foreach { f =>
                     val frameNew = f._2._2.dequeue
                     clientFrame.frame.update(f._1, (f._2._1, frameNew._2))
                     frameNew._1 match {
@@ -549,9 +551,9 @@ object Recorder {
                         fil.pushSamples(f._2._1, newFrame.audioChannels, newFrame.sampleRate, fil.getSampleFormat, newFrame.samples: _*)
 
                       case Right(newSilenceFrame) =>
-                        val samples = new Array[Short](newSilenceFrame.sampleRate)
-                        val sp = ShortBuffer.wrap(samples, 0, newSilenceFrame.sampleRate)
-                        fil.pushSamples(f._2._1, newSilenceFrame.audioChannels, newSilenceFrame.sampleRate, fil.getSampleFormat, sp)
+//                        val samples = new Array[Short](newSilenceFrame.sampleRate)
+//                        val sp = ShortBuffer.wrap(samples, 0, newSilenceFrame.sampleRate)
+//                        fil.pushSamples(f._2._1, newSilenceFrame.audioChannels, newSilenceFrame.sampleRate, fil.getSampleFormat, sp)
 
                     }
 
