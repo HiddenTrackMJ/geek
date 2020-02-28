@@ -322,11 +322,8 @@ class GeekHostController(
     Boot.addToPlatform{
       val paneList = createUserListPane()
       //修改整个list
-      println("444")
       userJList.getItems.removeAll(userJList.getItems)
-      println("555")
       userJList.getItems.addAll(paneList:_*)
-      println("666")
     }
 
   }
@@ -460,6 +457,27 @@ class GeekHostController(
           rmManager ! StopLiveFailed
         }
 
+      case msg:Appoint4ClientReq=>
+        if (RmManager.getCurrentUserInfo().isHost.get && msg.status){//自己是主持人而且是请求发言
+          ConfirmDialog(context.getStage,s"${msg.userName} 用户请求发言","您可以选择同意或者拒绝",()=>{
+            //给后端发送同意
+            rmManager ! AppointReply(msg.userId,status = true)
+          },()=>{
+            //给后端发送拒绝
+            rmManager ! AppointReply(msg.userId,status = false)
+          }).show()
+        }
+
+      case msg:AppointRsp =>
+        //修改当前会议的发言状态和用户的发言状态
+        val user = RmManager.getUserInfo(msg.userId)
+        if (user nonEmpty){
+          user.get.isAllow = Some(msg.status)
+          updateWhenUserList()
+        }else{
+          //不需要修改，可能这个用户已经退出会议厅了
+        }
+
       case msg:ShieldRsp =>
         log.info("收到ShieldRsp")
         val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId)
@@ -480,9 +498,6 @@ class GeekHostController(
             toggleVideo()
           }
         }
-
-
-
 
 
       case x =>

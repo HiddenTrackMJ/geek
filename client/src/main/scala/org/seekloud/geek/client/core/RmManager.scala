@@ -13,7 +13,7 @@ import org.seekloud.geek.client.utils.WsUtil
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.seekloud.geek.shared.ptcl.CommonProtocol._
 import org.seekloud.geek.shared.ptcl.WsProtocol
-import org.seekloud.geek.shared.ptcl.WsProtocol.{CompleteMsgClient, ShieldReq, StopLive4ClientReq, StopLiveReq, WsMsgFront}
+import org.seekloud.geek.shared.ptcl.WsProtocol.{Appoint4HostReply, CompleteMsgClient, ShieldReq, StopLive4ClientReq, StopLiveReq, WsMsgFront}
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
@@ -109,6 +109,7 @@ object RmManager {
   //ws链接
   final case class GetSender(sender: ActorRef[WsMsgFront]) extends RmCommand
   final case class Shield(req:ShieldReq) extends RmCommand
+  final case class AppointReply(userId:Long,status:Boolean) extends RmCommand
 
   def create(stageCtx: StageContext): Behavior[RmCommand] =
     Behaviors.setup[RmCommand] { ctx =>
@@ -276,6 +277,11 @@ object RmManager {
           }
 
           Behaviors.same
+
+        case AppointReply(userId, status)=>
+          sender.foreach(_ ! Appoint4HostReply(status,RmManager.roomInfo.get.roomId,userId))
+          Behaviors.same
+
 
         case StartLive4ClientSuccess(push, userLiveCodeMap)=>
 

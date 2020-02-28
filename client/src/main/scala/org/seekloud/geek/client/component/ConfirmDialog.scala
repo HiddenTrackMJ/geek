@@ -18,7 +18,7 @@ case class ConfirmDialog(
   confirmAction:()=>Unit,
   refuseAction: ()=>Unit
 ){
-  def build() = {
+  def show() = {
 
     val layout = new JFXDialogLayout
 
