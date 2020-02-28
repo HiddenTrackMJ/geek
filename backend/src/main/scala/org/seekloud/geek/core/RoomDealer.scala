@@ -2,22 +2,23 @@ package org.seekloud.geek.core
 
 import java.io.{BufferedReader, File, InputStreamReader}
 
-import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import akka.actor.typed.{ActorRef, Behavior}
+import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import org.bytedeco.javacpp.Loader
 import org.seekloud.byteobject.MiddleBufferInJvm
-import org.seekloud.geek.Boot.{executor, grabManager, scheduler}
-import org.seekloud.geek.common.Common.Role
-import org.seekloud.geek.common.{AppSettings, Common}
-import org.seekloud.geek.core.RoomManager.RoomDetailInfo
-import org.seekloud.geek.models.SlickTables
 import org.seekloud.geek.models.dao.{UserDao, VideoDao}
 import org.seekloud.geek.protocol.RoomProtocol
 import org.seekloud.geek.shared.ptcl.CommonInfo.LiveInfo
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{RoomInfo, UserInfo}
+import org.seekloud.geek.shared.ptcl.WsProtocol._
+import org.seekloud.geek.Boot.{executor, grabManager, roomManager, scheduler, timeout}
+import org.seekloud.geek.common.{AppSettings, Common}
+import org.seekloud.geek.common.Common.Role
+import org.seekloud.geek.core.RoomManager.RoomDetailInfo
+import org.seekloud.geek.models.SlickTables
 import org.seekloud.geek.shared.ptcl.RoomProtocol.RtmpInfo
 import org.seekloud.geek.shared.ptcl.WsProtocol
-import org.seekloud.geek.shared.ptcl.WsProtocol.{ChangeLiveMode, ChangeModeRsp, Comment, HostShutJoin, JoinAccept, JudgeLike, JudgeLikeRsp, PingPackage, RcvComment, Wrap, WsMsgClient, WsMsgRm, _}
+import org.seekloud.geek.shared.ptcl.WsProtocol.{ChangeLiveMode, ChangeModeRsp, Comment, HostShutJoin, JoinAccept, JudgeLike, JudgeLikeRsp, PingPackage, RcvComment, Wrap, WsMsgClient, WsMsgRm}
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
@@ -171,16 +172,13 @@ object RoomDealer {
 
         case msg: StartLive4Client =>
           grabManager ! GrabberManager.StartLive4Client(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo, msg.selfCode, ctx.self)
-
           dispatch(subscribe)(WsProtocol.StartLive4ClientRsp(Some(msg.roomDetailInfo.rtmpInfo), msg.roomDetailInfo.userLiveCodeMap, msg.selfCode))
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StopLive =>
           log.info(s"RoomDealer-${wholeRoomInfo.roomId} is stopping...")
           grabManager ! GrabberManager.StopLive(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo)
-          dispatch(subscribe)(
-            WsProtocol.StopLiveRsp(wholeRoomInfo.roomId)
-          )
+          dispatch(subscribe)( WsProtocol.StopLiveRsp(wholeRoomInfo.roomId))
 //          idle( roomDetailInfo.copy(rtmpInfo = msg.rtmpInfo), wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
           Behaviors.stopped
 

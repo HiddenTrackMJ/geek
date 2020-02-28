@@ -90,6 +90,7 @@ object SoundCapture {
           try {
             val nBytesRead = line.read(audioBytes, 0, line.available)
             val nSamplesRead = if (sampleSize == 16) nBytesRead / 2 else nBytesRead
+//            println(s"a: $nBytesRead, b: $nSamplesRead")
             val samples = new Array[Short](nSamplesRead)
             sampleSize match {
               case 8 =>
@@ -100,7 +101,6 @@ object SoundCapture {
                 ByteBuffer.wrap(audioBytes).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer.get(samples)
               case _ => //invalid
             }
-
             val sp = ShortBuffer.wrap(samples, 0, nSamplesRead)
             if (askFlag) replyTo ! Messages.SoundRsp(LatestSound(sp, System.currentTimeMillis()))
             encoders.foreach(_._2 ! EncodeActor.EncodeSamples(sampleRate.toInt, channels, sp))

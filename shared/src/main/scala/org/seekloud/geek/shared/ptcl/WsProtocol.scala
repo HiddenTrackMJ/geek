@@ -1,7 +1,7 @@
 package org.seekloud.geek.shared.ptcl
 
 import org.seekloud.geek.shared.ptcl.CommonInfo.{AudienceInfo, LiveInfo, RoomInfo, UserDes}
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{ModifyRoomInfo, RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
 
 /**
  * Author: Jason
@@ -204,6 +204,18 @@ object WsProtocol  {
     status: Boolean = false, //true为请求发言成功，false为被拒绝或者请求关闭发言成功
     msg: String = "ok",
     errCode: Int = 0,
+  ) extends WsMsgRm
+
+  case class AppointReq(
+    roomId: Long,
+    userId: Long
+  ) extends WsMsgHost
+
+  case class AppointRsp(
+    userId: Long,
+    userName: String,
+    errCode: Int = 0,
+    msg: String = "ok"
   ) extends WsMsgRm
 
   case class ShieldReq(

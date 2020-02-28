@@ -130,9 +130,8 @@ object GrabberManager {
           val workerOpt = roomWorkers.find(_._1 == msg.req.roomId)
           if (workerOpt.isDefined) {
             workerOpt.foreach { w =>
-              w._2._1 ! Recorder.StopRecorder("user stop live")
-              getGrabber(ctx, msg.req.roomId, msg.liveId, w._2._1) ! Grabber.StopGrabber("user stop live")
-
+              getGrabber(ctx, msg.req.roomId, msg.liveId, w._2._1) ! Grabber.Shield(msg.req.isImage, msg.req.isAudio)
+              w._2._1 ! Recorder.Shield(msg.liveId, msg.req.isImage, msg.req.isAudio)
             }
           }
           else log.info("shield error, this room doesn't exist!")
@@ -145,7 +144,7 @@ object GrabberManager {
               w._2._1 ! Recorder.Appoint(msg.liveId)
             }
           }
-          else log.info("shield error, this room doesn't exist!")
+          else log.info("Appoint error, this room doesn't exist!")
           Behaviors.same
 
         case msg: StartTrans =>
