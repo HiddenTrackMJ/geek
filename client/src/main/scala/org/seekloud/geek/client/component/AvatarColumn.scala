@@ -46,7 +46,12 @@ case class AvatarColumn(
     }
     //中间的用户信息
     val vBox = new VBox(5)
-    val userName = new Label(userInfo.userName)
+
+    val userName = if (RmManager.userInfo.get.userId == userInfo.userId) {
+      new Label(s"${userInfo.userName}（自己）")
+    }else {
+      new Label(userInfo.userName)
+    }
     userName.getStyleClass.add("username")
     val userLevel = new Label(if (userInfo.isHost.get)  "主持人" else "参会者")
     userLevel.getStyleClass.add("userLevel")

@@ -79,9 +79,25 @@ object PlayerManager {
     playId: String
   ) extends SupervisorCmd
 
+  final case class PauseSound(
+    playId: String
+  ) extends SupervisorCmd
+  final case class PauseImage(
+    playId: String
+  ) extends SupervisorCmd
+
   final case class ContinuePlay(
     playId: String
   ) extends SupervisorCmd
+
+  final case class ContinueSound(
+    playId: String
+  ) extends SupervisorCmd
+
+  final case class ContinueImage(
+    playId: String
+  ) extends SupervisorCmd
+
 
   final case class StopPlay(
     playId: String,
@@ -254,6 +270,23 @@ object PlayerManager {
           }
           idle(mediaSettingsMap, gcMap, recordActorMap, playerGrabberMap, imageActorMap, soundActorMap, replyToMap)
 
+
+        case PauseImage(playId) =>
+          if (gcMap.contains(playId)) { //自主播放
+            //            if (playerGrabberMap.contains(playId)) playerGrabberMap(playId)._1 ! PlayerGrabber.PauseGrab
+            if (imageActorMap.contains(playId)) imageActorMap(playId) ! PausePlayImage
+          }
+
+          Behaviors.same
+
+        case PauseSound(playId) =>
+
+          if (gcMap.contains(playId)) { //自主播放
+            if (soundActorMap.contains(playId)) soundActorMap(playId) ! PausePlaySound
+          }
+
+          Behaviors.same
+
         case PausePlay(playId) =>
           if (gcMap.contains(playId)) { //自主播放
             //            if (playerGrabberMap.contains(playId)) playerGrabberMap(playId)._1 ! PlayerGrabber.PauseGrab
@@ -265,6 +298,19 @@ object PlayerManager {
             }
           }
           //          playerGrabberMap(playId) ! PauseGrab
+          Behaviors.same
+
+        case ContinueImage(playId) =>
+          if (gcMap.contains(playId)) {
+            if (imageActorMap.contains(playId)) imageActorMap(playId) ! ContinuePlayImage
+          }
+          Behaviors.same
+
+
+        case ContinueSound(playId)=>
+          if (gcMap.contains(playId)) {
+            if (soundActorMap.contains(playId)) soundActorMap(playId) ! ContinuePlaySound
+          }
           Behaviors.same
 
         case ContinuePlay(playId) =>

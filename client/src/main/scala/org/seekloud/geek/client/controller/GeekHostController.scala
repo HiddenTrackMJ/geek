@@ -16,7 +16,7 @@ import org.seekloud.geek.client.common.{Constants, StageContext}
 import org.seekloud.geek.client.component._
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.core.RmManager._
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, ModeStatus, UserInfo}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, ModeStatus}
 import org.seekloud.geek.shared.ptcl.WsProtocol
 import org.seekloud.geek.shared.ptcl.WsProtocol._
 import org.slf4j.LoggerFactory
@@ -65,7 +65,7 @@ class GeekHostController(
 
 
   val commentList = List(
-    CommentInfo(1,"何为","","大家新年好",1232132L)
+
   )
 
   var commentJList = new JFXListView[GridPane]
@@ -277,11 +277,7 @@ class GeekHostController(
 
 
     //后续从服务器端的ws链接中获取和更新
-    RmManager.roomInfo.get.userList = List(
-      UserInfo(2L, "hewro", "",isHost=Some(true)),
-      UserInfo(3L, "秋林会", ""),
-      UserInfo(4L, "薛甘愿", ""),
-    )
+    RmManager.roomInfo.get.userList = List()
 
     initUserList()
     initCommentList()
@@ -352,7 +348,7 @@ class GeekHostController(
 
 
 
-  //todo 发表评论,ws每收到一条消息就给我发一条消息
+  //发表评论,ws每收到一条消息就给我发一条消息
   def commentSubmit() = {
     //获得当前的评论消息，添加一个新的comment结构加入到jList中
     val content = commentInput.getText
@@ -493,10 +489,9 @@ class GeekHostController(
           user.get.isVideo = Some(msg.isImage)
           user.get.isMic = Some(msg.isAudio)
         }
-        //更新界面
-        updateWhenUserList()
+
         // 如果被封禁的userId是自己，需要修改底部功能条的样式并且调整摄像头、音频设置的关闭开启
-        if (msg.userId == RmManager.userInfo.get.userId){
+        if (msg.userId == RmManager.userInfo.get.userId){//封禁的是自己
           if ((micStatus==DeviceStatus.ON && !msg.isAudio) || (micStatus==DeviceStatus.OFF && msg.isAudio)){
             toggleMic()
           }
@@ -504,7 +499,16 @@ class GeekHostController(
           if ((videoStatus==DeviceStatus.ON && !msg.isImage) || (videoStatus==DeviceStatus.OFF && msg.isImage)){
             toggleVideo()
           }
+
         }
+
+        //自己或者别的用户交给rm统一处理
+        rmManager ! ChangeOption(msg.userId,msg.isImage,msg.isAudio)
+
+        //更新界面
+        updateWhenUserList()
+
+
 
 
       case x =>
@@ -536,15 +540,18 @@ class GeekHostController(
   def toggleMic() = {
     micStatus match {
       case DeviceStatus.ON =>
-        //todo 关闭音频
+        //关闭音频
         micStatus = DeviceStatus.OFF
         RmManager.getCurrentUserInfo().isMic = Some(false)
-
+        rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
+          isImage = if (videoStatus == DeviceStatus.ON) true else false,isAudio = false))
 
       case DeviceStatus.OFF =>
-        //todo 开启音频
+        //开启音频
         micStatus = DeviceStatus.ON
         RmManager.getCurrentUserInfo().isMic = Some(true)
+        rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
+          isImage = if (videoStatus == DeviceStatus.ON) true else false,isAudio = true))
 
 
       case _=>
@@ -559,15 +566,18 @@ class GeekHostController(
   def toggleVideo() = {
     videoStatus match {
       case DeviceStatus.ON =>
-        //todo 关闭摄像头
+        // 关闭摄像头
         videoStatus = DeviceStatus.OFF
         RmManager.getCurrentUserInfo().isVideo = Some(false)
-
+        rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
+          isImage = false ,isAudio = if (micStatus == DeviceStatus.ON) true else false))
 
       case DeviceStatus.OFF =>
         // todo开启摄像头
         videoStatus = DeviceStatus.ON
         RmManager.getCurrentUserInfo().isVideo = Some(true)
+        rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
+          isImage = true ,isAudio = if (micStatus == DeviceStatus.ON) true else false))
 
       case _=>
 

@@ -4,6 +4,8 @@ import akka.actor.typed.scaladsl.{Behaviors, TimerScheduler}
 import akka.actor.typed.{ActorRef, Behavior}
 import javafx.application.Platform
 import javafx.scene.canvas.GraphicsContext
+import javafx.scene.image.Image
+import org.seekloud.geek.player.common.Constants
 import org.seekloud.geek.player.protocol.Messages._
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.seekloud.geek.player.util.GCUtil
@@ -105,6 +107,15 @@ object ImageActor {
         timer.cancel(FRAME_RATE_TIMER_KEY)
         //        hasTimer = false
         log.info(s"ImageActor-$id cancel Image Timer.")
+        //给当前位置画一个没有摄像头的图像
+        val user =  MediaPlayer.roomInfo.get.userList.find(_.userId == id.toLong)
+        if (user nonEmpty){
+          val position = user.get.position
+          GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),position)
+        }else{
+          log.info("当前用户已经退出房间了")
+        }
+
         Behaviors.same
 
       case ContinuePlayImage =>
@@ -228,8 +239,13 @@ object ImageActor {
       //      log.info("房间信息" + MediaPlayer.roomInfo)
       //      log.info("用户id" + id)
       //id的值是当前拉流的用户userId
-      val position = MediaPlayer.roomInfo.get.userList.find(_.userId == id.toLong).get.position
-      GCUtil.draw(gc,img,position)
+      val user =  MediaPlayer.roomInfo.get.userList.find(_.userId == id.toLong)
+      if (user nonEmpty){
+        val position = user.get.position
+        GCUtil.draw(gc,img,position)
+      }else{
+        log.info("当前用户已经退出房间了")
+      }
 
     }
     val newImagePlayedTime = //时间戳

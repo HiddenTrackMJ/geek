@@ -154,7 +154,18 @@ class MediaPlayer (
     if(playerManager != null){
       playerManager ! PlayerManager.PausePlay(playId)
     }
+  }
 
+  def pauseSound(playId: String):Unit = {
+    if(playerManager != null){
+      playerManager ! PlayerManager.PauseSound(playId)
+    }
+  }
+
+  def pauseImage(playId: String) = {
+    if(playerManager != null){
+      playerManager ! PlayerManager.PauseImage(playId)
+    }
   }
 
   /**
@@ -168,6 +179,19 @@ class MediaPlayer (
 
   }
 
+  def continueImage(playId: String): Unit = {
+    if(playerManager != null){
+      playerManager ! PlayerManager.ContinueImage(playId)
+    }
+
+  }
+
+  def continueSound(playId: String): Unit = {
+    if(playerManager != null){
+      playerManager ! PlayerManager.ContinueSound(playId)
+    }
+
+  }
 
   /**
     * 停止某个流播放

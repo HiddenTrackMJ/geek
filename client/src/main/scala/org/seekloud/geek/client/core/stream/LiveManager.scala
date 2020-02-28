@@ -47,6 +47,7 @@ object LiveManager {
 
   final case class DevicesOn(gc: GraphicsContext, isJoin: Boolean = false, callBackFunc: Option[() => Unit] = None) extends LiveCommand
 
+  final case class ChangeCaptureOption(userId:Long, needImage: Boolean = true, needSound: Boolean = true) extends LiveCommand with ClientCaptureActor.CaptureCommand
   final case object DeviceOff extends LiveCommand
 
   //切换模式，isJoin为false显示本地摄像头的内容，true显示拉流的内容
@@ -130,6 +131,10 @@ object LiveManager {
           Behaviors.same
 //
 //
+        case msg: ChangeMediaOption=>
+          captureActor.foreach(_!msg)
+
+          Behaviors.same
         case msg: PushStream =>
           log.debug(s"推流地址：${msg.rtmp}")
           captureActor.get ! StartEncode(msg.rtmp)
@@ -163,13 +168,18 @@ object LiveManager {
           log.info("roomInfo" + RmManager.roomInfo)
           mediaPlayer.start(RmManager.roomInfo,msg.userId.toString, videoPlayerNew,Left(msg.stream),Some(msg.hostController.gc),None)
           idle(parent, mediaPlayer, captureActor, isStart = isStart, isRegular = isRegular, videoPlayer = Some(videoPlayerNew))
-//
         case StopPull =>
           // 就是关闭播放器
           log.info(s"LiveManager stop puller")
 
           Behaviors.same
-//
+
+        case msg: ChangeCaptureOption =>
+          captureActor.foreach(_!msg)
+
+          Behaviors.same
+
+
         case PusherStopped =>
           log.info(s"LiveManager got pusher stopped.")
           idle(parent, mediaPlayer, captureActor, isStart = isStart, isRegular = isRegular, videoPlayer = videoPlayer)

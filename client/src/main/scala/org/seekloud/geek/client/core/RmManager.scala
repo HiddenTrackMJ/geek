@@ -9,6 +9,7 @@ import org.seekloud.geek.client.common.{AppSettings, Routes, StageContext}
 import org.seekloud.geek.client.component.{SnackBar, WarningDialog}
 import org.seekloud.geek.client.controller.GeekHostController
 import org.seekloud.geek.client.core.stream.LiveManager
+import org.seekloud.geek.client.core.stream.LiveManager.ChangeCaptureOption
 import org.seekloud.geek.client.utils.WsUtil
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.seekloud.geek.shared.ptcl.CommonProtocol._
@@ -106,6 +107,7 @@ object RmManager {
   final case class ChangePossession(req: WsProtocol.ChangePossessionReq) extends RmCommand
 
   final case object GetPackageLoss extends RmCommand
+  final case class ChangeOption(userId:Long, needImage: Boolean = true, needSound: Boolean = true) extends RmCommand
 
   //ws链接
   final case class GetSender(sender: ActorRef[WsMsgFront]) extends RmCommand
@@ -212,6 +214,27 @@ object RmManager {
           WsUtil.buildWebSocket(ctx, url, hostController, successFunc(), failureFunc())
           Behaviors.same
 
+
+        case msg:ChangeOption =>
+          //修改推流的设置
+
+          if (msg.userId == RmManager.userInfo.get.userId){
+            liveManager ! ChangeCaptureOption(msg.userId,msg.needImage,msg.needSound)
+          }else{//关闭player的画面或者声音
+            if (!msg.needImage){
+              mediaPlayer.pauseImage(msg.userId.toString)
+            }else{
+              mediaPlayer.continueImage(msg.userId.toString)
+
+            }
+            if (!msg.needSound){
+              mediaPlayer.pauseSound(msg.userId.toString)
+            }else{
+              mediaPlayer.continueSound(msg.userId.toString)
+            }
+          }
+
+          Behaviors.same
 
         case msg: Shield=>
           //屏蔽某个人声音/图像
@@ -384,6 +407,8 @@ object RmManager {
           }else{
             //停止拉该成员的流
             mediaPlayer.stop(userId.toString,()=>Unit)
+            //重新刷新一下背景
+            liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostController.resetBack)
             log.info(s"停止 ${userId} 用户的拉流")
           }
 
