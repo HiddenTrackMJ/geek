@@ -168,16 +168,20 @@ object Grabber {
         case GrabFrame =>
           val frame = grabber.grab()
           if(frame.image != null && state.image) {
+//            if(!state.audio) println(s"img: ${state.image}, audio: ${state.audio}")
             recorder ! Recorder.NewFrame(liveId, frame.clone())
             ctx.self ! GrabFrame
           }
-          else if(frame.samples != null && state.audio) {
+          else if(frame.samples != null ) {
             recorder ! Recorder.NewFrame(liveId, frame.clone())
             ctx.self ! GrabFrame
           }
-          else{
+          else if (state.image || state.audio){
+            ctx.self ! GrabFrame
+          }
+          else {
             log.info(s"$liveId --- frame is null")
-            ctx.self ! StopGrabber(s"$liveId --- frame is null")
+//            ctx.self ! StopGrabber(s"$liveId --- frame is null")
           }
           Behaviors.same
 
