@@ -17,10 +17,11 @@ case class ConfirmDialog(
   stage: Stage,
   title: String,
   content: String,
-  yesText: String,
-  noText: String,
-  confirmAction: ()=>Unit,
-  refuseAction: ()=>Unit
+  yesText: String = "",
+  noText: String = "",
+  confirmAction: Option[()=>Unit] = None,
+  refuseAction: Option[()=>Unit] = None,
+  isCanClose:Boolean = false
 ){
   private val log = LoggerFactory.getLogger(this.getClass)
 
@@ -38,29 +39,36 @@ case class ConfirmDialog(
 
         val alert = new JFXAlert[Void](stage)
 
-        alert.setOverlayClose(false)
+        alert.setOverlayClose(isCanClose)
 
         alert.setAnimation(JFXAlertAnimation.CENTER_ANIMATION)
 
         alert.setContent(layout)
         alert.initModality(Modality.NONE)
 
+        var buttonList :List[JFXButton] =  List.empty
 
-        val confirmButton = new JFXButton(yesText)
-        val refuseButton = new JFXButton(noText)
+        if (confirmAction nonEmpty){
+          val confirmButton = new JFXButton(yesText)
+          confirmButton.getStyleClass.add("dialog-accept")
+          confirmButton.setOnAction(_ => {
+            confirmAction.foreach(func => func())
+            alert.hideWithAnimation()})
 
-        confirmButton.getStyleClass.add("dialog-accept")
-        refuseButton.getStyleClass.add("dialog-accept")
+          buttonList = buttonList :+ confirmButton
+        }
 
+        if (refuseAction nonEmpty){
+          val refuseButton = new JFXButton(noText)
+          refuseButton.getStyleClass.add("dialog-accept")
+          refuseButton.setOnAction(_ => {
+            refuseAction.foreach(func => func())
+            alert.hideWithAnimation()
+          })
+          buttonList = buttonList :+ refuseButton
+        }
 
-        confirmButton.setOnAction(_ => {
-          confirmAction()
-          alert.hideWithAnimation()})
-        refuseButton.setOnAction(_ => {
-          refuseAction()
-          alert.hideWithAnimation()
-        })
-        layout.setActions(confirmButton, refuseButton)
+        layout.setActions(buttonList:_*)
 
         alert.setContent(layout)
 
