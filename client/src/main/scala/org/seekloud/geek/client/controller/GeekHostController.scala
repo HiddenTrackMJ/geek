@@ -95,22 +95,27 @@ class GeekHostController(
   def allowClick()= {
     //非主持人才可以申请发言
     if (!RmManager.getCurrentUserInfo().isHost.get){
-      allowStatus match {
+      if (RmManager.isStart){
+        allowStatus match {
 
-        case AllowStatus.NOT_ALLOW =>
-          //申请发言
-          rmManager ! Appoint4Client(RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,true)
-          allowStatus = AllowStatus.ASKING
+          case AllowStatus.NOT_ALLOW =>
+            //申请发言
+            rmManager ! Appoint4Client(RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,true)
+            allowStatus = AllowStatus.ASKING
 
 
-        case AllowStatus.ASKING =>
+          case AllowStatus.ASKING =>
           //没有操作等待后端发消息
 
-        case AllowStatus.ALLOW =>
-          //停止发言
-          rmManager ! Appoint4Client(RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,false)
-          allowStatus = AllowStatus.NOT_ALLOW
+          case AllowStatus.ALLOW =>
+            //停止发言
+            rmManager ! Appoint4Client(RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,false)
+            allowStatus = AllowStatus.NOT_ALLOW
+        }
+      }else{
+        SnackBar.show(rootPane,"您没有开启会议，无法申请发言")
       }
+
     }else{//提示消息：房主可以直接在成员列表中点击手掌图标指定某人发言（包括自己）
       SnackBar.show(centerPane,"房主可以直接在成员列表中点击「手掌」图标指定某人发言（包括自己）")
     }

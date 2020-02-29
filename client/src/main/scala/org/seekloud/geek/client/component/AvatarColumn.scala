@@ -48,7 +48,7 @@ case class AvatarColumn(
     val vBox = new VBox(5)
 
     val userName = if (RmManager.userInfo.get.userId == userInfo.userId) {
-      new Label(s"${userInfo.userName}（自己）")
+      new Label(s"${userInfo.userName}(我)")
     }else {
       new Label(userInfo.userName)
     }
