@@ -200,7 +200,7 @@ object ImageActor {
       case TryPlayImageTick =>
         //        playerGrabber ! PlayerGrabber.AskPicture(Left(ctx.self))
         //        Behaviors.same
-        log.info(s"TryPlayImageTick: $mute")
+//        log.info(s"TryPlayImageTick: $mute")
 
         if (queue.length < 2) playerGrabber ! PlayerGrabber.AskPicture(Left(ctx.self))
 

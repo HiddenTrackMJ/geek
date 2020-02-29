@@ -2,6 +2,7 @@ package org.seekloud.geek.player.util
 
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.image.Image
+import org.slf4j.LoggerFactory
 
 /**
   * User: hewro
@@ -15,6 +16,9 @@ object GCUtil {
     val LEFT = 0
     val RIGHT = 1
   }
+
+  private val log = LoggerFactory.getLogger(this.getClass)
+
 
   def draw (
     gc: GraphicsContext,
@@ -69,14 +73,15 @@ object GCUtil {
       canvas_all_height / 2
     } //画布左侧的实际绘画高度
 
-    val fill_h = canvas_all_height / 2 - canvas_distribute_h
+    val fill_h = canvas_all_height / 2 - canvas_distribute_h  //补足的高度
 
     //position 为2，4需要多一个1/4的宽度偏移（左侧有一列被占据了），1，2，3，4都需要多一个1/2的偏移（左侧部分被占据了）
     val offset_x = ((position -1 ) % 2) * canvas_distribute_w + canvas_all_width/2
     //position 为3，4时候需要多一个1/2的高度偏移 （上面有一排占据了）
-    val offset_y = if(position >2){canvas_distribute_h}else{0} + fill_h
+    val offset_y = if(position >2){canvas_distribute_h + fill_h}else fill_h
 
     val (x,y,canvas_last_w,canvas_last_h) = calculate(offset_x,offset_y,canvas_distribute_w,canvas_distribute_h,image_w,image_h)
+//    log.info(s"position:$position,x:$x,y$y,offset_x:$offset_x,offset_y:$offset_y,w:$canvas_last_w,h:$canvas_last_h")
     gc.drawImage(image, x, y,canvas_last_w, canvas_last_h)
 
   }

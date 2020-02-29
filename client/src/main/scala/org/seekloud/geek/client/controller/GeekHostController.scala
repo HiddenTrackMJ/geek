@@ -16,6 +16,7 @@ import org.seekloud.geek.client.common.{Constants, StageContext}
 import org.seekloud.geek.client.component._
 import org.seekloud.geek.client.core.RmManager
 import org.seekloud.geek.client.core.RmManager._
+import org.seekloud.geek.player.util.GCUtil
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, ModeStatus}
 import org.seekloud.geek.shared.ptcl.WsProtocol
 import org.seekloud.geek.shared.ptcl.WsProtocol._
@@ -399,9 +400,9 @@ class GeekHostController(
   def wsMessageHandle(data: WsMsgRm): Unit = {
     data match {
 
-      case _: HeatBeat =>
-      //        log.debug(s"heartbeat: ${msg.ts}")
-      //        rmManager ! HeartBeat
+      case msg: HeatBeat =>
+//        log.debug(s"heartbeat: ${msg.ts}")
+//        rmManager ! HeartBeat
 
       case msg: RcvComment =>
         addComment(CommentInfo(msg.userId, msg.userName, RmManager.userInfo.get.headImgUrl, msg.comment, System.currentTimeMillis()))
@@ -709,7 +710,11 @@ class GeekHostController(
     Boot.addToPlatform{
       gc.drawImage(new Image("scene/img/bg.jpg"),0,0,gc.getCanvas.getWidth,gc.getCanvas.getHeight)
       //画5个框等待加入的框
-
+      GCUtil.draw(gc,new Image("scene/img/join.png"),0)
+      GCUtil.draw(gc,new Image("scene/img/join.png"),1)
+      GCUtil.draw(gc,new Image("scene/img/join.png"),2)
+      GCUtil.draw(gc,new Image("scene/img/join.png"),3)
+      GCUtil.draw(gc,new Image("scene/img/join.png"),4)
     }
   }
 
