@@ -292,6 +292,7 @@ object RoomDealer {
                   case Success(u) =>
                     u match {
                       case Some(user) =>
+                        println(s"newInfo1: $wholeRoomInfo")
                         val newUser = UserInfo(user.id, user.name, user.avatar.getOrElse(""), isHost = Some(false))
                         wholeRoomInfo.userList = wholeRoomInfo.userList :+ newUser
                         val newInfo = wholeRoomInfo
