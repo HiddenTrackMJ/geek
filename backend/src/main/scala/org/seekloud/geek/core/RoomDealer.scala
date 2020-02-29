@@ -179,8 +179,8 @@ object RoomDealer {
           log.info(s"RoomDealer-${wholeRoomInfo.roomId} is stopping...")
           grabManager ! GrabberManager.StopLive(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo)
           dispatch(subscribe)( WsProtocol.StopLiveRsp(wholeRoomInfo.roomId))
-//          idle( roomDetailInfo.copy(rtmpInfo = msg.rtmpInfo), wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
-          Behaviors.stopped
+          idle( roomDetailInfo.copy(rtmpInfo = msg.rtmpInfo), wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
+//          Behaviors.stopped
 
         case msg: StopLive4Client =>
           log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.userId} is stopping...${subscribe}")
@@ -295,6 +295,7 @@ object RoomDealer {
                       case Some(user) =>
                         val newUser = UserInfo(user.id, user.name, user.avatar.getOrElse(""), isHost = Some(false))
                         val newInfo = wholeRoomInfo.copy(userList = wholeRoomInfo.userList :+ newUser)
+                        println(s"newInfo: $newInfo")
                         dispatch(subscribe)(WsProtocol.GetRoomInfoRsp(newInfo))
 
                       case _ =>
@@ -348,18 +349,6 @@ object RoomDealer {
 
         case RoomProtocol.HostCloseRoom(roomId) =>
           log.debug(s"${ctx.self.path} host close the room")
-          wholeRoomInfo.rtmp match {
-            case Some(v) =>
-              if(v != liveInfoMap(Role.host)(wholeRoomInfo.userId).liveId){
-//                ProcessorClient.closeRoom(wholeRoomInfo.roomId) //Todo  start
-              }
-            case None =>
-          }
-          if (startTime != -1l) {
-            log.debug(s"${ctx.self.path} 主播向distributor发送finishPull请求")
-//            DistributorClient.finishPull(liveInfoMap(Role.host)(wholeRoomInfo.userId).liveId) //Todo  start stop
-//            roomManager ! RoomManager.DelaySeekRecord(wholeRoomInfo, totalView, roomId, startTime, liveInfoMap(Role.host)(wholeRoomInfo.userId).liveId)
-          }
           dispatchTo(subscribe)(subscribe.filter(r => r._1 != wholeRoomInfo.userId).keys.toList, HostCloseRoom())
           Behaviors.stopped
 

@@ -229,7 +229,7 @@ object RoomManager {
               roomDealer ! RoomDealer.StartLive(roomInfoNew, streams.reverse.head, roomOldInfo.roomUserInfo.userId, actor)
             }
           }
-          else log.debug(s"${ctx.self.path}请求错误，该房间还不存在，房间id=$roomId，用户id=$userId")
+          else log.debug(s"${ctx.self.path}请求错误1，该房间还不存在，房间id=$roomId，用户id=$userId")
           Behaviors.same
 
         case r@RoomProtocol.WebSocketMsgWithActor(userId, roomId, x) =>
@@ -375,7 +375,7 @@ object RoomManager {
 
                 case _ => actor ! r
               }
-            case None => log.debug(s"${ctx.self.path}请求错误，该房间还不存在，房间id=$roomId，用户id=$userId")
+            case None => log.debug(s"${ctx.self.path}请求错误2，该房间还不存在，房间id=$roomId，用户id=$userId")
           }
           Behaviors.same
 
