@@ -249,14 +249,37 @@ object RoomManager {
 
                 case msg: WsProtocol.StartLive4ClientReq =>
                   val roomOldInfo = rooms(msg.roomId)
-                  if (roomOldInfo.userLiveCodeMap.exists(_._2 == msg.userId)) {
-                    getRoomDealerOpt(roomId, ctx)match{
-                      case Some(actor) =>actor ! RoomDealer.StartLive4Client(roomOldInfo, msg.userId, roomOldInfo.userLiveCodeMap.find(_._2 == msg.userId).get._1)
-                      case None => log.debug(s"${ctx.self.path} StartLive4Client，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
-                    }
-//                    roomOldInfo.roomDealer ! RoomDealer.StartLive4Client(roomOldInfo.rtmpInfo, roomOldInfo.userLiveCodeMap.find(_._2 == msg.userId).get._1)
+                  var selfCode = ""
+                  var flag = true
+                  val userCodeMap =
+                    if (roomOldInfo.userLiveCodeMap.exists(_._2 == msg.userId)) {
+                      roomOldInfo.userLiveCodeMap.toList.sortBy(_._1.split("_").last).map{ u =>
+                        if (u._2 == msg.userId && flag){
+                          flag = false
+                          selfCode = u._1
+                        }
+                        u
+                      }
+                      }.toMap
+                    else {
+                      roomOldInfo.userLiveCodeMap.toList.sortBy(_._1.split("_").last).map{ u =>
+                        if (u._2 == -1L && flag){
+                          flag = false
+                          selfCode = u._1
+                          (u._1, msg.userId)
+                        }
+                        else u
+                      }
+                      }.toMap
+                  val roomNewInfo = roomOldInfo.copy(userLiveCodeMap = userCodeMap)
+                  getRoomDealerOpt(roomId, ctx) match {
+                    case Some(actor) =>actor ! RoomDealer.StartLive4Client(roomNewInfo, msg.userId, roomOldInfo.userLiveCodeMap.find(_._2 == msg.userId).get._1)
+                    case None => log.debug(s"${ctx.self.path} StartLive4Client，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
                   }
-                  else log.info("StartLive4Client fail.")
+//                  if (roomOldInfo.userLiveCodeMap.exists(_._2 == msg.userId)) {
+//
+//                  }
+//                  else log.info("StartLive4Client fail.")
 
                 case msg: WsProtocol.StopLiveReq =>
                   log.info(s"stop live in room: ${msg.roomId}")
@@ -277,7 +300,7 @@ object RoomManager {
 
                 case msg: WsProtocol.StopLive4ClientReq =>
                   log.info(s"user-${msg.userId} stop live in room: ${msg.roomId}")
-                  if ((rooms.contains(msg.roomId))) {
+                  if (rooms.contains(msg.roomId)) {
                     val roomOldInfo = rooms(msg.roomId)
                     val selfCodeOpt = roomOldInfo.userLiveCodeMap.find(_._2 == msg.userId)
                     if (selfCodeOpt.isDefined) {
@@ -422,33 +445,9 @@ object RoomManager {
         case JoinRoom(req, rsp) =>
           assert(rooms.contains(req.roomId))
           val roomOldInfo = rooms(req.roomId)
-          var selfCode = ""
-          var flag = true
-          val userCodeMap =
-            if (roomOldInfo.userLiveCodeMap.exists(_._2 == req.userId)) {
-              roomOldInfo.userLiveCodeMap.toList.sortBy(_._1.split("_").last).map{ u =>
-                if (u._2 == req.userId && flag){
-                  flag = false
-                  selfCode = u._1
-                }
-                u
-              }
-            }.toMap
-            else {
-              roomOldInfo.userLiveCodeMap.toList.sortBy(_._1.split("_").last).map{ u =>
-                if (u._2 == -1L && flag){
-                  flag = false
-                  selfCode = u._1
-                  (u._1, req.userId)
-                }
-                else u
-              }
-            }.toMap
-          val roomNewInfo = roomOldInfo.copy(userLiveCodeMap = userCodeMap)
-          RoomDao.updateUserCodeMap(req.roomId, userCodeMap.asJson.noSpaces).onComplete{
+          RoomDao.updateUserCodeMap(req.roomId, roomOldInfo.userLiveCodeMap.asJson.noSpaces).onComplete{
             case Success(_) =>
-              rooms.update(req.roomId, roomNewInfo)
-              rsp ! JoinRoomRsp(Some(UserPushInfo(roomNewInfo.roomUserInfo, selfCode, roomNewInfo.rtmpInfo.stream)))
+              rsp ! JoinRoomRsp(Some(UserPushInfo(roomOldInfo.roomUserInfo)))
 
             case Failure(e) =>
               rsp ! JoinRoomRsp(None, 10013, s"dataBase update error: ${e.getMessage}")

@@ -121,7 +121,7 @@ object GrabberManager {
         case msg: StopLive4Client =>
           log.info(s"stopping grabbing , room ${msg.roomId} - ${msg.userId}")
           if (roomWorkers.get(msg.roomId).isDefined) {
-            roomWorkers(msg.roomId)._1 ! Recorder.StopRecorder("user stop live")
+            roomWorkers(msg.roomId)._1 ! Recorder.GrabberStopped(msg.selfCode)
             getGrabber(ctx, msg.roomId, msg.selfCode, roomWorkers(msg.roomId)._1) ! Grabber.StopGrabber("user stop live")
           }
            Behaviors.same
