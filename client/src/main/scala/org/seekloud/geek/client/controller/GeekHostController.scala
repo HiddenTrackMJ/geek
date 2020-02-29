@@ -462,7 +462,7 @@ class GeekHostController(
         log.info(s"Appoint4ClientReq:$msg")
         log.info(s"host: ${RmManager.getCurrentUserInfo().isHost.get},req Status: ${msg.status}")
         if (RmManager.getCurrentUserInfo().isHost.get && msg.status){//自己是主持人而且是请求发言
-          ConfirmDialog(context.getStage,s"${msg.userName} 用户请求发言","您可以选择同意或者拒绝",()=>{
+          ConfirmDialog(context.getStage,s"${msg.userName} 用户请求发言","您可以选择同意或者拒绝","同意","拒绝",()=>{
             //给后端发送同意
             rmManager ! Appoint4HostReply(msg.userId,status = true)
           },()=>{
@@ -508,6 +508,17 @@ class GeekHostController(
 
         //更新界面
         updateWhenUserList()
+
+
+      case msg:HostCloseRoom =>
+        log.info(s"receive:$msg")
+        if (!RmManager.getCurrentUserInfo().isHost.get){//自己不是主持人，主持人退出了会出现一个弹窗
+          ConfirmDialog(context.getStage,s"主持人退出房间","您即将退出房间","确定","确定",()=>{
+            rmManager ! BackToHome
+          },()=>{
+            rmManager ! BackToHome
+          }).show()
+        }
 
 
 

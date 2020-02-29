@@ -16,8 +16,10 @@ import org.slf4j.LoggerFactory
 case class ConfirmDialog(
   stage: Stage,
   title: String,
-  content:String,
-  confirmAction:()=>Unit,
+  content: String,
+  yesText: String,
+  noText: String,
+  confirmAction: ()=>Unit,
   refuseAction: ()=>Unit
 ){
   private val log = LoggerFactory.getLogger(this.getClass)
@@ -44,8 +46,8 @@ case class ConfirmDialog(
         alert.initModality(Modality.NONE)
 
 
-        val confirmButton = new JFXButton("同意")
-        val refuseButton = new JFXButton("拒绝")
+        val confirmButton = new JFXButton(yesText)
+        val refuseButton = new JFXButton(noText)
 
         confirmButton.getStyleClass.add("dialog-accept")
         refuseButton.getStyleClass.add("dialog-accept")
