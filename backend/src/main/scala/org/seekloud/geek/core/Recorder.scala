@@ -227,7 +227,7 @@ object Recorder {
           val newShield = if (status) {
             shieldMap.map { s =>
               if (s._1 != liveId) (s._1, State(s._2.image, audio = false))
-              else (s._1, State(image = true, audio = false))
+              else (s._1, State(image = true, audio = true))
             }
           }
           else {
