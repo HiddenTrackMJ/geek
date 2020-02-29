@@ -145,7 +145,7 @@ object LiveManager {
           Behaviors.same
 
         case StopPush =>
-          log.info(s"LiveManager stop pusher!")
+          log.info(s"LiveManager stop pusher!停止推流")
           captureActor.get ! StopEncode(EncoderType.RTMP)
           Behaviors.same
 

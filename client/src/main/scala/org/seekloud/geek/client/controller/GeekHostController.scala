@@ -708,6 +708,8 @@ class GeekHostController(
     //大背景改成黑色的
     Boot.addToPlatform{
       gc.drawImage(new Image("scene/img/bg.jpg"),0,0,gc.getCanvas.getWidth,gc.getCanvas.getHeight)
+      //画5个框等待加入的框
+
     }
   }
 
