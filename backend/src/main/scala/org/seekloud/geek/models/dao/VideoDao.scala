@@ -94,14 +94,28 @@ object VideoDao {
     db.run(q)
   }
 
+//  def getInviteDetail_new(inviterId:Long,inviteeId:Long) = {
+////    val q = tVideo.filter(_.userid ===inviterId ).filter(_.invitation === inviteeId).distinctOn(_.roomid).result
+//    val q=for {
+//      a<-tVideo.filter(_.userid ===inviterId ).filter(_.invitation === inviteeId).distinctOn(_.roomid).result
+////      d<-tVideo.filter(_.userid ===inviterId ).filter(_.invitation === inviteeId).distinctOn(_.roomid).result
+//      c <-tVideo ++= a.map(d=>rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,d.invitation,d.filename))
+//      d <- a.map(r=>tVideo.filter(_.roomid === r.roomid).result)
+//    } yield (a,d,c)
+//
+//    db.run(q)
+//  }
+
+
   def getInviteDetail(inviterId:Long,inviteeId:Long) = {
-    val q = tVideo.filter(_.userid ===inviterId ).filter(_.invitation === inviteeId).distinctOn(_.roomid).result
+    val q = tVideo.filter(_.userid ===inviterId ).filter(_.invitation === inviteeId).distinctOn(r=>r.roomid).result
     db.run(q)
   }
-  def getInviteDetail2(roomId:Long) = {
-    val q = tVideo.filter(_.roomid===roomId).distinctOn(_.filename).result
-    db.run(q)
-  }
+
+//  def getInviteDetail2(roomId:Long) = {
+//    val q = tVideo.filter(_.roomid===roomId).distinctOn(_.filename).result
+//    db.run(q)
+//  }
 
 
   def searchInvitee(inviteeName: String) = {
@@ -115,7 +129,7 @@ object VideoDao {
   def addInvitee(inviterId: Long,roomId:Long,inviteeId: Long) = {
     //在roomid相应的所有的不同filename，都复制一行
     val q=for {
-      a<-tVideo.filter(_.roomid ===roomId ).filter(_.invitation===inviterId).filter(_.comment==="").result
+      a<-tVideo.filter(_.roomid ===roomId ).filter(_.userid===inviterId).filter(_.comment==="").result
       c <-tVideo ++= a.map(d=>rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,inviteeId,""))
     } yield a
     db.run(q)
@@ -168,9 +182,9 @@ object VideoDao {
 //      tVideo.filter(_.invitation === id).result
 //    }
 
-  def delInvitee(inviterId: Long,inviteeId :Long) =
+  def delInvitee(inviterId: Long,inviteeId :Long,roomId:Long) =
     db.run{
-      tVideo.filter(_.userid === inviterId).filter(_.invitation === inviteeId).delete
+      tVideo.filter(_.userid === inviterId).filter(_.invitation === inviteeId).filter(_.roomid===roomId).delete
     }
 
 }

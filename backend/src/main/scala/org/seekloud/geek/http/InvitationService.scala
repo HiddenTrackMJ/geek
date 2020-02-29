@@ -11,7 +11,7 @@ import akka.actor.typed.scaladsl.AskPattern._
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.ws.Message
 import org.seekloud.geek.models.dao.{UserDao, VideoDao}
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{CheckInviteeReq, GetRoomInfoReq, InvitationReq, InvitationRsp, Inviter, InviterAndInviteeDetail, InviterAndInviteeReq, SignIn, SignInRsp, SignUp, SignUpRsp, addInviteeReq}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{CheckInviteeReq, GetRoomInfoReq, InvitationReq, InvitationRsp, Inviter, InviterAndInviteeAndRoomReq, InviterAndInviteeDetail, InviterAndInviteeDetailRsp, InviterAndInviteeReq, SignIn, SignInRsp, SignUp, SignUpRsp, addInviteeReq}
 import org.seekloud.geek.utils.SecureUtil
 import org.seekloud.geek.shared.ptcl.CommonErrorCode._
 import org.slf4j.LoggerFactory
@@ -109,7 +109,7 @@ trait InvitationService extends BaseService{
 //  }
 
   private def delInvitee = (path("delInvitee") & post){
-    entity(as[Either[Error, InviterAndInviteeReq]]) {
+    entity(as[Either[Error, InviterAndInviteeAndRoomReq]]) {
       case Right(user) =>
         dealFutureResult{
           println("delInvitee")
@@ -150,20 +150,11 @@ trait InvitationService extends BaseService{
         dealFutureResult{
           VideoDao.getInviteDetail(req.inviterId,req.inviteeId).map { rsp =>
             if (rsp != Vector()){
-              val a=rsp
-              val b:InviterAndInviteeDetail=InviterAndInviteeDetail(0,List.empty)
-              rsp.map{r=>
-                VideoDao.getInviteDetail2(r.roomid).map{rsp2=>
-                  val a2=rsp2.toList
-
-                }
-
-              }
-              complete(ErrorRsp(1000045, "没有被邀请"))
+              val data = rsp.map(r=>InviterAndInviteeDetail(r.roomid)).toSet.toList
+              complete(InviterAndInviteeDetailRsp(data))
             }
             else
               complete(ErrorRsp(1000045, "没有被邀请"))
-            complete(ErrorRsp(1000045, "没有被邀请"))
           }
 
         }
@@ -185,7 +176,7 @@ trait InvitationService extends BaseService{
             if(rsp1.nonEmpty) {
               dealFutureResult(
               VideoDao.searchInvitee2(rsp1.head.id,req.roomId).map{rsp2 =>
-                if(rsp2.isEmpty){println("可存入");VideoDao.addInvitee(req.inviterId,req.roomId,rsp1.head.id);complete(SuccessRsp)}
+                if(rsp2.isEmpty){println("可存入");println(req.inviterId+" "+req.roomId+" "+rsp1.head.id);VideoDao.addInvitee(req.inviterId,req.roomId,rsp1.head.id);complete(SuccessRsp)}
                 else {println(rsp2.head.id);complete(ErrorRsp(msg = "该用户已添加", errCode = 1000005))}
               }
               )
