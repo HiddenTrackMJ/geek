@@ -159,7 +159,7 @@ object Recorder {
     stream: String,
     pullLiveId:List[String],
     roomDealer: ActorRef[RoomDealer.Command],
-    online: List[Int],
+    online: List[String],
     host: String,
     recorder4ts: FFmpegFrameRecorder,
     ffFilter:  mutable.HashMap[Int, FFmpegFrameFilter],
@@ -210,8 +210,11 @@ object Recorder {
 
         case GrabberStopped(liveId) =>
           grabbers.-=(liveId)
+          shieldMap.-=(liveId)
           drawer ! DeleteImage4Others(liveId)
-          Behaviors.same
+          sampleRecorder ! DeleteSample4Others(liveId)
+          idle(roomId, hostId, stream, pullLiveId, roomDealer, online.filter(_ != liveId), host, recorder4ts, ffFilter, drawer, sampleRecorder, grabbers, indexMap, shieldMap, filterInUse)
+
 
         case Shield(liveId, image, audio) =>
           shieldMap.update(liveId, State(image, audio))
@@ -237,7 +240,7 @@ object Recorder {
 
         case UpdateRecorder(channel, sampleRate, f, width, height, liveId) =>
           peopleOnline += 1
-          val onlineNew = online :+ liveId.split("_").last.toInt
+          val onlineNew = online :+ liveId
           shieldMap.put(liveId, State(image = true, audio = true))
           log.info(s"$roomId updateRecorder channel:$channel, sampleRate:$sampleRate, frameRate:$f, width:$width, height:$height")
           if(liveId == host) {
