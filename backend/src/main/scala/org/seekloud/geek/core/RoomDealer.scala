@@ -293,10 +293,12 @@ object RoomDealer {
                   case Success(u) =>
                     u match {
                       case Some(user) =>
+                        println(s"newInfo1: $wholeRoomInfo")
                         val newUser = UserInfo(user.id, user.name, user.avatar.getOrElse(""), isHost = Some(false))
-                        val newInfo = wholeRoomInfo.copy(userList = wholeRoomInfo.userList :+ newUser)
-                        println(s"newInfo: $newInfo")
-                        dispatch(subscribe)(WsProtocol.GetRoomInfoRsp(newInfo))
+                        val newInfo = wholeRoomInfo.copy(userList = wholeRoomInfo.userList ::: List(newUser))
+                        wholeRoomInfo.userList = wholeRoomInfo.userList :+ newUser
+                        println(s"newInfo2: $newInfo")
+                        dispatch(subscribe)(WsProtocol.GetRoomInfoRsp(wholeRoomInfo))
 
                       case _ =>
                         dispatch(subscribe)(WsProtocol.GetRoomInfoRsp(wholeRoomInfo))
