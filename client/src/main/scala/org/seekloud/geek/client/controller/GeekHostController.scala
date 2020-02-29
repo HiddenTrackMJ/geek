@@ -17,7 +17,7 @@ import org.seekloud.geek.client.common.AppSettings.config
 import org.seekloud.geek.client.common.Constants.{AllowStatus, CommentType, DeviceStatus, HostStatus}
 import org.seekloud.geek.client.common.{Constants, StageContext}
 import org.seekloud.geek.client.component._
-import org.seekloud.geek.client.core.HostUIManager.{HostUICommand, UpdateUserListPaneUI}
+import org.seekloud.geek.client.core.HostUIManager.{HostUICommand, UpdateModeUI, UpdateUserListPaneUI}
 import org.seekloud.geek.client.core.RmManager._
 import org.seekloud.geek.client.core.{HostUIManager, RmManager}
 import org.seekloud.geek.player.util.GCUtil
@@ -64,7 +64,7 @@ class GeekHostController(
   @FXML private var rootPane: AnchorPane = _
 
   //发言模式相关
-  @FXML private var mode_label: Label = _ //当前发言状态
+  @FXML var mode_label: Label = _ //当前发言状态
   @FXML private var allow_label: Label = _ //用户自己的发言状态
   @FXML private var allow_button: JFXRippler = _ //申请发言按钮
   @FXML private var allow_icon: FontIcon = _ //用户的申请发言图标
@@ -131,6 +131,7 @@ class GeekHostController(
 
   def updateAllowUI() = {
     Boot.addToPlatform{
+
       if (RmManager.getCurrentUserInfo().isHost.get){
         //房主将这个按钮透明度降低
         allow_button.setOpacity(0.3)
@@ -153,34 +154,29 @@ class GeekHostController(
 
   //更新当前的模式状态的UI
   def updateModeUI() = {
-    Boot.addToPlatform{
-      //根据当前所有用户的发言状态，如果没有在申请发言，则为自由发言状态，反之为申请发言状态
-      log.info("updateModeUI"+RmManager.roomInfo.get.userList)
 
-      if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
-        //当前是申请发言状态
-        mode_label.setText("申请发言")
-        if (RmManager.roomInfo.get.modeStatus == ModeStatus.FREE){
+
+    val originModeStatus = RmManager.roomInfo.get.modeStatus
+
+
+    if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
+      RmManager.roomInfo.get.modeStatus = ModeStatus.ASK
+    }else{
+      RmManager.roomInfo.get.modeStatus = ModeStatus.FREE
+    }
+
+    if (originModeStatus != RmManager.roomInfo.get.modeStatus){
+      RmManager.roomInfo.get.modeStatus match {
+        case ModeStatus.ASK =>
           SnackBar.show(centerPane,"当前会议切换到「申请发言模式」")
-        }
-        RmManager.roomInfo.get.modeStatus = ModeStatus.ASK
-      }else{
-        //当前是自由发言状态
-        mode_label.setText("自由发言")
-        if (RmManager.roomInfo.get.modeStatus == ModeStatus.ASK){
+        case ModeStatus.FREE =>
           SnackBar.show(centerPane,"当前会议切换到「自由发言模式」")
-        }
-        RmManager.roomInfo.get.modeStatus = ModeStatus.FREE
-      }
-
-      if (RmManager.getCurrentUserInfo().isAllow.get){
-        allowStatus = AllowStatus.ALLOW
-      }else{
-        allowStatus = AllowStatus.NOT_ALLOW
       }
     }
     RmManager.calUserListPosition()//先计算发言的状态，再重新计算用户在界面中的顺序
-    updateAllowUI()
+
+    hostUIManager ! UpdateModeUI()
+
   }
 
 
@@ -342,11 +338,6 @@ class GeekHostController(
     //todo 优化性能
     val paneList = createUserListPane()
     hostUIManager ! UpdateUserListPaneUI(paneList)
-//    Boot.addToPlatform{
-//      //修改整个list
-//      userJList.getItems.removeAll(userJList.getItems)
-//      userJList.getItems.addAll(paneList:_*)
-//    }
 
   }
 
@@ -398,6 +389,7 @@ class GeekHostController(
 
   //当userList数据更新，需要更新的界面
   def updateWhenUserList() = {
+    log.info("updateWhenUserList 更新")
     updateUserList()
     updateModeUI()
   }
@@ -506,7 +498,8 @@ class GeekHostController(
           }else{
             SnackBar.show(centerPane,s"${msg.userName}取消成为发言人")
           }
-
+          //发言人切换后，界面需要刷新一下
+          resetBack()
           updateWhenUserList()
         }else{
           //不需要修改，可能这个用户已经退出会议厅了
@@ -639,7 +632,7 @@ class GeekHostController(
 
     }
     updateMicUI()
-    updateUserList()
+//    updateUserList()
 
   }
 
@@ -667,7 +660,7 @@ class GeekHostController(
     }
 
     updateVideoUI()
-    updateUserList()
+//    updateUserList()
 
   }
 

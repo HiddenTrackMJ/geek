@@ -44,7 +44,7 @@ object RmManager {
   def calUserListPosition() ={
 //    log.info("重新计算成员的图像的顺序")
     var x = 1
-//    log.info("当前的方言状态：" + roomInfo.get.modeStatus)
+    log.info("当前的发言状态：" + roomInfo.get.modeStatus)
     roomInfo.get.userList.foreach{
       user=>
         if (roomInfo.get.modeStatus == ModeStatus.FREE){
@@ -63,6 +63,7 @@ object RmManager {
           }
         }
     }
+    log.info("排序后的userlist:" + roomInfo.get.userList)
 
   }
   def getCurrentUserInfo(): UserInfo = {
