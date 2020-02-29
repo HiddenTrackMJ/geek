@@ -55,6 +55,8 @@ object Recorder {
 
   case object CloseRecorder extends Command
 
+  case object StoreOver extends Command
+
   case class NewFrame(liveId: String, frame: Frame) extends Command
 
   case class Shield(liveId: String, image: Boolean, audio: Boolean) extends Command
@@ -222,7 +224,7 @@ object Recorder {
           val newShield = if (status) {
             shieldMap.map { s =>
               if (s._1 != liveId) (s._1, State(s._2.image, audio = false))
-              else s
+              else (s._1, State(image = true, audio = false))
             }
           }
           else {
@@ -300,19 +302,23 @@ object Recorder {
             }else{
               log.info(s"no record for roomId:${roomId} and startTime:${video.timestamp}")
             }
-            Thread.sleep(2000)
+            //Thread.sleep(2000)
             //            roomDealer ! RoomDealer.StoreVideo(video)
           } catch {
             case e: Exception =>
-              log.error(s"$roomId recorder close error ---")
+              log.error(s"$roomId record stored error, ${e.getMessage}")
           }
+          timer.startSingleTimer("StoreOver", StoreOver, 5.seconds)
+          Behaviors.same
+
+        case StoreOver =>
           Behaviors.stopped
 
         case StopRecorder(msg) =>
           log.info(s"recorder-$roomId stop because $msg")
           sampleRecorder ! CloseSample
           drawer ! Close
-          timer.startSingleTimer(TimerKey4Close, CloseRecorder, 5.seconds)
+          timer.startSingleTimer(TimerKey4Close, CloseRecorder, 10.seconds)
           Behaviors.same
 
         case x@_ =>

@@ -4,7 +4,9 @@ import org.seekloud.geek.models.SlickTables._
 import org.seekloud.geek.utils.DBUtil.db
 import org.seekloud.geek.utils.DBUtil.driver.api._
 import org.seekloud.geek.Boot.executor
+
 import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 /**
  * Author: Jason
@@ -117,7 +119,31 @@ object VideoDao {
     db.run(q)
   }
 
-  def getComment(roomid:Long,filename:String)  = {
+  def search (inviteeName: String, roomId: Long) = {
+    val q = {
+      tUser.filter(_.name === inviteeName) join tVideo.filter(_.roomid === roomId) on { (user, video) =>
+        user.id === video.invitation
+        }
+    }.result
+    db.run(q)
+  }
+
+  def aaa (inviteeName: String, roomId: Long) = {
+    val q=for {
+      a <- tUser.filter(_.name === inviteeName).result.headOption
+      c <- {
+        if (a.nonEmpty) {
+          tVideo.filter(i => i.roomid === roomId && i.invitation === a.get.id)
+        }
+        else {
+          tVideo.filter(i => i.roomid === -1L)
+          }
+      }.result
+    } yield (a, c)
+    db.run(q)
+  }
+
+  def getComment(roomid:Long,filename:String)   = {
 //    val q=tVideo.filter(_.roomid===roomid).filter(_.filename===filename).result
     val q = tUser join tVideo.filter(_.roomid===roomid).filter(_.filename===filename) on{
       (t1,t2)=>
@@ -169,4 +195,10 @@ object VideoDao {
       tVideo.filter(_.userid === inviterId).filter(_.invitation === inviteeId).delete
     }
 
+  def main(args: Array[String]): Unit = {
+    aaa("qlh", 1418).onComplete{
+      case Success(value) => println(value)
+      case Failure(exception) =>  println(exception)
+    }
+  }
 }

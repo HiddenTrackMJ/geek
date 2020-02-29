@@ -97,7 +97,6 @@ class GeekHostController(
     }
   }
 
-
   //申请发言按钮点击
   def allowClick()= {
     //非主持人才可以申请发言

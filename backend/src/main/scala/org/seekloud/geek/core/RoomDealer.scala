@@ -225,8 +225,9 @@ object RoomDealer {
           }
           Behaviors.same
 
+
         case msg: ChangePossession =>
-          log.info(s"change possession roomId-${wholeRoomInfo.roomId}, userId-${msg.roomDetailInfo.roomUserInfo.userId}")
+          log.info(s"change possession roomId-${wholeRoomInfo.roomId}, userId-${wholeRoomInfo.userId} to new user ${msg.roomDetailInfo.roomUserInfo.userId}")
           var newWholeInfo = wholeRoomInfo
           UserDao.searchById(msg.roomDetailInfo.roomUserInfo.userId).onComplete {
             case Success(u) =>
@@ -237,11 +238,14 @@ object RoomDealer {
                 case _ =>
                   dispatchTo(subscribe)(List(wholeRoomInfo.userId), WsProtocol.ChangeErrorRsp("This user doesn't exist"))
               }
+              ctx.self ! SwitchBehavior("idle", idle(msg.roomDetailInfo, newWholeInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen))
+
             case Failure(e) =>
               dispatchTo(subscribe)( List(wholeRoomInfo.userId), WsProtocol.ChangeErrorRsp("This user doesn't exist"))
+              ctx.self ! SwitchBehavior("idle", idle(msg.roomDetailInfo, newWholeInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen))
           }
+          switchBehavior(ctx, "busy", busy(), InitTime, TimeOut("busy"))
 
-          idle(msg.roomDetailInfo, newWholeInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StoreVideo =>
           def fun(): Unit ={
@@ -469,7 +473,7 @@ object RoomDealer {
         Behaviors.same
 
       case msg: WsProtocol.Appoint4ClientReq =>
-        log.info(s"appoint req room-${msg.roomId}, user-${msg.userId}")
+        log.info(s"appoint req room-${msg.roomId}, user-${msg.userId}, host-${wholeRoomInfo.userId}")
         if (msg.status)
           dispatchTo(List(wholeRoomInfo.userId), msg)
         else {
@@ -483,16 +487,6 @@ object RoomDealer {
         }
         Behaviors.same
 
-
-
-      case ChangeLiveMode(isConnectOpen, aiMode, screenLayout) =>
-        val connect = isConnectOpen match {
-          case Some(v) => v
-          case None => isJoinOpen
-        }
-        val liveList = liveInfoMap.toList.sortBy(_._1).flatMap(r => r._2).map(_._2.liveId)
-        dispatchTo(List(wholeRoomInfo.userId), ChangeModeRsp())
-        idle(roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribers, liker, startTime, totalView, connect)
 
       case JoinAccept(`roomId`, userId4Audience, clientType, accept) =>
         log.debug(s"${ctx.self.path} 接受连线者请求，roomId=$roomId")
