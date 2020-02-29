@@ -74,6 +74,10 @@ testMap
     println(a.map(t=>A(t)).toList)
 
   }
+
+  def testHead: Unit ={
+
+  }
 //  def getVideoDuration(filePath: String) ={
 //    val ffprobe = Loader.load(classOf[org.bytedeco.ffmpeg.ffprobe])
 //    //容器时长（container duration）

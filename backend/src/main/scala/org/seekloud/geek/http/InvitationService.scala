@@ -164,6 +164,33 @@ trait InvitationService extends BaseService{
     }
   }
 
+//  private def addInvitee = (path("addInvitee") & post){
+//    //搜索被邀请人是否存在，不存在返回空表；其次搜索邀请人在目标房间是否邀请被邀请人，不存在则存入，存在则返回错误
+//    entity(as[Either[Error, addInviteeReq]]) {
+//      case Right(req) =>
+//        dealFutureResult(
+//          VideoDao.searchInvitee_new(req.inviteeName,req.roomId).map { rsp =>
+//            if (rsp.nonEmpty){
+//              if(rsp.head._2 == null){
+//                println("可存入")
+//                VideoDao.addInvitee(req.inviterId,req.roomId,rsp.head._1.id)
+//                complete(SuccessRsp)
+//              }else
+//                {
+//                  println(rsp.head._2)
+//                  complete(ErrorRsp(msg = "用户不能重复邀请", errCode = 1000005))
+//                }
+//
+//            }else
+//              complete(ErrorRsp(msg = "该用户不存在", errCode = 1000005))
+//
+//          }
+//        )
+//      case Left(error) =>
+//        log.warn(s"error in updateAvatar: $error")
+//        complete(ErrorRsp(msg = "json parse error.1", errCode = 1000005))
+//    }
+//  }
 
 
   private def addInvitee = (path("addInvitee") & post){

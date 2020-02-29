@@ -112,6 +112,17 @@ object VideoDao {
     db.run(q)
   }
 
+//  def getInviteDetail2(inviterId:Long,inviteeId:Long) = {
+//    val q = tVideo join tVideo.filter(_.userid ===inviterId ).filter(_.invitation === inviteeId)on {
+//      (t1, t2) =>
+//        List(t1.id === t2.invitation).reduceLeft(_ || _)
+//    }
+//    val innerJoin = for {
+//          (inviteeName, inviteeId) <- q
+//        } yield (inviteeName,inviteeId)
+//    db.run(q)
+//  }
+
 //  def getInviteDetail2(roomId:Long) = {
 //    val q = tVideo.filter(_.roomid===roomId).distinctOn(_.filename).result
 //    db.run(q)
@@ -126,6 +137,17 @@ object VideoDao {
     val q = tVideo.filter(_.invitation ===inviteeId ).filter(_.roomid === roomId).result
     db.run(q)
   }
+
+  def searchInvitee_new(inviteeName: String,roomId:Long) = {
+    val q = {
+      tUser.filter(_.name === inviteeName) join tVideo.filter(_.roomid===roomId) on { (user, video) =>
+        user.id === video.invitation
+
+      }
+    }.result
+    db.run(q)
+  }
+
   def addInvitee(inviterId: Long,roomId:Long,inviteeId: Long) = {
     //在roomid相应的所有的不同filename，都复制一行
     val q=for {
