@@ -114,7 +114,7 @@ class GeekHostController(
             allowStatus = AllowStatus.NOT_ALLOW
         }
       }else{
-        SnackBar.show(rootPane,"您没有开启会议，无法申请发言")
+        SnackBar.show(centerPane,"您没有开启会议，无法申请发言")
       }
 
     }else{//提示消息：房主可以直接在成员列表中点击手掌图标指定某人发言（包括自己）
