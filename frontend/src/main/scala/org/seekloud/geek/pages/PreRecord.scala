@@ -51,10 +51,10 @@ class PreRecord(c:String) extends Page{
     case list =>{<div class="courseContainer" >
       {list.map { l =>
 
-        <div class="courseItem" onclick={()=>}>
+        <div class="courseItem" onclick={()=>checkInvAndSkip(l.roomId,l.fileName);()}>
           <img class="courseItem-img" src={Route.imgPath("videoCover/video"+l.fileName.takeRight(5).replaceAll("mp4","png"))}></img>
           <div style="padding:0 20px">
-            <div class="courseItem-title" onclick={() => checkInvAndSkip(l.roomId,l.fileName);()}>
+            <div class="courseItem-title" onclick={() => ()}>
               <div class="courseItem-name">
                 {l.fileName}
               </div>

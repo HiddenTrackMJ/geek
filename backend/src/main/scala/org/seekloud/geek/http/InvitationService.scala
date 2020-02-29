@@ -164,51 +164,25 @@ trait InvitationService extends BaseService{
     }
   }
 
-//  private def addInvitee = (path("addInvitee") & post){
-//    //搜索被邀请人是否存在，不存在返回空表；其次搜索邀请人在目标房间是否邀请被邀请人，不存在则存入，存在则返回错误
-//    entity(as[Either[Error, addInviteeReq]]) {
-//      case Right(req) =>
-//        dealFutureResult(
-//          VideoDao.searchInvitee_new(req.inviteeName,req.roomId).map { rsp =>
-//            if (rsp.nonEmpty){
-//              if(rsp.head._2 == null){
-//                println("可存入")
-//                VideoDao.addInvitee(req.inviterId,req.roomId,rsp.head._1.id)
-//                complete(SuccessRsp)
-//              }else
-//                {
-//                  println(rsp.head._2)
-//                  complete(ErrorRsp(msg = "用户不能重复邀请", errCode = 1000005))
-//                }
-//
-//            }else
-//              complete(ErrorRsp(msg = "该用户不存在", errCode = 1000005))
-//
-//          }
-//        )
-//      case Left(error) =>
-//        log.warn(s"error in updateAvatar: $error")
-//        complete(ErrorRsp(msg = "json parse error.1", errCode = 1000005))
-//    }
-//  }
-
-
   private def addInvitee = (path("addInvitee") & post){
     //搜索被邀请人是否存在，不存在返回空表；其次搜索邀请人在目标房间是否邀请被邀请人，不存在则存入，存在则返回错误
     entity(as[Either[Error, addInviteeReq]]) {
       case Right(req) =>
         dealFutureResult(
-          VideoDao.searchInvitee(req.inviteeName).map { rsp1 =>
+          VideoDao.searchInvitee_new(req.inviteeName,req.roomId).map { rsp =>
+            if (rsp._1.nonEmpty){
+              if(rsp._2.isEmpty){
+                println("可存入")
+                VideoDao.addInvitee(req.inviterId,req.roomId,rsp._1.head.id)
+                complete(SuccessRsp)
+              }else
+                {
+                  println(rsp._2)
+                  complete(ErrorRsp(msg = "用户不能重复邀请", errCode = 1000005))
+                }
+            }else
+              complete(ErrorRsp(msg = "该用户不存在", errCode = 1000005))
 
-            if(rsp1.nonEmpty) {
-              dealFutureResult(
-              VideoDao.searchInvitee2(rsp1.head.id,req.roomId).map{rsp2 =>
-                if(rsp2.isEmpty){println("可存入");println(req.inviterId+" "+req.roomId+" "+rsp1.head.id);VideoDao.addInvitee(req.inviterId,req.roomId,rsp1.head.id);complete(SuccessRsp)}
-                else {println(rsp2.head.id);complete(ErrorRsp(msg = "该用户已添加", errCode = 1000005))}
-              }
-              )
-            }
-            else {complete(ErrorRsp(msg = "该用户不存在", errCode = 1000005))}
           }
         )
       case Left(error) =>
@@ -216,6 +190,31 @@ trait InvitationService extends BaseService{
         complete(ErrorRsp(msg = "json parse error.1", errCode = 1000005))
     }
   }
+
+
+//  private def addInvitee = (path("addInvitee") & post){
+//    //搜索被邀请人是否存在，不存在返回空表；其次搜索邀请人在目标房间是否邀请被邀请人，不存在则存入，存在则返回错误
+//    entity(as[Either[Error, addInviteeReq]]) {
+//      case Right(req) =>
+//        dealFutureResult(
+//          VideoDao.searchInvitee(req.inviteeName).map { rsp1 =>
+//
+//            if(rsp1.nonEmpty) {
+//              dealFutureResult(
+//              VideoDao.searchInvitee2(rsp1.head.id,req.roomId).map{rsp2 =>
+//                if(rsp2.isEmpty){println("可存入");println(req.inviterId+" "+req.roomId+" "+rsp1.head.id);VideoDao.addInvitee(req.inviterId,req.roomId,rsp1.head.id);complete(SuccessRsp)}
+//                else {println(rsp2.head.id);complete(ErrorRsp(msg = "该用户已添加", errCode = 1000005))}
+//              }
+//              )
+//            }
+//            else {complete(ErrorRsp(msg = "该用户不存在", errCode = 1000005))}
+//          }
+//        )
+//      case Left(error) =>
+//        log.warn(s"error in updateAvatar: $error")
+//        complete(ErrorRsp(msg = "json parse error.1", errCode = 1000005))
+//    }
+//  }
 
   val invitationRoutes: Route = pathPrefix("invitation") {
     getInviterList ~ getInviteeList ~ delInvitee  ~ addInvitee ~ checkInvitee ~ getInviteDetail

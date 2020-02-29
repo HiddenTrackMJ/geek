@@ -138,13 +138,18 @@ object VideoDao {
     db.run(q)
   }
 
-  def searchInvitee_new(inviteeName: String,roomId:Long) = {
-    val q = {
-      tUser.filter(_.name === inviteeName) join tVideo.filter(_.roomid===roomId) on { (user, video) =>
-        user.id === video.invitation
-
-      }
-    }.result
+  def searchInvitee_new (inviteeName: String, roomId: Long) = {
+    val q=for {
+      a <- tUser.filter(_.name === inviteeName).result.headOption
+      c <- {
+        if (a.nonEmpty) {
+          tVideo.filter(i => i.roomid === roomId && i.invitation === a.get.id)
+        }
+        else {
+          tVideo.filter(i => i.roomid === -1L)
+        }
+      }.result
+    } yield (a, c)
     db.run(q)
   }
 

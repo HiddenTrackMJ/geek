@@ -257,7 +257,7 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
   val background: Elem =
     <div style="height:auto;">
       <div style="position: static;left: 0;right: 0;top: 50%;text-align: center;" >
-        <div style="margin-left:3%;margin-right:3%;">
+        <div style="margin-left:1%;margin-right:1%;">
           <div class="x_content" >
             {
             roomIdData.map( l =>

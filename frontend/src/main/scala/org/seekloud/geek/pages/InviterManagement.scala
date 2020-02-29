@@ -137,7 +137,7 @@ object InviterManagement extends Page{
       </div>
     case info => <div class="row"><select id="modifyPeople" class="modify-people">
       {
-      info.map(r=>
+      info.sortBy(_.roomId).map(r=>
       <option>{r.roomId}</option>
       )
       }
