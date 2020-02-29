@@ -460,6 +460,7 @@ class GeekHostController(
 
       case msg:Appoint4ClientReq=>
         log.info(s"Appoint4ClientReq:$msg")
+        log.info(s"host: ${RmManager.getCurrentUserInfo().isHost.get},req Status: ${msg.status}")
         if (RmManager.getCurrentUserInfo().isHost.get && msg.status){//自己是主持人而且是请求发言
           ConfirmDialog(context.getStage,s"${msg.userName} 用户请求发言","您可以选择同意或者拒绝",()=>{
             //给后端发送同意
