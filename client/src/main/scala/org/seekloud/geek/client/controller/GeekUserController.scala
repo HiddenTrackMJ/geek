@@ -53,6 +53,7 @@ class GeekUserController(
     }else{
       username.setText(RmManager.userInfo.get.userName)
     }
+    log.info(s"头像地址:${Constants.getAvatarSrc(RmManager.userInfo.get.headImgUrl)}")
 
     avatar.setImage(new Image(Constants.getAvatarSrc(RmManager.userInfo.get.headImgUrl)))
 

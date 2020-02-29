@@ -148,10 +148,16 @@ class GeekHostController(
       if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
         //当前是申请发言状态
         mode_label.setText("申请发言")
+        if (RmManager.roomInfo.get.modeStatus == ModeStatus.FREE){
+          SnackBar.show(centerPane,"当前会议切换到「申请发言模式」")
+        }
         RmManager.roomInfo.get.modeStatus = ModeStatus.ASK
       }else{
         //当前是自由发言状态
         mode_label.setText("自由发言")
+        if (RmManager.roomInfo.get.modeStatus == ModeStatus.ASK){
+          SnackBar.show(centerPane,"当前会议切换到「自由发言模式」")
+        }
         RmManager.roomInfo.get.modeStatus = ModeStatus.FREE
       }
 
@@ -510,8 +516,8 @@ class GeekHostController(
         updateWhenUserList()
 
 
-      case msg:HostCloseRoom =>
-        log.info(s"receive:$msg")
+      case HostCloseRoom =>
+        log.info(s"receive：HostCloseRoom")
         if (!RmManager.getCurrentUserInfo().isHost.get){//自己不是主持人，主持人退出了会出现一个弹窗
           ConfirmDialog(context.getStage,s"主持人退出房间","您即将退出房间","确定","确定",()=>{
             rmManager ! BackToHome
@@ -519,8 +525,6 @@ class GeekHostController(
             rmManager ! BackToHome
           }).show()
         }
-
-
 
 
       case x =>

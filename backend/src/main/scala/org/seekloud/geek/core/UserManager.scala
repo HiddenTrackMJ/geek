@@ -93,9 +93,9 @@ object UserManager {
             UserDao.sigIn4Client(user.userName,user.password).map{
               rsp=>
                 if (rsp._1 nonEmpty){//直接登录成功没有注册
-                  replyTo ! SignInRsp(Some(UserInfo(rsp._1.get.id,rsp._1.get.name,"")),None,0,"恭喜你登录成功")
+                  replyTo ! SignInRsp(Some(UserInfo(rsp._1.get.id,rsp._1.get.name,rsp._1.get.avatar.getOrElse(""))),None,0,"恭喜你登录成功")
                 }else{//注册成功的
-                  replyTo ! SignInRsp(Some(UserInfo(rsp._2,user.userName,"")),None,0,"恭喜你注册成功")
+                  replyTo ! SignInRsp(Some(UserInfo(rsp._2,user.userName,rsp._1.get.avatar.getOrElse(""))),None,0,"恭喜你注册成功")
                 }
 
             }

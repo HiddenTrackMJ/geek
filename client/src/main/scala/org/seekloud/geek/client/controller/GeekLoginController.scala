@@ -54,7 +54,7 @@ class GeekLoginController(
 
     if (checkInfo){//信息不完整
       //弹框
-      SnackBar.show(rootPane,"信息不完整，粗心！")
+      SnackBar.show(rootPane,"信息不完整，请重新填写！")
 
     }else{//
       loading.showLoading()
@@ -66,6 +66,7 @@ class GeekLoginController(
             rmManager ! RmManager.SignInSuccess(rsp.userInfo, rsp.roomInfo)
             RmManager.userInfo = rsp.userInfo
 
+//            log.info("登录后")
             Boot.addToPlatform {
               loading.removeLoading()
               //显示登录后的用户界面
