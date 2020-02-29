@@ -422,6 +422,8 @@ class GeekHostController(
         if (user nonEmpty){
           user.get.isHost = Some(true)
         }
+        SnackBar.show(centerPane,s"${msg.userName}成为新的主持人")
+
         //更新界面
         updateWhenUserList()
 
@@ -489,6 +491,12 @@ class GeekHostController(
         val user = RmManager.getUserInfo(msg.userId)
         if (user nonEmpty){
           user.get.isAllow = Some(msg.status)
+          if (msg.status){
+            SnackBar.show(centerPane,s"${msg.userName}成为发言人")
+          }else{
+            SnackBar.show(centerPane,s"${msg.userName}取消成为发言人")
+          }
+
           updateWhenUserList()
         }else{
           //不需要修改，可能这个用户已经退出会议厅了
@@ -505,14 +513,31 @@ class GeekHostController(
 
         // 如果被封禁的userId是自己，需要修改底部功能条的样式并且调整摄像头、音频设置的关闭开启
         if (msg.userId == RmManager.userInfo.get.userId){//封禁的是自己
-          if ((micStatus==DeviceStatus.ON && !msg.isAudio) || (micStatus==DeviceStatus.OFF && msg.isAudio)){
+          if (micStatus==DeviceStatus.ON && !msg.isAudio){
             toggleMic()
+            if (msg.isForced){
+              SnackBar.show(centerPane,"您的语音被主持人关闭")
+            }
+          }
+          if (micStatus==DeviceStatus.OFF && msg.isAudio){
+            toggleMic()
+            if (msg.isForced){
+              SnackBar.show(centerPane,"您的语音被主持人开启")
+            }
           }
 
-          if ((videoStatus==DeviceStatus.ON && !msg.isImage) || (videoStatus==DeviceStatus.OFF && msg.isImage)){
+          if (videoStatus==DeviceStatus.ON && !msg.isImage){
             toggleVideo()
+            if (msg.isForced){
+              SnackBar.show(centerPane,"您的视频被主持人关闭")
+            }
           }
-
+          if (videoStatus==DeviceStatus.OFF && msg.isImage){
+            toggleVideo()
+            if (msg.isForced){
+              SnackBar.show(centerPane,"您的视频被主持人开启")
+            }
+          }
         }
 
         //自己或者别的用户交给rm统一处理
