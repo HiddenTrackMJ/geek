@@ -88,7 +88,7 @@ object RoomManager {
     roomUserInfo: RoomUserInfo,
     rtmpInfo: RtmpInfo,
     hostCode: String,
-    userLiveCodeMap: Map[String, Long],
+    var userLiveCodeMap: Map[String, Long],
     roomDealer: ActorRef[RoomDealer.Command]
   )
 
@@ -272,6 +272,7 @@ object RoomManager {
                       }
                       }.toMap
                   val roomNewInfo = roomOldInfo.copy(userLiveCodeMap = userCodeMap)
+                  rooms.update(roomId, roomNewInfo)
                   getRoomDealerOpt(roomId, ctx) match {
                     case Some(actor) => actor ! RoomDealer.StartLive4Client(roomNewInfo, msg.userId, selfCode)
                     case None => log.debug(s"${ctx.self.path} StartLive4Client，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
@@ -306,7 +307,8 @@ object RoomManager {
                     if (selfCodeOpt.isDefined) {
                       selfCodeOpt.foreach{ r =>
                         getRoomDealerOpt(roomId, ctx)match{
-                          case Some(actor) =>actor !  RoomDealer.StopLive4Client(roomOldInfo, msg.userId, r._1)
+                          case Some(actor) =>
+                            actor !  RoomDealer.StopLive4Client(roomOldInfo, msg.userId, r._1)
                           case None => log.debug(s"${ctx.self.path} StopLive4ClientReq，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
                         }
                       }
