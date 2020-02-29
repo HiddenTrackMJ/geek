@@ -510,7 +510,7 @@ object Recorder {
             //            println(s"$liveId timeStamp: ${frame.timestamp}")
             if (ffFilter.nonEmpty) {
               //              println(online.size, shieldMap.count(_._2.audio) )
-              if (isOne) {
+              if (isOne || shieldMap.count(_._2.audio) == 1) {
                 //                println(2, ffFilter)
                 try {
                   clientFrame.frame.toList.filter(i => i._2._2.nonEmpty && shieldMap.filter(_._2.audio).contains(i._1)).sortBy(_._2._1).foreach {
