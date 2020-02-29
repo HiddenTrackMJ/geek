@@ -273,7 +273,7 @@ object RoomManager {
                       }.toMap
                   val roomNewInfo = roomOldInfo.copy(userLiveCodeMap = userCodeMap)
                   getRoomDealerOpt(roomId, ctx) match {
-                    case Some(actor) =>actor ! RoomDealer.StartLive4Client(roomNewInfo, msg.userId, selfCode)
+                    case Some(actor) => actor ! RoomDealer.StartLive4Client(roomNewInfo, msg.userId, selfCode)
                     case None => log.debug(s"${ctx.self.path} StartLive4Client，房间不存在，有可能该用户是主播等待房间开启，房间id=$roomId,用户id=$userId")
                   }
 //                  if (roomOldInfo.userLiveCodeMap.exists(_._2 == msg.userId)) {
@@ -443,7 +443,6 @@ object RoomManager {
           Behaviors.same
 
         case JoinRoom(req, rsp) =>
-          assert(rooms.contains(req.roomId))
           val roomOldInfo = rooms(req.roomId)
           RoomDao.updateUserCodeMap(req.roomId, roomOldInfo.userLiveCodeMap.asJson.noSpaces).onComplete{
             case Success(_) =>
