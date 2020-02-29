@@ -199,7 +199,7 @@ class GeekHostController(
 
 
         case DeviceStatus.ON =>
-          log.info("摄像头准备好了")
+//          log.info("摄像头准备好了")
           video_label.setText("关闭摄像头")
           video.setIconLiteral("fas-video")
           video.setIconColor(Color.WHITE)
@@ -557,6 +557,7 @@ class GeekHostController(
     micStatus match {
       case DeviceStatus.ON =>
         //关闭音频
+        log.info("关闭音频")
         micStatus = DeviceStatus.OFF
         RmManager.getCurrentUserInfo().isMic = Some(false)
         rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
@@ -564,6 +565,7 @@ class GeekHostController(
 
       case DeviceStatus.OFF =>
         //开启音频
+        log.info("开启音频")
         micStatus = DeviceStatus.ON
         RmManager.getCurrentUserInfo().isMic = Some(true)
         rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
@@ -583,13 +585,15 @@ class GeekHostController(
     videoStatus match {
       case DeviceStatus.ON =>
         // 关闭摄像头
+        log.info("关闭摄像头")
         videoStatus = DeviceStatus.OFF
         RmManager.getCurrentUserInfo().isVideo = Some(false)
         rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
           isImage = false ,isAudio = if (micStatus == DeviceStatus.ON) true else false))
 
       case DeviceStatus.OFF =>
-        // todo开启摄像头
+        // 开启摄像头
+        log.info("开启摄像头")
         videoStatus = DeviceStatus.ON
         RmManager.getCurrentUserInfo().isVideo = Some(true)
         rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,

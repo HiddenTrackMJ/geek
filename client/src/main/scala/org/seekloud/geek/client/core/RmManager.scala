@@ -42,9 +42,9 @@ object RmManager {
   //对当前的用户立碑的position进行排序
   //当用户列表变化了，房主切换了，发言人切换了，都需要重新计算一次position
   def calUserListPosition() ={
-    log.info("重新计算成员的图像的顺序")
+//    log.info("重新计算成员的图像的顺序")
     var x = 1
-    log.info("当前的方言状态：" + roomInfo.get.modeStatus)
+//    log.info("当前的方言状态：" + roomInfo.get.modeStatus)
     roomInfo.get.userList.foreach{
       user=>
         if (roomInfo.get.modeStatus == ModeStatus.FREE){
@@ -223,12 +223,15 @@ object RmManager {
           //修改推流的设置
 
           if (msg.userId == RmManager.userInfo.get.userId){
+            log.info("修改自己的音画配置")
             liveManager ! ChangeCaptureOption(msg.userId,msg.needImage,msg.needSound,()=>hostController.resetBack())
           }else{//关闭player的画面或者声音
+            log.info(s"修改别人${msg.userId}的player音画配置")
             if (!msg.needImage){
               mediaPlayer.pauseImage(msg.userId.toString)
             }else{
               mediaPlayer.continueImage(msg.userId.toString)
+              hostController.resetBack()//刷新一下界面
 
             }
             if (!msg.needSound){
@@ -384,6 +387,8 @@ object RmManager {
         case StopLiveSuccess =>
           //房主/或者自己（不是房主）退出会议
           log.info("房主/或者自己（不是房主）退出会议")
+          //停止推流
+          liveManager ! LiveManager.StopPush
           /*背景改变*/
           RmManager.isStart = false
           hostController.hostStatus = HostStatus.NOT_CONNECT
@@ -410,7 +415,7 @@ object RmManager {
             //停止拉该成员的流
             mediaPlayer.stop(userId.toString,()=>Unit)
             //重新刷新一下背景
-            liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostController.resetBack)
+            liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostController.resetBack)
             log.info(s"停止 ${userId} 用户的拉流")
           }
 

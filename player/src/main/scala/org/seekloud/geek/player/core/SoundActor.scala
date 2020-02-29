@@ -3,6 +3,7 @@ package org.seekloud.geek.player.core
 import akka.actor.typed.scaladsl.{Behaviors, TimerScheduler}
 import akka.actor.typed.{ActorRef, Behavior}
 import javax.sound.sampled.{AudioFormat, AudioSystem, SourceDataLine}
+import org.seekloud.geek.player.core.ImageActor.ImageCmd
 import org.seekloud.geek.player.protocol.Messages.{AddSamples, SoundFinish}
 import org.slf4j.LoggerFactory
 
@@ -27,9 +28,9 @@ object SoundActor {
 
   trait SoundCmd
 
-  final case object PausePlaySound extends SoundCmd
+  final case object PausePlaySound extends SoundCmd with ImageCmd
 
-  final case object ContinuePlaySound extends SoundCmd
+  final case object ContinuePlaySound extends SoundCmd with ImageCmd
 
   final object TryPlaySoundTick extends SoundCmd
 
@@ -87,17 +88,21 @@ object SoundActor {
         log.info(s"SoundActor-$id got PausePlay.")
         timer.cancel(AUDIO_TIMER_KEY)
         log.info(s"SoundActor-$id cancel Sound Timer.")
+        imageActorOpt.foreach(_ ! PausePlaySound)
 //        sdl.drain()
         Behaviors.same
 
       case ContinuePlaySound =>
-        log.info(s"SoundActor-$id got ContinuePlay.")
-        log.info(s"start Sound Timer in SoundActor-$id.")
-        timer.startPeriodicTimer(
-          AUDIO_TIMER_KEY,
-          TryPlaySoundTick,
-          (1000 * nbSamples / sampleRate).millisecond
-        )
+        if (!timer.isTimerActive(AUDIO_TIMER_KEY)){
+          log.info(s"SoundActor-$id got ContinuePlay.")
+          log.info(s"start Sound Timer in SoundActor-$id.")
+          timer.startPeriodicTimer(
+            AUDIO_TIMER_KEY,
+            TryPlaySoundTick,
+            (1000 * nbSamples / sampleRate).millisecond
+          )
+          imageActorOpt.foreach(_ ! ContinuePlaySound)
+        }
         Behaviors.same
 
       case AddSamples(samples, ts) =>

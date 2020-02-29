@@ -154,6 +154,7 @@ object ClientCaptureActor {
           Behaviors.same
 
         case msg: StartEncode =>
+          log.info("StartEncode")
 //          msg.output match {
 //            case Right(outputStream) =>
 //              if (reqActor.nonEmpty) {
@@ -177,6 +178,7 @@ object ClientCaptureActor {
           Behaviors.same
 
         case msg: StopEncode =>
+          log.info("StopEncode")
 //          msg.encoderType match {
 //            case EncoderType.STREAM => reqActor.foreach(_ ! StopEncodeStream)
 //            case EncoderType.FILE => reqActor.foreach(_ ! StopEncodeFile)
@@ -186,6 +188,7 @@ object ClientCaptureActor {
           Behaviors.same
 
         case msg: SwitchMode =>
+          log.info("SwitchMode")
           drawActor.foreach(t =>t ! msg)
           //todo 关掉摄像头的drawer
 //          drawActor.foreach(_ ! StopDraw)

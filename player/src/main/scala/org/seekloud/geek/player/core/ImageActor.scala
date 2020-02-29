@@ -6,6 +6,7 @@ import javafx.application.Platform
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.image.Image
 import org.seekloud.geek.player.common.Constants
+import org.seekloud.geek.player.core.SoundActor.{ContinuePlaySound, PausePlaySound}
 import org.seekloud.geek.player.protocol.Messages._
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.seekloud.geek.player.util.GCUtil
@@ -82,7 +83,7 @@ object ImageActor {
       )
       timer.startPeriodicTimer(TimerKey4Count, Count, 1.seconds)
       //      hasTimer = true
-      playing(id, gc, playerGrabber, immutable.Queue[AddPicture](), 0, 0L, 0L, 0L)
+      playing(id, gc, playerGrabber, immutable.Queue[AddPicture](), 0, 0L, 0L, 0L,false)
     }
   }
 
@@ -95,12 +96,43 @@ object ImageActor {
     playedImages: Int,
     lastPlayTimeInWallClock: Long,
     ImagePlayedTime: Long,
-    audioPlayedTime: Long
+    audioPlayedTime: Long,
+    mute:Boolean  //false 表示开启声音，true表示静音
   )(
     implicit timer: TimerScheduler[ImageCmd]
   ): Behavior[ImageCmd] = Behaviors.receive { (ctx, msg) =>
 
     msg match {
+
+      case PausePlaySound =>
+        log.info("imageActor:PausePlaySound")
+        playing(
+          id,
+          gc,
+          playerGrabber,
+          queue,
+          playedImages,
+          lastPlayTimeInWallClock,
+          ImagePlayedTime,
+          audioPlayedTime,
+          mute = true
+        )
+
+
+      case ContinuePlaySound=>
+        log.info("imageActor:ContinuePlaySound")
+        playing(
+          id,
+          gc,
+          playerGrabber,
+          queue,
+          playedImages,
+          lastPlayTimeInWallClock,
+          ImagePlayedTime,
+          audioPlayedTime,
+          false
+        )
+
       case PausePlayImage =>
         //todo check detail 播放时长计算是否正确
         log.info(s"ImageActor-$id got PausePlay.")
@@ -119,13 +151,16 @@ object ImageActor {
         Behaviors.same
 
       case ContinuePlayImage =>
-        log.info(s"ImageActor-$id got ContinuePlay.")
-        log.info(s"start Image Timer in ImageActor-$id.")
-        timer.startPeriodicTimer(
-          FRAME_RATE_TIMER_KEY,
-          TryPlayImageTick,
-          (1000 / frameRate).millis
-        )
+        //如果正在播放就不用重新开始了
+        if (!timer.isTimerActive(FRAME_RATE_TIMER_KEY)){
+          log.info(s"start Image Timer in ImageActor-$id.")
+          log.info(s"ImageActor-$id got ContinuePlay.")
+          timer.startPeriodicTimer(
+            FRAME_RATE_TIMER_KEY,
+            TryPlayImageTick,
+            (1000 / frameRate).millis
+          )
+        }
         //        hasTimer = true
         Behaviors.same
 
@@ -143,7 +178,8 @@ object ImageActor {
           playedImages,
           lastPlayTimeInWallClock,
           ImagePlayedTime,
-          audioPlayedTime
+          audioPlayedTime,
+          mute
         )
 
       case AudioPlayedTimeUpdated(apt) =>
@@ -157,18 +193,20 @@ object ImageActor {
           playedImages,
           lastPlayTimeInWallClock,
           ImagePlayedTime,
-          apt
+          apt,
+          mute
         )
 
       case TryPlayImageTick =>
         //        playerGrabber ! PlayerGrabber.AskPicture(Left(ctx.self))
         //        Behaviors.same
+        log.info(s"TryPlayImageTick: $mute")
 
         if (queue.length < 2) playerGrabber ! PlayerGrabber.AskPicture(Left(ctx.self))
 
         //        debug(s"TryPlayTick: vt[$videoPlayedTime] - at[$audioPlayedTime] = ${videoPlayedTime - audioPlayedTime}, playedImages[$playedImages]")
 
-        if (needSound && hasAudio && ImagePlayedTime - audioPlayedTime > 50000) {
+        if (!mute && needSound && hasAudio && ImagePlayedTime - audioPlayedTime > 50000) {//音画不同步了
           //skip picture play, do nothing.
           //          println("skip image")
           Behaviors.same
@@ -178,7 +216,7 @@ object ImageActor {
           //            ctx.self ! TryPlayImageTick
           //          }
           if (queue.nonEmpty) {
-            if (needSound && hasAudio && (audioPlayedTime != Long.MaxValue) && audioPlayedTime - ImagePlayedTime > 50000) {
+            if (!mute && needSound && hasAudio && (audioPlayedTime != Long.MaxValue) && audioPlayedTime - ImagePlayedTime > 50000) {
               //            debug(s"audioPlayedTime: $audioPlayedTime, imagePlayedTime: $ImagePlayedTime, diff: ${audioPlayedTime - ImagePlayedTime}")
               //              println("quick run image")
               ctx.self ! TryPlayImageTick
@@ -193,10 +231,10 @@ object ImageActor {
               playedImages + 1,
               playTimeInWallClock,
               newImagePlayedTime,
-              audioPlayedTime
+              audioPlayedTime,
+              mute
             )
           } else {
-            //            println("ask image")
             playerGrabber ! PlayerGrabber.AskPicture(Left(ctx.self))
             //            log.warn(s"no pic in the imageQueue of ImageActor-$id!!!")
             Behaviors.same
@@ -241,6 +279,7 @@ object ImageActor {
       //id的值是当前拉流的用户userId
       val user =  MediaPlayer.roomInfo.get.userList.find(_.userId == id.toLong)
       if (user nonEmpty){
+//        log.info("画图")
         val position = user.get.position
         GCUtil.draw(gc,img,position)
       }else{
