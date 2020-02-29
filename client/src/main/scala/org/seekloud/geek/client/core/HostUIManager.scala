@@ -3,6 +3,7 @@ package org.seekloud.geek.client.core
 import akka.actor.typed.Behavior
 import akka.actor.typed.scaladsl.Behaviors
 import javafx.scene.layout.GridPane
+import org.seekloud.geek.client.Boot
 import org.seekloud.geek.client.common.StageContext
 import org.seekloud.geek.client.controller.GeekHostController
 import org.seekloud.geek.client.core.stream.LiveManager
@@ -30,10 +31,10 @@ object HostUIManager{
         msg match {
           case msg: UpdateUserListPaneUI=>
             log.info("收到createUserListPane")
-//            Boot.addToPlatform{
-//              host.userJList.getItems.removeAll(host.userJList.getItems)
-//              host.userJList.getItems.addAll(msg.list:_*)
-//            }
+            Boot.addToPlatform{
+              host.userJList.getItems.removeAll(host.userJList.getItems)
+              host.userJList.getItems.addAll(msg.list:_*)
+            }
             Behaviors.same
 
           case x =>

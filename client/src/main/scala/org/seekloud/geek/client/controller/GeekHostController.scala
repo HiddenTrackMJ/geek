@@ -1,6 +1,8 @@
 package org.seekloud.geek.client.controller
 
+import akka.actor.ActorSystem
 import akka.actor.typed.ActorRef
+import akka.actor.typed.scaladsl.adapter._
 import com.jfoenix.controls.{JFXListView, JFXRippler, JFXTextArea}
 import javafx.animation.AnimationTimer
 import javafx.fxml.FXML
@@ -11,11 +13,13 @@ import javafx.scene.layout._
 import javafx.scene.paint.Color
 import org.kordamp.ikonli.javafx.FontIcon
 import org.seekloud.geek.client.Boot
+import org.seekloud.geek.client.common.AppSettings.config
 import org.seekloud.geek.client.common.Constants.{AllowStatus, CommentType, DeviceStatus, HostStatus}
 import org.seekloud.geek.client.common.{Constants, StageContext}
 import org.seekloud.geek.client.component._
-import org.seekloud.geek.client.core.RmManager
+import org.seekloud.geek.client.core.HostUIManager.{HostUICommand, UpdateUserListPaneUI}
 import org.seekloud.geek.client.core.RmManager._
+import org.seekloud.geek.client.core.{HostUIManager, RmManager}
 import org.seekloud.geek.player.util.GCUtil
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, ModeStatus}
 import org.seekloud.geek.shared.ptcl.WsProtocol
@@ -37,6 +41,7 @@ class GeekHostController(
 
   private val log = LoggerFactory.getLogger(this.getClass)
 
+  implicit val system: ActorSystem = ActorSystem("geek", config)
 
 
   var canvas: Canvas = _
@@ -65,6 +70,7 @@ class GeekHostController(
   @FXML private var allow_icon: FontIcon = _ //用户的申请发言图标
 
 
+  private var hostUIManager:ActorRef[HostUICommand] = _
   val commentList = List(
 
   )
@@ -149,7 +155,7 @@ class GeekHostController(
   def updateModeUI() = {
     Boot.addToPlatform{
       //根据当前所有用户的发言状态，如果没有在申请发言，则为自由发言状态，反之为申请发言状态
-      log.info(""+RmManager.roomInfo.get.userList)
+      log.info("updateModeUI"+RmManager.roomInfo.get.userList)
 
       if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
         //当前是申请发言状态
@@ -172,10 +178,9 @@ class GeekHostController(
       }else{
         allowStatus = AllowStatus.NOT_ALLOW
       }
-      updateAllowUI()
-      RmManager.calUserListPosition()//重新计算用户在界面中的顺序
     }
-
+    RmManager.calUserListPosition()//先计算发言的状态，再重新计算用户在界面中的顺序
+    updateAllowUI()
   }
 
 
@@ -280,7 +285,7 @@ class GeekHostController(
 
     gc = canvas.getGraphicsContext2D
     loading = Loading(centerPane).build()
-
+    hostUIManager = system.spawn(HostUIManager.create(context,GeekHostController.this),"hostUIManager")
     if (initSuccess nonEmpty){
       //给liveManager ! LiveManager.DevicesOn(gc, callBackFunc = callBack)，
       // callBackFunc即changeToggleAction
@@ -334,12 +339,14 @@ class GeekHostController(
 
   //更新整个list
   def updateUserList():Unit = {
-    Boot.addToPlatform{
-      val paneList = createUserListPane()
-      //修改整个list
-      userJList.getItems.removeAll(userJList.getItems)
-      userJList.getItems.addAll(paneList:_*)
-    }
+    //todo 优化性能
+    val paneList = createUserListPane()
+    hostUIManager ! UpdateUserListPaneUI(paneList)
+//    Boot.addToPlatform{
+//      //修改整个list
+//      userJList.getItems.removeAll(userJList.getItems)
+//      userJList.getItems.addAll(paneList:_*)
+//    }
 
   }
 
@@ -393,7 +400,6 @@ class GeekHostController(
   def updateWhenUserList() = {
     updateUserList()
     updateModeUI()
-    updateAllowUI()
   }
 
   //接收处理与【后端发过来】的消息
@@ -517,27 +523,33 @@ class GeekHostController(
 
         // 如果被封禁的userId是自己，需要修改底部功能条的样式并且调整摄像头、音频设置的关闭开启
         if (msg.userId == RmManager.userInfo.get.userId){//封禁的是自己
-          if (micStatus==DeviceStatus.ON && !msg.isAudio){
-            toggleMic()
+          val originMicStatus: Int = micStatus
+          val originVideoStatus :Int = videoStatus
+          micStatus = if(msg.isAudio) DeviceStatus.ON else DeviceStatus.OFF
+          videoStatus = if(msg.isImage) DeviceStatus.ON else DeviceStatus.OFF
+          updateMicUI()
+          updateVideoUI()
+
+
+          if (originMicStatus==DeviceStatus.ON && !msg.isAudio){
             if (msg.isForced){
               SnackBar.show(centerPane,"您的语音被主持人关闭")
             }
           }
-          if (micStatus==DeviceStatus.OFF && msg.isAudio){
-            toggleMic()
+
+          if (originMicStatus==DeviceStatus.OFF && msg.isAudio){
             if (msg.isForced){
               SnackBar.show(centerPane,"您的语音被主持人开启")
             }
           }
 
-          if (videoStatus==DeviceStatus.ON && !msg.isImage){
-            toggleVideo()
+
+          if (originVideoStatus==DeviceStatus.ON && !msg.isImage){
             if (msg.isForced){
               SnackBar.show(centerPane,"您的视频被主持人关闭")
             }
           }
-          if (videoStatus==DeviceStatus.OFF && msg.isImage){
-            toggleVideo()
+          if (originVideoStatus==DeviceStatus.OFF && msg.isImage){
             if (msg.isForced){
               SnackBar.show(centerPane,"您的视频被主持人开启")
             }
