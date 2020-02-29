@@ -117,7 +117,13 @@ object ClientCaptureActor {
           drawActor.foreach(_!ReSet(
             ()=>{
               val user = RmManager.roomInfo.get.userList.find(_.userId == RmManager.userInfo.get.userId).get
-              GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),user.position)
+              if (RmManager.isStart){
+                GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),user.position)
+              }else{
+                //没有开启会议则画满整个屏幕
+                GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),-1)
+
+              }
             },msg.needImage,msg.callBack))
 
           Behaviors.same

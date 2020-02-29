@@ -25,7 +25,9 @@ object GCUtil {
     image:Image,
     position: Int  //0表示左侧，右边有4个空位，可选值 1，2，3，4，
   ): Unit ={
-    if(position == 0){
+    if (position == -1){
+      gc.drawImage(image, 0, 0,gc.getCanvas.getWidth, gc.getCanvas.getHeight)
+    }else if(position == 0){
       drawLeft(gc,image)
     }else{
       drawRight(gc,image,position)

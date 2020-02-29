@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXRippler?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <!--<?import org.kordamp.ikonli.javafx.FontIcon?>-->
 
-<?import com.jfoenix.controls.JFXPasswordField?>
 <VBox id="root" prefHeight="380.0" prefWidth="626.0" stylesheets="@css/geek_login.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
 <children>
       <AnchorPane fx:id="rootPane" prefHeight="367.0" prefWidth="616.0">
@@ -20,7 +21,10 @@
                <children>
                   <AnchorPane prefHeight="365.0" prefWidth="610.0">
                      <children>
-                        <JFXButton  defaultButton="true"  layoutX="242.0" layoutY="284.0" onAction="#loginBySelf" prefHeight="32.0" prefWidth="143.0" ripplerFill="#173672" styleClass="loginButton" text="登录 / 注册" textAlignment="CENTER" textFill="WHITE" />
+                        <JFXButton defaultButton="true" layoutX="242.0" layoutY="284.0" onAction="#loginBySelf" prefHeight="32.0" prefWidth="143.0" ripplerFill="#173672" styleClass="loginButton" text="登录 / 注册" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="12.0" />
+                           </font></JFXButton>
                         <JFXTextField fx:id="username" layoutX="183.0" layoutY="128.0" prefHeight="32.0" prefWidth="260.0" promptText="输入用户名" styleClass="text_label" unFocusColor="#7ca1ff" />
                         <JFXPasswordField fx:id="password" layoutX="185.0" layoutY="187.0" prefHeight="32.0" prefWidth="260.0" promptText="输入密码" styleClass="text_label" unFocusColor="#7ca1ff" />
                         <Label layoutX="232.0" layoutY="245.0" style="-fx-font-size: 11;" text="未注册的用户将直接以输入的账号密码注册" textFill="#4e6c8d" underline="true" />
@@ -30,7 +34,6 @@
                              </VBox>
                          </JFXRippler>
                         <Label fx:id="testLabel" layoutX="234.0" layoutY="45.0" prefHeight="62.0" prefWidth="159.0" style="-fx-font-size: 26;" text="GEEK云会议" textAlignment="CENTER" textFill="#2d68cd" />
-
                      </children>
                   </AnchorPane>
                </children></VBox>
