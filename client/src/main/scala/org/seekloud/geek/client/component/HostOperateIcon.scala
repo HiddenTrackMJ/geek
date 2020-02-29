@@ -73,7 +73,7 @@ case class HostOperateIcon(
                   log.info("更换发言人的身份的用户")
                   originAllow.get.isAllow = Some(false)//之前的发言人变成false
                   userInfo.isAllow = Some(true)//现在的发言人变成true
-                  rmManager ! Appoint4Host(originAllow.get.userId,status = true)
+                  rmManager ! Appoint4Host(originAllow.get.userId,status = false)
                   rmManager ! Appoint4Host(userInfo.userId,status = true)
                 }
               }else{//之前没有发言人，把当前点击的人设为发言人
