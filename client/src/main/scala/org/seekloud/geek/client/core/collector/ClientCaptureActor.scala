@@ -224,7 +224,7 @@ object ClientCaptureActor {
       msg match {
         case msg: DrawImage =>
 
-          if (needImage) {
+          if (needImage) {//todo :停止会议的时候不管有没有图像 都显示成摄像头内容
             if (!isJoin){
               gc.drawImage(msg.image, 0.0, 0.0,  gc.getCanvas.getWidth, gc.getCanvas.getHeight)
             }else{

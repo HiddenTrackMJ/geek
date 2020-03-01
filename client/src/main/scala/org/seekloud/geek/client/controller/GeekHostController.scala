@@ -509,7 +509,7 @@ class GeekHostController(
       case msg:ShieldRsp =>
         log.info(s"收到ShieldRsp:$msg")
         val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId)
-
+        log.info(s"当前video状态:${user.get.isVideo.get},返回的video状态:${msg.isImage}")
         if (!user.get.isVideo.get && msg.isImage){//开启用户的视频
           //自己或者别的用户交给rm统一处理
           user.get.isVideo = Some(true)
@@ -622,7 +622,7 @@ class GeekHostController(
         // 关闭摄像头
         log.info("关闭摄像头")
         videoStatus = DeviceStatus.OFF
-        RmManager.getCurrentUserInfo().isVideo = Some(false)
+//        RmManager.getCurrentUserInfo().isVideo = Some(false)
         rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
           isImage = false ,isAudio = if (micStatus == DeviceStatus.ON) true else false))
 
@@ -630,7 +630,7 @@ class GeekHostController(
         // 开启摄像头
         log.info("开启摄像头")
         videoStatus = DeviceStatus.ON
-        RmManager.getCurrentUserInfo().isVideo = Some(true)
+//        RmManager.getCurrentUserInfo().isVideo = Some(true)
         rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
           isImage = true ,isAudio = if (micStatus == DeviceStatus.ON) true else false))
 
@@ -738,6 +738,7 @@ class GeekHostController(
   def resetBack() = {
     log.info("resetBack")
     //大背景改成黑色的
+//    gc.clearRect()
     Boot.addToPlatform{
       gc.drawImage(new Image("scene/img/bg.jpg"),0,0,gc.getCanvas.getWidth,gc.getCanvas.getHeight)
       //画5个框等待加入的框
