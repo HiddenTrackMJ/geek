@@ -100,7 +100,7 @@ object GCUtil {
       val w = canvas_last_w * 0.5
       val h = canvas_last_h * 0.5
       val n_x = x + (canvas_distribute_w -w) /2
-      val n_y = y + (canvas_distribute_h -h) /2 - 30
+      val n_y = y + (canvas_distribute_h -h) /2 +10
       gc.drawImage(image, n_x, n_y,w, h)
     }else{
       gc.drawImage(image, x, y,canvas_last_w, canvas_last_h)
@@ -130,6 +130,18 @@ object GCUtil {
       val y = offset_y + 0
       (x,y,canvas_last_w,canvas_last_h)
     }
+  }
+
+  def resetBack(gc:GraphicsContext) = {
+    log.info("player: resetBack")
+    //大背景改成黑色的
+    gc.drawImage(new Image("img/bg.jpg"),0,0,gc.getCanvas.getWidth,gc.getCanvas.getHeight)
+    //画5个框等待加入的框
+    GCUtil.draw(gc,new Image("img/join.png"),0)
+    GCUtil.draw(gc,new Image("img/join.png"),1)
+    GCUtil.draw(gc,new Image("img/join.png"),2)
+    GCUtil.draw(gc,new Image("img/join.png"),3)
+    GCUtil.draw(gc,new Image("img/join.png"),4)
   }
 
 

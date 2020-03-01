@@ -763,11 +763,11 @@ class GeekHostController(
     Boot.addToPlatform{
       gc.drawImage(new Image("scene/img/bg.jpg"),0,0,gc.getCanvas.getWidth,gc.getCanvas.getHeight)
       //画5个框等待加入的框
-      GCUtil.draw(gc,new Image("scene/img/join.png"),0)
-      GCUtil.draw(gc,new Image("scene/img/join.png"),1)
-      GCUtil.draw(gc,new Image("scene/img/join.png"),2)
-      GCUtil.draw(gc,new Image("scene/img/join.png"),3)
-      GCUtil.draw(gc,new Image("scene/img/join.png"),4)
+      GCUtil.draw(gc,new Image("img/join.png"),0)
+      GCUtil.draw(gc,new Image("img/join.png"),1)
+      GCUtil.draw(gc,new Image("img/join.png"),2)
+      GCUtil.draw(gc,new Image("img/join.png"),3)
+      GCUtil.draw(gc,new Image("img/join.png"),4)
     }
   }
 

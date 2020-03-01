@@ -143,6 +143,8 @@ object ImageActor {
         val user =  MediaPlayer.roomInfo.get.userList.find(_.userId == id.toLong)
         if (user nonEmpty){
           val position = user.get.position
+
+          GCUtil.resetBack(gc)
           GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),position,center = true)
         }else{
 //          GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),-1)
