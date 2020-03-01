@@ -15,10 +15,9 @@ import org.seekloud.geek.player.protocol.Messages.{AddPicture, AddSamples}
 import org.seekloud.geek.player.sdk.MediaPlayer
 import org.seekloud.geek.player.sdk.MediaPlayer.executor
 import org.slf4j.LoggerFactory
-
+import scala.util.{Failure, Success}
 import scala.concurrent.Future
 import scala.concurrent.duration._
-import scala.util.{Failure, Success}
 
 /**
   * User: TangYaruo
@@ -105,18 +104,25 @@ object PlayerGrabber {
       }
       grabber.setFrameRate(settings.frameRate)
       //      grabber.setOption("fflags", "nobuffer")
-      Future {
-        log.info(s"grabber-$id is starting...")
-        grabber.start()
-        grabber
-      }.onComplete {
-        case Success(grab) =>
-          log.info(s"grabber-$id started success.")
-          ctx.self ! StartedGrabber(grab, replyTo, graphContext)
-        case Failure(exception) =>
-          log.info(s"grabber-$id start failed: $exception.")
-          ctx.self ! FailedStartGrabber(grabber, replyTo, exception)
+      try{
+        Future {
+          log.info(s"grabber-$id is starting...")
+          grabber.start()
+          grabber
+
+        }.onComplete {
+          case Success(grab) =>
+            log.info(s"grabber-$id started success.")
+            ctx.self ! StartedGrabber(grab, replyTo, graphContext)
+          case Failure(exception) =>
+            log.info(s"grabber-$id start failed: $exception.")
+            ctx.self ! FailedStartGrabber(grabber, replyTo, exception)
+        }
+      }catch {
+        case e =>
+          log.info(s"start grabber-$id error:$e")
       }
+
 
       init(id, grabber, supervisor)
     }
@@ -469,6 +475,7 @@ object PlayerGrabber {
               if (isWorking) {
                 if (!grabFinish) {
                   if (hasVideo && pictureQueue.isEmpty && !grabFinish) {
+//                    log.info("StartGrab")
                     var frame = grabber.grab()
                     while (frame != null && frame.image == null) {
                       bufferSample(frame)
