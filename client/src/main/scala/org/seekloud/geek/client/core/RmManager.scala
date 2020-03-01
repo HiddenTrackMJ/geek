@@ -228,9 +228,9 @@ object RmManager {
           if (msg.userId == RmManager.userInfo.get.userId){
             log.info("修改自己的声音配置")
             if(msg.need){
-              SnackBar.show(hostController.centerPane,"您的语音被主持人开启")
+              SnackBar.show(hostController.centerPane,"您的语音开启")
             }else{
-              SnackBar.show(hostController.centerPane,"您的语音被主持人关闭")
+              SnackBar.show(hostController.centerPane,"您的语音关闭")
             }
             hostController.micStatus = if(msg.need) DeviceStatus.ON else DeviceStatus.OFF
             hostController.updateMicUI()
@@ -253,9 +253,9 @@ object RmManager {
           if (msg.userId == RmManager.userInfo.get.userId){
             log.info("修改自己的画面配置")
             if(msg.need){
-              SnackBar.show(hostController.centerPane,"您的画面被主持人开启")
+              SnackBar.show(hostController.centerPane,"您的画面开启")
             }else{
-              SnackBar.show(hostController.centerPane,"您的画面被主持人关闭")
+              SnackBar.show(hostController.centerPane,"您的画面关闭")
             }
             hostController.videoStatus = if(msg.need) DeviceStatus.ON else DeviceStatus.OFF
             hostController.updateVideoUI()

@@ -167,8 +167,19 @@ class GeekHostController(
     if (originModeStatus != RmManager.roomInfo.get.modeStatus){
       RmManager.roomInfo.get.modeStatus match {
         case ModeStatus.ASK =>
+          //给非发言人的其他用户静音
+          RmManager.roomInfo.get.userList.filter(!_.isAllow.get).map(t=>(t.userId,t.isVideo)).foreach{
+            m=>
+            rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,m._1,isImage = m._2.get,isAudio = false))
+          }
+
           SnackBar.show(centerPane,"当前会议切换到「申请发言模式」")
         case ModeStatus.FREE =>
+          //给所有人开启开启语音
+          RmManager.roomInfo.get.userList.map(t=>(t.userId,t.isVideo)).foreach{
+            m=>
+              rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,m._1,isImage = m._2.get,isAudio = true))
+          }
           SnackBar.show(centerPane,"当前会议切换到「自由发言模式」")
       }
     }
@@ -499,6 +510,7 @@ class GeekHostController(
         if (user nonEmpty){
           user.get.isAllow = Some(msg.status)
           if (msg.status){
+
             SnackBar.show(centerPane,s"${msg.userName}成为发言人")
           }else{
             SnackBar.show(centerPane,s"${msg.userName}取消成为发言人")
@@ -537,7 +549,7 @@ class GeekHostController(
         updateWhenUserList()
 
 
-      case msg:HostCloseRoom=>
+      case _:HostCloseRoom=>
       case HostCloseRoom =>
         log.info(s"receive：HostCloseRoom")
         if (!RmManager.getCurrentUserInfo().isHost.get){//自己不是主持人，主持人退出了会出现一个弹窗
