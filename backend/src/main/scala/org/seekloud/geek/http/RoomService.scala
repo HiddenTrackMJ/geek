@@ -7,6 +7,7 @@ import akka.http.scaladsl.server.Directives._
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{Comment, GetCommentReq, GetCommentRsp, GetRoomInfoReq, addCommentReq, delCommentReq}
 import akka.http.scaladsl.marshalling.{ToResponseMarshallable, ToResponseMarshaller}
 
+import org.seekloud.geek.common.AppSettings.authCheck
 import scala.language.postfixOps
 import org.seekloud.geek.Boot.executor
 import akka.actor.typed.scaladsl.AskPattern._
@@ -245,6 +246,7 @@ trait RoomService extends BaseService with ServiceUtils {
   val getRecord: Route = (path("getRecord" / Segments(2)) & get & pathEndOrSingleSlash & cors(settings)){
     case userId :: file  :: Nil =>
       println(s"user id: $userId getRecord req for $file")
+      if(authCheck)
       dealFutureResult {
         VideoDao.getInviteeVideo(userId.toLong,file).map { list =>
           if (list.toList.nonEmpty) {
@@ -256,6 +258,10 @@ trait RoomService extends BaseService with ServiceUtils {
             complete(ErrorRsp(10001, "没有该录像"))
           }
         }
+      }else {
+        val f = new File(s"${AppSettings.videoPath}$file").getAbsoluteFile
+        //                              val f = new File(s"J:\\暂存\\videos\\录制_2020_02_15_18_54_27_35.mp4").getAbsoluteFile
+        getFromFile(f,ContentTypes.`application/octet-stream`)
       }
 
 

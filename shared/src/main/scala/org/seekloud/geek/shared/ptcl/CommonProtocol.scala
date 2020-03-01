@@ -67,6 +67,12 @@ object CommonProtocol {
                             inviteeId: Long,
                           ) extends Request
 
+  case class InviterAndInviteeAndRoomReq(
+                                   inviterId: Long,
+                                   inviteeId: Long,
+                                   roomId: Long,
+                                 ) extends Request
+
   case class addInviteeReq(
                                    inviterId: Long,
                                    roomId:Long,
@@ -98,8 +104,7 @@ object CommonProtocol {
                        ) extends Response
 
   case class InviterAndInviteeDetail(
-                      roomId:String,
-                      fileList:List[String],
+                      roomId:Long,
                     )
   case class InviterAndInviteeDetailRsp(
                                          list: List[InviterAndInviteeDetail],

@@ -103,6 +103,7 @@ object LiveManager {
         case msg: DevicesOn =>
           val captureActor = getCaptureActor(ctx, msg.gc, msg.isJoin, msg.callBackFunc)
           val mediaCapture = MediaCapture(captureActor, debug = AppSettings.captureDebug, needTimestamp = AppSettings.needTimestamp)
+//          val mediaCapture = MediaCapture(captureActor,camDeviceIndex=1, debug = AppSettings.captureDebug, needTimestamp = AppSettings.needTimestamp)
           val availableDevices = GetAllPixel.getAllDevicePixel()
           var pixel = (640,360)
           if(availableDevices.nonEmpty && !availableDevices.contains("640x360")){

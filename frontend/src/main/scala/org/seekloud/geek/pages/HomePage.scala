@@ -3,12 +3,32 @@ package org.seekloud.geek.pages
 import mhtml._
 import org.scalajs.dom
 import org.seekloud.geek.Main
-import org.seekloud.geek.pages.UserInfoPage.getUserInfo
-import org.seekloud.geek.utils.Page
-
+import org.seekloud.geek.common.Route
+import org.seekloud.geek.pages.UserInfoPage.userDetail
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{GetUserReq, GetUserRsp}
+import org.seekloud.geek.utils.{Http, Page}
+import io.circe.generic.auto._
+import io.circe.syntax._
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.Elem
 
 object HomePage extends Page {
+  def getUserInfo: Unit ={
+    println("start getuserinfo")
+    val userId = dom.window.localStorage.getItem("userId").toLong
+    Http.postJsonAndParse[GetUserRsp](Route.User.getUserDetail, GetUserReq(userId).asJson.noSpaces).map {
+      rsp =>
+        println(rsp)
+        if (rsp.errCode == 0) {
+          userDetail :=rsp.userInfo.get
+          println("sss"+rsp)
+        } else {
+          //          JsFunc.alert(rsp.msg)
+          println(rsp.msg)
+        }
+        println("end getuserinfo")
+    }
+  }
   override val locationHashString: String = "#/home"
   val modalDiv = Var(emptyHTML)
 

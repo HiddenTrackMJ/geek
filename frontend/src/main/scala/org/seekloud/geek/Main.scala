@@ -50,7 +50,8 @@ object Main extends PageSwitcher{
       case "inviterManage" :: Nil => InviterManagement.render
       case "room" :: r :: v :: Nil => new WatchRecord_new(r.toLong,v).render
       case "preRecord" :: c :: Nil => new PreRecord(c).render
-      case "login" :: Nil => Login.render
+      case "login" :: Nil => Login_new.render
+//      case "login_new" :: Nil => Login_new.render
 //      case "info" :: Nil => LiveHouse.render //fixme delete
       case _ => HomePage.render
     }
@@ -60,18 +61,27 @@ object Main extends PageSwitcher{
   val header: Rx[Node] = currentHashVar.map {
     //    case "Login" :: Nil => <div></div>
     case "login" :: Nil => emptyHTML
-//    case _ => Header.render
+//    case "login_new" :: Nil => emptyHTML
+    //    case _ => Header.render
     case _ => Header.render
   }
+
+//  val content: Rx[Node] = currentHashVar.map {
+//    //    case "Login" :: Nil => <div></div>
+//    case "login" :: Nil => <div>{currentPage} </div>
+//    case "login_new" :: Nil => <div>{currentPage} </div>
+//    //    case _ => Header.render
+//    case _ => <div class="overlay">{header}{currentPage} </div>
+//  }
 
   def show(): Cancelable = {
     switchPageByHash()
 
     val page =
-      <div class="overlay">
+      <div class={currentHashVar.map { case "login" :: Nil => "lllllllllll" ;case _ => "overlay"}}>
         {header}
         {currentPage}
-      </div>
+        </div>
     mount(dom.document.body, page)
   }
 
