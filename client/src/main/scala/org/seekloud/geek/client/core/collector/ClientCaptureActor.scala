@@ -50,7 +50,7 @@ object ClientCaptureActor {
   final case class SwitchMode(isJoin: Boolean, reset: () => Unit) extends DrawCommand with CaptureCommand
 
   //重置是否需要声音
-  final case class ReSet(noImgReset: () => Unit, isNeedImage: Boolean, haveImgReset: ()=>Unit,callback:()=>Unit) extends DrawCommand
+  final case class ReSet(isNeedImage: Boolean, noImgReset: () => Unit) extends DrawCommand
 
   final case object StopDraw extends DrawCommand
 
@@ -114,17 +114,18 @@ object ClientCaptureActor {
 
         case msg: ChangeCaptureOption =>
           //只处理图片就可以了，声音由player关闭就可以了
-          drawActor.foreach(_!ReSet(
-            ()=>{
+          drawActor.foreach(_!ReSet(msg.needImage,
+            ()=>{//不需要图片的时候的摄像头的位置的图像处理
               val user = RmManager.roomInfo.get.userList.find(_.userId == RmManager.userInfo.get.userId).get
               if (RmManager.isStart){
-                GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),user.position,center = true)
+                log.info("清理画布1")
+                GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),user.position,center = true,isNeedClear = true)
               }else{
                 //没有开启会议则画满整个屏幕
-                GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),-1,center = true)
+                GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),-1,center = true,isNeedClear = true)
 
               }
-            },msg.needImage,msg.callBack,msg.callBack))
+            }))
 
           Behaviors.same
 
@@ -224,9 +225,10 @@ object ClientCaptureActor {
       msg match {
         case msg: DrawImage =>
 
-          if (needImage) {//todo :停止会议的时候不管有没有图像 都显示成摄像头内容
-            if (!isJoin){
-              gc.drawImage(msg.image, 0.0, 0.0,  gc.getCanvas.getWidth, gc.getCanvas.getHeight)
+//          log.info(s"needImage: $needImage,RmManager.isStart: ${RmManager.isStart}")
+          if (needImage) {
+            if (!RmManager.isStart){
+              GCUtil.draw(gc,msg.image,-1)
             }else{
               //开启会议的时候，根据自由模式还是发言模式和用户身份，决定当前用户画在什么位置上
               Boot.addToPlatform {
@@ -250,14 +252,10 @@ object ClientCaptureActor {
 
         case msg: ReSet =>
           log.info("drawer reset")
-          if (msg.isNeedImage){
+          if (!msg.isNeedImage){
             Boot.addToPlatform{
-              msg.haveImgReset()
+              msg.noImgReset()
             }
-          }else{
-            log.info("???111")
-            msg.callback()
-            Boot.addToPlatform(msg.noImgReset())
           }
           drawer(gc, isJoin, msg.isNeedImage)
 

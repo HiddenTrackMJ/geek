@@ -144,8 +144,7 @@ object ImageActor {
         if (user nonEmpty){
           val position = user.get.position
 
-          GCUtil.resetBack(gc)
-          GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),position,center = true)
+          GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),position,center = true,isNeedClear = true)
         }else{
 //          GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),-1)
 //          log.info("当前用户已经退出房间了")

@@ -265,7 +265,6 @@ object RmManager {
             if (!msg.need){//关闭画面
               mediaPlayer.pauseImage(msg.userId.toString)
             }else{//开启画面
-              hostController.resetBack()//刷新一下界面
               mediaPlayer.continueImage(msg.userId.toString)
             }
 
@@ -327,10 +326,9 @@ object RmManager {
                   hostController.hostStatus = HostStatus.CONNECT
                   hostController.updateOffUI()
 
-                  /*背景改变*/
-                  hostController.resetBack()
                   /*媒体画面模式更改*/
-                  liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostController.resetBack)
+                  hostController.resetBack()
+//                  liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostController.resetBack)
 
                 }else{
                   liveManager ! LiveManager.PullStream(u._1, u._2.toString, mediaPlayer, hostController, liveManager)
@@ -369,11 +367,9 @@ object RmManager {
                   hostController.hostStatus = HostStatus.CONNECT
                   hostController.updateOffUI()
 
-                  /*背景改变*/
-                  hostController.resetBack()
-
                   /*媒体画面模式更改*/
-                  liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostController.resetBack)
+                  hostController.resetBack()
+                  //liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostController.resetBack)
 
                   //推流
                   //1.开始推流
@@ -432,7 +428,9 @@ object RmManager {
           hostController.hostStatus = HostStatus.NOT_CONNECT
           hostController.updateOffUI()
           /*媒体画面模式更改*/
-          liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostController.resetBack)
+//          liveManager ! LiveManager.SwitchMediaMode(isJoin = false, reset = hostController.resetBack)
+          val user = RmManager.getCurrentUserInfo()
+          liveManager ! ChangeCaptureOption(user.userId,user.isVideo.get,user.isMic.get,()=>Unit)
 
           //停止所有的拉流
           mediaPlayer.stopAll(hostController.resetBack)
@@ -451,9 +449,7 @@ object RmManager {
             ctx.self ! StopLiveSuccess
           }else{
             //停止拉该成员的流
-            mediaPlayer.stop(userId.toString,()=>Unit)
-            //重新刷新一下背景
-            liveManager ! LiveManager.SwitchMediaMode(isJoin = true, reset = hostController.resetBack)
+            mediaPlayer.stop(userId.toString,hostController.resetBack)
             log.info(s"停止 ${userId} 用户的拉流")
           }
 
@@ -476,7 +472,7 @@ object RmManager {
             //需要关闭player的显示
             //停止服务器拉流显示到player上
             val playId = RmManager.roomInfo.get.roomId.toString
-            mediaPlayer.stop(playId, hostController.resetBack)
+            mediaPlayer.stop(playId, ()=>Unit)
             liveManager ! LiveManager.StopPull
           }
           liveManager ! LiveManager.StopPush

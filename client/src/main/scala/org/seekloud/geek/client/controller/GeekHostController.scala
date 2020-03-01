@@ -500,7 +500,6 @@ class GeekHostController(
             SnackBar.show(centerPane,s"${msg.userName}取消成为发言人")
           }
           //发言人切换后，界面需要刷新一下
-          resetBack()
           updateWhenUserList()
         }else{
           //不需要修改，可能这个用户已经退出会议厅了
@@ -518,7 +517,6 @@ class GeekHostController(
         if (user.get.isVideo.get && !msg.isImage){//关闭用户的视频
           user.get.isVideo = Some(false)
           rmManager ! ChangeVideoOption(msg.userId,false)
-
         }
 
         if (!user.get.isMic.get && msg.isAudio){//开启用户的声音
@@ -621,7 +619,7 @@ class GeekHostController(
       case DeviceStatus.ON =>
         // 关闭摄像头
         log.info("关闭摄像头")
-        videoStatus = DeviceStatus.OFF
+//        videoStatus = DeviceStatus.OFF
 //        RmManager.getCurrentUserInfo().isVideo = Some(false)
         rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
           isImage = false ,isAudio = if (micStatus == DeviceStatus.ON) true else false))
@@ -629,7 +627,7 @@ class GeekHostController(
       case DeviceStatus.OFF =>
         // 开启摄像头
         log.info("开启摄像头")
-        videoStatus = DeviceStatus.ON
+//        videoStatus = DeviceStatus.ON
 //        RmManager.getCurrentUserInfo().isVideo = Some(true)
         rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
           isImage = true ,isAudio = if (micStatus == DeviceStatus.ON) true else false))
@@ -734,21 +732,19 @@ class GeekHostController(
       //          updateVideoUI()
     }
   }
-  //开始会议后，界面可以做的一些修改，结束会议，界面需要做的一些修改
+  //开始会议后/停止某个人拉流，界面可以做的一些修改
   def resetBack() = {
     log.info("resetBack")
     //大背景改成黑色的
-//    gc.clearRect()
     Boot.addToPlatform{
       gc.drawImage(new Image("scene/img/bg.jpg"),0,0,gc.getCanvas.getWidth,gc.getCanvas.getHeight)
-      //画5个框等待加入的框
-      GCUtil.draw(gc,new Image("img/join.png"),0)
-      GCUtil.draw(gc,new Image("img/join.png"),1)
-      GCUtil.draw(gc,new Image("img/join.png"),2)
-      GCUtil.draw(gc,new Image("img/join.png"),3)
-      GCUtil.draw(gc,new Image("img/join.png"),4)
+      //画5个框等待加入的框（只画这个位置没有人的位置）
+      val needPositions = List.range(0,5) diff RmManager.roomInfo.get.userList.map(_.position)
+      needPositions.foreach(GCUtil.draw(gc,new Image("img/join.png"),_,isNeedClear = true))
+
     }
   }
+
 
   //禁音某人，只有支持人才可以进行该操作
   def muteOne()={

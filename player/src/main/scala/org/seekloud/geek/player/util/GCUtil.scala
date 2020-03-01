@@ -24,14 +24,27 @@ object GCUtil {
     gc: GraphicsContext,
     image:Image,
     position: Int,  //0表示左侧，右边有4个空位，可选值 1，2，3，4，
-    center:Boolean = false
+    center:Boolean = false,
+    isNeedClear:Boolean = false
   ): Unit ={
-    if (position == -1){
-      gc.drawImage(image, 0, 0,gc.getCanvas.getWidth, gc.getCanvas.getHeight)
+    if (position == -1){//分配整个画布
+      val (x,y,canvas_last_w,canvas_last_h) = calculate(0,0,gc.getCanvas.getWidth,gc.getCanvas.getHeight,image.getWidth,image.getHeight)
+      if (isNeedClear){
+        gc.clearRect(0,0,gc.getCanvas.getWidth, gc.getCanvas.getHeight)//先清理再画
+      }
+      if (center){
+        val w = canvas_last_w * 0.3
+        val h = canvas_last_h * 0.3
+        val n_x = (gc.getCanvas.getWidth -w) /2
+        val n_y = (gc.getCanvas.getHeight -h) /2
+        gc.drawImage(image, n_x, n_y,w, h)
+      }else{
+        gc.drawImage(image, x, y,canvas_last_w, canvas_last_h)
+      }
     }else if(position == 0){
-      drawLeft(gc,image,center)
+      drawLeft(gc,image,center,isNeedClear)
     }else{
-      drawRight(gc,image,position,center)
+      drawRight(gc,image,position,center,isNeedClear)
     }
 
   }
@@ -39,7 +52,8 @@ object GCUtil {
   def drawLeft (
     gc: GraphicsContext,
     image:Image,
-    center:Boolean = false
+    center:Boolean = false,
+    isNeedClear: Boolean = false
   ) ={
     val canvas_all_width = gc.getCanvas.getWidth
     val canvas_all_height = gc.getCanvas.getHeight
@@ -47,16 +61,23 @@ object GCUtil {
     val image_w = image.getWidth //图像的宽度
     val image_h = image.getHeight //图像的高度
 
+//    log.info(s"image_w: $image_w,image_h: $image_h")
+
     val canvas_distribute_w = canvas_all_width /2
     val canvas_distribute_h = canvas_all_height //画在左侧占用整个左侧的画布
 
 
     val (x,y,canvas_last_w,canvas_last_h) = calculate(0,0,canvas_distribute_w,canvas_distribute_h,image_w,image_h)
+    if (isNeedClear){
+      log.info("清理了画布2")
+      gc.clearRect(0,0,canvas_distribute_w, canvas_distribute_h)//先清理再画
+    }
     if (center){
       val w = canvas_last_w * 0.5
       val h = canvas_last_h * 0.5
       val n_x = x + (canvas_distribute_w -w) /2
       val n_y = y + (canvas_distribute_h -h) /2 - 80
+
       gc.drawImage(image, n_x, n_y,w, h)
     }else{
       gc.drawImage(image, x, y,canvas_last_w, canvas_last_h)
@@ -69,7 +90,8 @@ object GCUtil {
     gc: GraphicsContext,
     image:Image,
     position: Int,  //右边有4个空位，可选值 1，2，3，4，
-    center:Boolean = false
+    center:Boolean = false,
+    isNeedClear: Boolean = false
   ) = {
 
     val canvas_all_width = gc.getCanvas.getWidth
@@ -77,6 +99,8 @@ object GCUtil {
 
     val image_w = image.getWidth //图像的宽度
     val image_h = image.getHeight //图像的高度
+
+
 
 
     val canvas_distribute_w = canvas_all_width /4 //左侧一半，右侧是4格，每行两格，一共4格两行
@@ -96,6 +120,10 @@ object GCUtil {
     val (x,y,canvas_last_w,canvas_last_h) = calculate(offset_x,offset_y,canvas_distribute_w,canvas_distribute_h,image_w,image_h)
 //    log.info(s"position:$position,x:$x,y$y,offset_x:$offset_x,offset_y:$offset_y,w:$canvas_last_w,h:$canvas_last_h")
 
+    if (isNeedClear){
+      log.info("清理了画布2222")
+      gc.clearRect(offset_x,offset_y,canvas_distribute_w, canvas_distribute_h)//先清理再画
+    }
     if (center){
       val w = canvas_last_w * 0.5
       val h = canvas_last_h * 0.5
@@ -103,6 +131,7 @@ object GCUtil {
       val n_y = y + (canvas_distribute_h -h) /2 +15
       gc.drawImage(image, n_x, n_y,w, h)
     }else{
+
       gc.drawImage(image, x, y,canvas_last_w, canvas_last_h)
     }
 
@@ -132,17 +161,6 @@ object GCUtil {
     }
   }
 
-  def resetBack(gc:GraphicsContext) = {
-    log.info("player: resetBack")
-    //大背景改成黑色的
-    gc.drawImage(new Image("img/bg.jpg"),0,0,gc.getCanvas.getWidth,gc.getCanvas.getHeight)
-    //画5个框等待加入的框
-    GCUtil.draw(gc,new Image("img/join.png"),0)
-    GCUtil.draw(gc,new Image("img/join.png"),1)
-    GCUtil.draw(gc,new Image("img/join.png"),2)
-    GCUtil.draw(gc,new Image("img/join.png"),3)
-    GCUtil.draw(gc,new Image("img/join.png"),4)
-  }
 
 
 
