@@ -509,49 +509,27 @@ class GeekHostController(
       case msg:ShieldRsp =>
         log.info(s"收到ShieldRsp:$msg")
         val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId)
-        if (user nonEmpty){
-          //更新设备状态
-          user.get.isVideo = Some(msg.isImage)
-          user.get.isMic = Some(msg.isAudio)
+
+        if (!user.get.isVideo.get && msg.isImage){//开启用户的视频
+          //自己或者别的用户交给rm统一处理
+          user.get.isVideo = Some(true)
+          rmManager ! ChangeVideoOption(msg.userId,true)
+        }
+        if (user.get.isVideo.get && !msg.isImage){//关闭用户的视频
+          user.get.isVideo = Some(false)
+          rmManager ! ChangeVideoOption(msg.userId,false)
+
         }
 
-        // 如果被封禁的userId是自己，需要修改底部功能条的样式并且调整摄像头、音频设置的关闭开启
-        if (msg.userId == RmManager.userInfo.get.userId){//封禁的是自己
-          val originMicStatus: Int = micStatus
-          val originVideoStatus :Int = videoStatus
-          micStatus = if(msg.isAudio) DeviceStatus.ON else DeviceStatus.OFF
-          videoStatus = if(msg.isImage) DeviceStatus.ON else DeviceStatus.OFF
-          updateMicUI()
-          updateVideoUI()
-
-
-          if (originMicStatus==DeviceStatus.ON && !msg.isAudio){
-            if (msg.isForced){
-              SnackBar.show(centerPane,"您的语音被主持人关闭")
-            }
-          }
-
-          if (originMicStatus==DeviceStatus.OFF && msg.isAudio){
-            if (msg.isForced){
-              SnackBar.show(centerPane,"您的语音被主持人开启")
-            }
-          }
-
-
-          if (originVideoStatus==DeviceStatus.ON && !msg.isImage){
-            if (msg.isForced){
-              SnackBar.show(centerPane,"您的视频被主持人关闭")
-            }
-          }
-          if (originVideoStatus==DeviceStatus.OFF && msg.isImage){
-            if (msg.isForced){
-              SnackBar.show(centerPane,"您的视频被主持人开启")
-            }
-          }
+        if (!user.get.isMic.get && msg.isAudio){//开启用户的声音
+          user.get.isMic = Some(true)
+          rmManager ! ChangeMicOption(msg.userId,true)
+        }
+        if (user.get.isMic.get && !msg.isAudio){//关闭用户的声音
+          user.get.isMic = Some(false)
+          rmManager ! ChangeMicOption(msg.userId,false)
         }
 
-        //自己或者别的用户交给rm统一处理
-        rmManager ! ChangeOption(msg.userId,msg.isImage,msg.isAudio)
 
         //更新界面
         updateWhenUserList()

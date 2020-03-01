@@ -4,7 +4,7 @@ import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerSch
 import akka.actor.typed.{ActorRef, Behavior}
 import javafx.scene.Scene
 import org.seekloud.geek.client.Boot
-import org.seekloud.geek.client.common.Constants.HostStatus
+import org.seekloud.geek.client.common.Constants.{DeviceStatus, HostStatus}
 import org.seekloud.geek.client.common.{AppSettings, Routes, StageContext}
 import org.seekloud.geek.client.component.{SnackBar, WarningDialog}
 import org.seekloud.geek.client.controller.GeekHostController
@@ -111,7 +111,8 @@ object RmManager {
   final case class ChangePossession(req: WsProtocol.ChangePossessionReq) extends RmCommand
 
   final case object GetPackageLoss extends RmCommand
-  final case class ChangeOption(userId:Long, needImage: Boolean = true, needSound: Boolean = true) extends RmCommand
+  final case class ChangeMicOption(userId:Long, need: Boolean) extends RmCommand
+  final case class ChangeVideoOption(userId:Long, need: Boolean) extends RmCommand
 
   //ws链接
   final case class GetSender(sender: ActorRef[WsMsgFront]) extends RmCommand
@@ -220,27 +221,59 @@ object RmManager {
           Behaviors.same
 
 
-        case msg:ChangeOption =>
+        case msg:ChangeMicOption =>
           //修改推流的设置
+          val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId).get
 
           if (msg.userId == RmManager.userInfo.get.userId){
-            log.info("修改自己的音画配置")
-            liveManager ! ChangeCaptureOption(msg.userId,msg.needImage,msg.needSound,()=>hostController.resetBack())
-          }else{//关闭player的画面或者声音
-            log.info(s"修改别人${msg.userId}的player音画配置")
-            if (!msg.needImage){
-              mediaPlayer.pauseImage(msg.userId.toString)
+            log.info("修改自己的声音配置")
+            if(msg.need){
+              SnackBar.show(hostController.centerPane,"您的语音被主持人开启")
             }else{
-              mediaPlayer.continueImage(msg.userId.toString)
-              hostController.resetBack()//刷新一下界面
-
+              SnackBar.show(hostController.centerPane,"您的语音被主持人关闭")
             }
-            if (!msg.needSound){
+            hostController.micStatus = if(msg.need) DeviceStatus.ON else DeviceStatus.OFF
+            hostController.updateMicUI()
+            liveManager ! ChangeCaptureOption(msg.userId,user.isVideo.get,user.isMic.get,()=>Unit)
+          }else{//关闭player的画面或者声音
+            log.info(s"修改别人${msg.userId}的player画面配置")
+            if (!msg.need){//关闭声音
               mediaPlayer.pauseSound(msg.userId.toString)
-            }else{
+            }else{//开启声音
               mediaPlayer.continueSound(msg.userId.toString)
             }
           }
+
+          Behaviors.same
+
+
+        case msg:ChangeVideoOption =>
+          val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId).get
+
+
+          if (msg.userId == RmManager.userInfo.get.userId){
+            log.info("修改自己的画面配置")
+            if(msg.need){
+              SnackBar.show(hostController.centerPane,"您的画面被主持人开启")
+            }else{
+              SnackBar.show(hostController.centerPane,"您的画面被主持人关闭")
+            }
+            hostController.videoStatus = if(msg.need) DeviceStatus.ON else DeviceStatus.OFF
+            hostController.updateVideoUI()
+            liveManager ! ChangeCaptureOption(msg.userId,user.isVideo.get,user.isMic.get,()=>Unit)
+          }else{//关闭player的画面或者声音
+            log.info(s"修改别人${msg.userId}的player画面配置")
+            if (!msg.need){//关闭画面
+              mediaPlayer.pauseImage(msg.userId.toString)
+            }else{//开启画面
+              hostController.resetBack()//刷新一下界面
+              mediaPlayer.continueImage(msg.userId.toString)
+            }
+
+          }
+
+
+
 
           Behaviors.same
 
