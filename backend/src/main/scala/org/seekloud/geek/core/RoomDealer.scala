@@ -313,11 +313,12 @@ object RoomDealer {
               // todo observe event
               log.debug(s"${ctx.self.path}用户离开房间roomId=$roomId,userId=$userId")
               subscribe.remove((userId))
+              wholeRoomInfo.userList = wholeRoomInfo.userList.filter(_.userId != userId)
               if (userId == wholeRoomInfo.userId) {
                 ctx.self ! RoomProtocol.HostCloseRoom(roomId)
               }
               else {
-                dispatch(subscribe)(WsProtocol.GetRoomInfoRsp(wholeRoomInfo.copy(userList = wholeRoomInfo.userList.filter(_.userId != userId))))
+                dispatch(subscribe)(WsProtocol.GetRoomInfoRsp(wholeRoomInfo))
               }
               if(liveInfoMap.contains(Role.audience)){
                 if(liveInfoMap(Role.audience).contains(userId)){
