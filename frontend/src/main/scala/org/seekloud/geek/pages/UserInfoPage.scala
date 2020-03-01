@@ -10,6 +10,8 @@ import org.seekloud.geek.common.Route
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{GetUserReq, GetUserRsp, UpdateUserReq, UserInfoDetail, UpdateAvatarReq}
 import org.seekloud.geek.shared.ptcl.FileProtocol._
 import org.seekloud.geek.shared.ptcl.SuccessRsp
+
+import org.seekloud.geek.utils.RegEx
 //import org.seekloud.geek.shared.ptcl.UserProtocol.{SignInReq, SignInRsp}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{SignIn, SignInRsp}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{SignUp, SignUpRsp}
@@ -160,6 +162,12 @@ object UserInfoPage extends Page{
         println(rsp)
         if (rsp.errCode == 0) {
             userDetail :=rsp.userInfo.get
+
+            dom.document.getElementById("userName").asInstanceOf[Input].value = rsp.userInfo.get.userName
+            dom.document.getElementById("userGender").asInstanceOf[Select].value =rsp.userInfo.get.gender.get.toString
+            dom.document.getElementById("userAge").asInstanceOf[Input].value =rsp.userInfo.get.age.get.toString
+            dom.document.getElementById("userAddress").asInstanceOf[Input].value =rsp.userInfo.get.address.get
+
           println("sss"+rsp)
         } else {
           //          JsFunc.alert(rsp.msg)
@@ -203,38 +211,42 @@ object UserInfoPage extends Page{
     var gender = ""
     var age = ""
     var address = ""
-    if(dom.document.getElementById("userName").asInstanceOf[Input].value.nonEmpty)
-      username = dom.document.getElementById("userName").asInstanceOf[Input].value
-    else dom.document.getElementById("userName").asInstanceOf[Input].value = ""
-    if(dom.document.getElementById("userGender").asInstanceOf[Select].value.nonEmpty)
-    gender = dom.document.getElementById("userGender").asInstanceOf[Select].value
-    else dom.document.getElementById("userGender").asInstanceOf[Select].value = "-"
-    if(dom.document.getElementById("userAge").asInstanceOf[Input].value.nonEmpty)
-    age = dom.document.getElementById("userAge").asInstanceOf[Input].value
-    else dom.document.getElementById("userAge").asInstanceOf[Input].value = ""
-    if(dom.document.getElementById("userAddress").asInstanceOf[Input].value.nonEmpty)
-    address = dom.document.getElementById("userAddress").asInstanceOf[Input].value
-    else dom.document.getElementById("userAddress").asInstanceOf[Input].value = ""
-    userDetail.map { user =>
-      if(username=="" && username==null) username=user.userName
-      if (gender == "" && gender == null && gender == "-") gender = user.gender.get.toString
-      if (age == "" && age == null) age = user.age.get.toString
-      if (address == "" && address == null) address = user.address.get
+
+
+
+    username = dom.document.getElementById("userName").asInstanceOf[Input].value.replace(" ","")
+    gender = dom.document.getElementById("userGender").asInstanceOf[Select].value.replace("-","")
+    age = dom.document.getElementById("userAge").asInstanceOf[Input].value.replace(" ","")
+    address = dom.document.getElementById("userAddress").asInstanceOf[Input].value.replace(" ","")
+
+    if(username=="" || gender=="" || age == "" || address ==""){
+
+      JsFunc.alert("信息没有填写完整！")
+//      println(username,gender,age,address)
+//      println("这是UserDetail"+userDetail)
+
+    }else if(RegEx.checkAge(age)){
+      JsFunc.alert("年龄严格限制在1~199")
+    }
+    else{
+      Http.postJsonAndParse[SuccessRsp](Route.User.updateUserDetail, UpdateUserReq(userId,username,gender.toInt,age.toInt,address).asJson.noSpaces).map {
+        rsp =>
+          if (rsp.errCode == 0) {
+            //          userDetail :=rsp.userInfo.get
+            //          dom.window.localStorage.setItem("username",username)
+            getUserInfo
+          } else {
+            JsFunc.alert(rsp.msg)
+//            println(rsp.msg)
+          }
+      }
+
     }
 
-    Http.postJsonAndParse[SuccessRsp](Route.User.updateUserDetail, UpdateUserReq(userId,username,gender.toInt,age.toInt,address).asJson.noSpaces).map {
-      rsp =>
-        if (rsp.errCode == 0) {
-//          userDetail :=rsp.userInfo.get
-          dom.window.localStorage.setItem("username",username)
-          getUserInfo
-        } else {
-          //          JsFunc.alert(rsp.msg)
-          println(rsp.msg)
-        }
-    }
 
   }
+
+
   def updateAvatar(imgUrl:String): Unit ={
     val userId = dom.window.localStorage.getItem("userId").toLong
     Http.postJsonAndParse[SuccessRsp](Route.User.updateAvatar, UpdateAvatarReq(userId,imgUrl).asJson.noSpaces).map {
@@ -279,7 +291,7 @@ object UserInfoPage extends Page{
           </div>
           <div class="createCourse-item">
             <div class="test" >昵称：</div>
-            <input placeholder={user.userName} class="test-input" id="userName"></input>
+            <input placeholder={"请输入昵称"} class="test-input" id="userName"></input>
           </div>
           <div class="createCourse-item">
             <div class="test">id号：</div>
@@ -294,12 +306,12 @@ object UserInfoPage extends Page{
             </select>
           </div>{""}<div class="createCourse-item">
           <div class="test">年龄：</div>
-          <input placeholder={user.age.getOrElse("请输入年龄").toString} class="test-input" id="userAge"></input>
+          <input maxlength="3" placeholder={"请输入年龄"} class="test-input" id="userAge"></input>
         </div>
           <div class="createCourse-item" style="align-items: flex-start;">
             <div class="test" style="margin-top: 4px">居住地址：</div>
             <div>
-              {""}<input placeholder={user.address.getOrElse("请输入地址")} id="userAddress" class="test-input"></input>
+              {""}<input placeholder={"请输入地址"} id="userAddress" class="test-input"></input>
             </div>
           </div>
 
@@ -322,7 +334,7 @@ object UserInfoPage extends Page{
           </div>
           <div class="createCourse-item createCourse-textarea">
             <div style="margin-top: 4px;">房间描述：</div>
-            <textarea placeholder="请描述下房间"></textarea>
+            <textarea placeholder="请描述下房间" disabled="disabled"></textarea>
           </div>
 
 
@@ -336,6 +348,7 @@ object UserInfoPage extends Page{
 
   override def render: Elem = {
     init()
+    getUserInfo
     //    dom.document.documentElement.appendChild({renderWebm()})
 
     <div style="margin:0 0;">

@@ -53,7 +53,7 @@ object Main {
 //    }else{
 //      println(s"no record for roomId:")
 //    }
-testMap
+    testHead
 
   }
 
@@ -70,13 +70,33 @@ testMap
 //  }
   case class A(id:Int)
   def testMap: Unit ={
-    val a=Seq(1,2,3,4,5)
-    println(a.map(t=>A(t)).toList)
+//    println("ddd","ddadf")
+//    val a=Seq(1,2,3,4,5)
+//    println(a.map(t=>A(t)).toList)
 
   }
 
   def testHead: Unit ={
+    println("a"+checkAge("0"))
+    println("b"+checkAge("1"))
+    println("c"+checkAge("8"))
+    println("d"+checkAge("99"))
+    println("e"+checkAge("-1"))
+    println("f"+checkAge("01"))
+    println("g"+checkAge("199"))
+    println("g"+checkAge("999"))
+    println("h"+checkAge("1000"))
+  }
 
+
+  def checkAge(str: String): Boolean = {
+    val emailPattern = """^([1-9]|[1-9][0-9]|[1][1-9][1-9])$""".r
+    val r = emailPattern.findAllMatchIn(str).toList
+//    println(r)
+    if(r.nonEmpty)
+      true
+    else
+      false
   }
 //  def getVideoDuration(filePath: String) ={
 //    val ffprobe = Loader.load(classOf[org.bytedeco.ffmpeg.ffprobe])
