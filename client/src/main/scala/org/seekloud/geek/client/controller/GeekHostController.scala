@@ -537,6 +537,7 @@ class GeekHostController(
         updateWhenUserList()
 
 
+      case msg:HostCloseRoom=>
       case HostCloseRoom =>
         log.info(s"receive：HostCloseRoom")
         if (!RmManager.getCurrentUserInfo().isHost.get){//自己不是主持人，主持人退出了会出现一个弹窗
