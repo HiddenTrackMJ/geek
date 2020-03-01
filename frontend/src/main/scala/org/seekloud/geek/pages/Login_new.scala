@@ -25,17 +25,17 @@ object Login_new extends Page {
           <div class="title1">旅游、交通、气象、公共安全、大数据</div>
           <div class="imgGroug">
             <ul>
-              <img alt="" class="img0 png" src="./img/page1_0.png"/>
-                <img alt="" class="img1 png" src="./img/page1_1.png"/>
-                  <img alt="" class="img2 png" src="./img/page1_2.png"/>
+              <img alt="1" class="img0 png" src="./img/page1_0.png"/>
+                <img alt="2" class="img1 png" src="./img/page1_1.png"/>
+                  <img alt="3" class="img2 png" src="./img/page1_2.png"/>
                   </ul>
                 </div>
-                <img alt="" class="img3 png" src="./img/page1_3.jpg" />
+                <img alt="4" class="img3 png" src="./img/page1_3.jpg" />
                 </div>
               </div>
               <div class="tyg-div-denglv">
                 <div class="tyg-div-form">
-                  <form action="">
+                  <form action="5">
                     <h2>登录</h2><p class="tyg-p">欢迎访问  智慧能力</p>
                     <div style="margin:5px 0px;">
                       <input type="text" placeholder="请输入账号..."/>
