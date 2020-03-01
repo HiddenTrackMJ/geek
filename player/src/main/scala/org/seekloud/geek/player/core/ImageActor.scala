@@ -143,7 +143,7 @@ object ImageActor {
         val user =  MediaPlayer.roomInfo.get.userList.find(_.userId == id.toLong)
         if (user nonEmpty){
           val position = user.get.position
-          GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),position)
+          GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),position,center = true)
         }else{
 //          GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),-1)
           log.info("当前用户已经退出房间了")
