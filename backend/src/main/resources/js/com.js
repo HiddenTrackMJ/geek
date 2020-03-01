@@ -2,7 +2,7 @@
 $(document).ready(function(){
 	mainObj.init(),mainObj.resizeFn(),
 	$(window).resize(function(){mainObj.resizeFn()}),
-	mainObj.judgeBro()&&($("#style").attr("href","css/style_ie2.0.css"),
+	mainObj.judgeBro()&&($("#style").attr("href","/geek/static/css/style2.0.css"),
 		mainObj.scrollSetPos(),$(window).scroll(function(){mainObj.scrollSetPos()})),
 	setTimeout(function(){
 		var a=window.location.href,b=a.split("#@");
@@ -21,9 +21,9 @@ $(document).ready(function(){
 var mainObj={
 	suffix:0,
 	$par:$("#contPar"),
-	$menu:$("#btnlistpar"),
-	$btnNext:$(".btn-down"),
-	$btnPrev:$(".btn-up"),
+	$menu:$("#btn3listpar"),
+	$btn3Next:$(".btn3-down"),
+	$btn3Prev:$(".btn3-up"),
 	anitime:600,
 	ifScroll:1,
 	doOne:1,
@@ -74,12 +74,12 @@ var mainObj={
 				d.css({"margin-left":i.margin_left+1.2*p+"px","margin-top":i.margin_top+1.2*q+"px"}),
 				e.css({"margin-left":j.margin_left-1.2*p+"px","margin-top":j.margin_top-1.2*q+"px"}),
 				f.css({"margin-left":k.margin_left-.6*p+"px","margin-top":k.margin_top-.6*q+"px"})})
-		}else 
+		}else
 			this.$menu.hide(),
-			this.$btnNext.show().click(function(){
+			this.$btn3Next.show().click(function(){
 				mainObj.scroll_To(mainObj.getNextSuffix(!0))
 			}),
-			this.$btnPrev.click(function(){
+			this.$btn3Prev.click(function(){
 				0!=mainObj.suffix&&mainObj.scroll_To(mainObj.getNextSuffix(!1))
 			}),
 			$(document).bind("touchmove",function(a){a.preventDefault()}),
@@ -133,7 +133,7 @@ var mainObj={
 							break;
 							default:mainObj.anitime=600
 						}
-						mainObj.is_pc()||(0==mainObj.suffix?mainObj.$btnPrev.hide():mainObj.$btnPrev.show(),1==mainObj.suffix&&mainObj.reScrollTop()),
+						mainObj.is_pc()||(0==mainObj.suffix?mainObj.$btn3Prev.hide():mainObj.$btn3Prev.show(),1==mainObj.suffix&&mainObj.reScrollTop()),
 						setTimeout(function(){mainObj.ifScroll=1},mainObj.anitime)
 					}
 				})

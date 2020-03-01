@@ -133,7 +133,7 @@ object InviterManagement extends Page{
   val roomIdDetail : Rx[Elem] = roomIdData.map{
     case Nil =>
       <div class="row">
-      <select id="modifyPeople" class="modify-people"><option >暂无数据</option></select>
+        <select id="modifyPeople" class="modify-people"><option >暂无数据</option></select>
       </div>
     case info => <div class="row"><select id="modifyPeople" class="modify-people">
       {
