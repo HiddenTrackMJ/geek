@@ -50,7 +50,7 @@ object ClientCaptureActor {
   final case class SwitchMode(isJoin: Boolean, reset: () => Unit) extends DrawCommand with CaptureCommand
 
   //重置是否需要声音
-  final case class ReSet(noImgReset: () => Unit, isNeedImage: Boolean, haveImgReset: ()=>Unit) extends DrawCommand
+  final case class ReSet(noImgReset: () => Unit, isNeedImage: Boolean, haveImgReset: ()=>Unit,callback:()=>Unit) extends DrawCommand
 
   final case object StopDraw extends DrawCommand
 
@@ -118,13 +118,13 @@ object ClientCaptureActor {
             ()=>{
               val user = RmManager.roomInfo.get.userList.find(_.userId == RmManager.userInfo.get.userId).get
               if (RmManager.isStart){
-                GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),user.position)
+                GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),user.position,center = true)
               }else{
                 //没有开启会议则画满整个屏幕
-                GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),-1)
+                GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),-1,center = true)
 
               }
-            },msg.needImage,msg.callBack))
+            },msg.needImage,msg.callBack,msg.callBack))
 
           Behaviors.same
 
@@ -251,8 +251,12 @@ object ClientCaptureActor {
         case msg: ReSet =>
           log.info("drawer reset")
           if (msg.isNeedImage){
-            Boot.addToPlatform(msg.haveImgReset())
+            Boot.addToPlatform{
+              msg.haveImgReset()
+            }
           }else{
+            log.info("???111")
+            msg.callback()
             Boot.addToPlatform(msg.noImgReset())
           }
           drawer(gc, isJoin, msg.isNeedImage)

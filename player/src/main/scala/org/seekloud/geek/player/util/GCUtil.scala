@@ -23,21 +23,23 @@ object GCUtil {
   def draw (
     gc: GraphicsContext,
     image:Image,
-    position: Int  //0表示左侧，右边有4个空位，可选值 1，2，3，4，
+    position: Int,  //0表示左侧，右边有4个空位，可选值 1，2，3，4，
+    center:Boolean = false
   ): Unit ={
     if (position == -1){
       gc.drawImage(image, 0, 0,gc.getCanvas.getWidth, gc.getCanvas.getHeight)
     }else if(position == 0){
-      drawLeft(gc,image)
+      drawLeft(gc,image,center)
     }else{
-      drawRight(gc,image,position)
+      drawRight(gc,image,position,center)
     }
 
   }
 
   def drawLeft (
     gc: GraphicsContext,
-    image:Image
+    image:Image,
+    center:Boolean = false
   ) ={
     val canvas_all_width = gc.getCanvas.getWidth
     val canvas_all_height = gc.getCanvas.getHeight
@@ -50,7 +52,15 @@ object GCUtil {
 
 
     val (x,y,canvas_last_w,canvas_last_h) = calculate(0,0,canvas_distribute_w,canvas_distribute_h,image_w,image_h)
-    gc.drawImage(image, x, y,canvas_last_w, canvas_last_h)
+    if (center){
+      val w = canvas_last_w * 0.5
+      val h = canvas_last_h * 0.5
+      val n_x = x + (canvas_distribute_w -w) /2
+      val n_y = y + (canvas_distribute_h -h) /2 - 80
+      gc.drawImage(image, n_x, n_y,w, h)
+    }else{
+      gc.drawImage(image, x, y,canvas_last_w, canvas_last_h)
+    }
 
   }
 
@@ -90,7 +100,7 @@ object GCUtil {
       val w = canvas_last_w * 0.5
       val h = canvas_last_h * 0.5
       val n_x = x + (canvas_distribute_w -w) /2
-      val n_y = y + (canvas_distribute_h -h) /2
+      val n_y = y + (canvas_distribute_h -h) /2 - 30
       gc.drawImage(image, n_x, n_y,w, h)
     }else{
       gc.drawImage(image, x, y,canvas_last_w, canvas_last_h)
