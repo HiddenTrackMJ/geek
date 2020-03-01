@@ -653,7 +653,7 @@ object RoomDealer {
    * msg：发送的消息
    **/
   private def dispatchTo(subscribers: mutable.HashMap[Long, ActorRef[UserActor.Command]])(targetUserIdList: List[Long], msg: WsMsgRm)(implicit sendBuffer: MiddleBufferInJvm): Unit = {
-    log.debug(s"${subscribers}定向分发消息：$msg")
+    log.debug(s"${subscribers}定向分发给用户列表：${targetUserIdList}，消息：$msg")
     targetUserIdList.foreach { k =>
       subscribers.get(k).foreach(r => r ! UserActor.DispatchMsg(Wrap(msg.asInstanceOf[WsMsgRm].fillMiddleBuffer(sendBuffer).result()), msg.isInstanceOf[WsProtocol.HostCloseRoom]))
     }

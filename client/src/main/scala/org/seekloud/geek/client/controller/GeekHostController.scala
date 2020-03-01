@@ -375,7 +375,9 @@ class GeekHostController(
 
   //添加系统消息
   def addServerMsg(t:CommentInfo) = {
-    commentJList.getItems.add(CommentColumn(commentPane.getPrefWidth - 30,t,CommentType.SERVER)())
+    Boot.addToPlatform{
+      commentJList.getItems.add(CommentColumn(commentPane.getPrefWidth - 30,t,CommentType.SERVER)())
+    }
   }
 
   def addComment(t:CommentInfo) = {
