@@ -165,25 +165,25 @@ object RoomDealer {
 
         case msg: StartLive =>
           subscribe.put(msg.hostId, msg.actor)
-          grabManager ! GrabberManager.StartLive(wholeRoomInfo.roomId, msg.hostId, msg.roomDetailInfo.rtmpInfo, msg.hostCode, ctx.self)
+          if (AppSettings.rtmpIsMix) grabManager ! GrabberManager.StartLive(wholeRoomInfo.roomId, msg.hostId, msg.roomDetailInfo.rtmpInfo, msg.hostCode, ctx.self)
           dispatchTo(subscribe)(List(msg.hostId), WsProtocol.StartLiveRsp(msg.roomDetailInfo.rtmpInfo, msg.roomDetailInfo.userLiveCodeMap, msg.hostCode))
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StartLive4Client =>
-          grabManager ! GrabberManager.StartLive4Client(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo, msg.selfCode, ctx.self)
+          if (AppSettings.rtmpIsMix) grabManager ! GrabberManager.StartLive4Client(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo, msg.selfCode, ctx.self)
           dispatch(subscribe)(WsProtocol.StartLive4ClientRsp(Some(msg.roomDetailInfo.rtmpInfo), msg.roomDetailInfo.userLiveCodeMap, msg.selfCode))
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StopLive =>
           log.info(s"RoomDealer-${wholeRoomInfo.roomId} is stopping...")
-          grabManager ! GrabberManager.StopLive(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo)
+          if (AppSettings.rtmpIsMix) grabManager ! GrabberManager.StopLive(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo)
           dispatch(subscribe)( WsProtocol.StopLiveRsp(wholeRoomInfo.roomId))
           idle( roomDetailInfo.copy(rtmpInfo = msg.rtmpInfo), wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 //          Behaviors.stopped
 
         case msg: StopLive4Client =>
           log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.userId} is stopping...${subscribe}")
-          grabManager ! GrabberManager.StopLive4Client(wholeRoomInfo.roomId, msg.userId, msg.selfCode)
+          if (AppSettings.rtmpIsMix) grabManager ! GrabberManager.StopLive4Client(wholeRoomInfo.roomId, msg.userId, msg.selfCode)
           dispatch(subscribe)( WsProtocol.StopLive4ClientRsp(wholeRoomInfo.roomId, msg.userId))
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
@@ -193,7 +193,7 @@ object RoomDealer {
               u match {
                 case Some(user) =>
                   log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.req.userId} recv shield rsp...")
-                  grabManager ! GrabberManager.Shield(msg.req, msg.liveCode)
+                  if (AppSettings.rtmpIsMix) grabManager ! GrabberManager.Shield(msg.req, msg.liveCode)
                   dispatch(subscribe)( WsProtocol.ShieldRsp(msg.req.isForced, user.id, user.name, msg.req.isImage, msg.req.isAudio))
                 case _ =>
                   dispatch(subscribe)( WsProtocol.ShieldRsp(msg.req.isForced, -1L, "", msg.req.isImage, msg.req.isAudio, errCode = 100035, msg = "This user doesn't exist"))
@@ -211,7 +211,7 @@ object RoomDealer {
                 case Some(user) =>
                   if (status) {
                     log.info(s"RoomDealer-${roomId} userId-${userId} recv appoint rsp...")
-                    grabManager ! GrabberManager.Appoint(userId, roomId, liveId, status = true)
+                    if (AppSettings.rtmpIsMix) grabManager ! GrabberManager.Appoint(userId, roomId, liveId, status = true)
                     dispatch(subscribe)( WsProtocol.AppointRsp(user.id, user.name, status = true))
                   }
                   else dispatch(subscribe)( WsProtocol.AppointRsp(user.id, user.name, errCode = 100036, msg = "This user doesn't exist"))
@@ -472,7 +472,7 @@ object RoomDealer {
           val selfCodeOpt = roomDetailInfo.userLiveCodeMap.find(_._2 == msg.userId)
           if (selfCodeOpt.isDefined) {
             selfCodeOpt.foreach{ s =>
-              grabManager ! GrabberManager.Appoint(userId, roomId, s._1, status = false)
+              if (AppSettings.rtmpIsMix) grabManager ! GrabberManager.Appoint(userId, roomId, s._1, status = false)
             }
           }
           dispatch(WsProtocol.AppointRsp(msg.userId, msg.userName))
