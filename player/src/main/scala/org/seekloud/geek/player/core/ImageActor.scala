@@ -75,7 +75,7 @@ object ImageActor {
     needSound = _needSound
     debug(s"frameRate: $frameRate, timeBetweenFrames: ${(1000 / frameRate).millis}")
     Behaviors.withTimers[ImageCmd] { implicit timer =>
-      //      log.info(s"start Image Timer in ImageActor-$id.")
+      log.info(s"start Image Timer in ImageActor-$id.")
       timer.startPeriodicTimer(
         FRAME_RATE_TIMER_KEY,
         TryPlayImageTick,
@@ -145,6 +145,7 @@ object ImageActor {
           val position = user.get.position
           GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),position)
         }else{
+//          GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),-1)
           log.info("当前用户已经退出房间了")
         }
 

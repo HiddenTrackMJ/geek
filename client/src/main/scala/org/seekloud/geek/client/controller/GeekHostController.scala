@@ -672,6 +672,7 @@ class GeekHostController(
     hostStatus match {
       case HostStatus.NOT_CONNECT =>
         //开始会议
+        RmManager.isStart = true
         rmManager ! HostLiveReq
         hostStatus = HostStatus.LOADING
 
@@ -681,6 +682,7 @@ class GeekHostController(
 
       case HostStatus.CONNECT =>
         //结束会议
+        RmManager.isStart = false
         rmManager ! StopLive
         hostStatus = HostStatus.NOT_CONNECT
 
