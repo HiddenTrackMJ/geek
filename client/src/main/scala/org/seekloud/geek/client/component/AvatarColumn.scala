@@ -64,7 +64,7 @@ case class AvatarColumn(
     //根据声音开启状态显示不同图标
     val icon = HostOperateIcon("fas-microphone:16:white","fas-microphone-slash:16:white","取消静音","静音",
       userInfo.isMic.get,userInfo,rootPane,
-      ()=>toggleMic(),()=>Unit,HostOperateIconType.MIC,rmManager = rmManager)()
+      ()=>Unit,()=>Unit,HostOperateIconType.MIC,rmManager = rmManager)()
 
 
     gridPane.add(icon, 2, 0)
@@ -73,7 +73,7 @@ case class AvatarColumn(
     //控制某个用户的视频消息
     val videoIcon = HostOperateIcon("fas-video:16:white","fas-eye-slash:16:white","关闭视频","开启视频",
       userInfo.isVideo.get,userInfo,rootPane,
-      ()=>toggleVideo(),()=>Unit,HostOperateIconType.VIDEO,rmManager = rmManager)()
+      ()=>Unit,()=>Unit,HostOperateIconType.VIDEO,rmManager = rmManager)()
 
 
     gridPane.add(videoIcon, 3, 0)

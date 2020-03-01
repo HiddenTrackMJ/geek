@@ -5,9 +5,9 @@ import com.jfoenix.controls.JFXRippler
 import javafx.scene.layout.Pane
 import org.seekloud.geek.client.common.Constants.HostOperateIconType
 import org.seekloud.geek.client.core.RmManager
-import org.seekloud.geek.client.core.RmManager.Appoint4Host
+import org.seekloud.geek.client.core.RmManager.{Appoint4Host, Shield}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.UserInfo
-import org.seekloud.geek.shared.ptcl.WsProtocol.ChangePossessionReq
+import org.seekloud.geek.shared.ptcl.WsProtocol.{ChangePossessionReq, ShieldReq}
 import org.slf4j.LoggerFactory
 /**
   * User: hewro
@@ -51,11 +51,11 @@ case class HostOperateIcon(
             case HostOperateIconType.MIC =>
               //            userInfo.isMic = Some(!userInfo.isMic.get)
               log.info("roomid" + RmManager.roomInfo.get.roomId)
-//              rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,userInfo.userId,isImage = userInfo.isVideo.get,isAudio = !userInfo.isMic.get))
+              rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,userInfo.userId,isImage = userInfo.isVideo.get,isAudio = !userInfo.isMic.get))
 
             case HostOperateIconType.VIDEO =>
               //修改内存中该用户的静音状态
-//              rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,userInfo.userId,isImage = !userInfo.isVideo.get,isAudio = userInfo.isMic.get))
+              rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,userInfo.userId,isImage = !userInfo.isVideo.get,isAudio = userInfo.isMic.get))
             //            userInfo.isVideo = Some(!userInfo.isVideo.get)
 
 
