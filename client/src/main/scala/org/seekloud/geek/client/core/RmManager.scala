@@ -250,7 +250,6 @@ object RmManager {
         case msg:ChangeVideoOption =>
           val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId).get
 
-
           if (msg.userId == RmManager.userInfo.get.userId){
             log.info("修改自己的画面配置")
             if(msg.need){

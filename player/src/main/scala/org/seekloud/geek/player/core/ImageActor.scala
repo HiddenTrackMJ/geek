@@ -130,7 +130,7 @@ object ImageActor {
           lastPlayTimeInWallClock,
           ImagePlayedTime,
           audioPlayedTime,
-          false
+          mute = false
         )
 
       case PausePlayImage =>
@@ -148,7 +148,7 @@ object ImageActor {
           GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),position,center = true)
         }else{
 //          GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.get.headImgUrl)),-1)
-          log.info("当前用户已经退出房间了")
+//          log.info("当前用户已经退出房间了")
         }
 
         Behaviors.same

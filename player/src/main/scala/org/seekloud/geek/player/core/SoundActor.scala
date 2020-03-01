@@ -64,7 +64,7 @@ object SoundActor {
         (1000 * nbSamples / sampleRate).millisecond
       )
       val bytesPerSecond = ((audioFormat.getSampleSizeInBits + 7) / 8 * audioFormat.getChannels * audioFormat.getSampleRate).toInt
-      working(id, sdl, nbSamples, sampleRate, playerGrabber, mutable.Queue[Array[Byte]](), 0L, sdl.available(), imageActor, bytesPerSecond)
+      working(id, sdl, nbSamples, sampleRate, playerGrabber, mutable.Queue[Array[Byte]](), 0L, sdl.available(), imageActor, bytesPerSecond,false)
     }
   }
 
@@ -78,7 +78,8 @@ object SoundActor {
     playedSamplesByte: Long,
     lastAvailable: Int,
     imageActorOpt: Option[ActorRef[ImageActor.ImageCmd]],
-    bytePerSecond: Int
+    bytePerSecond: Int,
+    isMute:Boolean
   )(
     implicit timer: TimerScheduler[SoundCmd]
   ): Behavior[SoundCmd] = Behaviors.receive { (ctx, msg) =>
@@ -86,24 +87,25 @@ object SoundActor {
     msg match {
       case PausePlaySound =>
         log.info(s"SoundActor-$id got PausePlay.")
-        timer.cancel(AUDIO_TIMER_KEY)
+//        timer.cancel(AUDIO_TIMER_KEY)
         log.info(s"SoundActor-$id cancel Sound Timer.")
-        imageActorOpt.foreach(_ ! PausePlaySound)
+//        imageActorOpt.foreach(_ ! PausePlaySound)
 //        sdl.drain()
-        Behaviors.same
+        working(id,sdl,nbSamples,sampleRate,playerGrabber,samplesQueue,playedSamplesByte,lastAvailable,imageActorOpt,bytePerSecond,true)
 
       case ContinuePlaySound =>
-        if (!timer.isTimerActive(AUDIO_TIMER_KEY)){
-          log.info(s"SoundActor-$id got ContinuePlay.")
-          log.info(s"start Sound Timer in SoundActor-$id.")
-          timer.startPeriodicTimer(
-            AUDIO_TIMER_KEY,
-            TryPlaySoundTick,
-            (1000 * nbSamples / sampleRate).millisecond
-          )
-          imageActorOpt.foreach(_ ! ContinuePlaySound)
-        }
-        Behaviors.same
+//        if (!timer.isTimerActive(AUDIO_TIMER_KEY)){
+//          log.info(s"SoundActor-$id got ContinuePlay.")
+//          log.info(s"start Sound Timer in SoundActor-$id.")
+//          timer.startPeriodicTimer(
+//            AUDIO_TIMER_KEY,
+//            TryPlaySoundTick,
+//            (1000 * nbSamples / sampleRate).millisecond
+//          )
+//          imageActorOpt.foreach(_ ! ContinuePlaySound)
+//        }
+        working(id,sdl,nbSamples,sampleRate,playerGrabber,samplesQueue,playedSamplesByte,lastAvailable,imageActorOpt,bytePerSecond,false)
+
 
       case AddSamples(samples, ts) =>
         //TODO first sample is not begin at 0 timestamp.
@@ -126,7 +128,8 @@ object SoundActor {
           newPlayedSamplesByte,
           lastAvailable,
           imageActorOpt,
-          bytePerSecond
+          bytePerSecond,
+          isMute
         )
 
       case TryPlaySoundTick =>
@@ -146,7 +149,11 @@ object SoundActor {
             if (available > samplesQueue.head.length) {
               val head = samplesQueue.dequeue
               //FIXME write is a sync func.
-              sdl.write(head, 0, head.length)
+              if (isMute){
+                log.info("静音中")
+              }else{
+                sdl.write(head, 0, head.length)
+              }
               available - head.length
             } else {
               available
@@ -161,7 +168,8 @@ object SoundActor {
             newPlayedSamples,
             newAvailable,
             imageActorOpt,
-            bytePerSecond
+            bytePerSecond,
+            isMute
           )
         } else {
           playerGrabber ! PlayerGrabber.AskSamples(Left(ctx.self))
