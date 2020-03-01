@@ -58,7 +58,8 @@ object GCUtil {
   def drawRight (
     gc: GraphicsContext,
     image:Image,
-    position: Int  //右边有4个空位，可选值 1，2，3，4，
+    position: Int,  //右边有4个空位，可选值 1，2，3，4，
+    center:Boolean = false
   ) = {
 
     val canvas_all_width = gc.getCanvas.getWidth
@@ -84,7 +85,16 @@ object GCUtil {
 
     val (x,y,canvas_last_w,canvas_last_h) = calculate(offset_x,offset_y,canvas_distribute_w,canvas_distribute_h,image_w,image_h)
 //    log.info(s"position:$position,x:$x,y$y,offset_x:$offset_x,offset_y:$offset_y,w:$canvas_last_w,h:$canvas_last_h")
-    gc.drawImage(image, x, y,canvas_last_w, canvas_last_h)
+
+    if (center){
+      val w = canvas_last_w * 0.5
+      val h = canvas_last_h * 0.5
+      val n_x = x + (canvas_distribute_w -w) /2
+      val n_y = y + (canvas_distribute_h -h) /2
+      gc.drawImage(image, n_x, n_y,w, h)
+    }else{
+      gc.drawImage(image, x, y,canvas_last_w, canvas_last_h)
+    }
 
   }
 
