@@ -280,7 +280,7 @@ object ImageActor {
       //id的值是当前拉流的用户userId
       val user =  MediaPlayer.roomInfo.get.userList.find(_.userId == id.toLong)
       if (user nonEmpty){
-        log.info("画图")
+//        log.info("画图")
         val position = user.get.position
         GCUtil.draw(gc,img,position)
       }else{
