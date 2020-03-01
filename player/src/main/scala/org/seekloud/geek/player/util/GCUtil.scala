@@ -100,7 +100,7 @@ object GCUtil {
       val w = canvas_last_w * 0.5
       val h = canvas_last_h * 0.5
       val n_x = x + (canvas_distribute_w -w) /2
-      val n_y = y + (canvas_distribute_h -h) /2 +10
+      val n_y = y + (canvas_distribute_h -h) /2 +15
       gc.drawImage(image, n_x, n_y,w, h)
     }else{
       gc.drawImage(image, x, y,canvas_last_w, canvas_last_h)
