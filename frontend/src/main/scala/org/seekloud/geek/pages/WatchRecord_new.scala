@@ -222,6 +222,9 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
           //          dom.document.location.href= s"#/room/"+roomId.toString + "/" + fileName
           dom.document.location.hash= s"#/room/"+roomId.toString + "/" + fileName.dropRight(4)
           println("ssssss")
+        }else if(rsp.errCode == -1) {
+          JsFunc.alert(rsp.msg)
+          dom.document.location.hash= s"#/room/"+roomId.toString + "/" + fileName.dropRight(4)
         } else {
           JsFunc.alert("抱歉，你没有查看该录像的权限")
           println(rsp.msg)

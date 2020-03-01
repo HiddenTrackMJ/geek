@@ -90,8 +90,9 @@ object VideoDao {
     db.run(innerJoin.distinct.sortBy(_._1.id).result)
   }
   def checkInvitee(inviteeId: Long,fileName:String) = {
-    val q = tVideo.filter(_.invitation ===inviteeId ).filter(_.filename === fileName).result
-    db.run(q)
+
+      val q = tVideo.filter(_.invitation ===inviteeId ).filter(_.filename === fileName).result
+      db.run(q)
   }
 
 //  def getInviteDetail_new(inviterId:Long,inviteeId:Long) = {

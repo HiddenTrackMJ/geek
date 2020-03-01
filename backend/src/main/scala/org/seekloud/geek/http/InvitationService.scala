@@ -7,6 +7,7 @@ import scala.language.postfixOps
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import org.seekloud.geek.Boot.{executor, invitation, roomManager, scheduler, userManager}
+import org.seekloud.geek.common.AppSettings.authCheck
 import akka.actor.typed.scaladsl.AskPattern._
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.ws.Message
@@ -128,15 +129,18 @@ trait InvitationService extends BaseService{
   private def checkInvitee =(path("checkInvitee") & post){
     entity(as[Either[Error, CheckInviteeReq]]) {
       case Right(req) =>
-        dealFutureResult(
-          VideoDao.checkInvitee(req.inviteeId,req.fileName).map { rsp =>
-            if (rsp != Vector())
-              complete(SuccessRsp())
-            else
-              complete(ErrorRsp(1000045, "没有被邀请"))
-          }
+        if(authCheck){
+          dealFutureResult(
+            VideoDao.checkInvitee(req.inviteeId,req.fileName).map { rsp =>
+              if (rsp != Vector())
+                complete(SuccessRsp())
+              else
+                complete(ErrorRsp(1000045, "没有被邀请"))
+            }
 
-        )
+          )
+        }else complete(SuccessRsp(-1,"超级权限已开启，无需邀请即可查看所有录像"))
+
       case Left(error) =>
         log.warn(s"error in checkInvitee: $error")
         complete(ErrorRsp(msg = "json parse error.1", errCode = 1000005))
