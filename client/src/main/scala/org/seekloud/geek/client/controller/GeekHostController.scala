@@ -477,6 +477,10 @@ class GeekHostController(
         if (RmManager.getCurrentUserInfo().isHost.get && msg.status){//自己是主持人而且是请求发言
           ConfirmDialog(context.getStage,s"${msg.userName} 用户请求发言","您可以选择同意或者拒绝","同意","拒绝",Some(
             ()=>{
+              //取消掉当前的发言人
+              RmManager.roomInfo.get.userList.filter(_.isAllow.get==true).map(_.userId).foreach{
+                rmManager ! Appoint4Host(_,status = false)
+              }
               //给后端发送同意
               rmManager ! Appoint4HostReply(msg.userId,status = true)
             }

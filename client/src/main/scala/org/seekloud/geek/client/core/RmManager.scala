@@ -422,6 +422,7 @@ object RmManager {
         case StopLiveSuccess =>
           //房主/或者自己（不是房主）退出会议
           log.info("房主/或者自己（不是房主）退出会议")
+          RmManager.isStart = false
           //停止推流
           liveManager ! LiveManager.StopPush
           /*背景改变*/
