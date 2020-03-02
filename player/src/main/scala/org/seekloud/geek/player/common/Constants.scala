@@ -9,6 +9,15 @@ import java.io.File
   */
 object Constants {
 
+  //获取用户头像地址
+  def getAvatarSrc(name:String) = {
+    if (name == ""){//默认头像地址
+      "scene/img/avatar.jpg"
+    }else{
+      "http://10.1.29.247:30226/hestia/files/image/OnlyForTest/" + name
+    }
+  }
+
   val cachePath: String = s"${System.getProperty("user.home")}/.geek/pcClient"
   val cacheFile = new File(cachePath)
 

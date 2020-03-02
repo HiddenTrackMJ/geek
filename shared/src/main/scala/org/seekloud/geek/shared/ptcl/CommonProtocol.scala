@@ -27,6 +27,7 @@ object CommonProtocol {
     var isMic:Option[Boolean] = Some(true), //当前用户是否开了声音
     var isVideo:Option[Boolean] = Some(true), //当前用户是否开了摄像头
     var isAllow:Option[Boolean] = Some(false), //当前用户是否是发言人（发言模式下）
+    var position:Int = 0, //0表示凸显的位置，1，2，3，4分别对应右侧的4个位置
   )
 
   case class CommentInfo(
@@ -113,7 +114,7 @@ object CommonProtocol {
                                  ) extends Response
 
 
-  object ModeStatus{
+  object ModeStatus {
     val FREE = 0 //自由发言
     val ASK = 1 //申请发言
   }
@@ -129,7 +130,7 @@ object CommonProtocol {
     var observerNum:Int,
     var rtmp: Option[String] = None,
     var userList:List[UserInfo] = Nil, //房间里面的所有人信息
-    var modeStatus:Int = ModeStatus.FREE //当前发言状态
+    var modeStatus:Int = ModeStatus.FREE, //当前发言状态
   )
 
   case class MeetingInfo(

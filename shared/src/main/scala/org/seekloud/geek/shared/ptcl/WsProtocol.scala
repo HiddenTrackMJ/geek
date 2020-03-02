@@ -1,7 +1,7 @@
 package org.seekloud.geek.shared.ptcl
 
 import org.seekloud.geek.shared.ptcl.CommonInfo.{AudienceInfo, LiveInfo, RoomInfo, UserDes}
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{ModifyRoomInfo, RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
 
 /**
  * Author: Jason
@@ -174,17 +174,40 @@ object WsProtocol  {
     msg: String = "ok"
   ) extends WsMsgRm
 
-  case class AppointReq(
+  //当前用户请求发言或者关闭发言，如果status是true，后端收到后转发给主持人，是false后端直接处理后发AppointRsp消息
+  case class Appoint4ClientReq(
+    roomId: Long,
+    userId: Long,
+    userName: String, //携带名字方便显示
+    status: Boolean //true 为请求发言，false为请求关闭发言
+  )extends WsMsgHost with WsMsgRm
+
+  //主持人对请求发言消息的回复，用户请求关闭发言消息，后端直接处理就可以了
+  case class Appoint4HostReplyReq(
+    status: Boolean, //同意为true，拒绝为false
     roomId: Long,
     userId: Long
+  )extends WsMsgHost
+
+
+  //这个消息是给主持人使用的，主持人直接指定让谁成为发言人,取消谁的发言人身份
+  case class AppointReq(
+    roomId: Long,
+    userId: Long,
+    status: Boolean = false
   ) extends WsMsgHost
 
+
+  //后端给所有用户发送该用户的发言状态
   case class AppointRsp(
     userId: Long,
     userName: String,
+    status: Boolean = false, //true为请求发言成功，false为被拒绝或者请求关闭发言成功
+    msg: String = "ok",
     errCode: Int = 0,
-    msg: String = "ok"
   ) extends WsMsgRm
+
+
 
   case class ShieldReq(
     isForced: Boolean, //为true是被主持人屏蔽的，为false是主动屏蔽的

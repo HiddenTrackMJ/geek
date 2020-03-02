@@ -11,6 +11,10 @@ import org.seekloud.geek.capture.protocol.Messages
 import org.seekloud.geek.capture.protocol.Messages._
 import org.seekloud.geek.capture.sdk.MediaCapture
 import org.seekloud.geek.client.Boot
+import org.seekloud.geek.client.common.Constants
+import org.seekloud.geek.client.core.RmManager
+import org.seekloud.geek.client.core.stream.LiveManager.ChangeCaptureOption
+import org.seekloud.geek.player.util.GCUtil
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration._
@@ -37,14 +41,16 @@ object ClientCaptureActor {
   final case class GetMediaCapture(mediaCapture: MediaCapture) extends CaptureCommand
 
   /*drawer*/
-  sealed trait DrawCommand
+  trait DrawCommand
 
   final case class DrawImage(image: Image) extends DrawCommand
 
+  final case object PauseImage extends DrawCommand
   //切换
   final case class SwitchMode(isJoin: Boolean, reset: () => Unit) extends DrawCommand with CaptureCommand
 
-  final case class ReSet(reset: () => Unit, offOrOn: Boolean) extends DrawCommand
+  //重置是否需要声音
+  final case class ReSet(isNeedImage: Boolean, noImgReset: () => Unit) extends DrawCommand
 
   final case object StopDraw extends DrawCommand
 
@@ -106,6 +112,23 @@ object ClientCaptureActor {
           log.info(s"Media capture start failed. Review your settings.")
           Behaviors.same
 
+        case msg: ChangeCaptureOption =>
+          //只处理图片就可以了，声音由player关闭就可以了
+          drawActor.foreach(_!ReSet(msg.needImage,
+            ()=>{//不需要图片的时候的摄像头的位置的图像处理
+              val user = RmManager.roomInfo.get.userList.find(_.userId == RmManager.userInfo.get.userId).get
+              if (RmManager.isStart){
+                log.info("清理画布1")
+                GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),user.position,center = true,isNeedClear = true)
+              }else{
+                //没有开启会议则画满整个屏幕
+                GCUtil.draw(gc,new Image(Constants.getAvatarSrc(user.headImgUrl)),-1,center = true,isNeedClear = true)
+
+              }
+            }))
+
+          Behaviors.same
+
         case ManagerStopped =>
           log.info(s"Capture Manager stopped.")
           if (resetFunc.nonEmpty) {
@@ -138,6 +161,7 @@ object ClientCaptureActor {
           Behaviors.same
 
         case msg: StartEncode =>
+          log.info("StartEncode")
 //          msg.output match {
 //            case Right(outputStream) =>
 //              if (reqActor.nonEmpty) {
@@ -161,6 +185,7 @@ object ClientCaptureActor {
           Behaviors.same
 
         case msg: StopEncode =>
+          log.info("StopEncode")
 //          msg.encoderType match {
 //            case EncoderType.STREAM => reqActor.foreach(_ ! StopEncodeStream)
 //            case EncoderType.FILE => reqActor.foreach(_ ! StopEncodeFile)
@@ -170,6 +195,7 @@ object ClientCaptureActor {
           Behaviors.same
 
         case msg: SwitchMode =>
+          log.info("SwitchMode")
           drawActor.foreach(t =>t ! msg)
           //todo 关掉摄像头的drawer
 //          drawActor.foreach(_ ! StopDraw)
@@ -198,23 +224,23 @@ object ClientCaptureActor {
     Behaviors.receive[DrawCommand] { (ctx, msg) =>
       msg match {
         case msg: DrawImage =>
-          val sWidth = gc.getCanvas.getWidth
-          val sHeight = gc.getCanvas.getHeight
 
-//          log.info("imgage宽度" + sWidth + "高度" + sHeight)
+//          log.info(s"needImage: $needImage,RmManager.isStart: ${RmManager.isStart}")
           if (needImage) {
-            if (!isJoin) {
+            if (!RmManager.isStart){
+              GCUtil.draw(gc,msg.image,-1)
+            }else{
+              //开启会议的时候，根据自由模式还是发言模式和用户身份，决定当前用户画在什么位置上
               Boot.addToPlatform {
-                gc.drawImage(msg.image, 0.0, 0.0, sWidth, sHeight)
+                val position = RmManager.roomInfo.get.userList.find(_.userId == RmManager.userInfo.get.userId).get.position
+                GCUtil.draw(gc,msg.image,position)
               }
-            } else {
-              //开启会议的时候，本地player不需要画图形
-//              Boot.addToPlatform {
-//                gc.drawImage(msg.image, 0.0, sHeight / 4, sWidth / 2, sHeight / 2)
-//              }
             }
           }
+
+
           Behaviors.same
+
 
         case msg: SwitchMode =>
           log.debug(s"Capture Drawer switch mode.")
@@ -226,8 +252,12 @@ object ClientCaptureActor {
 
         case msg: ReSet =>
           log.info("drawer reset")
-          Boot.addToPlatform(msg.reset())
-          drawer(gc, isJoin, !msg.offOrOn)
+          if (!msg.isNeedImage){
+            Boot.addToPlatform{
+              msg.noImgReset()
+            }
+          }
+          drawer(gc, isJoin, msg.isNeedImage)
 
         case StopDraw =>
           log.info(s"Capture Drawer stopped.")
@@ -238,6 +268,7 @@ object ClientCaptureActor {
           Behaviors.unhandled
       }
     }
+
 
 
 }

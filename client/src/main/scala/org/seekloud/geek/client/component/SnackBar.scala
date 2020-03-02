@@ -1,9 +1,9 @@
 package org.seekloud.geek.client.component
 
-import com.jfoenix.controls.JFXSnackbar.SnackbarEvent
 import com.jfoenix.controls.{JFXSnackbar, JFXSnackbarLayout}
 import javafx.scene.layout.Pane
 import javafx.util.Duration
+import org.seekloud.geek.client.Boot
 
 /**
   * User: hewro
@@ -14,8 +14,10 @@ import javafx.util.Duration
 object SnackBar{
 
   def show(root:Pane,message:String): Unit ={
-    val snackbar = new JFXSnackbar(root)
-    snackbar.setPrefWidth(300)
-    snackbar.fireEvent(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout(message),Duration.millis(3000),null))
+    Boot.addToPlatform{
+      val snackbar = new JFXSnackbar(root)
+      snackbar.setPrefWidth(300)
+      snackbar.fireEvent(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout(message),Duration.millis(3000),null))
+    }
   }
 }

@@ -2,17 +2,15 @@ package org.seekloud.geek.player.core
 
 import java.io.{File, InputStream}
 
-import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer}
+import akka.actor.typed.{ActorRef, Behavior}
 import javafx.scene.canvas.GraphicsContext
-import org.seekloud.geek.player.core.PlayerGrabber._
 import org.seekloud.geek.player.core.ImageActor._
+import org.seekloud.geek.player.core.PlayerGrabber._
 import org.seekloud.geek.player.core.RecordActor.StopRecord
 import org.seekloud.geek.player.core.SoundActor._
 import org.seekloud.geek.player.protocol.Messages
 import org.seekloud.geek.player.protocol.Messages._
-import org.seekloud.geek.player.util.RecordUtil
-import org.seekloud.geek.player.sdk.MediaPlayer.executor
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
@@ -81,12 +79,32 @@ object PlayerManager {
     playId: String
   ) extends SupervisorCmd
 
+  final case class PauseSound(
+    playId: String
+  ) extends SupervisorCmd
+  final case class PauseImage(
+    playId: String
+  ) extends SupervisorCmd
+
   final case class ContinuePlay(
     playId: String
   ) extends SupervisorCmd
 
+  final case class ContinueSound(
+    playId: String
+  ) extends SupervisorCmd
+
+  final case class ContinueImage(
+    playId: String
+  ) extends SupervisorCmd
+
+
   final case class StopPlay(
     playId: String,
+    reSetFunc: () => Unit
+  ) extends SupervisorCmd
+
+  final case class StopAllPlay(
     reSetFunc: () => Unit
   ) extends SupervisorCmd
 
@@ -252,9 +270,26 @@ object PlayerManager {
           }
           idle(mediaSettingsMap, gcMap, recordActorMap, playerGrabberMap, imageActorMap, soundActorMap, replyToMap)
 
+
+        case PauseImage(playId) =>
+          if (gcMap.contains(playId)) { //自主播放
+            //            if (playerGrabberMap.contains(playId)) playerGrabberMap(playId)._1 ! PlayerGrabber.PauseGrab
+            if (imageActorMap.contains(playId)) imageActorMap(playId) ! PausePlayImage
+          }
+
+          Behaviors.same
+
+        case PauseSound(playId) =>
+
+          if (gcMap.contains(playId)) { //自主播放
+            if (soundActorMap.contains(playId)) soundActorMap(playId) ! PausePlaySound
+          }
+
+          Behaviors.same
+
         case PausePlay(playId) =>
           if (gcMap.contains(playId)) { //自主播放
-//            if (playerGrabberMap.contains(playId)) playerGrabberMap(playId)._1 ! PlayerGrabber.PauseGrab
+            //            if (playerGrabberMap.contains(playId)) playerGrabberMap(playId)._1 ! PlayerGrabber.PauseGrab
             if (imageActorMap.contains(playId)) imageActorMap(playId) ! PausePlayImage
             if (soundActorMap.contains(playId)) soundActorMap(playId) ! PausePlaySound
           } else { //不自主播放
@@ -265,9 +300,22 @@ object PlayerManager {
           //          playerGrabberMap(playId) ! PauseGrab
           Behaviors.same
 
+        case ContinueImage(playId) =>
+          if (gcMap.contains(playId)) {
+            if (imageActorMap.contains(playId)) imageActorMap(playId) ! ContinuePlayImage
+          }
+          Behaviors.same
+
+
+        case ContinueSound(playId)=>
+          if (gcMap.contains(playId)) {
+            if (soundActorMap.contains(playId)) soundActorMap(playId) ! ContinuePlaySound
+          }
+          Behaviors.same
+
         case ContinuePlay(playId) =>
           if (gcMap.contains(playId)) { //自主播放
-//            if (playerGrabberMap.contains(playId)) playerGrabberMap(playId)._1 ! PlayerGrabber.ContinueGrab
+            //            if (playerGrabberMap.contains(playId)) playerGrabberMap(playId)._1 ! PlayerGrabber.ContinueGrab
             if (imageActorMap.contains(playId)) imageActorMap(playId) ! ContinuePlayImage
             if (soundActorMap.contains(playId)) soundActorMap(playId) ! ContinuePlaySound
           } else { //不自主播放
@@ -279,7 +327,7 @@ object PlayerManager {
           Behaviors.same
 
         case StopPlay(playId, reSetFunc) =>
-          ctx.self ! StopRec() //停止录制
+//          ctx.self ! StopRec() //停止录制
           if (mediaSettingsMap.contains(playId)) {
             //            if(mediaSettingsMap(playId).outputFile.nonEmpty){       //正在录制
             //              recordActorMap.get(playId).foreach(_ ! StopRecord)
@@ -307,9 +355,27 @@ object PlayerManager {
           }
           Behaviors.same
 
+
+        case StopAllPlay(reSetFunc) =>
+          //停止所有的拉流和播放
+          ctx.self ! StopRec() //停止录制
+          mediaSettingsMap.clear()
+          gcMap.clear()
+          playerGrabberMap.foreach(_._2._1 ! StopGrab(reSetFunc))
+          playerGrabberMap.clear()
+          imageActorMap.foreach(_._2 ! PictureFinish(Some(reSetFunc)))
+          imageActorMap.clear()
+          soundActorMap.foreach(_._2 ! SoundFinish)
+          soundActorMap.clear()
+          replyToMap.foreach(_._2 ! StopVideoPlayer)
+          replyToMap.clear()
+
+          Behaviors.same
+
+
         case StopRec() =>
           if (recordActorMap.isEmpty) {
-//            log.debug("目前无录制中的流。")
+            //            log.debug("目前无录制中的流。")
           } else {
             recordActorMap.foreach {
               case (playId, recordActor) =>

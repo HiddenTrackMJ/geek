@@ -2,16 +2,17 @@ package org.seekloud.geek.player.sdk
 
 import java.io.{File, InputStream}
 
-import akka.actor.{ActorSystem, Scheduler}
-import akka.actor.typed.{ActorRef, DispatcherSelector}
 import akka.actor.typed.scaladsl.adapter._
+import akka.actor.typed.{ActorRef, DispatcherSelector}
+import akka.actor.{ActorSystem, Scheduler}
 import akka.dispatch.MessageDispatcher
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import javafx.scene.canvas.GraphicsContext
+import org.seekloud.geek.player.core.PlayerManager
 import org.seekloud.geek.player.core.PlayerManager.MediaSettings
-import org.seekloud.geek.player.core.{PlayerGrabber, PlayerManager}
 import org.seekloud.geek.player.protocol.Messages
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{RoomInfo, UserInfo}
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration._
@@ -43,12 +44,19 @@ object MediaPlayer {
 
   var playerManager : ActorRef[PlayerManager.SupervisorCmd] = _
 
+  var roomInfo: Option[RoomInfo] = None
 
   def apply(): MediaPlayer = new MediaPlayer()
 
 }
 
-class MediaPlayer () {
+class MediaPlayer (
+  roomInfo: Option[RoomInfo] = None,
+  currentUser:Option[UserInfo] = None
+) {
+
+  //初始化，这里拿到的是对象的地址，值会随着rmManger更新而更新
+  MediaPlayer.roomInfo = roomInfo
 
   import MediaPlayer._
 
@@ -126,8 +134,9 @@ class MediaPlayer () {
     * 开始播放
     *
     * */
-  def start(playId: String, replyTo: ActorRef[Messages.RTCommand], input:Either[String, InputStream], graphContext: Option[GraphicsContext], mediaSettings: Option[MediaSettings] = None): Unit = {
+  def start(roomInfo: Option[RoomInfo] = None,playId: String,replyTo: ActorRef[Messages.RTCommand], input:Either[String, InputStream], graphContext: Option[GraphicsContext], mediaSettings: Option[MediaSettings] = None): Unit = {
     log.info(s"开始播放器playerId:$playId")
+    MediaPlayer.roomInfo = roomInfo
     if(mediaSettings.isEmpty){
       playerManager ! PlayerManager.StartPlay(playId, replyTo, graphContext, input, MediaSettings(imageWidth, imageHeight, frameRate, needImage, needSound, outputFile))
     } else{
@@ -145,7 +154,18 @@ class MediaPlayer () {
     if(playerManager != null){
       playerManager ! PlayerManager.PausePlay(playId)
     }
+  }
 
+  def pauseSound(playId: String):Unit = {
+    if(playerManager != null){
+      playerManager ! PlayerManager.PauseSound(playId)
+    }
+  }
+
+  def pauseImage(playId: String) = {
+    if(playerManager != null){
+      playerManager ! PlayerManager.PauseImage(playId)
+    }
   }
 
   /**
@@ -159,19 +179,44 @@ class MediaPlayer () {
 
   }
 
-
-  /**
-    * 停止播放
-    *
-    * */
-  def stop(playId: String, resetFunc: () => Unit): Unit = {
+  def continueImage(playId: String): Unit = {
     if(playerManager != null){
-      log.info(s"停止playerId:$playId")
-      playerManager ! PlayerManager.StopPlay(playId, resetFunc)
-
+      playerManager ! PlayerManager.ContinueImage(playId)
     }
 
   }
+
+  def continueSound(playId: String): Unit = {
+    if(playerManager != null){
+      playerManager ! PlayerManager.ContinueSound(playId)
+    }
+
+  }
+
+  /**
+    * 停止某个流播放
+    *
+    * */
+  def stop(playId: String,resetFunc: () => Unit = ()=>Unit): Unit = {
+    if(playerManager != null){
+      log.info(s"停止playerId:$playId")
+      playerManager ! PlayerManager.StopPlay(playId, resetFunc)
+    }
+  }
+
+  /**
+    * 停止当前播放器下的所有grabber
+    * @param resetFunc
+    */
+  def stopAll(resetFunc: () => Unit) = {
+    if(playerManager != null){
+      log.info(s"停止所有player")
+      playerManager ! PlayerManager.StopAllPlay(resetFunc)
+    }
+  }
+
+
+
 
   /**
     * 开始录制

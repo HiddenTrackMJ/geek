@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXRippler?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <!--<?import org.kordamp.ikonli.javafx.FontIcon?>-->
@@ -19,17 +21,19 @@
                <children>
                   <AnchorPane prefHeight="365.0" prefWidth="610.0">
                      <children>
-                        <JFXButton  defaultButton="true"  layoutX="242.0" layoutY="284.0" onAction="#loginBySelf" prefHeight="32.0" prefWidth="143.0" ripplerFill="#173672" styleClass="loginButton" text="登录" textAlignment="CENTER" textFill="WHITE" />
+                        <JFXButton defaultButton="true" layoutX="242.0" layoutY="284.0" onAction="#loginBySelf" prefHeight="32.0" prefWidth="143.0" ripplerFill="#173672" styleClass="loginButton" text="登录 / 注册" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="12.0" />
+                           </font></JFXButton>
                         <JFXTextField fx:id="username" layoutX="183.0" layoutY="128.0" prefHeight="32.0" prefWidth="260.0" promptText="输入用户名" styleClass="text_label" unFocusColor="#7ca1ff" />
-                        <JFXTextField fx:id="password" layoutX="185.0" layoutY="187.0" prefHeight="32.0" prefWidth="260.0" promptText="输入密码" styleClass="text_label" unFocusColor="#7ca1ff" />
-                        <Label layoutX="232.0" layoutY="245.0" style="-fx-font-size: 11;" text="未注册的用户点击登录将直接注册" textFill="#4e6c8d" underline="true" />
+                        <JFXPasswordField fx:id="password" layoutX="185.0" layoutY="187.0" prefHeight="32.0" prefWidth="260.0" promptText="输入密码" styleClass="text_label" unFocusColor="#7ca1ff" />
+                        <Label layoutX="232.0" layoutY="245.0" style="-fx-font-size: 11;" text="未注册的用户将直接以输入的账号密码注册" textFill="#4e6c8d" underline="true" />
                          <JFXRippler layoutX="185.0" layoutY="235.0" maskType="CIRCLE" prefHeight="23.0" prefWidth="32.0" style="-fx-ripple-color: #000000;" styleClass="icons-rippler">
                              <VBox style="-fx-padding: 10;">
                                  <FontIcon iconColor="#4e6c8d" iconLiteral="fas-exclamation-circle" iconSize="15" styleClass="icon" />
                              </VBox>
                          </JFXRippler>
                         <Label fx:id="testLabel" layoutX="234.0" layoutY="45.0" prefHeight="62.0" prefWidth="159.0" style="-fx-font-size: 26;" text="GEEK云会议" textAlignment="CENTER" textFill="#2d68cd" />
-
                      </children>
                   </AnchorPane>
                </children></VBox>

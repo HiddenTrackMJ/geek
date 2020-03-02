@@ -33,20 +33,25 @@ case class AvatarColumn(
     //用户头像
     gridPane.add(Avatar(30, userInfo.headImgUrl)(), 0, 0); // column=1 row=0
 
-    (0 to 5).foreach{
+    (0 to 6).foreach{
       i=>
         val column = if (i == 1) {
-          new ColumnConstraints(width/8 * 3)
+          new ColumnConstraints(width/9 * 3)
         }else if (i==0){
-          new ColumnConstraints(width/7 + 5)
+          new ColumnConstraints(width/9 + 10)
         }else{
-          new ColumnConstraints(width/7 - 10)
+          new ColumnConstraints(width/9 - 5)
         }
         gridPane.getColumnConstraints.add(column)
     }
     //中间的用户信息
     val vBox = new VBox(5)
-    val userName = new Label(userInfo.userName)
+
+    val userName = if (RmManager.userInfo.get.userId == userInfo.userId) {
+      new Label(s"${userInfo.userName}(我)")
+    }else {
+      new Label(userInfo.userName)
+    }
     userName.getStyleClass.add("username")
     val userLevel = new Label(if (userInfo.isHost.get)  "主持人" else "参会者")
     userLevel.getStyleClass.add("userLevel")
@@ -55,39 +60,50 @@ case class AvatarColumn(
     gridPane.add(vBox, 1, 0)
 
 
-    //用户操作按钮，4个按钮，声音、摄像头、发言模式、房主切换
+    //用户操作按钮，5个按钮，退出房间、声音、摄像头、发言模式、房主切换
     //根据声音开启状态显示不同图标
+
+
+
+    val exit = HostOperateIcon("fas-sign-out-alt:16:white","fas-sign-out-alt:16:white","退出","退出",
+      yseFlag = true,userInfo,rootPane,
+      ()=>Unit,()=>Unit,HostOperateIconType.EXIT,rmManager = rmManager)()
+
+
+    gridPane.add(exit, 2, 0)
+
+
     val icon = HostOperateIcon("fas-microphone:16:white","fas-microphone-slash:16:white","取消静音","静音",
       userInfo.isMic.get,userInfo,rootPane,
-      ()=>toggleMic(),()=>updateFunc(),HostOperateIconType.MIC,rmManager = rmManager)()
+      ()=>Unit,()=>Unit,HostOperateIconType.MIC,rmManager = rmManager)()
 
+    gridPane.add(icon, 3, 0)
 
-    gridPane.add(icon, 2, 0)
 
 
     //控制某个用户的视频消息
     val videoIcon = HostOperateIcon("fas-video:16:white","fas-eye-slash:16:white","关闭视频","开启视频",
       userInfo.isVideo.get,userInfo,rootPane,
-      ()=>toggleVideo(),()=>updateFunc(),HostOperateIconType.VIDEO,rmManager = rmManager)()
+      ()=>Unit,()=>Unit,HostOperateIconType.VIDEO,rmManager = rmManager)()
 
 
-    gridPane.add(videoIcon, 3, 0)
+    gridPane.add(videoIcon, 4, 0)
 
     //控制某个用户的发言情况
     val speakIcon = HostOperateIcon("fas-hand-paper:16:green","fas-hand-paper:16:white","指定发言","取消指定发言",
       userInfo.isAllow.get,userInfo,rootPane,
-      ()=>updateAllowUI(),()=>updateFunc(),HostOperateIconType.ALLOW,false,rmManager = rmManager)()
+      ()=>updateAllowUI(),()=>Unit,HostOperateIconType.ALLOW,false,rmManager = rmManager)()
 
-    gridPane.add(speakIcon, 4, 0)
+    gridPane.add(speakIcon, 5, 0)
 
 
     //根据用户身份显示不同的图标，普通用户 user-o
     val user = HostOperateIcon("fas-user-circle:16:#fab726","fas-user:16:white","指定为主持人","指定为主持人",
       userInfo.isHost.get,userInfo,rootPane,
-      ()=>Unit,()=>updateFunc(),HostOperateIconType.HOST,rmManager = rmManager)()
+      ()=>Unit,()=>Unit,HostOperateIconType.HOST,rmManager = rmManager)()
 
 
-    gridPane.add(user, 5, 0)
+    gridPane.add(user, 6, 0)
 
     gridPane
 

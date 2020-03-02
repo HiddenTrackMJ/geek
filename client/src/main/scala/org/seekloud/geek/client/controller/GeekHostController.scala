@@ -1,21 +1,27 @@
 package org.seekloud.geek.client.controller
 
+import akka.actor.ActorSystem
 import akka.actor.typed.ActorRef
+import akka.actor.typed.scaladsl.adapter._
 import com.jfoenix.controls.{JFXListView, JFXRippler, JFXTextArea}
 import javafx.animation.AnimationTimer
 import javafx.fxml.FXML
 import javafx.scene.canvas.{Canvas, GraphicsContext}
 import javafx.scene.control.Label
+import javafx.scene.image.Image
 import javafx.scene.layout._
 import javafx.scene.paint.Color
 import org.kordamp.ikonli.javafx.FontIcon
 import org.seekloud.geek.client.Boot
+import org.seekloud.geek.client.common.AppSettings.config
 import org.seekloud.geek.client.common.Constants.{AllowStatus, CommentType, DeviceStatus, HostStatus}
 import org.seekloud.geek.client.common.{Constants, StageContext}
 import org.seekloud.geek.client.component._
-import org.seekloud.geek.client.core.RmManager
+import org.seekloud.geek.client.core.HostUIManager.{HostUICommand, UpdateModeUI, UpdateUserListPaneUI}
 import org.seekloud.geek.client.core.RmManager._
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, UserInfo}
+import org.seekloud.geek.client.core.{HostUIManager, RmManager}
+import org.seekloud.geek.player.util.GCUtil
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{CommentInfo, ModeStatus}
 import org.seekloud.geek.shared.ptcl.WsProtocol
 import org.seekloud.geek.shared.ptcl.WsProtocol._
 import org.slf4j.LoggerFactory
@@ -35,6 +41,7 @@ class GeekHostController(
 
   private val log = LoggerFactory.getLogger(this.getClass)
 
+  implicit val system: ActorSystem = ActorSystem("geek", config)
 
 
   var canvas: Canvas = _
@@ -57,14 +64,15 @@ class GeekHostController(
   @FXML private var rootPane: AnchorPane = _
 
   //发言模式相关
-  @FXML private var mode_label: Label = _ //当前发言状态
+  @FXML var mode_label: Label = _ //当前发言状态
   @FXML private var allow_label: Label = _ //用户自己的发言状态
   @FXML private var allow_button: JFXRippler = _ //申请发言按钮
   @FXML private var allow_icon: FontIcon = _ //用户的申请发言图标
 
 
+  private var hostUIManager:ActorRef[HostUICommand] = _
   val commentList = List(
-    CommentInfo(1,"何为","","大家新年好",1232132L)
+
   )
 
   var commentJList = new JFXListView[GridPane]
@@ -84,32 +92,36 @@ class GeekHostController(
     override def handle(now: Long): Unit = {
 
       writeLiveTime()
-      writeRecordTime()
+//      writeRecordTime()
 
     }
   }
-
 
   //申请发言按钮点击
   def allowClick()= {
     //非主持人才可以申请发言
     if (!RmManager.getCurrentUserInfo().isHost.get){
-      allowStatus match {
+      if (RmManager.isStart){
+        allowStatus match {
 
-        case AllowStatus.NOT_ALLOW =>
-          //申请发言
-          //todo ws消息发送请求
-          allowStatus = AllowStatus.ASKING
+          case AllowStatus.NOT_ALLOW =>
+            //申请发言
+            rmManager ! Appoint4Client(RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,true)
+            allowStatus = AllowStatus.ASKING
 
 
-        case AllowStatus.ASKING =>
-          //
+          case AllowStatus.ASKING =>
+          //没有操作等待后端发消息
 
-        case AllowStatus.ALLOW =>
-          //停止发言
-          //todo ws消息发送请求
-          allowStatus = AllowStatus.NOT_ALLOW
+          case AllowStatus.ALLOW =>
+            //停止发言
+            rmManager ! Appoint4Client(RmManager.userInfo.get.userId,RmManager.userInfo.get.userName,false)
+            allowStatus = AllowStatus.NOT_ALLOW
+        }
+      }else{
+        SnackBar.show(centerPane,"您没有开启会议，无法申请发言")
       }
+
     }else{//提示消息：房主可以直接在成员列表中点击手掌图标指定某人发言（包括自己）
       SnackBar.show(centerPane,"房主可以直接在成员列表中点击「手掌」图标指定某人发言（包括自己）")
     }
@@ -117,43 +129,64 @@ class GeekHostController(
   }
 
   def updateAllowUI() = {
-    if (RmManager.getCurrentUserInfo().isHost.get){
-      //房主将这个按钮透明度降低
-      allow_button.setOpacity(0.3)
-    }else{
-      allow_button.setOpacity(1)
-    }
-    allowStatus match {
-      case AllowStatus.NOT_ALLOW =>
-        allow_label.setText("申请发言")
-        allow_icon.setIconColor(Color.WHITE)
-      case AllowStatus.ASKING =>
-        allow_label.setText("等待房主同意")
-        allow_icon.setIconColor(Color.GRAY)
-      case AllowStatus.ALLOW =>
-        allow_label.setText("停止发言")
-        allow_icon.setIconColor(Color.GREEN)
+    Boot.addToPlatform{
+
+      if (RmManager.getCurrentUserInfo().isHost.get){
+        //房主将这个按钮透明度降低
+        allow_button.setOpacity(0.3)
+      }else{
+        allow_button.setOpacity(1)
+      }
+      allowStatus match {
+        case AllowStatus.NOT_ALLOW =>
+          allow_label.setText("申请发言")
+          allow_icon.setIconColor(Color.WHITE)
+        case AllowStatus.ASKING =>
+          allow_label.setText("等待房主同意")
+          allow_icon.setIconColor(Color.GRAY)
+        case AllowStatus.ALLOW =>
+          allow_label.setText("停止发言")
+          allow_icon.setIconColor(Color.GREEN)
+      }
     }
   }
 
   //更新当前的模式状态的UI
   def updateModeUI() = {
-    //根据当前所有用户的发言状态，如果没有在申请发言，则为自由发言状态，反之为申请发言状态
-    //    println(RmManager.roomInfo.get.userList)
+
+
+    val originModeStatus = RmManager.roomInfo.get.modeStatus
+
+
     if (RmManager.roomInfo.get.userList.exists(_.isAllow.get == true)){
-      //当前是申请发言状态
-      mode_label.setText("申请发言")
+      RmManager.roomInfo.get.modeStatus = ModeStatus.ASK
     }else{
-      //当前是自由发言状态
-      mode_label.setText("自由发言")
+      RmManager.roomInfo.get.modeStatus = ModeStatus.FREE
     }
 
-    if (RmManager.getCurrentUserInfo().isAllow.get){
-      allowStatus = AllowStatus.ALLOW
-    }else{
-      allowStatus = AllowStatus.NOT_ALLOW
+    if (originModeStatus != RmManager.roomInfo.get.modeStatus){
+      RmManager.roomInfo.get.modeStatus match {
+        case ModeStatus.ASK =>
+          //给非发言人的其他用户静音
+          RmManager.roomInfo.get.userList.filter(!_.isAllow.get).map(t=>(t.userId,t.isVideo)).foreach{
+            m=>
+            rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,m._1,isImage = m._2.get,isAudio = false))
+          }
+
+          SnackBar.show(centerPane,"当前会议切换到「申请发言模式」")
+        case ModeStatus.FREE =>
+          //给所有人开启开启语音
+          RmManager.roomInfo.get.userList.map(t=>(t.userId,t.isVideo)).foreach{
+            m=>
+              rmManager ! Shield(ShieldReq(isForced = true,RmManager.roomInfo.get.roomId,m._1,isImage = m._2.get,isAudio = true))
+          }
+          SnackBar.show(centerPane,"当前会议切换到「自由发言模式」")
+      }
     }
-    updateAllowUI()
+    RmManager.calUserListPosition()//先计算发言的状态，再重新计算用户在界面中的顺序
+
+    hostUIManager ! UpdateModeUI()
+
   }
 
 
@@ -183,7 +216,7 @@ class GeekHostController(
 
 
         case DeviceStatus.ON =>
-          log.info("摄像头准备好了")
+//          log.info("摄像头准备好了")
           video_label.setText("关闭摄像头")
           video.setIconLiteral("fas-video")
           video.setIconColor(Color.WHITE)
@@ -258,7 +291,7 @@ class GeekHostController(
 
     gc = canvas.getGraphicsContext2D
     loading = Loading(centerPane).build()
-
+    hostUIManager = system.spawn(HostUIManager.create(context,GeekHostController.this),"hostUIManager")
     if (initSuccess nonEmpty){
       //给liveManager ! LiveManager.DevicesOn(gc, callBackFunc = callBack)，
       // callBackFunc即changeToggleAction
@@ -269,11 +302,7 @@ class GeekHostController(
 
 
     //后续从服务器端的ws链接中获取和更新
-    RmManager.roomInfo.get.userList = List(
-      UserInfo(2L, "hewro", "",isHost=Some(true)),
-      UserInfo(3L, "秋林会", ""),
-      UserInfo(4L, "薛甘愿", ""),
-    )
+    RmManager.roomInfo.get.userList = List()
 
     initUserList()
     initCommentList()
@@ -316,12 +345,9 @@ class GeekHostController(
 
   //更新整个list
   def updateUserList():Unit = {
-    Boot.addToPlatform{
-      //修改整个list
-      val paneList = createUserListPane()
-      userJList.getItems.removeAll(userJList.getItems)
-      userJList.getItems.addAll(paneList:_*)
-    }
+    //todo 优化性能
+    val paneList = createUserListPane()
+    hostUIManager ! UpdateUserListPaneUI(paneList)
 
   }
 
@@ -344,7 +370,7 @@ class GeekHostController(
 
 
 
-  //todo 发表评论,ws每收到一条消息就给我发一条消息
+  //发表评论,ws每收到一条消息就给我发一条消息
   def commentSubmit() = {
     //获得当前的评论消息，添加一个新的comment结构加入到jList中
     val content = commentInput.getText
@@ -360,7 +386,9 @@ class GeekHostController(
 
   //添加系统消息
   def addServerMsg(t:CommentInfo) = {
-    commentJList.getItems.add(CommentColumn(commentPane.getPrefWidth - 30,t,CommentType.SERVER)())
+    Boot.addToPlatform{
+      commentJList.getItems.add(CommentColumn(commentPane.getPrefWidth - 30,t,CommentType.SERVER)())
+    }
   }
 
   def addComment(t:CommentInfo) = {
@@ -373,18 +401,18 @@ class GeekHostController(
 
   //当userList数据更新，需要更新的界面
   def updateWhenUserList() = {
+    log.info("updateWhenUserList 更新")
     updateUserList()
     updateModeUI()
-    updateAllowUI()
   }
 
   //接收处理与【后端发过来】的消息
   def wsMessageHandle(data: WsMsgRm): Unit = {
     data match {
 
-      case _: HeatBeat =>
-      //        log.debug(s"heartbeat: ${msg.ts}")
-      //        rmManager ! HeartBeat
+      case msg: HeatBeat =>
+//        log.debug(s"heartbeat: ${msg.ts}")
+//        rmManager ! HeartBeat
 
       case msg: RcvComment =>
         addComment(CommentInfo(msg.userId, msg.userName, RmManager.userInfo.get.headImgUrl, msg.comment, System.currentTimeMillis()))
@@ -404,18 +432,17 @@ class GeekHostController(
         if (user nonEmpty){
           user.get.isHost = Some(true)
         }
+        SnackBar.show(centerPane,s"${msg.userName}成为新的主持人")
+
         //更新界面
         updateWhenUserList()
-
-      case msg: AppointRsp =>
-        println(msg)
 
       case msg: StartLiveRsp =>
         //房主收到的消息
         log.debug(s"get StartLiveRsp: $msg")
         if (msg.errCode == 0) {
           //开始直播
-          rmManager ! StartLiveSuccess(msg.rtmp.serverUrl+msg.rtmp.stream,msg.rtmp.serverUrl+msg.selfCode)
+          rmManager ! StartLiveSuccess(msg.rtmp.serverUrl+msg.rtmp.stream,msg.rtmp.serverUrl+msg.selfCode,  msg.userLiveCodeMap.map(i => (msg.rtmp.serverUrl + i._1, i._2)))
         } else {
           Boot.addToPlatform {
             WarningDialog.initWarningDialog(s"${msg.msg}")
@@ -423,10 +450,10 @@ class GeekHostController(
         }
 
       case msg: StartLive4ClientRsp =>
-        log.info(s"收到后端的开始会议消息")
+        log.info(s"get StartLive4ClientRsp: $msg")
         if (msg.errCode == 0) {
           //开始直播
-          rmManager ! StartLiveSuccess(msg.rtmp.get.serverUrl+msg.rtmp.get.stream,msg.rtmp.get.serverUrl+msg.selfCode)
+          rmManager ! StartLive4ClientSuccess(msg.rtmp.get.serverUrl+msg.selfCode,msg.userLiveCodeMap.map(i => (msg.rtmp.get.serverUrl + i._1, i._2)))
         } else {
           Boot.addToPlatform {
             WarningDialog.initWarningDialog(s"${msg.msg}")
@@ -439,7 +466,7 @@ class GeekHostController(
           Boot.addToPlatform {
             SnackBar.show(centerPane,"停止会议成功")
           }
-          log.info(s"普通用户停止推流成功")
+          log.info(s"房主停止推流成功")
           rmManager ! StopLiveSuccess
         }else{
           rmManager ! StopLiveFailed
@@ -450,34 +477,94 @@ class GeekHostController(
       case msg: StopLive4ClientRsp =>
         if (msg.errCode == 0){
           log.info("普通用户停止推流成功")
-          rmManager ! StopLiveSuccess
+          rmManager ! StopLive4ClientSuccess(msg.userId)
         }else{
           rmManager ! StopLiveFailed
         }
 
-      case msg:ShieldRsp =>
-        log.info("收到ShieldRsp")
-        val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId)
-        if (user nonEmpty){
-          //更新设备状态
-          user.get.isVideo = Some(msg.isImage)
-          user.get.isMic = Some(msg.isAudio)
+      case msg:Appoint4ClientReq=>
+        log.info(s"Appoint4ClientReq:$msg")
+        log.info(s"host: ${RmManager.getCurrentUserInfo().isHost.get},req Status: ${msg.status}")
+        if (RmManager.getCurrentUserInfo().isHost.get && msg.status){//自己是主持人而且是请求发言
+          ConfirmDialog(context.getStage,s"${msg.userName} 用户请求发言","您可以选择同意或者拒绝","同意","拒绝",Some(
+            ()=>{
+              //取消掉当前的发言人
+              RmManager.roomInfo.get.userList.filter(_.isAllow.get==true).map(_.userId).foreach{
+                rmManager ! Appoint4Host(_,status = false)
+              }
+              //给后端发送同意
+              rmManager ! Appoint4HostReply(msg.userId,status = true)
+            }
+          ),Some(
+            ()=>{
+              //给后端发送拒绝
+              rmManager ! Appoint4HostReply(msg.userId,status = false)
+            }
+          )).show()
         }
+
+      case msg:AppointRsp =>
+        //修改当前会议的发言状态和用户的发言状态
+        log.info(s"AppointRsp:$msg")
+        val user = RmManager.getUserInfo(msg.userId)
+        if (user nonEmpty){
+          user.get.isAllow = Some(msg.status)
+          if (msg.status){
+
+            SnackBar.show(centerPane,s"${msg.userName}成为发言人")
+          }else{
+            SnackBar.show(centerPane,s"${msg.userName}取消成为发言人")
+          }
+          //发言人切换后，界面需要刷新一下
+          updateWhenUserList()
+        }else{
+          //不需要修改，可能这个用户已经退出会议厅了
+        }
+
+      case msg:ShieldRsp =>
+        log.info(s"收到ShieldRsp:$msg")
+        val user = RmManager.roomInfo.get.userList.find(_.userId == msg.userId)
+        log.info(s"当前video状态:${user.get.isVideo.get},返回的video状态:${msg.isImage}")
+        if (!user.get.isVideo.get && msg.isImage){//开启用户的视频
+          //自己或者别的用户交给rm统一处理
+          user.get.isVideo = Some(true)
+          rmManager ! ChangeVideoOption(msg.userId,true)
+        }
+        if (user.get.isVideo.get && !msg.isImage){//关闭用户的视频
+          user.get.isVideo = Some(false)
+          rmManager ! ChangeVideoOption(msg.userId,false)
+        }
+
+        if (!user.get.isMic.get && msg.isAudio){//开启用户的声音
+          user.get.isMic = Some(true)
+          rmManager ! ChangeMicOption(msg.userId,true)
+        }
+        if (user.get.isMic.get && !msg.isAudio){//关闭用户的声音
+          user.get.isMic = Some(false)
+          rmManager ! ChangeMicOption(msg.userId,false)
+        }
+
+
         //更新界面
         updateWhenUserList()
-        // 如果被封禁的userId是自己，需要修改底部功能条的样式并且调整摄像头、音频设置的关闭开启
-        if (msg.userId == RmManager.userInfo.get.userId){
-          if ((micStatus==DeviceStatus.ON && !msg.isAudio) || (micStatus==DeviceStatus.OFF && msg.isAudio)){
-            toggleMic()
-          }
 
-          if ((videoStatus==DeviceStatus.ON && !msg.isImage) || (videoStatus==DeviceStatus.OFF && msg.isImage)){
-            toggleVideo()
-          }
+//      case KickOffRsp(errCode, msg) =>
+
+
+      case _:HostCloseRoom=>
+      case HostCloseRoom =>
+        log.info(s"receive：HostCloseRoom")
+        if (!RmManager.getCurrentUserInfo().isHost.get){//自己不是主持人，主持人退出了会出现一个弹窗
+          ConfirmDialog(context.getStage,s"主持人退出房间","您即将退出房间","确定","确定",Some(
+            ()=>{
+              rmManager ! BackToHome
+            }
+          ),Some(
+            ()=>{
+              rmManager ! BackToHome
+            }
+          )).show()
         }
-
-
-
 
 
       case x =>
@@ -489,42 +576,59 @@ class GeekHostController(
 
   //点击录制按钮
   def toggleRecord() = {
-    recordStatus match {
-      case DeviceStatus.OFF =>
-        //todo 开始录制
-        recordStatus = DeviceStatus.ON
-        //开始时间
-        startRecTime = System.currentTimeMillis()
+    //显示关于弹窗
+    ConfirmDialog(
+      context.getStage,
+      "关于geek",
+      "qhx小组：\n" +
+        "邱林辉\n" +
+        "何炜\n" +
+        "薛淦元\n\n" +
+        "make with love",
+      isCanClose = true
+    ).show()
 
-      case DeviceStatus.ON =>
-        //todo 取消录制
-        recordStatus = DeviceStatus.OFF
+//    recordStatus match {
+//      case DeviceStatus.OFF =>
+//        //todo 开始录制
+//        recordStatus = DeviceStatus.ON
+//        //开始时间
+//        startRecTime = System.currentTimeMillis()
+//
+//      case DeviceStatus.ON =>
+//        //todo 取消录制
+//        recordStatus = DeviceStatus.OFF
+//
+//    }
 
-    }
-
-    updateRecordUI()
+//    updateRecordUI()
 
   }
   //点击音频按钮：根据设备的状态
   def toggleMic() = {
     micStatus match {
       case DeviceStatus.ON =>
-        //todo 关闭音频
+        //关闭音频
+        log.info("关闭音频")
         micStatus = DeviceStatus.OFF
         RmManager.getCurrentUserInfo().isMic = Some(false)
-
+        rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
+          isImage = if (videoStatus == DeviceStatus.ON) true else false,isAudio = false))
 
       case DeviceStatus.OFF =>
-        //todo 开启音频
+        //开启音频
+        log.info("开启音频")
         micStatus = DeviceStatus.ON
         RmManager.getCurrentUserInfo().isMic = Some(true)
+        rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
+          isImage = if (videoStatus == DeviceStatus.ON) true else false,isAudio = true))
 
 
       case _=>
 
     }
     updateMicUI()
-    updateUserList()
+//    updateUserList()
 
   }
 
@@ -532,22 +636,27 @@ class GeekHostController(
   def toggleVideo() = {
     videoStatus match {
       case DeviceStatus.ON =>
-        //todo 关闭摄像头
-        videoStatus = DeviceStatus.OFF
-        RmManager.getCurrentUserInfo().isVideo = Some(false)
-
+        // 关闭摄像头
+        log.info("关闭摄像头")
+//        videoStatus = DeviceStatus.OFF
+//        RmManager.getCurrentUserInfo().isVideo = Some(false)
+        rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
+          isImage = false ,isAudio = if (micStatus == DeviceStatus.ON) true else false))
 
       case DeviceStatus.OFF =>
-        // todo开启摄像头
-        videoStatus = DeviceStatus.ON
-        RmManager.getCurrentUserInfo().isVideo = Some(true)
+        // 开启摄像头
+        log.info("开启摄像头")
+//        videoStatus = DeviceStatus.ON
+//        RmManager.getCurrentUserInfo().isVideo = Some(true)
+        rmManager ! Shield(ShieldReq(isForced = false,RmManager.roomInfo.get.roomId,RmManager.userInfo.get.userId,
+          isImage = true ,isAudio = if (micStatus == DeviceStatus.ON) true else false))
 
       case _=>
 
     }
 
     updateVideoUI()
-    updateUserList()
+//    updateUserList()
 
   }
 
@@ -560,6 +669,7 @@ class GeekHostController(
     hostStatus match {
       case HostStatus.NOT_CONNECT =>
         //开始会议
+        RmManager.isStart = true
         rmManager ! HostLiveReq
         hostStatus = HostStatus.LOADING
 
@@ -569,6 +679,7 @@ class GeekHostController(
 
       case HostStatus.CONNECT =>
         //结束会议
+        RmManager.isStart = false
         rmManager ! StopLive
         hostStatus = HostStatus.NOT_CONNECT
 
@@ -640,10 +751,20 @@ class GeekHostController(
       //          updateVideoUI()
     }
   }
-  //开始会议后，界面可以做的一些修改，结束会议，界面需要做的一些修改
+  //开始会议后/停止某个人拉流，界面可以做的一些修改
   def resetBack() = {
-
+    log.info("resetBack")
+    //大背景改成黑色的
+    Boot.addToPlatform{
+      gc.drawImage(new Image("scene/img/bg.jpg"),0,0,gc.getCanvas.getWidth,gc.getCanvas.getHeight)
+      //画5个框等待加入的框（只画这个位置没有人的位置）
+      val havaids = RmManager.roomInfo.get.userList.map(_.position)
+      havaids.foreach(GCUtil.draw(gc,new Image("scene/img/loading.png"),_,isNeedClear = true))
+      val needPositions = List.range(0,5) diff havaids
+      needPositions.foreach(GCUtil.draw(gc,new Image("img/join.png"),_,isNeedClear = true))
+    }
   }
+
 
   //禁音某人，只有支持人才可以进行该操作
   def muteOne()={

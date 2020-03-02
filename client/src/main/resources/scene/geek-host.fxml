@@ -167,12 +167,12 @@
                                  <control>
                                     <StackPane prefHeight="150.0" prefWidth="200.0">
                                        <children>
-                                          <FontIcon fx:id="record" iconColor="WHITE" iconLiteral="fas-stop-circle" iconSize="20" onMouseClicked="#toggleRecord" />
+                                          <FontIcon fx:id="record" iconColor="WHITE" iconLiteral="fas-heart" iconSize="20" onMouseClicked="#toggleRecord" />
                                        </children>
                                     </StackPane>
                                  </control>
                               </JFXRippler>
-                              <Label fx:id="record_label" alignment="CENTER" prefHeight="17.0" prefWidth="298.0" text="录制" textAlignment="CENTER" textFill="WHITE" />
+                              <Label fx:id="record_label" alignment="CENTER" prefHeight="17.0" prefWidth="298.0" text="关于" textAlignment="CENTER" textFill="WHITE" />
                            </children>
                         </VBox>
                      </children>

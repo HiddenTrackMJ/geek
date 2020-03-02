@@ -2,7 +2,7 @@ package org.seekloud.geek.client.controller
 
 
 import akka.actor.typed.ActorRef
-import com.jfoenix.controls.JFXTextField
+import com.jfoenix.controls.{JFXPasswordField, JFXTextField}
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.layout.AnchorPane
@@ -27,7 +27,7 @@ class GeekLoginController(
 
   @FXML private var testLabel: Label = _
   @FXML private var username:JFXTextField = _
-  @FXML private var password:JFXTextField = _
+  @FXML private var password:JFXPasswordField = _
   @FXML private var rootPane:AnchorPane = _
 
   private val log = LoggerFactory.getLogger(this.getClass)
@@ -38,7 +38,7 @@ class GeekLoginController(
     loading = Loading(rootPane).build()
 
     initToolbar()
-    //这个地方是为了修复第一次点击按钮登录界面会卡一下的问题..
+//    //这个地方是为了修复第一次点击按钮登录界面会卡一下的问题..
     RMClient.signIn("","")
   }
 
@@ -54,7 +54,7 @@ class GeekLoginController(
 
     if (checkInfo){//信息不完整
       //弹框
-      SnackBar.show(rootPane,"信息不完整，粗心！")
+      SnackBar.show(rootPane,"信息不完整，请重新填写！")
 
     }else{//
       loading.showLoading()
@@ -66,6 +66,7 @@ class GeekLoginController(
             rmManager ! RmManager.SignInSuccess(rsp.userInfo, rsp.roomInfo)
             RmManager.userInfo = rsp.userInfo
 
+//            log.info("登录后")
             Boot.addToPlatform {
               loading.removeLoading()
               //显示登录后的用户界面

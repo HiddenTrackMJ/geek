@@ -55,11 +55,13 @@ object Recorder {
 
   case object CloseRecorder extends Command
 
+  case object StoreOver extends Command
+
   case class NewFrame(liveId: String, frame: Frame) extends Command
 
   case class Shield(liveId: String, image: Boolean, audio: Boolean) extends Command
 
-  case class Appoint(liveId: String) extends Command
+  case class Appoint(liveId: String, status: Boolean) extends Command
 
   case class UpdateRecorder(channel: Int, sampleRate: Int, frameRate: Double, width: Int, height: Int, liveId: String) extends Command
 
@@ -140,9 +142,9 @@ object Recorder {
             case Failure(e) =>
               log.error(s" recorder starts error: ${e.getMessage}")
           }
-          val canvas = new BufferedImage(640, 480, BufferedImage.TYPE_3BYTE_BGR)
+          val canvas = new BufferedImage(1280, 480, BufferedImage.TYPE_3BYTE_BGR)
           val drawer = ctx.spawn(draw(canvas, canvas.getGraphics, Ts4LastImage(), Queue.empty, Image(), recorder4ts,
-            new Java2DFrameConverter(), new Java2DFrameConverter(),new Java2DFrameConverter,mutable.HashMap.empty, layout, "defaultImg.jpg", roomId, (640, 480)), s"drawer_$roomId")
+            new Java2DFrameConverter(), new Java2DFrameConverter(),new Java2DFrameConverter,mutable.HashMap.empty, layout, "defaultImg.jpg", roomId, (1280, 480)), s"drawer_$roomId")
 
           val sampleRecorder = ctx.spawn(sampleRecord(roomId, Ts4LastSample(), Audio(), recorder4ts,mutable.HashMap.empty, None), s"sampleRecorder_$roomId")
           ctx.self ! Init
@@ -157,7 +159,7 @@ object Recorder {
     stream: String,
     pullLiveId:List[String],
     roomDealer: ActorRef[RoomDealer.Command],
-    online: List[Int],
+    online: List[String],
     host: String,
     recorder4ts: FFmpegFrameRecorder,
     ffFilter:  mutable.HashMap[Int, FFmpegFrameFilter],
@@ -208,8 +210,11 @@ object Recorder {
 
         case GrabberStopped(liveId) =>
           grabbers.-=(liveId)
+          shieldMap.-=(liveId)
           drawer ! DeleteImage4Others(liveId)
-          Behaviors.same
+          sampleRecorder ! DeleteSample4Others(liveId)
+          idle(roomId, hostId, stream, pullLiveId, roomDealer, online.filter(_ != liveId), host, recorder4ts, ffFilter, drawer, sampleRecorder, grabbers, indexMap, shieldMap, filterInUse)
+
 
         case Shield(liveId, image, audio) =>
           shieldMap.update(liveId, State(image, audio))
@@ -218,18 +223,25 @@ object Recorder {
           if (!audio)  sampleRecorder ! DeleteSample4Others(liveId)
           Behaviors.same
 
-        case Appoint(liveId) =>
+        case Appoint(liveId, status) =>
           log.info(s"appoint to $liveId")
-          val newShield = shieldMap.map { s =>
-            if (s._1 != liveId) (s._1, State(s._2.image, audio = false))
-            else s
+          val newShield = if (status) {
+            shieldMap.map { s =>
+              if (s._1 != liveId) (s._1, State(s._2.image, audio = false))
+              else (s._1, State(image = true, audio = true))
+            }
+          }
+          else {
+            shieldMap.map { s =>
+              (s._1, State(image = true, audio = true))
+            }
           }
           idle(roomId, hostId, stream, pullLiveId, roomDealer, online, liveId, recorder4ts, ffFilter, drawer, sampleRecorder, grabbers, indexMap, newShield, filterInUse)
 
 
         case UpdateRecorder(channel, sampleRate, f, width, height, liveId) =>
           peopleOnline += 1
-          val onlineNew = online :+ liveId.split("_").last.toInt
+          val onlineNew = online :+ liveId
           shieldMap.put(liveId, State(image = true, audio = true))
           log.info(s"$roomId updateRecorder channel:$channel, sampleRate:$sampleRate, frameRate:$f, width:$width, height:$height")
           if(liveId == host) {
@@ -294,19 +306,23 @@ object Recorder {
             }else{
               log.info(s"no record for roomId:${roomId} and startTime:${video.timestamp}")
             }
-            Thread.sleep(2000)
+            //Thread.sleep(2000)
             //            roomDealer ! RoomDealer.StoreVideo(video)
           } catch {
             case e: Exception =>
-              log.error(s"$roomId recorder close error ---")
+              log.error(s"$roomId record stored error, ${e.getMessage}")
           }
+          timer.startSingleTimer("StoreOver", StoreOver, 5.seconds)
+          Behaviors.same
+
+        case StoreOver =>
           Behaviors.stopped
 
         case StopRecorder(msg) =>
           log.info(s"recorder-$roomId stop because $msg")
           sampleRecorder ! CloseSample
           drawer ! Close
-          timer.startSingleTimer(TimerKey4Close, CloseRecorder, 5.seconds)
+          timer.startSingleTimer(TimerKey4Close, CloseRecorder, 10.seconds)
           Behaviors.same
 
         case x@_ =>
@@ -366,17 +382,17 @@ object Recorder {
           //          graph.clearRect(0, 0, canvasSize._1, canvasSize._2)
           layout match {
             case 0 =>
-              graph.drawImage(img, 0, 0, canvasSize._1 , canvasSize._2 , null)
+              graph.drawImage(img, 0, 0, canvasSize._1 / 2, canvasSize._2 , null)
               //              graph.drawString("主播", 24, 24)
               //              graph.drawImage(clientImg, canvasSize._1 / 2, canvasSize._2 / 4, canvasSize._1 / 2, canvasSize._2 / 2, null)
               //              graph.drawString("观众", 344, 24)
               clientImg.zipWithIndex.foreach{ i =>
                 val index = i._2
                 index match {
-                  case 0 => graph.drawImage(i._1, 0, 0, canvasSize._1 / 3, canvasSize._2 / 3, null)
-                  case 1 => graph.drawImage(i._1, 0, canvasSize._2 / 3 * 2, canvasSize._1 / 3, canvasSize._2 / 3, null)
-                  case 2 => graph.drawImage(i._1, canvasSize._1 / 3 * 2, 0, canvasSize._1 / 3, canvasSize._2 / 3, null)
-                  case 3 => graph.drawImage(i._1, canvasSize._1 / 3 * 2, canvasSize._2 / 3 * 2, canvasSize._1 / 3, canvasSize._2 / 3, null)
+                  case 0 => graph.drawImage(i._1, canvasSize._1 / 2,     0,                 canvasSize._1 / 4, canvasSize._2 / 2, null)
+                  case 1 => graph.drawImage(i._1, canvasSize._1 / 4 * 3, 0,                 canvasSize._1 / 4, canvasSize._2 / 2, null)
+                  case 2 => graph.drawImage(i._1, canvasSize._1 / 2,     canvasSize._2 / 2, canvasSize._1 / 4, canvasSize._2 / 2, null)
+                  case 3 => graph.drawImage(i._1, canvasSize._1 / 4 *3,  canvasSize._2 / 2, canvasSize._1 / 4, canvasSize._2 / 2, null)
                   case _ =>
                 }
               }
@@ -498,7 +514,7 @@ object Recorder {
             //            println(s"$liveId timeStamp: ${frame.timestamp}")
             if (ffFilter.nonEmpty) {
               //              println(online.size, shieldMap.count(_._2.audio) )
-              if (isOne) {
+              if (isOne || shieldMap.count(_._2.audio) == 1) {
                 //                println(2, ffFilter)
                 try {
                   clientFrame.frame.toList.filter(i => i._2._2.nonEmpty && shieldMap.filter(_._2.audio).contains(i._1)).sortBy(_._2._1).foreach {
