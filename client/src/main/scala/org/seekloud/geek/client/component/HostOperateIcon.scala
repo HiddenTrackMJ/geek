@@ -39,6 +39,7 @@ case class HostOperateIcon(
 
     if (RmManager.getCurrentUserInfo().isHost.get){//只有房主可以进行操作
       icon.setOnMouseClicked(_ =>{
+//        Popup(icon).show()
         if (RmManager.isStart){
           if (yseFlag){
             SnackBar.show(rootPane,notText + userInfo.userName)
@@ -94,6 +95,8 @@ case class HostOperateIcon(
               }
               rmManager ! RmManager.ChangePossession(ChangePossessionReq(RmManager.roomInfo.get.roomId,userInfo.userId))
 
+            case HostOperateIconType.EXIT =>
+              rmManager ! RmManager.KickOff(userInfo.userId)
           }
 
           //当前自己的用户

@@ -121,6 +121,7 @@ object RmManager {
   final case class Appoint4Client(userId:Long,userName:String, status:Boolean) extends RmCommand
   final case class Appoint4Host(userId:Long,status:Boolean) extends RmCommand //主持人关闭某个人发言或者不发言
   final case class Appoint(req:AppointReq) extends RmCommand
+  final case class KickOff(userId:Long) extends RmCommand
 
   def create(stageCtx: StageContext): Behavior[RmCommand] =
     Behaviors.setup[RmCommand] { ctx =>
@@ -270,9 +271,10 @@ object RmManager {
 
           }
 
+          Behaviors.same
 
-
-
+        case msg:KickOff=>
+          sender.foreach(_!KickOffReq(RmManager.roomInfo.get.roomId,msg.userId))
           Behaviors.same
 
         case msg: Shield=>

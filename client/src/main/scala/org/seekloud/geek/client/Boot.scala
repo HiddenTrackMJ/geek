@@ -6,7 +6,7 @@ import akka.actor.{ActorSystem, Scheduler}
 import akka.dispatch.MessageDispatcher
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
-import javafx.application.Platform
+import javafx.application.{Application, Platform}
 import javafx.stage.{Stage, StageStyle}
 import org.seekloud.geek.client.common.StageContext
 import org.seekloud.geek.client.core.{NetImageProcessor, RmManager, SceneManager}
@@ -20,7 +20,7 @@ import scala.language.postfixOps
  * Time: 13:33
  */
 
-object Boot {
+object Boot{
 
   import org.seekloud.geek.client.common.AppSettings._
 
@@ -39,16 +39,23 @@ object Boot {
     Platform.runLater(() => fun)
   }
 
+  def main (args: Array[String]): Unit = {
+    Application.launch(classOf[Boot], args:_*)
+  }
+
 }
 
 
-class Boot extends javafx.application.Application {
+class Boot extends Application {
 
   import Boot._
 
   private[this] val log = LoggerFactory.getLogger(this.getClass)
 
-
+//
+//  def main(args: Array[String]): Unit = {
+//    Application.launch(classOf[FxApp], args:_*)
+//  }
 
   override def start(primaryStage: Stage): Unit = {
     //隐藏默认的标题栏

@@ -548,6 +548,8 @@ class GeekHostController(
         //更新界面
         updateWhenUserList()
 
+//      case KickOffRsp(errCode, msg) =>
+
 
       case _:HostCloseRoom=>
       case HostCloseRoom =>
@@ -756,9 +758,10 @@ class GeekHostController(
     Boot.addToPlatform{
       gc.drawImage(new Image("scene/img/bg.jpg"),0,0,gc.getCanvas.getWidth,gc.getCanvas.getHeight)
       //画5个框等待加入的框（只画这个位置没有人的位置）
-      val needPositions = List.range(0,5) diff RmManager.roomInfo.get.userList.map(_.position)
+      val havaids = RmManager.roomInfo.get.userList.map(_.position)
+      havaids.foreach(GCUtil.draw(gc,new Image("scene/img/loading.png"),_,isNeedClear = true))
+      val needPositions = List.range(0,5) diff havaids
       needPositions.foreach(GCUtil.draw(gc,new Image("img/join.png"),_,isNeedClear = true))
-
     }
   }
 

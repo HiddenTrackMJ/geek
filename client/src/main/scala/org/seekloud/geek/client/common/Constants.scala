@@ -108,6 +108,8 @@ object Constants {
     val VIDEO = 1
     val ALLOW = 2
     val HOST = 3
+    val MORE = 4
+    val EXIT = 5
   }
   val barrageColors = List(
     Color.PINK,

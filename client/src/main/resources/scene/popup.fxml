@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.Label?>
+<JFXListView onMouseClicked="#submit" fx:id="toolbarPopupList" styleClass="option-list-view" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <Label>
+        踢出房间
+    </Label>
+    <Label>
+        静音
+    </Label>
+</JFXListView>

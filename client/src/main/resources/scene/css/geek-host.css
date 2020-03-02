@@ -67,6 +67,11 @@
 }
 
 
+.option-list-view {
+    -fx-pref-width: 160.0px;
+    -fx-background-color: WHITE;
+}
+
 
 
 

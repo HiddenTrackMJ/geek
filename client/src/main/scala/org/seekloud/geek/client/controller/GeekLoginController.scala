@@ -38,7 +38,7 @@ class GeekLoginController(
     loading = Loading(rootPane).build()
 
     initToolbar()
-    //这个地方是为了修复第一次点击按钮登录界面会卡一下的问题..
+//    //这个地方是为了修复第一次点击按钮登录界面会卡一下的问题..
     RMClient.signIn("","")
   }
 
