@@ -1,18 +1,19 @@
 
 .primaryInfo {
-    background-color: white;
-    border-radius: 10px;
-    padding: 30px;
-    margin-left: 200px;
-    margin-right: 200px;
-    margin-top: 50px;
+    width: 93%;
+    background: white;
+    margin: 40px auto;
+    padding-top: 24px;
+    padding-bottom: 35px;
+    margin-bottom: 10px;
 
 }
 
 .primaryInfo .info {
-    padding-top: 7px;
-    padding-bottom: 22px;
     border-bottom: 1px solid #e3e8ec;
+    padding: 30px;
+    margin-left: 40px;
+    margin-right: 40px;
 }
 
 .primaryInfo .info .headImg {
@@ -69,14 +70,14 @@
     background-color: white;
     border-radius: 10px;
     padding: 30px;
-    margin-left: 200px;
-    margin-right: 200px;
+    margin-left: 40px;
+    /*margin-right: 200px;*/
     margin-top: 15px;
 
 }
 
 
-.roomInfo .label {
+.roomInfo .label_title {
     color: black;
     font-size: 20px;
     font-weight: normal;
@@ -107,7 +108,7 @@
 .roomInfo .save {
     margin-top: 8px;
     float:left;
-    margin-left: 10px;
+    margin-right: 20px;
     color: #ccc;
     cursor: pointer;
 }
@@ -140,11 +141,11 @@
 .modify-people {
     padding: 0 0 0 5px;
     border: #ccc solid 1px;
-    /*height: 26px;*/
+    /* height: 26px; */
     line-height: 25px;
     width: 270px;
-    float: left;
-    margin-left: 2%;
+    /* float: left; */
+    /* margin-left: 2%; */
 }
 
 

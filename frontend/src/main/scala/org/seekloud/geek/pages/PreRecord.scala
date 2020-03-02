@@ -66,6 +66,7 @@ class PreRecord(c:String) extends Page{
             </div>
             <div class="courseItem-teacher">发起人：{l.userName}</div>
             <div class="courseItem-peopleNum">房间号：{l.roomId}</div>
+            <div class="courseItem-peopleNum">房间描述：{if(l.desc.getOrElse("暂无")=="") "暂无" else l.desc.getOrElse("暂无")}</div>
             <div class="courseItem-peopleNum">发起时间：{l.time}</div>
           </div>
         </div>

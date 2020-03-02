@@ -130,7 +130,7 @@ object RoomProtocol {
     msg: String = "ok"
   ) extends Response
 
-  case class RoomInfoSection(roomId:Long,userId:Long,userName:String,fileName:String,time:String,isInvited:Boolean)
+  case class RoomInfoSection(roomId:Long,userId:Long,userName:String,fileName:String,time:String,desc:Option[String],isInvited:Boolean)
 
   case class GetRoomSectionListRsp(
                              roomList: List[RoomInfoSection],

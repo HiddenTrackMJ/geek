@@ -139,14 +139,25 @@
 }
 
 .orderPage .table-id{
-    width:220px;
+    /*width:220px;*/
     height:22px;
     font-size:14px;
     font-weight:400;
     color:rgba(0,0,0,0.45);
     line-height:22px;
     margin-top: 7px;
-    margin-left: 19px;
+    margin-left: 157px;
+}
+
+.orderPage .table-delete{
+    /*width:220px;*/
+    height:22px;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(0,0,0,0.45);
+    line-height:22px;
+    margin-top: 7px;
+    margin-left: 10px;
 }
 
 .orderPage .table-first{

@@ -26,17 +26,54 @@ object VideoDao {
   }
 
   def getSecVideo(inviteeId: Long) = {
+    //三表join，q为法一，q_为法二
 
 //    val q2=for {
 //      a <- tVideo.distinctOn(_.filename).result
 //      c <- tUser.
 //    } yield a
 
-    val q = tUser join tVideo.sortBy(_.userid).distinctOn(_.filename)  on{
+    val q1 = tUser join tVideo.sortBy(_.userid).distinctOn(_.filename)  on{
       (t1,t2)=>
         List(t1.id === t2.userid).reduceLeft(_ || _)
     }
 
+    val q2 = tRoom join tVideo.sortBy(_.userid).distinctOn(_.filename)  on{
+      (t1,t2)=>
+        List(t1.id === t2.roomid).reduceLeft(_ || _)
+    }
+
+    val q3 = tUser join tRoom join tVideo.sortBy(_.userid).distinctOn(_.filename)  on{
+      (t1,t2)=>
+        List(t1._1.id === t2.userid && t1._2.id === t2.roomid).reduceLeft(_ || _)
+    }
+
+//
+    val innerJoin1 = for {
+      (user, video) <- q1
+    } yield (user.name,video)
+
+    val innerJoin2 = for {
+      (room, video) <- q2
+    } yield room.desc
+
+    val q = for{
+      doc1 <-innerJoin1.distinct.result
+      doc2 <-innerJoin2.distinct.result
+    }yield (doc1,doc2)
+
+    val innerJoin3 = for {
+      (user, video) <- q3
+    } yield (user._1.name,user._2.desc,video)
+
+    val q_ = for{
+      doc3 <-innerJoin3.distinct.result
+    }yield doc3
+
+//    val q = for{
+//      doc1 <-innerJoin1.distinct.result
+//      doc2 <-innerJoin2.distinct.result
+//    }yield (doc1 ++ doc2).distinct
 //    val q = tUser join tVideo.filter(_.invitation === inviteeId) on{
 //      (t1,t2)=>
 //        List(t1.id === t2.userid).reduceLeft(_ || _)
@@ -49,9 +86,9 @@ object VideoDao {
 //    val innerJoin = for {
 //      (inviterName, inviterId) <- q
 //    } yield (inviterName,inviterId)
-    db.run(q.distinct.sortBy(_._1.id).result)
 
-
+//    db.run(q1.distinct.sortBy(_._1.id).result)
+        db.run(q_)
   }
 
   def getInviteeVideo(inviteeId: Long,filename: String): Future[Seq[tVideo#TableElementType]] = {

@@ -50,7 +50,8 @@ object Main extends PageSwitcher{
       case "inviterManage" :: Nil => InviterManagement.render
       case "room" :: r :: v :: Nil => new WatchRecord_new(r.toLong,v).render
       case "preRecord" :: c :: Nil => new PreRecord(c).render
-      case "login" :: Nil => Login_new.render
+      case "login" :: Nil => Login_3.render
+      case "login" :: r ::Nil => Login_3.render
 //      case "login_new" :: Nil => Login_new.render
 //      case "info" :: Nil => LiveHouse.render //fixme delete
       case _ => HomePage.render
@@ -59,10 +60,14 @@ object Main extends PageSwitcher{
   }
 
   val header: Rx[Node] = currentHashVar.map {
-    //    case "Login" :: Nil => <div></div>
+    case "home" :: Nil => Header.render
+    case "userInfo" :: Nil => Header.render
+    case "inviterManage" :: Nil => Header.render
+    case "room" :: r :: v :: Nil => Header.render
+    case "preRecord" :: c :: Nil => Header.render
     case "login" :: Nil => emptyHTML
-//    case "login_new" :: Nil => emptyHTML
-    //    case _ => Header.render
+    //      case "login_new" :: Nil => Login_new.render
+    //      case "info" :: Nil => LiveHouse.render //fixme delete
     case _ => Header.render
   }
 
@@ -78,46 +83,13 @@ object Main extends PageSwitcher{
     switchPageByHash()
 
     val page =
-      <div class={currentHashVar.map { case "login" :: Nil => "lllllllllll" ;case _ => "overlay"}}>
+      <div class={currentHashVar.map { case "login" :: Nil => "noOverlay" ;  case _ => "overlay"}}>
         {header}
         {currentPage}
         </div>
     mount(dom.document.body, page)
   }
 
-//  def getRoomList(): Unit = {
-//    val url = Route.Room.getRoomList
-//    val data = GetRoomListReq().asJson.noSpaces
-//    Http.postJsonAndParse[GetRoomListRsp](url, data).map {
-//      rsp =>
-//        try {
-//          if (rsp.errCode == 0) {
-//            roomList = rsp.roomList
-//            println(s"got it : $rsp")
-//          }
-//          else {
-//            println("error======" + rsp.msg)
-//            JsFunc.alert(rsp.msg)
-//          }
-//        }
-//        catch {
-//          case e: Exception =>
-//            println(e)
-//        }
-//    }
-//  }
-
-//  def getRoomSecList(): Unit ={
-//    val userId = dom.window.localStorage.getItem("userId").toLong
-//    Http.postJsonAndParse[GetRoomSectionListRsp](Route.Room.getRoomSectionList, GetRoomSectionListReq(userId).asJson.noSpaces).map {
-//      rsp =>
-//        if(rsp.errCode == 0) {
-//          roomIdData = rsp.roomList
-//        } else {
-//          println(rsp.msg)
-//        }
-//    }
-//  }
 
   def main(args: Array[String]): Unit ={
     show()

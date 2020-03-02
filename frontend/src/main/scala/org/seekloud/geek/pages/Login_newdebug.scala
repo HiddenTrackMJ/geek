@@ -22,7 +22,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.{Elem, Node}
 //import scala.xml.Elem
 
-object Login_new extends Page {
+object Login_newdebug extends Page {
 
   override val locationHashString: String = "#/login"
 
@@ -138,31 +138,31 @@ object Login_new extends Page {
           <div class="imgGroug">
             <ul>
               <img alt="1" class="img0 png" src={Route.imgPath("login/page1_0.png")}/>
-                <img alt="2" class="img1 png" src={Route.imgPath("login/page1_1.png")}/>
-                  <img alt="3" class="img2 png" src={Route.imgPath("login/page1_2.png")}/>
-                  </ul>
-                </div>
-                <img alt="4" class="img3 png" src={Route.imgPath("login/page1_3.jpg")} />
-                </div>
-              </div>
-              <div class="tyg-div-denglv">
-                <div class="tyg-div-form">
-                  <form onsubmit = "return false">
-                    <p class="tyg-p">欢迎访问  GEEK</p>
-                    <div style="margin:5px 0px;">
-                      <input id="username" type="text" placeholder="请输入账号..."/>
-                    </div>
-                    <div style="margin:5px 0px;">
-                      <input type="password" id="password"  placeholder="请输入密码..."/>
-                    </div>
-                    <div style="display:flex;">
-                      <button id="logIn" onclick={() => signIn()}>登<span style="width:20px;"></span>录</button>
-                      <button  data-toggle="modal" data-target={s"#signUp"}>注<span style="width:20px;"></span>册</button>
-                    </div>
+              <img alt="2" class="img1 png" src={Route.imgPath("login/page1_1.png")}/>
+              <img alt="3" class="img2 png" src={Route.imgPath("login/page1_2.png")}/>
+            </ul>
+          </div>
+          <img alt="4" class="img3 png" src={Route.imgPath("login/page1_3.jpg")} />
+        </div>
+      </div>
+      <div class="tyg-div-denglv">
+        <div class="tyg-div-form">
+          <form onsubmit = "return false">
+            <p class="tyg-p">欢迎访问  GEEK</p>
+            <div style="margin:5px 0px;">
+              <input id="username" type="text" placeholder="请输入账号..."/>
+            </div>
+            <div style="margin:5px 0px;">
+              <input type="password" id="password"  placeholder="请输入密码..."/>
+            </div>
+            <div style="display:flex;">
+              <button id="logIn" onclick={() => signIn()}>登<span style="width:20px;"></span>录</button>
+              <button  data-toggle="modal" data-target={s"#signUp"}>注<span style="width:20px;"></span>册</button>
+            </div>
 
-                  </form>
-                </div>
-              </div>
+          </form>
+        </div>
+      </div>
       {makeModal}
     </div>
   }
