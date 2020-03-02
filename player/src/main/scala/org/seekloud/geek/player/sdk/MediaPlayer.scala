@@ -200,7 +200,7 @@ class MediaPlayer (
   def stop(playId: String,resetFunc: () => Unit = ()=>Unit): Unit = {
     if(playerManager != null){
       log.info(s"停止playerId:$playId")
-      playerManager ! PlayerManager.StopPlay(playId, ()=>Unit)
+      playerManager ! PlayerManager.StopPlay(playId, resetFunc)
     }
   }
 
@@ -211,7 +211,7 @@ class MediaPlayer (
   def stopAll(resetFunc: () => Unit) = {
     if(playerManager != null){
       log.info(s"停止所有player")
-      playerManager ! PlayerManager.StopAllPlay(()=>Unit)
+      playerManager ! PlayerManager.StopAllPlay(resetFunc)
     }
   }
 

@@ -150,7 +150,7 @@ object SoundActor {
               val head = samplesQueue.dequeue
               //FIXME write is a sync func.
               if (isMute){
-                log.info("静音中")
+//                log.info("静音中")
               }else{
                 sdl.write(head, 0, head.length)
               }
