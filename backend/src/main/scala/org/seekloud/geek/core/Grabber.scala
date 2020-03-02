@@ -172,7 +172,7 @@ object Grabber {
             recorder ! Recorder.NewFrame(liveId, frame.clone())
             ctx.self ! GrabFrame
           }
-          else if(frame.samples != null) {
+          else if(frame.samples != null ) {
             recorder ! Recorder.NewFrame(liveId, frame.clone())
             ctx.self ! GrabFrame
           }
@@ -181,7 +181,7 @@ object Grabber {
           }
           else {
             log.info(s"$liveId --- frame is null")
-            ctx.self ! StopGrabber(s"$liveId --- frame is null")
+//            ctx.self ! StopGrabber(s"$liveId --- frame is null")
           }
           Behaviors.same
 
