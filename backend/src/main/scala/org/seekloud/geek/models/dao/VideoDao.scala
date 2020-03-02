@@ -27,7 +27,12 @@ object VideoDao {
 
   def getSecVideo(inviteeId: Long) = {
 
-    val q = tUser join tVideo.sortBy(_.userid).distinctOn(_.filename) on{
+//    val q2=for {
+//      a <- tVideo.distinctOn(_.filename).result
+//      c <- tUser.
+//    } yield a
+
+    val q = tUser join tVideo.sortBy(_.userid).distinctOn(_.filename)  on{
       (t1,t2)=>
         List(t1.id === t2.userid).reduceLeft(_ || _)
     }
@@ -172,11 +177,18 @@ object VideoDao {
     db.run{q.distinct.sortBy(_._1.id).result}
   }
 
-  def addComment(filename:String,userId:Long,commentContent:String)  = {
-    val q=for {
-      d<-tVideo.filter(_.filename === filename).filter(_.invitation===userId).result.head
-      c <-tVideo += rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,d.invitation,commentContent)
-    } yield d
+  def addComment(filename:String,userId:Long,commentContent:String):Future[Int]  = {
+    val q = for {
+      c<-tVideo.filter(_.filename === filename).filter(_.invitation===userId).result
+      m <- if(c.nonEmpty){//
+        val d= c.head
+        tVideo += rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,d.invitation,commentContent)
+      }else{
+        DBIO.successful(-1)
+      }
+
+//      c <-tVideo += rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,d.invitation,commentContent)
+    } yield m
     db.run(q)
   }
 

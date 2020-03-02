@@ -321,8 +321,14 @@ trait RoomService extends BaseService with ServiceUtils {
   private val addRoomComment = (path("addRoomComment") & post){
     entity(as[Either[Error, addCommentReq]]) {
       case Right(req) =>
-          VideoDao.addComment(req.fileName,req.userId,req.commentContent)
-          complete(SuccessRsp())
+          dealFutureResult(
+            VideoDao.addComment(req.fileName,req.userId,req.commentContent).map{rsp=>
+              if(rsp == -1)
+                complete(ErrorRsp(rsp,"不能在未被邀请的视频下评论"))
+              else
+                complete(SuccessRsp())
+            }
+          )
 
       case Left(error) =>
         complete(jsonFormatError)

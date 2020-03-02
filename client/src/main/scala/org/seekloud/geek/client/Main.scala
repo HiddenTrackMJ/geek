@@ -53,8 +53,8 @@ object Main {
 //    }else{
 //      println(s"no record for roomId:")
 //    }
-    testHead
-
+//    testHead
+    testCase
   }
 
 //  def millis2HHMMSS(sec: Double): String = {
@@ -76,28 +76,38 @@ object Main {
 
   }
 
-  def testHead: Unit ={
-    println("a"+checkAge("0"))
-    println("b"+checkAge("1"))
-    println("c"+checkAge("8"))
-    println("d"+checkAge("99"))
-    println("e"+checkAge("-1"))
-    println("f"+checkAge("01"))
-    println("g"+checkAge("199"))
-    println("g"+checkAge("999"))
-    println("h"+checkAge("1000"))
+//  def testHead: Unit ={
+//    println("a"+checkAge("0"))
+//    println("b"+checkAge("1"))
+//    println("c"+checkAge("8"))
+//    println("d"+checkAge("99"))
+//    println("e"+checkAge("-1"))
+//    println("f"+checkAge("01"))
+//    println("g"+checkAge("199"))
+//    println("g"+checkAge("999"))
+//    println("h"+checkAge("1000"))
+//  }
+
+  def testCase: Unit ={
+    val a=A(0)
+    val b=Seq(A(0),A(1),A(2))
+    val c=b.head
+    val d=b.map(e=>e)
+    println(c)
+    println(d)
+
   }
 
 
-  def checkAge(str: String): Boolean = {
-    val emailPattern = """^([1-9]|[1-9][0-9]|[1][1-9][1-9])$""".r
-    val r = emailPattern.findAllMatchIn(str).toList
-//    println(r)
-    if(r.nonEmpty)
-      true
-    else
-      false
-  }
+//  def checkAge(str: String): Boolean = {
+//    val emailPattern = """^([1-9]|[1-9][0-9]|[1][1-9][1-9])$""".r
+//    val r = emailPattern.findAllMatchIn(str).toList
+////    println(r)
+//    if(r.nonEmpty)
+//      true
+//    else
+//      false
+//  }
 //  def getVideoDuration(filePath: String) ={
 //    val ffprobe = Loader.load(classOf[org.bytedeco.ffmpeg.ffprobe])
 //    //容器时长（container duration）
