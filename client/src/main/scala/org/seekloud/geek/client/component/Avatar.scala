@@ -21,7 +21,8 @@ case class Avatar(size:Int,src:String){
       if(src == ""){
         new Image("scene/img/avatar.jpg")
       }else{
-        new Image(src)
+        println(s"src: $src")
+        new Image("scene/img/avatar.jpg") //todo
       }
     val imageView = new ImageView(image)
     imageView.setFitWidth(size)

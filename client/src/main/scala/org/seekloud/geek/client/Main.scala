@@ -36,7 +36,7 @@ object Main {
 //
 //    }
 
-    case class rVideo(id: Long, userid: Long, roomid: Long, timestamp: Long, filename: String, length: String, invitation: Long, comment: String)
+//    case class rVideo(id: Long, userid: Long, roomid: Long, timestamp: Long, filename: String, length: String, invitation: Long, comment: String)
 
 //    val video = rVideo(0L, 0, 0, 1,  "kk.mp4", "",0,"")
 //
@@ -45,46 +45,76 @@ object Main {
 //
 //    println(video)
 //    println(videoNew)
-
-val file = new File(s"J:\\暂存\\videos\\1076_1581762286272.mp4")
-    if(file.exists()){
-      val d = getVideoDuration(s"J:\\暂存\\videos\\1076_1581762286272.mp4")
-      println(s"duration:$d")
-    }else{
-      println(s"no record for roomId:")
-    }
-
+//
+//val file = new File(s"J:\\暂存\\videos\\1076_1581762286272.mp4")
+//    if(file.exists()){
+//      val d = getVideoDuration(s"J:\\暂存\\videos\\1076_1581762286272.mp4")
+//      println(s"duration:$d")
+//    }else{
+//      println(s"no record for roomId:")
+//    }
+    testHead
 
   }
 
-  def millis2HHMMSS(sec: Double): String = {
-    val hours = (sec / 3600000).toInt
-    val h =  if (hours >= 10) hours.toString else "0" + hours
-    val minutes = ((sec % 3600000) / 60000).toInt
-    val m = if (minutes >= 10) minutes.toString else "0" + minutes
-    val seconds = ((sec % 60000) / 1000).toInt
-    val s = if (seconds >= 10) seconds.toString else "0" + seconds
-    val dec = ((sec % 1000) / 10).toInt
-    val d = if (dec >= 10) dec.toString else "0" + dec
-    s"$h:$m:$s.$d"
+//  def millis2HHMMSS(sec: Double): String = {
+//    val hours = (sec / 3600000).toInt
+//    val h =  if (hours >= 10) hours.toString else "0" + hours
+//    val minutes = ((sec % 3600000) / 60000).toInt
+//    val m = if (minutes >= 10) minutes.toString else "0" + minutes
+//    val seconds = ((sec % 60000) / 1000).toInt
+//    val s = if (seconds >= 10) seconds.toString else "0" + seconds
+//    val dec = ((sec % 1000) / 10).toInt
+//    val d = if (dec >= 10) dec.toString else "0" + dec
+//    s"$h:$m:$s.$d"
+//  }
+  case class A(id:Int)
+  def testMap: Unit ={
+//    println("ddd","ddadf")
+//    val a=Seq(1,2,3,4,5)
+//    println(a.map(t=>A(t)).toList)
+
   }
-  def getVideoDuration(filePath: String) ={
-    val ffprobe = Loader.load(classOf[org.bytedeco.ffmpeg.ffprobe])
-    //容器时长（container duration）
-    val pb = new ProcessBuilder(ffprobe,"-v","error","-show_entries","format=duration", "-of","csv=\"p=0\"","-i", s"$filePath")
-    val processor = pb.start()
-    val br = new BufferedReader(new InputStreamReader(processor.getInputStream))
-    val s = br.readLine()
-    var duration = 0
-    if(s!= null){
-      duration = (s.toDouble * 1000).toInt
-    }
-    br.close()
-    //    if(processor != null){
-    //      processor.destroyForcibly()
-    //    }
-    millis2HHMMSS(duration)
+
+  def testHead: Unit ={
+    println("a"+checkAge("0"))
+    println("b"+checkAge("1"))
+    println("c"+checkAge("8"))
+    println("d"+checkAge("99"))
+    println("e"+checkAge("-1"))
+    println("f"+checkAge("01"))
+    println("g"+checkAge("199"))
+    println("g"+checkAge("999"))
+    println("h"+checkAge("1000"))
   }
+
+
+  def checkAge(str: String): Boolean = {
+    val emailPattern = """^([1-9]|[1-9][0-9]|[1][1-9][1-9])$""".r
+    val r = emailPattern.findAllMatchIn(str).toList
+//    println(r)
+    if(r.nonEmpty)
+      true
+    else
+      false
+  }
+//  def getVideoDuration(filePath: String) ={
+//    val ffprobe = Loader.load(classOf[org.bytedeco.ffmpeg.ffprobe])
+//    //容器时长（container duration）
+//    val pb = new ProcessBuilder(ffprobe,"-v","error","-show_entries","format=duration", "-of","csv=\"p=0\"","-i", s"$filePath")
+//    val processor = pb.start()
+//    val br = new BufferedReader(new InputStreamReader(processor.getInputStream))
+//    val s = br.readLine()
+//    var duration = 0
+//    if(s!= null){
+//      duration = (s.toDouble * 1000).toInt
+//    }
+//    br.close()
+//    //    if(processor != null){
+//    //      processor.destroyForcibly()
+//    //    }
+//    millis2HHMMSS(duration)
+//  }
 
 
   class Main {

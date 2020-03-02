@@ -2,22 +2,23 @@ package org.seekloud.geek.core
 
 import java.io.{BufferedReader, File, InputStreamReader}
 
-import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import akka.actor.typed.{ActorRef, Behavior}
+import akka.actor.typed.scaladsl.{ActorContext, Behaviors, StashBuffer, TimerScheduler}
 import org.bytedeco.javacpp.Loader
 import org.seekloud.byteobject.MiddleBufferInJvm
-import org.seekloud.geek.Boot.{executor, grabManager, scheduler}
-import org.seekloud.geek.common.Common.Role
-import org.seekloud.geek.common.{AppSettings, Common}
-import org.seekloud.geek.core.RoomManager.RoomDetailInfo
-import org.seekloud.geek.models.SlickTables
 import org.seekloud.geek.models.dao.{UserDao, VideoDao}
 import org.seekloud.geek.protocol.RoomProtocol
 import org.seekloud.geek.shared.ptcl.CommonInfo.LiveInfo
 import org.seekloud.geek.shared.ptcl.CommonProtocol.{RoomInfo, UserInfo}
+import org.seekloud.geek.shared.ptcl.WsProtocol._
+import org.seekloud.geek.Boot.{executor, grabManager, roomManager, scheduler, timeout}
+import org.seekloud.geek.common.{AppSettings, Common}
+import org.seekloud.geek.common.Common.Role
+import org.seekloud.geek.core.RoomManager.RoomDetailInfo
+import org.seekloud.geek.models.SlickTables
 import org.seekloud.geek.shared.ptcl.RoomProtocol.RtmpInfo
 import org.seekloud.geek.shared.ptcl.WsProtocol
-import org.seekloud.geek.shared.ptcl.WsProtocol.{ChangeLiveMode, ChangeModeRsp, Comment, HostShutJoin, JoinAccept, JudgeLike, JudgeLikeRsp, PingPackage, RcvComment, Wrap, WsMsgClient, WsMsgRm, _}
+import org.seekloud.geek.shared.ptcl.WsProtocol.{ChangeLiveMode, ChangeModeRsp, Comment, HostShutJoin, JoinAccept, JudgeLike, JudgeLikeRsp, PingPackage, RcvComment, Wrap, WsMsgClient, WsMsgRm}
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
@@ -47,6 +48,8 @@ object RoomDealer {
   case class StopLive4Client(roomDetailInfo: RoomDetailInfo, userId: Long, selfCode: String) extends Command
 
   case class Shield(req: ShieldReq, liveCode: String) extends Command
+
+  case class Appoint(userId: Long, roomId: Long,  liveId: String) extends Command
 
   case class ChangePossession(roomDetailInfo: RoomDetailInfo) extends Command
 
@@ -164,12 +167,12 @@ object RoomDealer {
         case msg: StartLive =>
           subscribe.put(msg.hostId, msg.actor)
           grabManager ! GrabberManager.StartLive(wholeRoomInfo.roomId, msg.hostId, msg.roomDetailInfo.rtmpInfo, msg.hostCode, ctx.self)
-          dispatchTo(subscribe)(List(msg.hostId), WsProtocol.StartLiveRsp(msg.roomDetailInfo.rtmpInfo, msg.hostCode))
+          dispatchTo(subscribe)(List(msg.hostId), WsProtocol.StartLiveRsp(msg.roomDetailInfo.rtmpInfo, msg.roomDetailInfo.userLiveCodeMap, msg.hostCode))
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StartLive4Client =>
           grabManager ! GrabberManager.StartLive4Client(wholeRoomInfo.roomId, msg.roomDetailInfo.rtmpInfo, msg.selfCode, ctx.self)
-          dispatchTo(subscribe)(List(msg.userId),  WsProtocol.StartLive4ClientRsp(Some(msg.roomDetailInfo.rtmpInfo), msg.selfCode))
+          dispatch(subscribe)(WsProtocol.StartLive4ClientRsp(Some(msg.roomDetailInfo.rtmpInfo), msg.roomDetailInfo.userLiveCodeMap, msg.selfCode))
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: StopLive =>
@@ -186,9 +189,36 @@ object RoomDealer {
           idle(msg.roomDetailInfo, wholeRoomInfo, liveInfoMap, subscribe, liker, startTime, totalView, isJoinOpen)
 
         case msg: Shield =>
-          log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.req.userId} recv shield rsp...")
-          grabManager ! GrabberManager.Shield(msg.req, msg.liveCode)
-          dispatch(subscribe)( WsProtocol.ShieldRsp(msg.req.isForced,msg.req.userId,msg.req.isImage,msg.req.isAudio))
+          UserDao.searchById(msg.req.userId).onComplete {
+            case Success(u) =>
+              u match {
+                case Some(user) =>
+                  log.info(s"RoomDealer-${wholeRoomInfo.roomId} userId-${msg.req.userId} recv shield rsp...")
+                  grabManager ! GrabberManager.Shield(msg.req, msg.liveCode)
+                  dispatch(subscribe)( WsProtocol.ShieldRsp(msg.req.isForced, user.id, user.name, msg.req.isImage, msg.req.isAudio))
+                case _ =>
+                  dispatch(subscribe)( WsProtocol.ShieldRsp(msg.req.isForced, -1L, "", msg.req.isImage, msg.req.isAudio, errCode = 100035, msg = "This user doesn't exist"))
+              }
+            case Failure(e) =>
+              dispatch(subscribe)( WsProtocol.ShieldRsp(msg.req.isForced, -1L, "", msg.req.isImage, msg.req.isAudio, errCode = 100036, msg = "This user doesn't exist"))
+          }
+
+          Behaviors.same
+
+        case Appoint(userId, roomId, liveId) =>
+          UserDao.searchById(userId).onComplete {
+            case Success(u) =>
+              u match {
+                case Some(user) =>
+                  log.info(s"RoomDealer-${roomId} userId-${userId} recv appoint rsp...")
+                  grabManager ! GrabberManager.Appoint(userId, roomId, liveId)
+                  dispatch(subscribe)( WsProtocol.AppointRsp(user.id, user.name))
+                case _ =>
+                  dispatch(subscribe)( WsProtocol.AppointRsp(-1L, "", errCode = 100035, msg = "This user doesn't exist"))
+              }
+            case Failure(e) =>
+              dispatch(subscribe)( WsProtocol.AppointRsp(-1L, "", errCode = 100036, msg = "This user doesn't exist"))
+          }
           Behaviors.same
 
         case msg: ChangePossession =>

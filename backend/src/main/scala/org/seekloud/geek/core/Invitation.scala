@@ -37,7 +37,7 @@ object Invitation {
 
   final case class GetInviteeList(req: InvitationReq,replyTo: ActorRef[InvitationRsp]) extends Command
 
-  final case class DelInvitee(req: InviterAndInviteeReq,replyTo: ActorRef[SuccessRsp]) extends Command
+  final case class DelInvitee(req: InviterAndInviteeAndRoomReq,replyTo: ActorRef[SuccessRsp]) extends Command
 
   def create()(implicit timeout: Timeout, scheduler: Scheduler) =
     Behaviors.setup[Command] {
@@ -102,7 +102,7 @@ object Invitation {
             }
             Behaviors.same
           case DelInvitee(user, replyTo)=>
-            VideoDao.delInvitee(user.inviterId,user.inviteeId).map{
+            VideoDao.delInvitee(user.inviterId,user.inviteeId,user.roomId).map{
               rsp=>
               var msg = ""
               if (rsp == -1){

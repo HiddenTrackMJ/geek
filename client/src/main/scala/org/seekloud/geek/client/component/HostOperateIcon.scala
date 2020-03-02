@@ -5,9 +5,9 @@ import com.jfoenix.controls.JFXRippler
 import javafx.scene.layout.Pane
 import org.seekloud.geek.client.common.Constants.HostOperateIconType
 import org.seekloud.geek.client.core.RmManager
-import org.seekloud.geek.client.core.RmManager.Shield
+import org.seekloud.geek.client.core.RmManager.{Appoint, Shield}
 import org.seekloud.geek.shared.ptcl.CommonProtocol.UserInfo
-import org.seekloud.geek.shared.ptcl.WsProtocol.{ChangePossessionReq, ShieldReq}
+import org.seekloud.geek.shared.ptcl.WsProtocol.{AppointReq, ChangePossessionReq, ShieldReq}
 import org.slf4j.LoggerFactory
 /**
   * User: hewro
@@ -59,9 +59,10 @@ case class HostOperateIcon(
 
 
           case HostOperateIconType.ALLOW =>
-//            println("当前用户" + userInfo.isAllow.get)
             RmManager.getUserInfo(userInfo.userId).get.isAllow = Some(!userInfo.isAllow.get)
-            //todo ws消息
+            println("当前用户" + userInfo.isAllow.get)
+            rmManager ! Appoint(AppointReq(RmManager.roomInfo.get.roomId, userInfo.userId))
+          //todo ws消息
 
           case HostOperateIconType.HOST =>
             val origHost = RmManager.roomInfo.get.userList.find(_.isHost.get == true)

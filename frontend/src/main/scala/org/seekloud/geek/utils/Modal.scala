@@ -31,8 +31,8 @@ class Modal(header:Elem, child:Elem, successFunc:() => Unit, id:String, withButt
             {child}
           </div>
           <div class="modal-footer">
-            {closeBtn}
             {confirmBtn}
+            {closeBtn}
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

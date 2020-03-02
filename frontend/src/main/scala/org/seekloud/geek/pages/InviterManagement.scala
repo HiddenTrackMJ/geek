@@ -11,7 +11,7 @@ import org.scalajs.dom.raw._
 import org.scalajs.dom.KeyboardEvent
 import org.seekloud.geek.Main
 import org.seekloud.geek.pages.UserInfoPage.userDetail
-import org.seekloud.geek.shared.ptcl.CommonProtocol.{InvitationReq, InvitationRsp, Inviter, InviterAndInviteeDetail, InviterAndInviteeDetailRsp, InviterAndInviteeReq, addInviteeReq}
+import org.seekloud.geek.shared.ptcl.CommonProtocol.{InvitationReq, InvitationRsp, Inviter, InviterAndInviteeAndRoomReq, InviterAndInviteeDetail, InviterAndInviteeDetailRsp, InviterAndInviteeReq, addInviteeReq}
 import org.seekloud.geek.shared.ptcl.{ComRsp, SuccessRsp}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -51,11 +51,16 @@ object InviterManagement extends Page{
     val child =
       <div>
         <form style="border: 1px solid #dfdbdb;border-radius: 3px;padding:2rem 1rem 2rem 1rem;">
-          <div class="row" style="padding: 1rem 1rem 1rem 1rem;">
-            <label class="col-md-3" style="text-align:right">用户名</label>
-            <div class="col-md-6">
-              <input type="text" id="name" placeholder="请输入被邀请用户名" class="form-control" autofocus="true"></input>
-            </div>
+          <div class="row" style="padding: 1rem 1rem 1rem 1rem;display:flex;flex-direction:column;text-align:center;">
+            <label  style="margin:10px;">我被邀请的房间号</label>
+            {
+            inviterDetailData.map(va=>va.sortBy(_.roomId).map{inviter=>
+              <div >
+                <label title="点击删除邀请" style="cursor:pointer;" onclick ={()=>chooseToDeleteInviter(inviter.roomId)}>{inviter.roomId}</label>
+              </div>
+            }
+            )
+            }
           </div>
         </form>
       </div>
@@ -67,11 +72,16 @@ object InviterManagement extends Page{
     val child =
       <div>
         <form style="border: 1px solid #dfdbdb;border-radius: 3px;padding:2rem 1rem 2rem 1rem;">
-          <div class="row" style="padding: 1rem 1rem 1rem 1rem;">
-            <label class="col-md-3" style="text-align:right">用户名</label>
-            <div class="col-md-6">
-              <input type="text" id="name" placeholder="请输入被邀请用户名" class="form-control" autofocus="true"></input>
-            </div>
+          <div class="row" style="padding: 1rem 1rem 1rem 1rem;display:flex;flex-direction:column;text-align:center;">
+            <label  style="margin:10px;">用户被邀请的房间号</label>
+            {
+            inviteeDetailData.map(va=>va.sortBy(_.roomId).map{invitee=>
+              <div >
+                <label title="点击删除邀请" style="cursor:pointer;" onclick ={()=>chooseToDeleteInvitee(invitee.roomId)}>{invitee.roomId}</label>
+              </div>
+            }
+            )
+            }
           </div>
         </form>
       </div>
@@ -100,7 +110,7 @@ object InviterManagement extends Page{
       val username= dom.window.localStorage.getItem("username")
       if(info.length==1 && info.head.inviterName == username) <div class="save">暂无邀请 </div>
       else <div>{info.filter(_.inviterName != username).map{inviter =>
-        <a href="#/inviterManage" title={"用户id:"+inviter.inviterId} class="save" data-toggle="modal" data-target={s"#inviterModal"}>{inviter.inviterName} </a>
+        <a href="#/inviterManage" title={"用户id:"+inviter.inviterId} class="save" data-toggle="modal" data-target={s"#inviterModal"} onclick={()=>getInviterDetail(inviter.inviterId);()}>{inviter.inviterName} </a>
       }}</div>
 
       }
@@ -114,7 +124,7 @@ object InviterManagement extends Page{
       val username= dom.window.localStorage.getItem("username")
       if(info.length==1 && info.head.inviterName == username) <div class="save">暂无邀请 </div>
       else <div>{info.filter(_.inviterName != username).map{invitee =>
-        <div  title="点击查看邀请人详情" class="save" data-toggle="modal" data-target={s"#inviteeModal"} onclick={()=>()/*delInvitee(invitee.inviterId);getInviteeInfo()*/}>{invitee.inviterName} </div>
+        <div  title="点击查看邀请人详情" class="save" data-toggle="modal" data-target={s"#inviteeModal"} onclick={()=>getInviteeDetail(invitee.inviterId);()}>{invitee.inviterName} </div>
       }}</div>
       }
     </div>
@@ -123,11 +133,11 @@ object InviterManagement extends Page{
   val roomIdDetail : Rx[Elem] = roomIdData.map{
     case Nil =>
       <div class="row">
-      <select id="modifyPeople" class="modify-people"><option >暂无数据</option></select>
+        <select id="modifyPeople" class="modify-people"><option >暂无数据</option></select>
       </div>
     case info => <div class="row"><select id="modifyPeople" class="modify-people">
       {
-      info.map(r=>
+      info.sortBy(_.roomId).map(r=>
       <option>{r.roomId}</option>
       )
       }
@@ -143,12 +153,6 @@ object InviterManagement extends Page{
     else isMeetingChoose:=true
 
   }
-
-
-//  def test: Unit ={
-//  val a=dom.document.getElementById("modifyPeople").asInstanceOf[Select].value
-//  println(a)
-//}
 
 
 
@@ -182,6 +186,46 @@ object InviterManagement extends Page{
     <div>
       {primaryInfo}{inviterInfo}{bottom}
     </div>
+
+
+
+
+  def chooseToDeleteInvitee(roomId:Long): Unit ={
+    if(dom.window.confirm("确定要删除邀请吗???")){
+      println("666")
+      val userId = dom.window.localStorage.getItem("userId").toLong
+      Http.postJsonAndParse[SuccessRsp](Route.Invitation.delInvitee, InviterAndInviteeAndRoomReq(userId,inviteeVar.toString.drop(4).dropRight(1).toLong,roomId).asJson.noSpaces).map {
+        rsp =>
+          if(rsp.errCode == 0) {
+            JsFunc.alert("删除成功！")
+            getInviteeDetail(inviteeVar.toString.drop(4).dropRight(1).toLong)
+          } else {
+            println(rsp.msg)
+          }
+      }
+    }
+
+    else println("555")
+  }
+
+  def chooseToDeleteInviter(roomId:Long): Unit ={
+    if(dom.window.confirm("确定要删除邀请吗???")){
+      println("666")
+      val userId = dom.window.localStorage.getItem("userId").toLong
+      Http.postJsonAndParse[SuccessRsp](Route.Invitation.delInvitee, InviterAndInviteeAndRoomReq(inviterVar.toString.drop(4).dropRight(1).toLong,userId,roomId).asJson.noSpaces).map {
+        rsp =>
+          if(rsp.errCode == 0) {
+            JsFunc.alert("删除成功！")
+            getInviterDetail(inviterVar.toString.drop(4).dropRight(1).toLong)
+          } else {
+            println(rsp.msg)
+          }
+      }
+    }
+
+    else println("555")
+  }
+
 
   def getInviterInfo(): Unit ={
     val userName = dom.window.localStorage.getItem("username")
@@ -221,6 +265,8 @@ object InviterManagement extends Page{
       rsp =>
         if(rsp.errCode == 0) {
           inviteeDetailData:=rsp.list
+          inviteeVar:=invitee.toString
+          println(rsp.list)
         } else {
           println(rsp.msg)
         }
@@ -232,18 +278,8 @@ object InviterManagement extends Page{
       rsp =>
         if(rsp.errCode == 0) {
           inviterDetailData:=rsp.list
-        } else {
-          println(rsp.msg)
-        }
-    }
-  }
-
-  def delInvitee(invitee: Long,roomId:Long): Unit ={
-    val userId = dom.window.localStorage.getItem("userId").toLong
-    Http.postJsonAndParse[SuccessRsp](Route.Invitation.delInvitee, InviterAndInviteeReq(userId,invitee).asJson.noSpaces).map {
-      rsp =>
-        if(rsp.errCode == 0) {
-          JsFunc.alert("删除成功！")
+          inviterVar:=inviter.toString
+          println(rsp.list)
         } else {
           println(rsp.msg)
         }

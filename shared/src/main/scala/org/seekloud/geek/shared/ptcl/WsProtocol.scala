@@ -1,7 +1,7 @@
 package org.seekloud.geek.shared.ptcl
 
 import org.seekloud.geek.shared.ptcl.CommonInfo.{AudienceInfo, LiveInfo, RoomInfo, UserDes}
-import org.seekloud.geek.shared.ptcl.RoomProtocol.{RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
+import org.seekloud.geek.shared.ptcl.RoomProtocol.{ModifyRoomInfo, RoomData, RoomUserInfo, RtmpInfo, UserPushInfo}
 
 /**
  * Author: Jason
@@ -137,6 +137,7 @@ object WsProtocol  {
 
   case class StartLiveRsp(
     rtmp: RtmpInfo,
+    userLiveCodeMap: Map[String, Long],
     selfCode: String,
     errCode: Int = 0,
     msg: String = "ok"
@@ -173,6 +174,18 @@ object WsProtocol  {
     msg: String = "ok"
   ) extends WsMsgRm
 
+  case class AppointReq(
+    roomId: Long,
+    userId: Long
+  ) extends WsMsgHost
+
+  case class AppointRsp(
+    userId: Long,
+    userName: String,
+    errCode: Int = 0,
+    msg: String = "ok"
+  ) extends WsMsgRm
+
   case class ShieldReq(
     isForced: Boolean, //为true是被主持人屏蔽的，为false是主动屏蔽的
     roomId: Long,
@@ -184,27 +197,13 @@ object WsProtocol  {
   case class ShieldRsp(
     isForced: Boolean,
     userId: Long,
-    isImage: Boolean,//true 表示开启图像
-    isAudio: Boolean,//true 表示开启声音
+    userName: String,
+    isImage: Boolean,
+    isAudio: Boolean,
     errCode: Int = 0,
     msg: String = "ok"
   ) extends WsMsgRm
 
-
-  case class AskSpeakReq(
-    isForced: Boolean,//true是主持人指定发言，false是用户主动申请发言
-    isSpeak: Boolean,//true 为申请发言，false为申请关闭发言
-    roomId: Long,
-    userId: Long
-  )extends WsMsgClient
-
-  case class AskSpeakRsp(
-    isForced: Boolean,//true是主持人指定发言，false是用户主动申请发言
-    isSpeak: Boolean,//true 为申请发言，false为申请关闭发言
-    userId: Long,
-    errCode: Int = 0,
-    msg: String = "ok"
-  )extends WsMsgRm
 
 
 //  val StartLiveRefused: StartLiveRsp = StartLiveRsp(errCode = 200001, msg = "start live refused.")
@@ -297,6 +296,7 @@ object WsProtocol  {
 
   case class StartLive4ClientRsp(
     rtmp: Option[RtmpInfo] = None,
+    userLiveCodeMap: Map[String, Long],
     selfCode: String,
     errCode: Int = 0,
     msg: String = "ok"
@@ -326,7 +326,7 @@ object WsProtocol  {
   ) extends WsMsgRm2Audience
 
 
-  val StartLive4ClientFail = StartLive4ClientRsp(None, "", errCode = 2000001, msg = "StartLive4Client fail.")
+  val StartLive4ClientFail = StartLive4ClientRsp(None, Map(),"", errCode = 2000001, msg = "StartLive4Client fail.")
   /*
   点赞
    */

@@ -222,6 +222,9 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
           //          dom.document.location.href= s"#/room/"+roomId.toString + "/" + fileName
           dom.document.location.hash= s"#/room/"+roomId.toString + "/" + fileName.dropRight(4)
           println("ssssss")
+        }else if(rsp.errCode == -1) {
+          JsFunc.alert(rsp.msg)
+          dom.document.location.hash= s"#/room/"+roomId.toString + "/" + fileName.dropRight(4)
         } else {
           JsFunc.alert("抱歉，你没有查看该录像的权限")
           println(rsp.msg)
@@ -248,7 +251,7 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
     val userId = dom.window.localStorage.getItem("userId")
       <div style="border: 1px solid rgb(232, 232, 232);margin-top: 17px;margin-left: 24px;">
         <video controls="controls" width="800px" height="450px" preload="metadata">
-          <source src={"http://10.1.29.247:42075/geek/room/getRecord" + userId + "/" + videoName} type="video/webm"/>
+          <source src={"http://10.1.29.247:42075/geek/room/getRecord/" + userId + "/" + videoName} type="video/webm"/>
         </video>
       </div>
   }
@@ -257,7 +260,7 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
   val background: Elem =
     <div style="height:auto;">
       <div style="position: static;left: 0;right: 0;top: 50%;text-align: center;" >
-        <div style="margin-left:3%;margin-right:3%;">
+        <div style="margin-left:1%;margin-right:1%;">
           <div class="x_content" >
             {
             roomIdData.map( l =>

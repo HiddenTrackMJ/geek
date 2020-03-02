@@ -72,15 +72,25 @@ object UserDao {
   }
 
   def updateUserDetail(userId:Long,userName:String,gender:Int,age:Int,address:String) = {
-    val action = tUser.filter(t=>t.id === userId).map(x=> (x.name,x.gender,x.age,x.address)).update((userName,Some(gender),Some(age),Some(address)))
-    try{
-      db.run(action)
-    }
-    catch {
-      case e: Throwable =>
-        log.error(s"updateUserDetail error with error $e")
-        Future.successful(-1)
-    }
+
+    val q = for{
+      i<- tUser.filter(_.name===userName).length.result
+      m <- if(i>0){//注册失败，名称重复了
+        DBIO.successful(-1)
+      }else{//注册成功
+        tUser.filter(t=>t.id === userId).map(x=> (x.name,x.gender,x.age,x.address)).update((userName,Some(gender),Some(age),Some(address)))
+      }
+    }yield m
+
+//    val action = tUser.filter(t=>t.id === userId).map(x=> (x.name,x.gender,x.age,x.address)).update((userName,Some(gender),Some(age),Some(address)))
+//    try{
+      db.run(q)
+//    }
+//    catch {
+//      case e: Throwable =>
+//        log.error(s"updateUserDetail error with error $e")
+//        Future.successful(-1)
+//    }
 
   }
 
