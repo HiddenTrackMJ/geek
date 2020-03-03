@@ -53,9 +53,9 @@ class PreRecord(c:String) extends Page{
     case Nil => <div style="margin: 30px; font-size: 17px; " class="courseTitleContainer">暂无录像信息
     </div>
     case list =>{<div class="courseContainer" >
-      {list.sortBy(_.roomId).map { l =>
+      {list.sortBy(_.roomId).reverse.map { l =>
 
-        <div class="courseItem" onclick={()=>checkInvAndSkip(l.roomId,l.fileName);()}>
+        <div class={if(l.roomId==1763 ||l.roomId==1762 ||l.roomId==1761) "courseItem2" else "courseItem"} onclick={()=>checkInvAndSkip(l.roomId,l.fileName);()}>
           <img class="courseItem-img" src={Route.imgPath("videoCover/video"+l.fileName.takeRight(5).replaceAll("mp4","png"))}></img>
           <div style="padding:0 20px">
             <div class="courseItem-title" onclick={() => ()}>

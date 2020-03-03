@@ -56,11 +56,11 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
 //    </div>
 
   private def roomListRx2(roomList: List[RoomInfoSection], selected: String) =
-    roomList.map {o=>
+    roomList.sortBy(_.roomId).reverse.map {o=>
         if (true)
           <div class="orderPage table" style="margin-top:17px;margin-left:24px;cursor: pointer;" onclick={() => checkInvAndSkip(o.roomId,o.fileName)}>
             <div class="orderPage-nowrap-flex">
-              <div class="orderPage table-first">
+              <div class={if(o.roomId==1763 ||o.roomId==1762 ||o.roomId==1761 )"orderPage table-first-2"else "orderPage table-first"}>
                 <img class="orderPage table-first-img" src={Route.imgPath("videoCover/video"+o.fileName.takeRight(5).replaceAll("mp4","png"))}></img>
                 <div class="orderPage table-first-txt">
                   <div style="text-align: left;font-size:large">{o.fileName.split("_").last}</div>
@@ -252,7 +252,7 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
     val userId = dom.window.localStorage.getItem("userId")
       <div style="border: 1px solid rgb(232, 232, 232);margin-top: 17px;margin-left: 24px;">
         <video controls="controls" width="800px" height="450px" preload="metadata">
-          <source src={"http://10.1.29.247:42075/geek/room/getRecord/" + userId + "/" + videoName} type="video/webm"/>
+          <source src={"http://47.92.170.2:42075/geek/room/getRecord/" + userId + "/" + videoName} type="video/webm"/>
         </video>
       </div>
   }

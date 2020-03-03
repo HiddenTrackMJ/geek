@@ -49,6 +49,17 @@
     margin-left: 1.5%;
     cursor: pointer;
 }
+.courseItem2{
+    width:256px;
+    height:270px;
+    /*background: white;*/
+    background-image: linear-gradient(-90deg, #29bdd9 0%, #276ace 100%);
+    border-radius:2px;
+    box-shadow: 0 0 5px  rgba(233,233,233,1);
+    margin-bottom: 24px;
+    margin-left: 1.5%;
+    cursor: pointer;
+}
 .courseItem-img{
     width:256px;
     height:160px;
