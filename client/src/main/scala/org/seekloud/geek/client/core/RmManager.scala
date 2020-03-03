@@ -470,6 +470,7 @@ object RmManager {
 
         case BackToHome =>
 
+          RmManager.isStart = false
           sender.foreach(_ ! CompleteMsgClient)//断开ws连接
           if (hostStatus == HostStatus.CONNECT) {//开启会议情况下
             //需要关闭player的显示
