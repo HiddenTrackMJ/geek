@@ -142,9 +142,9 @@ object Recorder {
             case Failure(e) =>
               log.error(s" recorder starts error: ${e.getMessage}")
           }
-          val canvas = new BufferedImage(1280, 480, BufferedImage.TYPE_3BYTE_BGR)
+          val canvas = new BufferedImage(640, 480, BufferedImage.TYPE_3BYTE_BGR)
           val drawer = ctx.spawn(draw(canvas, canvas.getGraphics, Ts4LastImage(), Queue.empty, Image(), recorder4ts,
-            new Java2DFrameConverter(), new Java2DFrameConverter(),new Java2DFrameConverter,mutable.HashMap.empty, layout, "defaultImg.jpg", roomId, (1280, 480)), s"drawer_$roomId")
+            new Java2DFrameConverter(), new Java2DFrameConverter(),new Java2DFrameConverter,mutable.HashMap.empty, layout, "defaultImg.jpg", roomId, (640, 480)), s"drawer_$roomId")
 
           val sampleRecorder = ctx.spawn(sampleRecord(roomId, Ts4LastSample(), Audio(), recorder4ts,mutable.HashMap.empty, None), s"sampleRecorder_$roomId")
           ctx.self ! Init
@@ -381,17 +381,17 @@ object Recorder {
           //          graph.clearRect(0, 0, canvasSize._1, canvasSize._2)
           layout match {
             case 0 =>
-              graph.drawImage(img, 0, 0, canvasSize._1 / 2, canvasSize._2 , null)
+              graph.drawImage(img, 0, 0, canvasSize._1 , canvasSize._2 , null)
               //              graph.drawString("主播", 24, 24)
               //              graph.drawImage(clientImg, canvasSize._1 / 2, canvasSize._2 / 4, canvasSize._1 / 2, canvasSize._2 / 2, null)
               //              graph.drawString("观众", 344, 24)
               clientImg.zipWithIndex.foreach{ i =>
                 val index = i._2
                 index match {
-                  case 0 => graph.drawImage(i._1, canvasSize._1 / 2,     0,                 canvasSize._1 / 4, canvasSize._2 / 2, null)
-                  case 1 => graph.drawImage(i._1, canvasSize._1 / 4 * 3, 0,                 canvasSize._1 / 4, canvasSize._2 / 2, null)
-                  case 2 => graph.drawImage(i._1, canvasSize._1 / 2,     canvasSize._2 / 2, canvasSize._1 / 4, canvasSize._2 / 2, null)
-                  case 3 => graph.drawImage(i._1, canvasSize._1 / 4 *3,  canvasSize._2 / 2, canvasSize._1 / 4, canvasSize._2 / 2, null)
+                  case 0 => graph.drawImage(i._1, 0, 0, canvasSize._1 / 3, canvasSize._2 / 3, null)
+                  case 1 => graph.drawImage(i._1, 0, canvasSize._2 / 3 * 2, canvasSize._1 / 3, canvasSize._2 / 3, null)
+                  case 2 => graph.drawImage(i._1, canvasSize._1 / 3 * 2, 0, canvasSize._1 / 3, canvasSize._2 / 3, null)
+                  case 3 => graph.drawImage(i._1, canvasSize._1 / 3 * 2, canvasSize._2 / 3 * 2, canvasSize._1 / 3, canvasSize._2 / 3, null)
                   case _ =>
                 }
               }
