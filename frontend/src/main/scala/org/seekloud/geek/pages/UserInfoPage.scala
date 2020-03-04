@@ -229,7 +229,7 @@ object UserInfoPage extends Page{
       JsFunc.alert("年龄严格限制在1~199")
     }
     else{
-      Http.postJsonAndParse[SuccessRsp](Route.User.updateUserDetail, UpdateUserReq(userId,username,gender.toInt,age.toInt,address).asJson.noSpaces).map {
+      Http.postJsonAndParse[SuccessRsp](Route.User.updateUserDetail, UpdateUserReq(userId,username,dom.window.localStorage.getItem("username").toString,gender.toInt,age.toInt,address).asJson.noSpaces).map {
         rsp =>
           if (rsp.errCode == 0) {
             //          userDetail :=rsp.userInfo.get

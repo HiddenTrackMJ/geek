@@ -71,11 +71,11 @@ object UserDao {
     db.run(action)
   }
 
-  def updateUserDetail(userId:Long,userName:String,gender:Int,age:Int,address:String) = {
+  def updateUserDetail(userId:Long,userName:String,gender:Int,age:Int,address:String,isUser:Boolean) = {
 
     val q = for{
       i<- tUser.filter(_.name===userName).length.result
-      m <- if(i>0){//注册失败，名称重复了
+      m <- if(i>0 && !isUser){//注册失败，名称重复了
         DBIO.successful(-1)
       }else{//注册成功
         tUser.filter(t=>t.id === userId).map(x=> (x.name,x.gender,x.age,x.address)).update((userName,Some(gender),Some(age),Some(address)))
