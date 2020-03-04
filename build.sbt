@@ -2,7 +2,7 @@ val scalaV = "2.12.10"
 
 
 val projectName = "org.seekloud.geek"
-val projectVersion = "2020.03.04"
+val projectVersion = "2020.02.21a"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 resolvers += "jitpack" at "https://jitpack.io"
