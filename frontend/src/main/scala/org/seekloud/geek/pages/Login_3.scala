@@ -36,12 +36,14 @@ object Login_3 extends Page{
       Http.postJsonAndParse[SignUpRsp](Route.User.signUp, data).map {
         rsp =>
           rsp.errCode match {
-            case 0 =>
+            case 1 =>
               //              JsFunc.alert(s"注册成功！")
               dom.document.getElementById("username").asInstanceOf[Input].value = username
               dom.document.getElementById("password").asInstanceOf[Input].value = password
-            case _ =>
+            case -1 =>
               JsFunc.alert("注册失败，用户名冲突")
+            case _ =>
+              JsFunc.alert(rsp.msg)
           }
       }
     } else {

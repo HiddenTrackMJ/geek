@@ -197,12 +197,25 @@ object VideoDao {
   }
 
   def addInvitee(inviterId: Long,roomId:Long,inviteeId: Long) = {
-    //在roomid相应的所有的不同filename，都复制一行
-    val q=for {
-      a<-tVideo.filter(_.roomid ===roomId ).filter(_.userid===inviterId).filter(_.comment==="").result
-      c <-tVideo ++= a.map(d=>rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,inviteeId,""))
-    } yield a
-    db.run(q)
+    //在roomid相应的所有的不同filename，都复制一行(有问题)
+    //在roomid相应的所有的不同filename，这两个信息还不够，邀请用户可能重复，因此取自己时正常
+    //之后再邀请别人时再因此只取自己的邀请，都复制一行
+    if(inviterId ==inviteeId){
+      val q=for {
+        //      a<-tVideo.filter(_.roomid ===roomId ).filter(_.userid===inviterId).filter(_.comment==="").result
+        a<-tVideo.filter(_.roomid ===roomId ).filter(_.userid===inviterId).filter(_.comment==="").result
+        c <-tVideo ++= a.map(d=>rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,inviteeId,""))
+      } yield a
+      db.run(q)
+    }else {
+      val q=for {
+        //      a<-tVideo.filter(_.roomid ===roomId ).filter(_.userid===inviterId).filter(_.comment==="").result
+        a<-tVideo.filter(_.roomid ===roomId ).filter(_.userid===inviterId).filter(_.invitation===inviterId).filter(_.comment==="").result
+        c <-tVideo ++= a.map(d=>rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,inviteeId,""))
+      } yield a
+      db.run(q)
+    }
+
   }
 
   def getComment(roomid:Long,filename:String)  = {

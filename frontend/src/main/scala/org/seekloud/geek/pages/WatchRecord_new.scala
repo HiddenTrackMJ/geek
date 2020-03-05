@@ -63,7 +63,7 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
               <div class={if(o.roomId==1763 ||o.roomId==1762 ||o.roomId==1761 )"orderPage table-first-2"else "orderPage table-first"}>
                 <img class="orderPage table-first-img" src={Route.imgPath("videoCover/video"+o.fileName.takeRight(5).replaceAll("mp4","png"))}></img>
                 <div class="orderPage table-first-txt">
-                  <div style="text-align: left;font-size:large">{o.fileName.split("_").last}</div>
+                  <div style="text-align: left;font-size:large">{o.fileName.split("_").last.replace(".mp4","")}</div>
                   <div style="margin-top:3px;text-align: left;font-size:small">{"房间号："+o.roomId}</div>
                   <div style="margin-top:3px;text-align: left;font-size:small">{"发布者："+o.userName}</div>
                   <div style="margin-top:3px;text-align: left;font-size:small">{"发布时间:"+o.time}</div>
@@ -102,7 +102,7 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
             <div class="orderPage-nowrap-flex">
               <div class="orderPage">
                 <div >
-                  <div style="margin-top:6px;font-size:large;text-align: left;">{"视频标题："+{l.fileName.split("_").last}}</div>
+                  <div style="margin-top:6px;font-size:large;text-align: left;">{"视频标题："+{l.fileName.split("_").last.replace(".mp4","")}}</div>
                   <div style="margin-top:6px;text-align: left;">房间描述：{ if(l.desc.getOrElse("暂无")=="") "暂无" else l.desc.getOrElse("暂无")}</div>
                   <div style="margin-top:6px;text-align: left;">{"发布者："+l.userName}</div>
                   <div style="margin-top:6px;text-align: left;">{"发布时间："+l.time}</div>

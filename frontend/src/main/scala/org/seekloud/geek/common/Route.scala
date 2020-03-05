@@ -13,7 +13,7 @@ object Route {
   def imgPath(fileName: String): String = baseUrl + "/static/img/" + fileName
 //  def hestiaPath(fileName: String): String =  "http://127.0.0.1:30226/hestia/files/image/OnlyForTest/" + fileName
 //  def hestiaPath(fileName: String): String =  "http://10.1.29.247:30226/hestia/files/image/OnlyForTest/" + fileName
-  def hestiaPath(fileName: String): String =  "http://47.92.170.2:30226/hestia/files/image/OnlyForTest/" + fileName
+  def hestiaPath(fileName: String): String =  "http://47.92.170.2:42076/hestia/files/image/OnlyForTest/" + fileName
 //  val hestiaPath = "http://10.1.29.247/hestia/files/image/OnlyForTest/"
   object Admin {
     val base: String = baseUrl + "/admin"

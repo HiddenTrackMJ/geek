@@ -60,7 +60,7 @@ class PreRecord(c:String) extends Page{
           <div style="padding:0 20px">
             <div class="courseItem-title" onclick={() => ()}>
               <div class="courseItem-name">
-                {l.fileName.split("_").last}
+                {l.fileName.split("_").last.replace(".mp4","")}
               </div>
 
             </div>

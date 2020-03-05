@@ -131,7 +131,7 @@ trait UserService extends BaseService {
     entity(as[Either[Error, UpdateUserReq]]) {
       case Right(req) =>
         dealFutureResult(
-          UserDao.updateUserDetail(req.userId,req.userName,req.gender,req.age,req.address).map{rsp=>
+          UserDao.updateUserDetail(req.userId,req.userName,req.gender,req.age,req.address,{if(req.userName==req.userName2 ) true else false}).map{rsp=>
             if(rsp == -1) complete(ErrorRsp(rsp,"修改信息失败，用户名已存在"))
             else   complete(SuccessRsp())
           }
