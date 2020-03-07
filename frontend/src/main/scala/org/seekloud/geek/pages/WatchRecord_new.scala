@@ -56,16 +56,17 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
 //    </div>
 
   private def roomListRx2(roomList: List[RoomInfoSection], selected: String) =
-    roomList.map {o=>
+    roomList.sortBy(_.roomId).reverse.map {o=>
         if (true)
           <div class="orderPage table" style="margin-top:17px;margin-left:24px;cursor: pointer;" onclick={() => checkInvAndSkip(o.roomId,o.fileName)}>
             <div class="orderPage-nowrap-flex">
-              <div class="orderPage table-first">
+              <div class={if(o.roomId==1763 ||o.roomId==1762 ||o.roomId==1761 )"orderPage table-first-2"else "orderPage table-first"}>
                 <img class="orderPage table-first-img" src={Route.imgPath("videoCover/video"+o.fileName.takeRight(5).replaceAll("mp4","png"))}></img>
                 <div class="orderPage table-first-txt">
-                  <div style="margin-top:6px;text-align: left;font-size:large">{o.fileName}</div>
-                  <div style="margin-top:6px;text-align: left;">{"发布者："+o.userName}</div>
-                  <div style="margin-top:6px;text-align: left;">{"发布时间:"+o.time}</div>
+                  <div style="text-align: left;font-size:large">{o.fileName.split("_").last.replace(".mp4","")}</div>
+                  <div style="margin-top:3px;text-align: left;font-size:small">{"房间号："+o.roomId}</div>
+                  <div style="margin-top:3px;text-align: left;font-size:small">{"发布者："+o.userName}</div>
+                  <div style="margin-top:3px;text-align: left;font-size:small">{"发布时间:"+o.time}</div>
                 </div>
               </div>
             </div>
@@ -101,7 +102,8 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
             <div class="orderPage-nowrap-flex">
               <div class="orderPage">
                 <div >
-                  <div style="margin-top:6px;font-size:large;text-align: left;">{"视频标题："+l.fileName}</div>
+                  <div style="margin-top:6px;font-size:large;text-align: left;">{"视频标题："+{l.fileName.split("_").last.replace(".mp4","")}}</div>
+                  <div style="margin-top:6px;text-align: left;">房间描述：{ if(l.desc.getOrElse("暂无")=="") "暂无" else l.desc.getOrElse("暂无")}</div>
                   <div style="margin-top:6px;text-align: left;">{"发布者："+l.userName}</div>
                   <div style="margin-top:6px;text-align: left;">{"发布时间："+l.time}</div>
                 </div>
@@ -133,13 +135,12 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
 
       o.getOrElse(List.empty).filter(_.commentContent!="").sortBy(_.commentId).reverse.map{ comment =>
             if (true)
-              <div class="orderPage table" style="margin-top:17px;margin-left:24px">
-                <div style="display: flex;background:rgba(243,247,251,1);">
-                  <div class="orderPage table-time">{"发布时间：暂无"}</div>
-                  <div class="orderPage table-time">{comment.commentId}</div>
-                  <div class="orderPage table-id">{"评论者："+comment.invitationName}</div>
+              <div class="orderPage table" style="margin-top:17px;margin-left:24px;">
+                <div style="display: flex;background:rgba(243,247,251,1);height:2px;">
+
+                  <div class="orderPage table-id"><span style="color: #00a1d6;">{"评论者："+comment.invitationName}</span></div>
                   {if(comment.userId == dom.window.localStorage.getItem("userId").toLong)
-                  <div class="orderPage table-id" style="color:rgb(42,140,128);cursor:pointer" onclick={() => delComment(comment.commentId);getCommentList(roomID,videoName)}>删除</div>
+                  <div class="orderPage table-delete" style="color:rgb(42,140,128);cursor:pointer" onclick={() => delComment(comment.commentId);getCommentList(roomID,videoName)}>删除</div>
                 else <div></div>
                   }
                 </div>
@@ -148,7 +149,7 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
                     <img class="orderPage table-first-img2" src={Route.hestiaPath(comment.invitationAvatar.getOrElse("be8feec67e052403e26ec05559607f10.jpg"))}></img>
                     <div class="orderPage table-first-txt">
                       <div style="margin-top: 6px;width: 600px;display: inline-block;text-align: left;">
-                        <p style="color:grey;">{"评论："+ comment.commentContent}</p>
+                        <p style="color:grey;">{comment.commentContent}</p>
                       </div>
                     </div>
                   </div>
@@ -173,46 +174,46 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
 
 
 
-  private def getRoomItem(roomList: List[RoomInfoSection], selected: String) = {
-    roomList.map { room =>
-      if (room.fileName == selected) {userNameVar:=room.userName;fileNameVar:=room.fileName;isinvitedVar:=room.isInvited}
-      val isSelected = if (room.fileName == selected) "actived playerSelect" else ""
-      <li class={"media event eyesight " + isSelected} style="text-align:left" onclick={() => checkInvAndSkip(room.roomId,room.fileName)}>
-        <a class="pull-left border-aero profile_thumb">
-          <img class="player" src={Route.imgPath("room.png")}></img>
-        </a>
-        <div class="media-body">
-          <a class="title" href="javascript:void(0)">
-            {"主讲人"+room.userName}({"会议号"+room.roomId})
-          </a>
-          <p style="font-size:5px">{"录像名："+room.fileName}</p>
-          <p style="font-size:5px">{"保存录像时间："+room.time}</p>
-          {
-          if(room.isInvited) <p style="font-size:5px"></p>
-          else <p style="font-size:5px;color:red" ></p>
-          }
-        </div>
-      </li>
-    }
-  }
-
-  private def getCommitItem(videoName:String) = {
-
-    CommentInfo.map{comment1=>
-      comment1.getOrElse(List.empty).filter(_.commentContent!="").map{ room=>
-        val isSelected =  ""
-        <li class={"media event eyesight " + isSelected} style="text-align:left">
-
-          <div class="media-body">
-            {
-            if(userNameVar.toString().drop(4).dropRight(1)==dom.window.localStorage.getItem("username").toString)
-              <div title="删除" onclick={()=>delComment(room.commentId);getCommentList(roomID,videoName)}><a class="title" href="javascript:void(0)">{room.userId}</a><p>{room.commentContent}</p></div>
-            else <div><a class="title" href="javascript:void(0)">{room.invitationName}</a><p>{room.commentContent}</p></div>
-            }
-          </div>
-        </li>
-      }
-    }}
+//  private def getRoomItem(roomList: List[RoomInfoSection], selected: String) = {
+//    roomList.map { room =>
+//      if (room.fileName == selected) {userNameVar:=room.userName;fileNameVar:=room.fileName;isinvitedVar:=room.isInvited}
+//      val isSelected = if (room.fileName == selected) "actived playerSelect" else ""
+//      <li class={"media event eyesight " + isSelected} style="text-align:left" onclick={() => checkInvAndSkip(room.roomId,room.fileName)}>
+//        <a class="pull-left border-aero profile_thumb">
+//          <img class="player" src={Route.imgPath("room.png")}></img>
+//        </a>
+//        <div class="media-body">
+//          <a class="title" href="javascript:void(0)">
+//            {"主讲人"+room.userName}({"会议号"+room.roomId})
+//          </a>
+//          <p style="font-size:5px">{"录像名："+room.fileName}</p>
+//          <p style="font-size:5px">{"保存录像时间："+room.time}</p>
+//          {
+//          if(room.isInvited) <p style="font-size:5px"></p>
+//          else <p style="font-size:5px;color:red" ></p>
+//          }
+//        </div>
+//      </li>
+//    }
+//  }
+//
+//  private def getCommitItem(videoName:String) = {
+//
+//    CommentInfo.map{comment1=>
+//      comment1.getOrElse(List.empty).filter(_.commentContent!="").map{ room=>
+//        val isSelected =  ""
+//        <li class={"media event eyesight " + isSelected} style="text-align:left">
+//
+//          <div class="media-body">
+//            {
+//            if(userNameVar.toString().drop(4).dropRight(1)==dom.window.localStorage.getItem("username").toString)
+//              <div title="删除" onclick={()=>delComment(room.commentId);getCommentList(roomID,videoName)}><a class="title" href="javascript:void(0)">{room.userId}</a><p>{room.commentContent}</p></div>
+//            else <div><a class="title" href="javascript:void(0)">{room.invitationName}</a><p>{room.commentContent}</p></div>
+//            }
+//          </div>
+//        </li>
+//      }
+//    }}
 
   def checkInvAndSkip(roomId:Long,fileName:String): Unit ={
     val userId = dom.window.localStorage.getItem("userId").toLong
@@ -251,7 +252,7 @@ class WatchRecord_new(roomID: Long,videoName_old :String) extends Page{
     val userId = dom.window.localStorage.getItem("userId")
       <div style="border: 1px solid rgb(232, 232, 232);margin-top: 17px;margin-left: 24px;">
         <video controls="controls" width="800px" height="450px" preload="metadata">
-          <source src={"http://10.1.29.247:42075/geek/room/getRecord/" + userId + "/" + videoName} type="video/webm"/>
+          <source src={"http://47.92.170.2:42075/geek/room/getRecord/" + userId + "/" + videoName} type="video/webm"/>
         </video>
       </div>
   }

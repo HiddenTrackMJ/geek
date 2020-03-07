@@ -88,20 +88,7 @@ object InviterManagement extends Page{
     new Modal(title, child, () => addInvitee(), s"inviteeModal").render
   }
 
-  private val primaryInfo =
-  <div class="primaryInfo">
-    <div class="row info">
-      <div>
-        {userDetail.map{user=>
-        <img style="width:100px;height:100px" src={Route.hestiaPath(user.avatar.getOrElse("be8feec67e052403e26ec05559607f10.jpg"))}></img>
-      }}
-        <h2 class="username">
-          <div>{"用户名："+dom.window.localStorage.getItem("username")}</div>
-          <div>{"用户Id："+dom.window.localStorage.getItem("userId")}</div>
-        </h2>
-      </div>
-    </div>
-  </div>
+
 
   val inviterDetail : Rx[Elem] = inviterData.map{
     case None =>  <div class="row"><div class="save">暂无邀请 </div></div>
@@ -159,15 +146,15 @@ object InviterManagement extends Page{
   val inviterInfo: Elem =
     <div class="roomInfo">
         <div class="row" style="margin-top:12px">
-          <p class="label">邀请我的：</p>
+          <p class="label_title">邀请我的：</p>
         </div>
         {inviterDetail}
         <div class="row" style="margin-top:12px">
-          <p class="label">我邀请的：</p>
+          <p class="label_title">我邀请的：</p>
         </div>
         {inviteeDetail}
         <div class="row" style="margin-top:12px">
-          <p class="label">我的会议：</p>
+          <p class="label_title">我的会议：</p>
         </div>
         <div >
           {roomIdDetail}
@@ -178,13 +165,48 @@ object InviterManagement extends Page{
         </div>
       </div>
 
+  private val primaryInfo: Elem =
+    <div class="primaryInfo">
+      <div class="row info">
+        <div>
+          {userDetail.map{user=>
+          <img style="width:100px;height:100px" src={Route.hestiaPath(user.avatar.getOrElse("be8feec67e052403e26ec05559607f10.jpg"))}></img>
+        }}
+          <h2 class="username">
+            <div>{"用户名："+dom.window.localStorage.getItem("username")}</div>
+            <div>{"用户Id："+dom.window.localStorage.getItem("userId")}</div>
+          </h2>
+        </div>
+      </div>
+      <div class="roomInfo">
+        <div class="row" style="margin-top:12px">
+          <p class="label_title">邀请我的：</p>
+        </div>
+        {inviterDetail}
+        <div class="row" style="margin-top:12px">
+          <p class="label_title">我邀请的：</p>
+        </div>
+        {inviteeDetail}
+        <div class="row" style="margin-top:12px">
+          <p class="label_title">我的会议：</p>
+        </div>
+        <div >
+          {roomIdDetail}
+
+          {meetingModal}
+          {inviterModal}
+          {inviteeModal}
+        </div>
+      </div>
+    </div>
+
 
 
   val bottom = <div style="height:50px"></div>
 
   private val infoArea =
     <div>
-      {primaryInfo}{inviterInfo}{bottom}
+      {primaryInfo}{bottom}
     </div>
 
 

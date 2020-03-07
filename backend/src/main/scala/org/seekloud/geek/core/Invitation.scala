@@ -59,11 +59,13 @@ object Invitation {
             //解决方法：全部录像只获取一遍，再判断是否被邀请(不判断)
             VideoDao.getSecVideo(room.inviteeId).map{
               rsp=>
-                if (rsp isEmpty){
+//                println(rsp)
+//                println(rsp._1,rsp._2)
+                if (rsp.isEmpty){
                   replyTo ! GetRoomSectionListRsp(List(),-1,"查询为空")
                 }else{
 
-                  replyTo ! GetRoomSectionListRsp(rsp.map{e=> RoomInfoSection(e._2.roomid,e._2.userid,e._1.name,e._2.filename,timeStamp2yyyyMMdd(e._2.timestamp),true)
+                  replyTo ! GetRoomSectionListRsp(rsp.map{e=> RoomInfoSection(e._3.roomid,e._3.userid,e._1,e._3.filename,timeStamp2yyyyMMdd(e._3.timestamp),e._2,true)
                   }.toSet.toList,0,"有该user的录像")
                 }
             }

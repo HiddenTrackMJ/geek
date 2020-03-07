@@ -139,23 +139,47 @@
 }
 
 .orderPage .table-id{
-    width:220px;
+    /*width:220px;*/
     height:22px;
     font-size:14px;
     font-weight:400;
     color:rgba(0,0,0,0.45);
     line-height:22px;
     margin-top: 7px;
-    margin-left: 19px;
+    margin-left: 157px;
+}
+
+.orderPage .table-delete{
+    /*width:220px;*/
+    height:22px;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(0,0,0,0.45);
+    line-height:22px;
+    margin-top: 7px;
+    margin-left: 10px;
 }
 
 .orderPage .table-first{
     margin-top: 18px;
     margin-left: 51px;
     margin-bottom: 11px;
-    width:300px;
+    width:400px;
     font-size:14px;
     font-weight:400;
+    color:rgba(0,0,0,0.65);
+    line-height:22px;
+    display: flex;
+    /*justify-content: space-between;*/
+}
+.orderPage .table-first-2{
+    margin-top: 18px;
+    margin-left: 51px;
+    margin-bottom: 11px;
+    width:400px;
+    font-size:14px;
+    font-weight:400;
+    background-image: linear-gradient(-90deg, #29bdd9 0%, #276ace 100%);
     color:rgba(0,0,0,0.65);
     line-height:22px;
     display: flex;
@@ -182,7 +206,7 @@
 
 .orderPage .table-first-img{
     width:160px;
-    height:90px;
+    /*height:90px;*/
 }
 .orderPage .table-first-img2{
     height:90px;

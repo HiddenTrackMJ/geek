@@ -28,12 +28,54 @@ object VideoDao {
   }
 
   def getSecVideo(inviteeId: Long) = {
+    //三表join，q为法一，q_为法二
 
-    val q = tUser join tVideo.sortBy(_.userid).distinctOn(_.filename) on{
+//    val q2=for {
+//      a <- tVideo.distinctOn(_.filename).result
+//      c <- tUser.
+//    } yield a
+
+    val q1 = tUser join tVideo.sortBy(_.userid).distinctOn(_.filename)  on{
       (t1,t2)=>
         List(t1.id === t2.userid).reduceLeft(_ || _)
     }
 
+    val q2 = tRoom join tVideo.sortBy(_.userid).distinctOn(_.filename)  on{
+      (t1,t2)=>
+        List(t1.id === t2.roomid).reduceLeft(_ || _)
+    }
+
+    val q3 = tUser join tRoom join tVideo.sortBy(_.userid).distinctOn(_.filename)  on{
+      (t1,t2)=>
+        List(t1._1.id === t2.userid && t1._2.id === t2.roomid).reduceLeft(_ || _)
+    }
+
+//
+    val innerJoin1 = for {
+      (user, video) <- q1
+    } yield (user.name,video)
+
+    val innerJoin2 = for {
+      (room, video) <- q2
+    } yield room.desc
+
+    val q = for{
+      doc1 <-innerJoin1.distinct.result
+      doc2 <-innerJoin2.distinct.result
+    }yield (doc1,doc2)
+
+    val innerJoin3 = for {
+      (user, video) <- q3
+    } yield (user._1.name,user._2.desc,video)
+
+    val q_ = for{
+      doc3 <-innerJoin3.distinct.result
+    }yield doc3
+
+//    val q = for{
+//      doc1 <-innerJoin1.distinct.result
+//      doc2 <-innerJoin2.distinct.result
+//    }yield (doc1 ++ doc2).distinct
 //    val q = tUser join tVideo.filter(_.invitation === inviteeId) on{
 //      (t1,t2)=>
 //        List(t1.id === t2.userid).reduceLeft(_ || _)
@@ -46,9 +88,9 @@ object VideoDao {
 //    val innerJoin = for {
 //      (inviterName, inviterId) <- q
 //    } yield (inviterName,inviterId)
-    db.run(q.distinct.sortBy(_._1.id).result)
 
-
+//    db.run(q1.distinct.sortBy(_._1.id).result)
+        db.run(q_)
   }
 
   def getInviteeVideo(inviteeId: Long,filename: String): Future[Seq[tVideo#TableElementType]] = {
@@ -157,12 +199,25 @@ object VideoDao {
   }
 
   def addInvitee(inviterId: Long,roomId:Long,inviteeId: Long) = {
-    //在roomid相应的所有的不同filename，都复制一行
-    val q=for {
-      a<-tVideo.filter(_.roomid ===roomId ).filter(_.userid===inviterId).filter(_.comment==="").result
-      c <-tVideo ++= a.map(d=>rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,inviteeId,""))
-    } yield a
-    db.run(q)
+    //在roomid相应的所有的不同filename，都复制一行(有问题)
+    //在roomid相应的所有的不同filename，这两个信息还不够，邀请用户可能重复，因此取自己时正常
+    //之后再邀请别人时再因此只取自己的邀请，都复制一行
+    if(inviterId ==inviteeId){
+      val q=for {
+        //      a<-tVideo.filter(_.roomid ===roomId ).filter(_.userid===inviterId).filter(_.comment==="").result
+        a<-tVideo.filter(_.roomid ===roomId ).filter(_.userid===inviterId).filter(_.comment==="").result
+        c <-tVideo ++= a.map(d=>rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,inviteeId,""))
+      } yield a
+      db.run(q)
+    }else {
+      val q=for {
+        //      a<-tVideo.filter(_.roomid ===roomId ).filter(_.userid===inviterId).filter(_.comment==="").result
+        a<-tVideo.filter(_.roomid ===roomId ).filter(_.userid===inviterId).filter(_.invitation===inviterId).filter(_.comment==="").result
+        c <-tVideo ++= a.map(d=>rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,inviteeId,""))
+      } yield a
+      db.run(q)
+    }
+
   }
 
   def search (inviteeName: String, roomId: Long) = {
@@ -198,11 +253,18 @@ object VideoDao {
     db.run{q.distinct.sortBy(_._1.id).result}
   }
 
-  def addComment(filename:String,userId:Long,commentContent:String)  = {
-    val q=for {
-      d<-tVideo.filter(_.filename === filename).filter(_.invitation===userId).result.head
-      c <-tVideo += rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,d.invitation,commentContent)
-    } yield d
+  def addComment(filename:String,userId:Long,commentContent:String):Future[Int]  = {
+    val q = for {
+      c<-tVideo.filter(_.filename === filename).filter(_.invitation===userId).result
+      m <- if(c.nonEmpty){//
+        val d= c.head
+        tVideo += rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,d.invitation,commentContent)
+      }else{
+        DBIO.successful(-1)
+      }
+
+//      c <-tVideo += rVideo(-1L,d.userid, d.roomid,d.timestamp,d.filename,d.length,d.invitation,commentContent)
+    } yield m
     db.run(q)
   }
 

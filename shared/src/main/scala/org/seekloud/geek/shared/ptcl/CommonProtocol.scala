@@ -175,6 +175,7 @@ object CommonProtocol {
   case class UpdateUserReq(
                             userId: Long,
                             userName: String,
+                            userName2:String,
                             //                            avatar:String,
                             gender:Int,
                             age:Int,

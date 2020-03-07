@@ -53,18 +53,20 @@ class PreRecord(c:String) extends Page{
     case Nil => <div style="margin: 30px; font-size: 17px; " class="courseTitleContainer">暂无录像信息
     </div>
     case list =>{<div class="courseContainer" >
-      {list.map { l =>
+      {list.sortBy(_.roomId).reverse.map { l =>
 
-        <div class="courseItem" onclick={()=>checkInvAndSkip(l.roomId,l.fileName);()}>
+        <div class={if(l.roomId==1763 ||l.roomId==1762 ||l.roomId==1761) "courseItem2" else "courseItem"} onclick={()=>checkInvAndSkip(l.roomId,l.fileName);()}>
           <img class="courseItem-img" src={Route.imgPath("videoCover/video"+l.fileName.takeRight(5).replaceAll("mp4","png"))}></img>
           <div style="padding:0 20px">
             <div class="courseItem-title" onclick={() => ()}>
               <div class="courseItem-name">
-                {l.fileName}
+                {l.fileName.split("_").last.replace(".mp4","")}
               </div>
 
             </div>
             <div class="courseItem-teacher">发起人：{l.userName}</div>
+            <div class="courseItem-peopleNum">房间号：{l.roomId}</div>
+            <div class="courseItem-peopleNum">房间描述：{if(l.desc.getOrElse("暂无")=="") "暂无" else l.desc.getOrElse("暂无")}</div>
             <div class="courseItem-peopleNum">发起时间：{l.time}</div>
           </div>
         </div>
